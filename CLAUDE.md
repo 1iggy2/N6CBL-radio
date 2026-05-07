@@ -37,6 +37,48 @@ must be defensible against these principles:
 - **Interactivity**: Only where it serves information retrieval. No animations for atmosphere.
 - **Images**: When used, treated as data — captioned, dated, sourced.
 
+### Layout Patterns
+
+**Two-panel layout (canonical page structure)**
+All content pages use a permanent left sidebar (220px fixed) + scrollable main content
+(1fr). The sidebar is sticky to the viewport. Never collapse it behind a toggle. The
+structure is always visible — it *is* the design.
+
+Reference: Racket language documentation guide.
+
+**Permanent sidebar navigation**
+The nav tree is always fully expanded. No accordion sections, no hover-reveal, no
+`+` expand buttons. Users see the full site structure at all times. Below the nav
+tree, the sidebar carries operator metadata, external profiles, and station info.
+The sidebar is a persistent operational panel — not a temporary menu.
+
+Key rules:
+- Active page indicated by background highlight and/or bold weight
+- Status badges (WIP, PLANNED, LIVE) are always visible, not on hover
+- Links use `font-family: var(--mono)` for paths, muted for descriptions
+- External links end with ↗, internal links have no icon
+
+**Table-of-text content indexes**
+Content archives (blog posts, POTA activations, print files) are presented as dense
+text tables: Date | Reference | Context | CTA. Every row has an explicit action link.
+No card grids. No thumbnails as primary navigation. No hover-reveal summaries. The
+table is the page.
+
+Reference: USGC notes archive (Date / Title / "Read →" pattern).
+
+Key rules:
+- Dates in `YYYY-MM-DD` monospace, leftmost column
+- References/titles in bold monospace or bold sans
+- Descriptive text in muted sans-serif
+- CTA as rightmost column: "Read →", "View →", "Download →"
+- Empty state is an explicit message, not a hidden table
+
+**CTA conventions**
+Action links are inline text with an arrow: `Read →`, `View →`, `Download →`,
+`Full profile →`. Never icon-only. Never a styled button with padding. The label
+tells the user exactly what happens. CTAs live at the end of each row in a table,
+or at the end of a section as a footer link.
+
 ### Anti-patterns (never do these)
 
 - Centered hero with big tagline and whitespace

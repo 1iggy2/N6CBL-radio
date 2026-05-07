@@ -9,12 +9,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0a;
-      --white: #f5f5f0;
-      --rule:  #0a0a0a;
+      --black:  #0a0a0a;
+      --white:  #f5f5f0;
+      --rule:   #0a0a0a;
       --accent: #c8401a;
-      --mono: "Courier New", Courier, monospace;
-      --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      --mono:   "Courier New", Courier, monospace;
+      --sans:   system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
     }
 
     html { font-size: 14px; }
@@ -26,7 +26,7 @@
       line-height: 1.4;
       min-height: 100vh;
       display: grid;
-      grid-template-rows: auto auto 1fr auto;
+      grid-template-rows: auto 1fr auto;
     }
 
     /* ── HEADER ─────────────────────────────────────────────────────────── */
@@ -108,6 +108,149 @@
       flex-shrink: 0;
     }
 
+    /* ── TWO-PANEL LAYOUT ───────────────────────────────────────────────── */
+    .layout-body {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 0;
+    }
+
+    /* ── SIDENAV ────────────────────────────────────────────────────────── */
+    .sidenav {
+      border-right: 2px solid var(--rule);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidenav-section {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sidenav-section:last-child { border-bottom: none; }
+
+    .sidenav-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-bottom: 1px solid var(--rule);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* nav tree */
+    .nav-tree { list-style: none; }
+
+    .nav-item a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 10px;
+      text-decoration: none;
+      color: var(--black);
+      border-bottom: 1px solid #ddd;
+      font-size: 0.72rem;
+      gap: 6px;
+    }
+
+    .nav-item:last-child a { border-bottom: none; }
+    .nav-item a:hover { background: #e8e8e3; }
+
+    .nav-item a[aria-current="page"] {
+      background: #e8e8e3;
+      font-weight: bold;
+    }
+
+    .nav-path { font-family: var(--mono); white-space: nowrap; }
+
+    .nav-badge {
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .st-planned { color: #888; }
+    .st-wip     { color: var(--accent); font-weight: bold; }
+    .st-live    { color: #2a7a2a; font-weight: bold; }
+
+    /* operator card */
+    .op-card {
+      padding: 8px 10px;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .op-callsign {
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .op-name {
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+      color: #bbb;
+    }
+
+    .op-meta {
+      font-size: 0.65rem;
+      color: #888;
+      line-height: 1.7;
+    }
+
+    .op-meta span { display: block; }
+
+    /* sidenav links */
+    .sidenav-links { list-style: none; font-size: 0.72rem; }
+
+    .sidenav-links li { border-bottom: 1px solid #ddd; }
+    .sidenav-links li:last-child { border-bottom: none; }
+
+    .sidenav-links a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 10px;
+      color: var(--black);
+      text-decoration: none;
+      gap: 4px;
+    }
+
+    .sidenav-links a:hover { text-decoration: underline; }
+    .sidenav-links .link-label { font-family: var(--sans); }
+    .sidenav-links .link-arrow { color: #888; flex-shrink: 0; }
+
+    /* sidenav definition list */
+    .sidenav-dl {
+      padding: 8px 10px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2px 10px;
+      font-size: 0.7rem;
+    }
+
+    .sidenav-dl dt {
+      color: #666;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 1px;
+      white-space: nowrap;
+    }
+
+    .sidenav-dl dd { font-weight: bold; }
+    .sidenav-dl dd.tbd { color: #aaa; font-weight: normal; font-style: italic; }
+
+    /* ── MAIN CONTENT ───────────────────────────────────────────────────── */
+    .main-content { min-width: 0; }
+
     /* ── MAP SECTION ────────────────────────────────────────────────────── */
     .map-section {
       background: var(--black);
@@ -133,13 +276,12 @@
     .map-placeholder {
       height: 240px;
       background:
-        repeating-linear-gradient(0deg,   transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
-        repeating-linear-gradient(90deg,  transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
+        repeating-linear-gradient(0deg,  transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
+        repeating-linear-gradient(90deg, transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
         #111;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-bottom: 1px solid #2a2a2a;
     }
 
     .map-placeholder-label {
@@ -160,18 +302,7 @@
       border-top: 1px solid #2a2a2a;
     }
 
-    /* ── MAIN ───────────────────────────────────────────────────────────── */
-    main {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      border-bottom: 2px solid var(--rule);
-    }
-
-    .primary {
-      border-right: 1px solid var(--rule);
-      padding: 0;
-    }
-
+    /* ── SHARED SECTION LABEL ───────────────────────────────────────────── */
     .section-label {
       font-size: 0.65rem;
       letter-spacing: 0.18em;
@@ -182,6 +313,7 @@
       color: var(--white);
     }
 
+    /* ── CONSTRUCTION BLOCK ─────────────────────────────────────────────── */
     .construction-block {
       padding: 24px 12px 16px;
       border-bottom: 1px solid var(--rule);
@@ -209,7 +341,7 @@
       font-family: var(--sans);
     }
 
-    /* planned content table */
+    /* ── TABLES (shared) ────────────────────────────────────────────────── */
     .planned { border-bottom: 1px solid var(--rule); }
 
     table {
@@ -252,13 +384,9 @@
       text-transform: uppercase;
     }
 
-    .st-planned { color: #888; }
-    .st-wip     { color: var(--accent); font-weight: bold; }
-    .st-live    { color: #2a7a2a; font-weight: bold; }
-
     td.desc { font-family: var(--sans); }
 
-    /* ── POTA SECTION ───────────────────────────────────────────────────── */
+    /* ── POTA TABLE ─────────────────────────────────────────────────────── */
     .pota-section { border-bottom: 1px solid var(--rule); }
 
     .pota-state {
@@ -269,17 +397,24 @@
 
     .pota-state a { color: inherit; }
 
-    td.pota-ref {
-      font-family: var(--mono);
-      white-space: nowrap;
-      width: 1%;
-      font-weight: bold;
-    }
-
-    td.pota-date { white-space: nowrap; width: 1%; color: #555; }
-    td.pota-loc  { white-space: nowrap; width: 1%; color: #555; }
+    td.pota-date { white-space: nowrap; width: 1%; color: #555; font-family: var(--mono); }
+    td.pota-ref  { white-space: nowrap; width: 1%; font-family: var(--mono); font-weight: bold; }
+    td.pota-loc  { white-space: nowrap; width: 1%; color: #555; font-family: var(--sans); }
     td.pota-qso  { white-space: nowrap; width: 1%; text-align: right; }
     td.pota-name { font-family: var(--sans); }
+
+    td.pota-cta {
+      width: 1%;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    td.pota-cta a {
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    td.pota-cta a:hover { text-decoration: underline; }
 
     .pota-footer {
       padding: 5px 12px;
@@ -293,79 +428,9 @@
 
     .pota-footer a { color: inherit; text-decoration: underline; }
 
-    /* sidebar */
-    .sidebar { padding: 0; }
-
-    .sidebar-section { border-bottom: 1px solid var(--rule); }
-    .sidebar-section:last-child { border-bottom: none; }
-
-    .sidebar-content {
-      padding: 10px 12px;
-      font-size: 0.78rem;
-    }
-
-    .sidebar-content dl {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 2px 12px;
-    }
-
-    .sidebar-content dt {
-      color: #666;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding-top: 2px;
-      white-space: nowrap;
-    }
-
-    .sidebar-content dd { font-weight: bold; }
-
-    .sidebar-content p {
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      line-height: 1.5;
-      color: #333;
-    }
-
-    .op-banner {
-      padding: 10px 12px;
-      background: var(--black);
-      color: var(--white);
-      font-size: 0.72rem;
-      line-height: 1.5;
-    }
-
-    .op-banner strong {
-      display: block;
-      font-size: 1.4rem;
-      letter-spacing: -0.01em;
-      margin-bottom: 2px;
-    }
-
-    .links-list { list-style: none; font-size: 0.78rem; }
-
-    .links-list li {
-      border-bottom: 1px solid #ddd;
-      padding: 5px 0;
-    }
-
-    .links-list li:last-child { border-bottom: none; }
-
-    .links-list a {
-      color: var(--black);
-      text-decoration: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .links-list a:hover { text-decoration: underline; }
-    .links-list .link-label { font-family: var(--sans); }
-    .links-list .link-arrow { color: #888; font-size: 0.65rem; }
-
     /* ── FOOTER ─────────────────────────────────────────────────────────── */
     footer {
+      border-top: 2px solid var(--rule);
       display: grid;
       grid-template-columns: 1fr auto;
       font-size: 0.65rem;
@@ -385,9 +450,14 @@
     footer a:hover { text-decoration: underline; }
 
     /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
-    @media (max-width: 640px) {
-      main { grid-template-columns: 1fr; }
-      .primary { border-right: none; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 768px) {
+      .layout-body { grid-template-columns: 1fr; }
+      .sidenav {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid var(--rule);
+      }
       .construction-block h1 { font-size: 2.4rem; }
       header { grid-template-columns: 1fr; }
       .header-meta { text-align: left; }
@@ -412,33 +482,124 @@
     </div>
     <div class="header-meta">
       <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
-      <span>FCC AMATEUR RADIO — GENERAL CLASS</span>
+      <span>FCC AMATEUR RADIO &mdash; GENERAL CLASS</span>
     </div>
   </header>
 
-  <section class="map-section">
-    <div class="section-label">
-      <span>QSO Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
-      <span class="todo-tag">TODO</span>
-    </div>
-    <div class="map-placeholder">
-      <span class="map-placeholder-label">Interactive QSO map &mdash; pending implementation</span>
-    </div>
-    <div class="map-bar">
-      <span>QTH: DM03tu &middot; 33.8&deg;N 118.4&deg;W &middot; Los Angeles, CA</span>
-      <span>0 QSOs plotted</span>
-    </div>
-  </section>
+  <div class="layout-body">
 
-  <main>
-    <div class="primary">
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/" aria-current="page">
+              <span class="nav-path">/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/radio/">
+              <span class="nav-path">/radio/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <!-- Update radio/antenna details here -->
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd class="tbd">TBD</dd>
+          <dt>Antenna</dt>
+          <dd class="tbd">TBD</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+          <dt>Grid</dt>
+          <dd>33.8&deg;N 118.4&deg;W</dd>
+        </dl>
+      </div>
+
+    </nav>
+
+    <div class="main-content">
+
+      <section class="map-section">
+        <div class="section-label">
+          <span>QSO Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
+          <span class="todo-tag">TODO</span>
+        </div>
+        <div class="map-placeholder">
+          <span class="map-placeholder-label">Interactive QSO map &mdash; pending implementation</span>
+        </div>
+        <div class="map-bar">
+          <span>QTH: DM03tu &middot; 33.8&deg;N 118.4&deg;W &middot; Los Angeles, CA</span>
+          <span>0 QSOs plotted</span>
+        </div>
+      </section>
 
       <div class="section-label">Status</div>
 
       <div class="construction-block">
         <h1>Under<br><em>Con&shy;struc&shy;tion</em></h1>
         <p>
-          This site is being built. It will be the personal web presence of N6CBL —
+          This site is being built. It will be the personal web presence of N6CBL &mdash;
           a place for tools, radio experiments, 3D print files, writing, and whatever
           else warrants a permanent URL. No timeline. Check back.
         </p>
@@ -457,7 +618,7 @@
           <tbody>
             <tr>
               <td class="path">/</td>
-              <td class="desc">Home — index of everything on the site</td>
+              <td class="desc">Home &mdash; index of everything on the site</td>
               <td class="st st-wip">WIP</td>
             </tr>
             <tr>
@@ -467,7 +628,7 @@
             </tr>
             <tr>
               <td class="path">/tools/</td>
-              <td class="desc">Browser-based utilities — radio, math, general</td>
+              <td class="desc">Browser-based utilities &mdash; radio, math, general</td>
               <td class="st st-planned">Planned</td>
             </tr>
             <tr>
@@ -491,91 +652,24 @@
           <thead>
             <tr>
               <th>Date</th>
+              <th>Reference</th>
               <th>Park</th>
-              <th>Name</th>
               <th>Location</th>
               <th style="text-align:right">QSOs</th>
+              <th></th>
             </tr>
           </thead>
           <tbody id="pota-tbody"></tbody>
         </table>
         <div class="pota-footer">
           <span id="pota-fetched"></span>
-          <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">Full POTA profile &rarr;</a>
+          <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">Full POTA profile &#8594;</a>
         </div>
       </div>
 
-    </div>
+    </div><!-- /.main-content -->
 
-    <div class="sidebar">
-
-      <div class="sidebar-section">
-        <div class="section-label">Station</div>
-        <div class="op-banner">
-          <strong>N6CBL</strong>
-          Cameron Gable<br>
-          Amateur Radio Operator<br>
-          FCC ULS &mdash; Active License
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="section-label">Profiles</div>
-        <div class="sidebar-content">
-          <ul class="links-list">
-            <li>
-              <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
-                <span class="link-label">QRZ.com/N6CBL</span>
-                <span class="link-arrow">&#8599;</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
-                <span class="link-label">POTA Profile</span>
-                <span class="link-arrow">&#8599;</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/camgablex" target="_blank" rel="noopener">
-                <span class="link-label">X / @camgablex</span>
-                <span class="link-arrow">&#8599;</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="section-label">Site info</div>
-        <div class="sidebar-content">
-          <dl>
-            <dt>Host</dt>
-            <dd>Cloudflare Pages</dd>
-            <dt>Domain</dt>
-            <dd>N6CBL.radio</dd>
-            <dt>Source</dt>
-            <dd>GitHub</dd>
-            <dt>Stack</dt>
-            <dd>HTML / CSS</dd>
-            <dt>JS</dt>
-            <dd>Minimal</dd>
-          </dl>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="section-label">Design doctrine</div>
-        <div class="sidebar-content">
-          <p>
-            Dense, not sparse. Explicit over implicit. Performance is design.
-            Verbosity over opacity. Timeless and unfashionable.
-            Opposite of minimalism.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </main>
+  </div><!-- /.layout-body -->
 
   <footer>
     <div>
@@ -600,7 +694,7 @@
       function pad(n) { return String(n).padStart(2, '0'); }
 
       function fmtDate(s) {
-        if (!s) return '—';
+        if (!s) return '&mdash;';
         var d = new Date(s);
         if (isNaN(d)) return s;
         return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
@@ -620,14 +714,15 @@
           var html = '';
           for (var i = 0; i < rows.length; i++) {
             var a = rows[i];
-            var ref = a.reference || '—';
+            var ref = a.reference || '&mdash;';
+            var parkUrl = 'https://pota.app/#/park/' + (a.reference || '');
             html += '<tr>'
               + '<td class="pota-date">' + fmtDate(a.date) + '</td>'
-              + '<td class="pota-ref"><a href="https://pota.app/#/park/' + ref
-              + '" target="_blank" rel="noopener">' + ref + '</a></td>'
-              + '<td class="pota-name">' + (a.name || '—') + '</td>'
-              + '<td class="pota-loc">'  + (a.locationDesc || '—') + '</td>'
-              + '<td class="pota-qso">'  + (a.qsoCount != null ? a.qsoCount : '—') + '</td>'
+              + '<td class="pota-ref">' + ref + '</td>'
+              + '<td class="pota-name">' + (a.name || '&mdash;') + '</td>'
+              + '<td class="pota-loc">'  + (a.locationDesc || '&mdash;') + '</td>'
+              + '<td class="pota-qso">'  + (a.qsoCount != null ? a.qsoCount : '&mdash;') + '</td>'
+              + '<td class="pota-cta"><a href="' + parkUrl + '" target="_blank" rel="noopener">View &#8594;</a></td>'
               + '</tr>';
           }
           tbodyEl.innerHTML = html;
@@ -643,7 +738,7 @@
         .catch(function () {
           stateEl.innerHTML = 'Activation data pending. '
             + '<a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">'
-            + 'View on POTA →</a>';
+            + 'View on POTA &#8594;</a>';
         });
     })();
   </script>
