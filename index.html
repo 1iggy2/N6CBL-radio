@@ -116,19 +116,37 @@
 
     .map-section .section-label {
       border-bottom-color: #2a2a2a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .map-canvas {
-      width: 100%;
-      height: 340px;
-      display: block;
-      overflow: hidden;
+    .todo-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      background: var(--accent);
+      color: white;
+      padding: 1px 7px;
+      flex-shrink: 0;
     }
 
-    .map-canvas svg {
-      width: 100%;
-      height: 100%;
-      display: block;
+    .map-placeholder {
+      height: 240px;
+      background:
+        repeating-linear-gradient(0deg,   transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
+        repeating-linear-gradient(90deg,  transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
+        #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .map-placeholder-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #444;
     }
 
     .map-bar {
@@ -374,7 +392,7 @@
       header { grid-template-columns: 1fr; }
       .header-meta { text-align: left; }
       .header-meta span { justify-content: flex-start; }
-      .map-canvas { height: 220px; }
+      .map-placeholder { height: 160px; }
       .map-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
     }
   </style>
@@ -399,11 +417,16 @@
   </header>
 
   <section class="map-section">
-    <div class="section-label">QSO Map &mdash; DM03tu &mdash; Los Angeles, CA</div>
-    <div id="map" class="map-canvas"></div>
+    <div class="section-label">
+      <span>QSO Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
+      <span class="todo-tag">TODO</span>
+    </div>
+    <div class="map-placeholder">
+      <span class="map-placeholder-label">Interactive QSO map &mdash; pending implementation</span>
+    </div>
     <div class="map-bar">
       <span>QTH: DM03tu &middot; 33.8&deg;N 118.4&deg;W &middot; Los Angeles, CA</span>
-      <span id="map-status">Loading&hellip;</span>
+      <span>0 QSOs plotted</span>
     </div>
   </section>
 
@@ -565,123 +588,6 @@
   </footer>
 
   <script>
-    /* ── MAP ──────────────────────────────────────────────────────────────
-       Lazy-loads d3-geo + topojson, draws an equirectangular world map.
-       Fixed SVG viewBox — never overflows the container.
-       QTH: DM03tu → 33.833°N 118.417°W (Los Angeles, CA)
-    ──────────────────────────────────────────────────────────────────── */
-    (function () {
-      var el       = document.getElementById('map');
-      var statusEl = document.getElementById('map-status');
-      if (!el) return;
-
-      var W = 800, H = 400;
-      var QTH = [-118.417, 33.833];
-
-      var loaded = false;
-      function initMap() {
-        if (loaded) return;
-        loaded = true;
-
-        var pending = 2;
-        function onScript() { if (--pending === 0) fetchData(); }
-
-        function addScript(src, cb) {
-          var s = document.createElement('script');
-          s.src = src;
-          s.onload = cb;
-          s.onerror = function () { if (statusEl) statusEl.textContent = 'Map unavailable'; };
-          document.head.appendChild(s);
-        }
-
-        addScript('https://cdn.jsdelivr.net/npm/d3-geo@3/dist/d3-geo.min.js', onScript);
-        addScript('https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js', onScript);
-
-        function fetchData() {
-          fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-            .then(function (r) { return r.json(); })
-            .then(render)
-            .catch(function () { if (statusEl) statusEl.textContent = 'Map data unavailable'; });
-        }
-
-        function render(world) {
-          var proj = d3.geoEquirectangular().fitSize([W, H], { type: 'Sphere' });
-          var path = d3.geoPath().projection(proj);
-
-          var ns = 'http://www.w3.org/2000/svg';
-          function el_(tag, attrs) {
-            var e = document.createElementNS(ns, tag);
-            for (var k in attrs) e.setAttribute(k, attrs[k]);
-            return e;
-          }
-
-          var svg = el_('svg', {
-            viewBox: '0 0 ' + W + ' ' + H,
-            preserveAspectRatio: 'xMidYMid meet'
-          });
-
-          /* ocean */
-          svg.appendChild(el_('rect', { width: W, height: H, fill: '#111' }));
-
-          /* graticules */
-          var grat = d3.geoGraticule().step([20, 10])();
-          var gPath = el_('path', {
-            d: path(grat), fill: 'none',
-            stroke: '#222', 'stroke-width': '0.5'
-          });
-          svg.appendChild(gPath);
-
-          /* countries */
-          var countries = topojson.feature(world, world.objects.countries);
-          var g = document.createElementNS(ns, 'g');
-          countries.features.forEach(function (f) {
-            var p = el_('path', {
-              d: path(f),
-              fill: '#2e2e2e',
-              stroke: '#484848',
-              'stroke-width': '0.4'
-            });
-            g.appendChild(p);
-          });
-          svg.appendChild(g);
-
-          /* QTH marker */
-          var pt = proj(QTH);
-          svg.appendChild(el_('circle', {
-            cx: pt[0], cy: pt[1], r: '5',
-            fill: '#B22234'
-          }));
-          svg.appendChild(el_('circle', {
-            cx: pt[0], cy: pt[1], r: '9',
-            fill: 'none', stroke: '#B22234', 'stroke-width': '1', opacity: '0.5'
-          }));
-
-          /* QTH label */
-          var txt = el_('text', {
-            x: pt[0] + 12, y: pt[1] + 4,
-            fill: '#ccc',
-            'font-family': 'Courier New, monospace',
-            'font-size': '11',
-            'font-weight': 'bold'
-          });
-          txt.textContent = 'N6CBL';
-          svg.appendChild(txt);
-
-          el.appendChild(svg);
-          if (statusEl) statusEl.textContent = '0 QSOs plotted — logbook integration pending';
-        }
-      }
-
-      if ('IntersectionObserver' in window) {
-        var obs = new IntersectionObserver(function (entries) {
-          if (entries[0].isIntersecting) { initMap(); obs.disconnect(); }
-        }, { rootMargin: '100px' });
-        obs.observe(el);
-      } else {
-        initMap();
-      }
-    })();
-
     /* ── POTA ─────────────────────────────────────────────────────────────
        Reads /data/pota-activations.json committed by GitHub Actions cron.
     ──────────────────────────────────────────────────────────────────── */
