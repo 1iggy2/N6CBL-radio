@@ -532,7 +532,7 @@
         tableEl.hidden = true;
       }
 
-      fetch('https://api.pota.app/activation/N6CBL')
+      fetch('/api/pota-activations')
         .then(function (r) {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
