@@ -130,10 +130,13 @@ header {
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidenav-section { border-bottom: 1px solid var(--rule); }
 .sidenav-section:last-child { border-bottom: none; }
+.sidenav-section--op { margin-top: auto; }
 
 .sidenav-label {
   font-size: 0.6rem;
