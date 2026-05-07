@@ -476,6 +476,24 @@
 
     /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
     @media (max-width: 768px) {
+      /* Narrow the sidebar instead of stacking it — permanent sidebar is the design */
+      .layout-body { grid-template-columns: 150px 1fr; }
+      .sidenav-dl  { padding: 6px 8px; gap: 2px 8px; }
+      .op-card     { padding: 6px 8px; }
+      .op-callsign { font-size: 1.3rem; }
+      .sidenav-links a,
+      .nav-item a  { padding: 5px 8px; font-size: 0.68rem; }
+      .sidenav-label { padding: 3px 8px; }
+      .construction-block h1 { font-size: 2.4rem; }
+      header { grid-template-columns: 1fr; }
+      .header-meta { text-align: left; }
+      .header-meta span { justify-content: flex-start; }
+      .map-placeholder { height: 160px; }
+      .map-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
+    }
+
+    /* Only collapse to single column on truly tiny screens */
+    @media (max-width: 420px) {
       .layout-body { grid-template-columns: 1fr; }
       .sidenav {
         position: static;
@@ -483,12 +501,6 @@
         border-right: none;
         border-bottom: 2px solid var(--rule);
       }
-      .construction-block h1 { font-size: 2.4rem; }
-      header { grid-template-columns: 1fr; }
-      .header-meta { text-align: left; }
-      .header-meta span { justify-content: flex-start; }
-      .map-placeholder { height: 160px; }
-      .map-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
     }
   </style>
 </head>
