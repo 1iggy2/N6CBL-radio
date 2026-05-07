@@ -109,12 +109,31 @@ decision here with rationale before implementing.
 ## Site Structure (planned)
 
 ```
-/               — splash / home
-/blog/          — posts: technical, radio, misc
-/tools/         — browser-based utilities
-/prints/        — 3D print catalog with files
-/radio/         — ham radio resources, logs, etc.
+/                  — splash / home, world map, station overview
+/activations/      — POTA activations log, per-activation notes & photos
+/blog/             — posts: technical, radio, misc
+/tools/            — browser-based utilities
+/prints/           — 3D print catalog with files
+/radio/            — ham radio resources (band notes, APRS, SDR)
 ```
+
+## File Layout
+
+```
+/index.html              — home page
+/activations/index.html  — POTA log
+/styles.css              — single shared stylesheet for all pages
+/flag-us.svg             — header US flag
+/images/                 — page imagery (field photos, world map)
+/data/                   — committed data (POTA cron output)
+/worker.js               — Cloudflare Worker with assets passthrough
+/wrangler.jsonc          — Workers deploy config
+/.github/workflows/      — fetch-pota cron, deploy automation
+```
+
+CSS lives in a single shared stylesheet (`/styles.css`). Each page is a
+hand-written HTML file that links it. No build step. When the page count
+exceeds what's manageable by hand-edit (≈ 10 content pages), revisit.
 
 ## Development Guidelines
 

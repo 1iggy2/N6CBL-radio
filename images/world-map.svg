@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="World map showing N6CBL station location at DM03tu, Los Angeles">
+  <!-- Ocean -->
+  <rect width="1000" height="500" fill="#0a0a0a"/>
+
+  <!-- Graticule: 30° spacing -->
+  <g stroke="#1c1c1c" stroke-width="0.5" fill="none">
+    <path d="M83.3,0 V500 M166.7,0 V500 M250,0 V500 M333.3,0 V500 M416.7,0 V500 M583.3,0 V500 M666.7,0 V500 M750,0 V500 M833.3,0 V500 M916.7,0 V500"/>
+    <path d="M0,83.3 H1000 M0,166.7 H1000 M0,333.3 H1000 M0,416.7 H1000"/>
+  </g>
+  <!-- Equator + prime meridian (slightly stronger) -->
+  <g stroke="#262626" stroke-width="0.7" fill="none">
+    <line x1="500" y1="0" x2="500" y2="500"/>
+    <line x1="0" y1="250" x2="1000" y2="250"/>
+  </g>
+
+  <!-- Continents (simplified silhouettes) -->
+  <g fill="#2a3239" stroke="#3d464d" stroke-width="0.4" stroke-linejoin="round">
+    <!-- North America (incl. Alaska, Canada, USA, Mexico, C. America) -->
+    <path d="M55,55 L80,52 L130,55 L180,55 L225,55 L270,55 L300,60 L325,72 L340,90 L355,108 L350,118 L335,118 L320,128 L335,140 L348,135 L345,148 L325,142 L305,138 L290,148 L298,160 L300,175 L290,180 L275,180 L268,190 L260,195 L245,200 L228,200 L218,193 L210,202 L195,195 L188,180 L175,168 L165,155 L160,140 L162,128 L155,118 L162,102 L155,90 L138,82 L120,80 L100,82 L82,78 L65,72 L52,62 Z"/>
+
+    <!-- Greenland -->
+    <path d="M385,40 L408,38 L425,45 L430,62 L428,82 L420,98 L408,103 L393,98 L383,82 L380,62 L380,48 Z"/>
+
+    <!-- South America -->
+    <path d="M278,210 L295,208 L310,220 L322,240 L327,265 L322,290 L318,318 L308,348 L298,378 L283,395 L268,400 L260,388 L264,372 L258,352 L262,328 L262,302 L268,278 L275,252 L278,228 Z"/>
+
+    <!-- Iceland -->
+    <path d="M428,90 L442,88 L446,98 L438,105 L428,100 Z"/>
+
+    <!-- UK + Ireland -->
+    <path d="M442,108 L455,105 L458,118 L452,128 L443,125 L440,115 Z"/>
+
+    <!-- Scandinavia -->
+    <path d="M495,75 L515,68 L530,75 L535,90 L528,108 L515,115 L500,108 L492,95 L490,82 Z"/>
+
+    <!-- Europe (mainland) -->
+    <path d="M460,118 L478,115 L498,118 L520,118 L545,118 L562,122 L572,132 L568,140 L555,142 L538,140 L518,140 L498,138 L478,135 L463,130 Z"/>
+
+    <!-- Africa -->
+    <path d="M495,160 L515,157 L538,160 L562,168 L578,178 L583,195 L585,215 L580,238 L578,265 L572,288 L562,312 L548,332 L532,340 L515,335 L500,318 L492,295 L488,272 L490,248 L493,222 L490,198 L488,178 Z"/>
+
+    <!-- Madagascar -->
+    <path d="M608,295 L618,293 L622,310 L617,322 L608,318 L605,305 Z"/>
+
+    <!-- Russia / N. Eurasia -->
+    <path d="M555,72 L585,68 L625,62 L670,57 L720,52 L770,48 L820,48 L860,52 L890,60 L905,75 L905,92 L890,105 L865,115 L835,120 L800,122 L765,122 L725,120 L685,115 L645,108 L610,102 L585,95 L568,85 Z"/>
+
+    <!-- China + Mongolia + Korea region -->
+    <path d="M715,128 L760,125 L800,128 L840,135 L860,150 L860,165 L848,178 L825,182 L800,182 L775,178 L755,168 L740,158 L725,148 L718,138 Z"/>
+
+    <!-- Middle East (Arabia) -->
+    <path d="M580,168 L605,162 L625,168 L640,182 L645,202 L640,215 L625,222 L610,220 L598,210 L588,195 L582,180 Z"/>
+
+    <!-- India -->
+    <path d="M675,180 L692,178 L712,185 L718,200 L713,222 L702,238 L692,235 L683,218 L678,200 Z"/>
+
+    <!-- SE Asia mainland -->
+    <path d="M755,185 L778,180 L795,188 L795,210 L788,225 L778,235 L765,225 L758,208 L752,195 Z"/>
+
+    <!-- Indonesia (rough islands) -->
+    <path d="M768,250 L790,248 L815,250 L840,255 L835,265 L815,268 L790,265 L770,260 Z"/>
+    <path d="M820,237 L848,235 L862,245 L855,258 L835,255 L822,247 Z"/>
+    <path d="M790,275 L810,275 L820,282 L815,290 L795,287 L788,280 Z"/>
+
+    <!-- New Guinea -->
+    <path d="M875,275 L905,275 L920,285 L912,295 L890,295 L878,288 Z"/>
+
+    <!-- Japan -->
+    <path d="M885,135 L897,128 L905,138 L902,152 L893,158 L882,150 Z"/>
+
+    <!-- Philippines -->
+    <path d="M848,210 L858,210 L862,225 L855,238 L848,232 L845,220 Z"/>
+
+    <!-- Australia -->
+    <path d="M820,310 L848,303 L880,305 L905,315 L915,330 L908,348 L885,355 L858,355 L835,350 L820,340 L815,322 Z"/>
+
+    <!-- Tasmania -->
+    <path d="M880,365 L892,363 L895,373 L887,378 L880,372 Z"/>
+
+    <!-- New Zealand (two islands) -->
+    <path d="M928,358 L935,355 L942,365 L938,378 L932,378 L925,368 Z"/>
+    <path d="M935,385 L942,382 L948,390 L942,398 L935,393 Z"/>
+
+    <!-- Antarctica strip -->
+    <path d="M0,448 Q150,438 320,448 Q500,455 680,445 Q850,440 1000,448 L1000,500 L0,500 Z"/>
+  </g>
+
+  <!-- DM03tu marker (Los Angeles): lat 33.8°N, lon -118.4° -->
+  <!-- x = (180 + (-118.4)) × 2.778 = 171, y = (90 - 33.8) × 2.778 = 156 -->
+  <g>
+    <!-- Subtle crosshair -->
+    <line x1="171" y1="0" x2="171" y2="500" stroke="#c8401a" stroke-width="0.4" stroke-dasharray="2,4" opacity="0.4"/>
+    <line x1="0" y1="156" x2="1000" y2="156" stroke="#c8401a" stroke-width="0.4" stroke-dasharray="2,4" opacity="0.4"/>
+    <!-- Marker dot + ring -->
+    <circle cx="171" cy="156" r="3.5" fill="#c8401a"/>
+    <circle cx="171" cy="156" r="8" fill="none" stroke="#c8401a" stroke-width="1.2"/>
+    <circle cx="171" cy="156" r="14" fill="none" stroke="#c8401a" stroke-width="0.6" opacity="0.5"/>
+    <!-- Label -->
+    <text x="184" y="153" fill="#c8401a" font-family="Consolas, Menlo, monospace" font-size="11" font-weight="bold">DM03tu</text>
+    <text x="184" y="166" fill="#c8401a" font-family="Consolas, Menlo, monospace" font-size="9" opacity="0.75">N6CBL · LAX</text>
+  </g>
+
+  <!-- Corner labels -->
+  <g fill="#3a4248" font-family="Consolas, Menlo, monospace" font-size="9" letter-spacing="0.1em">
+    <text x="6" y="14">90°N</text>
+    <text x="6" y="496">90°S</text>
+    <text x="498" y="14" text-anchor="end">180°W</text>
+    <text x="502" y="14">180°E</text>
+    <text x="6" y="254">EQ</text>
+  </g>
+</svg>

@@ -5,525 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="N6CBL.radio — personal site of N6CBL. Amateur radio, tools, builds.">
   <title>N6CBL.radio</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --black:  #0a0a0a;
-      --white:  #f5f5f0;
-      --rule:   #0a0a0a;
-      --accent: #c8401a;
-      --mono:    "Consolas", "Menlo", "Monaco", "Courier New", monospace;
-      --sans:    system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-      --display: "DIN Alternate", "Arial Narrow", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
-
-    html { font-size: 14px; }
-
-    body {
-      background: var(--white);
-      color: var(--black);
-      font-family: var(--mono);
-      line-height: 1.4;
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-    }
-
-    /* ── HEADER ─────────────────────────────────────────────────────────── */
-    header {
-      border-bottom: 2px solid var(--rule);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: stretch;
-    }
-
-    .site-id {
-      padding: 6px 12px;
-      border-right: 1px solid var(--rule);
-    }
-
-    .callsign-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .callsign {
-      font-size: 2.4rem;
-      font-weight: bold;
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    .flag {
-      height: 38px;
-      width: auto;
-      display: block;
-      border: 1px solid #ccc;
-    }
-
-    .site-sub {
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
-      margin-top: 2px;
-    }
-
-    .domain {
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #555;
-    }
-
-    .grid-sq {
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      color: #555;
-    }
-
-    .header-meta {
-      display: grid;
-      grid-template-rows: 1fr 1fr;
-      font-size: 0.7rem;
-      text-align: right;
-    }
-
-    .header-meta span {
-      padding: 4px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    .header-meta span + span { border-top: 1px solid var(--rule); }
-
-    .status-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    /* ── TWO-PANEL LAYOUT ───────────────────────────────────────────────── */
-    .layout-body {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      min-height: 0;
-    }
-
-    /* ── SIDENAV ────────────────────────────────────────────────────────── */
-    .sidenav {
-      border-right: 2px solid var(--rule);
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .sidenav-section {
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .sidenav-section:last-child { border-bottom: none; }
-
-    .sidenav-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-bottom: 1px solid var(--rule);
-      background: var(--black);
-      color: var(--white);
-    }
-
-    /* nav tree */
-    .nav-tree { list-style: none; }
-
-    .nav-item a {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 5px 10px;
-      text-decoration: none;
-      color: var(--black);
-      border-bottom: 1px solid #ddd;
-      font-size: 0.72rem;
-      gap: 6px;
-    }
-
-    .nav-item:last-child a { border-bottom: none; }
-    .nav-item a:hover { background: #e8e8e3; }
-
-    .nav-item a[aria-current="page"] {
-      background: #e8e8e3;
-      font-weight: bold;
-    }
-
-    .nav-path { font-family: var(--mono); white-space: nowrap; }
-
-    .nav-badge {
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .st-planned { color: #888; }
-    .st-wip     { color: var(--accent); font-weight: bold; }
-    .st-live    { color: #2a7a2a; font-weight: bold; }
-
-    /* operator card */
-    .op-card {
-      padding: 8px 10px;
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .op-callsign {
-      font-size: 1.6rem;
-      font-weight: bold;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      margin-bottom: 2px;
-    }
-
-    .op-name {
-      font-size: 0.78rem;
-      margin-bottom: 6px;
-      color: #bbb;
-    }
-
-    .op-meta {
-      font-size: 0.65rem;
-      color: #888;
-      line-height: 1.7;
-    }
-
-    .op-meta span { display: block; }
-
-    /* sidenav links */
-    .sidenav-links { list-style: none; font-size: 0.72rem; }
-
-    .sidenav-links li { border-bottom: 1px solid #ddd; }
-    .sidenav-links li:last-child { border-bottom: none; }
-
-    .sidenav-links a {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 5px 10px;
-      color: var(--black);
-      text-decoration: none;
-      gap: 4px;
-    }
-
-    .sidenav-links a:hover { text-decoration: underline; }
-    .sidenav-links .link-label { font-family: var(--sans); }
-    .sidenav-links .link-arrow { color: #888; flex-shrink: 0; }
-
-    /* sidenav definition list — stacked: label line above value line */
-    .sidenav-dl {
-      padding: 8px 10px;
-      font-size: 0.72rem;
-    }
-
-    .sidenav-dl dt {
-      color: #888;
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-top: 7px;
-    }
-
-    .sidenav-dl dt:first-child { margin-top: 0; }
-
-    .sidenav-dl dd {
-      font-weight: bold;
-      margin-left: 0;
-    }
-
-    .sidenav-dl dd.tbd { color: #aaa; font-weight: normal; font-style: italic; }
-
-    /* ── MAIN CONTENT ───────────────────────────────────────────────────── */
-    .main-content { min-width: 0; }
-
-    /* ── MAP SECTION ────────────────────────────────────────────────────── */
-    .map-section {
-      background: var(--black);
-      border-bottom: 2px solid var(--rule);
-    }
-
-    .map-section .section-label {
-      border-bottom-color: #2a2a2a;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .todo-tag {
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      background: var(--accent);
-      color: white;
-      padding: 1px 7px;
-      flex-shrink: 0;
-    }
-
-    .map-placeholder {
-      height: 240px;
-      background:
-        repeating-linear-gradient(0deg,  transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
-        repeating-linear-gradient(90deg, transparent, transparent 29px, #1c1c1c 29px, #1c1c1c 30px),
-        #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .map-placeholder-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #444;
-    }
-
-    .map-bar {
-      padding: 5px 12px;
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
-      color: #777;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #2a2a2a;
-    }
-
-    /* ── SHARED SECTION LABEL ───────────────────────────────────────────── */
-    .section-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-bottom: 1px solid var(--rule);
-      background: var(--black);
-      color: var(--white);
-    }
-
-    /* ── STATION PHOTO ──────────────────────────────────────────────────── */
-    .station-photo-section { border-bottom: 1px solid var(--rule); }
-
-    .station-photo-wrap { margin: 0; }
-
-    .station-photo-wrap img {
-      width: 100%;
-      height: 360px;
-      object-fit: cover;
-      object-position: center 65%;
-      display: block;
-    }
-
-    .photo-caption {
-      padding: 5px 12px;
-      font-size: 0.65rem;
-      color: #555;
-      border-top: 1px solid #ccc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      letter-spacing: 0.03em;
-    }
-
-    /* ── CONSTRUCTION BLOCK ─────────────────────────────────────────────── */
-    .construction-block {
-      padding: 24px 12px 16px;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .construction-block h1 {
-      font-family: var(--display);
-      font-size: 3.5rem;
-      font-weight: bold;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      max-width: 14ch;
-    }
-
-    .construction-block h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
-
-    .construction-block p {
-      margin-top: 14px;
-      font-size: 0.85rem;
-      max-width: 52ch;
-      line-height: 1.55;
-      font-family: var(--sans);
-    }
-
-    /* ── TABLES (shared) ────────────────────────────────────────────────── */
-    .planned { border-bottom: 1px solid var(--rule); }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-    }
-
-    th {
-      text-align: left;
-      padding: 4px 12px;
-      font-weight: normal;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--rule);
-      background: #e8e8e3;
-    }
-
-    td {
-      padding: 5px 12px;
-      vertical-align: top;
-      border-bottom: 1px solid #ccc;
-    }
-
-    tr:last-child td { border-bottom: none; }
-
-    td.path {
-      font-family: var(--mono);
-      white-space: nowrap;
-      width: 1%;
-      padding-right: 20px;
-    }
-
-    td.st {
-      width: 1%;
-      white-space: nowrap;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    td.desc { font-family: var(--sans); }
-
-    /* ── POTA TABLE ─────────────────────────────────────────────────────── */
-    .pota-section { border-bottom: 1px solid var(--rule); }
-
-    .pota-state {
-      padding: 8px 12px;
-      font-size: 0.72rem;
-      color: #666;
-    }
-
-    .pota-state a { color: inherit; }
-
-    td.pota-date { white-space: nowrap; width: 1%; color: #555; font-family: var(--mono); }
-    td.pota-ref  { white-space: nowrap; width: 1%; font-family: var(--mono); font-weight: bold; }
-    td.pota-loc  { white-space: nowrap; width: 1%; color: #555; font-family: var(--sans); }
-    td.pota-qso  { white-space: nowrap; width: 1%; text-align: right; }
-    td.pota-name { font-family: var(--sans); }
-
-    td.pota-cta {
-      width: 1%;
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    td.pota-cta a {
-      color: var(--black);
-      text-decoration: none;
-    }
-
-    td.pota-cta a:hover { text-decoration: underline; }
-
-    .pota-footer {
-      padding: 5px 12px;
-      font-size: 0.65rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #666;
-      border-top: 1px solid #ccc;
-    }
-
-    .pota-footer a { color: inherit; text-decoration: underline; }
-
-    /* ── FOOTER ─────────────────────────────────────────────────────────── */
-    footer {
-      border-top: 2px solid var(--rule);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
-      color: #555;
-    }
-
-    footer div {
-      padding: 5px 12px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    footer div + div { border-left: 1px solid var(--rule); }
-    footer a { color: inherit; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      /* Narrow the sidebar instead of stacking it — permanent sidebar is the design */
-      .layout-body { grid-template-columns: 120px 1fr; }
-      .sidenav-dl  { padding: 6px 8px; }
-      .sidenav-dl dt { margin-top: 5px; }
-      .op-card     { padding: 6px 8px; }
-      .op-callsign { font-size: 1.2rem; }
-      .op-name     { font-size: 0.7rem; }
-      .op-meta     { font-size: 0.6rem; }
-      .sidenav-links a,
-      .nav-item a  { padding: 4px 8px; font-size: 0.65rem; }
-      .sidenav-label { padding: 3px 8px; }
-      .construction-block h1 { font-size: 2.4rem; }
-      header { grid-template-columns: 1fr; }
-      .header-meta { text-align: left; }
-      .header-meta span { justify-content: flex-start; }
-      .map-placeholder { height: 160px; }
-      .map-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
-      .station-photo-wrap img { height: 220px; object-position: center 65%; }
-    }
-
-    /* Only collapse to single column on truly tiny screens */
-    @media (max-width: 420px) {
-      .layout-body { grid-template-columns: 1fr; }
-      .sidenav {
-        position: static;
-        height: auto;
-        border-right: none;
-        border-bottom: 2px solid var(--rule);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
   <header>
     <div class="site-id">
-      <div class="callsign-row">
-        <div class="callsign">N6CBL</div>
-        <img src="flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
-      </div>
-      <div class="site-sub">
-        <span class="domain">N6CBL.radio</span>
-        <span class="grid-sq">DM03tu</span>
-      </div>
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
     </div>
     <div class="header-meta">
       <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
@@ -541,6 +38,12 @@
           <li class="nav-item">
             <a href="/" aria-current="page">
               <span class="nav-path">/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/activations/">
+              <span class="nav-path">/activations/</span>
               <span class="nav-badge st-wip">WIP</span>
             </a>
           </li>
@@ -633,23 +136,22 @@
     <div class="main-content">
 
       <section class="map-section">
-        <div class="section-label">
+        <div class="section-label split">
           <span>QSO Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
-          <span class="todo-tag">TODO</span>
+          <span class="section-tag todo">TODO</span>
         </div>
-        <div class="map-placeholder">
-          <span class="map-placeholder-label">Interactive QSO map &mdash; pending implementation</span>
-        </div>
+        <img src="/images/world-map.svg"
+             alt="World map showing N6CBL station location at DM03tu, Los Angeles"
+             class="world-map" width="1000" height="500">
         <div class="map-bar">
           <span>QTH: DM03tu &middot; 33.8&deg;N 118.4&deg;W &middot; Los Angeles, CA</span>
-          <span>0 QSOs plotted</span>
+          <span>0 QSOs plotted &middot; static placeholder</span>
         </div>
       </section>
 
       <div class="station-photo-section">
         <figure class="station-photo-wrap">
-          <!-- Place field photo at images/field-station.jpg -->
-          <img src="images/field-station.jpg"
+          <img src="/images/field-station.jpg"
                alt="Chameleon SS-17 vertical antenna deployed at a coastal parking lot, Southern California"
                width="1280" height="720"
                onerror="this.closest('.station-photo-section').hidden=true">
@@ -690,6 +192,11 @@
               <td class="st st-wip">WIP</td>
             </tr>
             <tr>
+              <td class="path">/activations/</td>
+              <td class="desc">POTA activations log &mdash; parks, dates, QSOs, optional notes &amp; photos</td>
+              <td class="st st-wip">WIP</td>
+            </tr>
+            <tr>
               <td class="path">/blog/</td>
               <td class="desc">Posts: technical, radio, builds, misc</td>
               <td class="st st-planned">Planned</td>
@@ -723,7 +230,7 @@
               <th>Reference</th>
               <th>Park</th>
               <th>Location</th>
-              <th style="text-align:right">QSOs</th>
+              <th class="num">QSOs</th>
               <th></th>
             </tr>
           </thead>
@@ -731,7 +238,7 @@
         </table>
         <div class="pota-footer">
           <span id="pota-fetched"></span>
-          <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">Full POTA profile &#8594;</a>
+          <a href="/activations/">Full activations log &#8594;</a>
         </div>
       </div>
 
@@ -762,7 +269,7 @@
       function pad(n) { return String(n).padStart(2, '0'); }
 
       function fmtDate(s) {
-        if (!s) return '&mdash;';
+        if (!s) return '—';
         var d = new Date(s);
         if (isNaN(d)) return s;
         return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
@@ -775,21 +282,22 @@
         })
         .then(function (data) {
           if (!Array.isArray(data) || data.length === 0) {
-            stateEl.textContent = 'No activations on record yet.';
+            stateEl.innerHTML = 'No activations on record yet. '
+              + '<a href="/activations/">View sample log &#8594;</a>';
             return;
           }
           var rows = data.slice(0, 10);
           var html = '';
           for (var i = 0; i < rows.length; i++) {
             var a = rows[i];
-            var ref = a.reference || '&mdash;';
+            var ref = a.reference || '—';
             var parkUrl = 'https://pota.app/#/park/' + (a.reference || '');
             html += '<tr>'
               + '<td class="pota-date">' + fmtDate(a.date) + '</td>'
               + '<td class="pota-ref">' + ref + '</td>'
-              + '<td class="pota-name">' + (a.name || '&mdash;') + '</td>'
-              + '<td class="pota-loc">'  + (a.locationDesc || '&mdash;') + '</td>'
-              + '<td class="pota-qso">'  + (a.qsoCount != null ? a.qsoCount : '&mdash;') + '</td>'
+              + '<td class="pota-name">' + (a.name || '—') + '</td>'
+              + '<td class="pota-loc">'  + (a.locationDesc || '—') + '</td>'
+              + '<td class="pota-qso">'  + (a.qsoCount != null ? a.qsoCount : '—') + '</td>'
               + '<td class="pota-cta"><a href="' + parkUrl + '" target="_blank" rel="noopener">View &#8594;</a></td>'
               + '</tr>';
           }
@@ -805,8 +313,7 @@
         })
         .catch(function () {
           stateEl.innerHTML = 'Activation data pending. '
-            + '<a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">'
-            + 'View on POTA &#8594;</a>';
+            + '<a href="/activations/">View sample log &#8594;</a>';
         });
     })();
   </script>
