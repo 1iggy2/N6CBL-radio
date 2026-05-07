@@ -1,0 +1,42 @@
+name: Fetch POTA Data
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # 08:00 UTC daily
+  workflow_dispatch:      # allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Fetch POTA activation log
+        run: |
+          mkdir -p data
+          HTTP=$(curl -s -o data/pota-activations.json -w "%{http_code}" \
+            -H "Accept: application/json" \
+            -H "User-Agent: N6CBL.radio/1.0 (github-actions)" \
+            "https://api.pota.app/activation/N6CBL")
+          echo "POTA API returned HTTP $HTTP"
+          if [ "$HTTP" != "200" ]; then
+            echo "Fetch failed — keeping existing data"
+            git checkout -- data/pota-activations.json 2>/dev/null || echo "[]" > data/pota-activations.json
+          else
+            echo "Fetched $(wc -c < data/pota-activations.json) bytes"
+          fi
+
+      - name: Commit if data changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/pota-activations.json
+          git diff --staged --quiet \
+            && echo "No changes to commit" \
+            || git commit -m "chore: update POTA activation log [skip ci]"
+          git push

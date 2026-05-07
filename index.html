@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="N6CBL.radio — personal site of N6CBL. Under construction.">
+  <meta name="description" content="N6CBL.radio — personal site of N6CBL. Amateur radio, tools, builds.">
   <title>N6CBL.radio</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,7 +11,7 @@
     :root {
       --black: #0a0a0a;
       --white: #f5f5f0;
-      --rule: #0a0a0a;
+      --rule:  #0a0a0a;
       --accent: #c8401a;
       --mono: "Courier New", Courier, monospace;
       --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -26,7 +26,7 @@
       line-height: 1.4;
       min-height: 100vh;
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto auto 1fr auto;
     }
 
     /* ── HEADER ─────────────────────────────────────────────────────────── */
@@ -97,9 +97,7 @@
       gap: 8px;
     }
 
-    .header-meta span + span {
-      border-top: 1px solid var(--rule);
-    }
+    .header-meta span + span { border-top: 1px solid var(--rule); }
 
     .status-dot {
       display: inline-block;
@@ -108,6 +106,33 @@
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
+    }
+
+    /* ── GLOBE SECTION ──────────────────────────────────────────────────── */
+    .globe-section {
+      background: var(--black);
+      border-bottom: 2px solid var(--rule);
+    }
+
+    .globe-section .section-label {
+      border-bottom-color: #2a2a2a;
+    }
+
+    .globe-canvas {
+      width: 100%;
+      height: 520px;
+      display: block;
+    }
+
+    .globe-bar {
+      padding: 5px 12px;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: #777;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #2a2a2a;
     }
 
     /* ── MAIN ───────────────────────────────────────────────────────────── */
@@ -160,9 +185,7 @@
     }
 
     /* planned content table */
-    .planned {
-      border-bottom: 1px solid var(--rule);
-    }
+    .planned { border-bottom: 1px solid var(--rule); }
 
     table {
       width: 100%;
@@ -213,25 +236,34 @@
     /* ── POTA SECTION ───────────────────────────────────────────────────── */
     .pota-section { border-bottom: 1px solid var(--rule); }
 
-    .pota-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+    .pota-state {
+      padding: 8px 12px;
+      font-size: 0.72rem;
+      color: #666;
     }
 
-    .pota-wrap iframe {
-      display: block;
-      border: none;
-      width: 1000px;
-      height: 350px;
+    .pota-state a { color: inherit; }
+
+    td.pota-ref {
+      font-family: var(--mono);
+      white-space: nowrap;
+      width: 1%;
+      font-weight: bold;
     }
+
+    td.pota-date { white-space: nowrap; width: 1%; color: #555; }
+    td.pota-loc  { white-space: nowrap; width: 1%; color: #555; }
+    td.pota-qso  { white-space: nowrap; width: 1%; text-align: right; }
+    td.pota-name { font-family: var(--sans); }
 
     .pota-footer {
       padding: 5px 12px;
       font-size: 0.65rem;
       display: flex;
-      justify-content: flex-end;
-      border-top: 1px solid #ccc;
+      justify-content: space-between;
+      align-items: center;
       color: #666;
+      border-top: 1px solid #ccc;
     }
 
     .pota-footer a { color: inherit; text-decoration: underline; }
@@ -239,10 +271,7 @@
     /* sidebar */
     .sidebar { padding: 0; }
 
-    .sidebar-section {
-      border-bottom: 1px solid var(--rule);
-    }
-
+    .sidebar-section { border-bottom: 1px solid var(--rule); }
     .sidebar-section:last-child { border-bottom: none; }
 
     .sidebar-content {
@@ -289,11 +318,7 @@
       margin-bottom: 2px;
     }
 
-    /* profile links list */
-    .links-list {
-      list-style: none;
-      font-size: 0.78rem;
-    }
+    .links-list { list-style: none; font-size: 0.78rem; }
 
     .links-list li {
       border-bottom: 1px solid #ddd;
@@ -311,7 +336,6 @@
     }
 
     .links-list a:hover { text-decoration: underline; }
-
     .links-list .link-label { font-family: var(--sans); }
     .links-list .link-arrow { color: #888; font-size: 0.65rem; }
 
@@ -331,10 +355,7 @@
       gap: 16px;
     }
 
-    footer div + div {
-      border-left: 1px solid var(--rule);
-    }
-
+    footer div + div { border-left: 1px solid var(--rule); }
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
@@ -346,6 +367,8 @@
       header { grid-template-columns: 1fr; }
       .header-meta { text-align: left; }
       .header-meta span { justify-content: flex-start; }
+      .globe-canvas { height: 320px; }
+      .globe-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
     }
   </style>
 </head>
@@ -367,6 +390,15 @@
       <span>FCC AMATEUR RADIO — GENERAL CLASS</span>
     </div>
   </header>
+
+  <section class="globe-section">
+    <div class="section-label">QSO Map &mdash; DM03tu &mdash; Los Angeles, CA</div>
+    <div id="globe" class="globe-canvas"></div>
+    <div class="globe-bar">
+      <span>QTH: DM03tu &middot; 33.8&deg;N 118.4&deg;W &middot; Los Angeles, CA</span>
+      <span id="globe-status">Initializing&hellip;</span>
+    </div>
+  </section>
 
   <main>
     <div class="primary">
@@ -423,11 +455,22 @@
       </div>
 
       <div class="pota-section">
-        <div class="section-label">POTA — Parks on the Air</div>
-        <div class="pota-wrap">
-          <iframe src="https://pota-stats.wd4dan.net/?call=N6CBL&options=condensed" scrolling="no" title="POTA stats for N6CBL"></iframe>
-        </div>
+        <div class="section-label">POTA &mdash; Parks on the Air &mdash; Recent Activations</div>
+        <div id="pota-state" class="pota-state">Fetching activation log&hellip;</div>
+        <table id="pota-table" hidden>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Park</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th style="text-align:right">QSOs</th>
+            </tr>
+          </thead>
+          <tbody id="pota-tbody"></tbody>
+        </table>
         <div class="pota-footer">
+          <span id="pota-fetched"></span>
           <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">Full POTA profile &rarr;</a>
         </div>
       </div>
@@ -441,7 +484,7 @@
         <div class="op-banner">
           <strong>N6CBL</strong>
           Amateur Radio Operator<br>
-          FCC ULS — Active License
+          FCC ULS &mdash; Active License
         </div>
       </div>
 
@@ -478,7 +521,7 @@
             <dt>Stack</dt>
             <dd>HTML / CSS</dd>
             <dt>JS</dt>
-            <dd>None</dd>
+            <dd>Minimal</dd>
           </dl>
         </div>
       </div>
@@ -507,6 +550,124 @@
     </div>
   </footer>
 
+  <script>
+    /* ── GLOBE ────────────────────────────────────────────────────────────
+       Lazy-loads globe.gl when the section enters the viewport.
+       QTH: DM03tu → 33.833°N 118.417°W (Los Angeles, CA)
+    ──────────────────────────────────────────────────────────────────── */
+    (function () {
+      var el       = document.getElementById('globe');
+      var statusEl = document.getElementById('globe-status');
+      if (!el) return;
+
+      var loaded = false;
+      function initGlobe() {
+        if (loaded) return;
+        loaded = true;
+
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/globe.gl/dist/globe.gl.min.js';
+        s.onerror = function () {
+          if (statusEl) statusEl.textContent = 'Globe unavailable';
+        };
+        s.onload = function () {
+          var qth = { lat: 33.833, lng: -118.417 };
+
+          var world = Globe()
+            .globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg')
+            .backgroundColor('rgba(0,0,0,0)')
+            .showAtmosphere(true)
+            .atmosphereColor('#c8401a')
+            .atmosphereAltitude(0.12)
+            .pointsData([qth])
+            .pointLat('lat')
+            .pointLng('lng')
+            .pointColor(function () { return '#B22234'; })
+            .pointAltitude(0.02)
+            .pointRadius(0.5)
+            .pointLabel(function () {
+              return '<span style="font-family:monospace;font-size:11px;'
+                + 'color:#fff;background:rgba(10,10,10,0.85);padding:2px 6px">'
+                + 'N6CBL &bull; DM03tu</span>';
+            })
+            (el);
+
+          world.pointOfView({ lat: qth.lat, lng: qth.lng, altitude: 2.5 }, 0);
+
+          if (statusEl) statusEl.textContent = '0 QSOs plotted — logbook integration pending';
+        };
+        document.head.appendChild(s);
+      }
+
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { initGlobe(); obs.disconnect(); }
+        }, { rootMargin: '100px' });
+        obs.observe(el);
+      } else {
+        initGlobe();
+      }
+    })();
+
+    /* ── POTA ─────────────────────────────────────────────────────────────
+       Reads /data/pota-activations.json committed by GitHub Actions cron.
+    ──────────────────────────────────────────────────────────────────── */
+    (function () {
+      var stateEl   = document.getElementById('pota-state');
+      var tableEl   = document.getElementById('pota-table');
+      var tbodyEl   = document.getElementById('pota-tbody');
+      var fetchedEl = document.getElementById('pota-fetched');
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+
+      function fmtDate(s) {
+        if (!s) return '—';
+        var d = new Date(s);
+        if (isNaN(d)) return s;
+        return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+      }
+
+      fetch('/data/pota-activations.json')
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          if (!Array.isArray(data) || data.length === 0) {
+            stateEl.textContent = 'No activations on record yet.';
+            return;
+          }
+          var rows = data.slice(0, 10);
+          var html = '';
+          for (var i = 0; i < rows.length; i++) {
+            var a = rows[i];
+            var ref = a.reference || '—';
+            html += '<tr>'
+              + '<td class="pota-date">' + fmtDate(a.date) + '</td>'
+              + '<td class="pota-ref"><a href="https://pota.app/#/park/' + ref
+              + '" target="_blank" rel="noopener">' + ref + '</a></td>'
+              + '<td class="pota-name">' + (a.name || '—') + '</td>'
+              + '<td class="pota-loc">'  + (a.locationDesc || '—') + '</td>'
+              + '<td class="pota-qso">'  + (a.qsoCount != null ? a.qsoCount : '—') + '</td>'
+              + '</tr>';
+          }
+          tbodyEl.innerHTML = html;
+          if (fetchedEl) {
+            var now = new Date();
+            fetchedEl.textContent = 'Updated '
+              + now.getUTCFullYear() + '-' + pad(now.getUTCMonth() + 1) + '-' + pad(now.getUTCDate())
+              + ' — ' + rows.length + ' of ' + data.length + ' activations';
+          }
+          stateEl.hidden = true;
+          tableEl.hidden = false;
+        })
+        .catch(function () {
+          stateEl.innerHTML = 'Activation data pending. '
+            + '<a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">'
+            + 'View on POTA →</a>';
+        });
+    })();
+  </script>
 
 </body>
 </html>
