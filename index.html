@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL.radio — personal site of N6CBL. Under construction.">
+  <title>N6CBL.radio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f5f0;
+      --rule: #0a0a0a;
+      --accent: #c8401a;
+      --mono: "Courier New", Courier, monospace;
+      --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    html { font-size: 14px; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--mono);
+      line-height: 1.4;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────────────── */
+    header {
+      border-bottom: 2px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: stretch;
+    }
+
+    .site-id {
+      padding: 6px 12px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .callsign {
+      font-size: 2.4rem;
+      font-weight: bold;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .domain {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .header-meta {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      font-size: 0.7rem;
+      text-align: right;
+    }
+
+    .header-meta span {
+      padding: 4px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .header-meta span + span {
+      border-top: 1px solid var(--rule);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── MAIN ───────────────────────────────────────────────────────────── */
+    main {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      border-bottom: 2px solid var(--rule);
+    }
+
+    .primary {
+      border-right: 1px solid var(--rule);
+      padding: 0;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-bottom: 1px solid var(--rule);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .construction-block {
+      padding: 24px 12px 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .construction-block h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      max-width: 14ch;
+    }
+
+    .construction-block h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .construction-block p {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      max-width: 52ch;
+      line-height: 1.55;
+      font-family: var(--sans);
+    }
+
+    /* planned content table */
+    .planned {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 4px 12px;
+      font-weight: normal;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--rule);
+      background: #e8e8e3;
+    }
+
+    td {
+      padding: 5px 12px;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    td.path {
+      font-family: var(--mono);
+      white-space: nowrap;
+      width: 1%;
+      padding-right: 20px;
+    }
+
+    td.st {
+      width: 1%;
+      white-space: nowrap;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .st-planned { color: #888; }
+    .st-wip     { color: var(--accent); font-weight: bold; }
+    .st-live    { color: #2a7a2a; font-weight: bold; }
+
+    td.desc { font-family: var(--sans); }
+
+    /* sidebar */
+    .sidebar { padding: 0; }
+
+    .sidebar-section {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sidebar-section:last-child { border-bottom: none; }
+
+    .sidebar-content {
+      padding: 10px 12px;
+      font-size: 0.78rem;
+    }
+
+    .sidebar-content dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2px 12px;
+    }
+
+    .sidebar-content dt {
+      color: #666;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 2px;
+      white-space: nowrap;
+    }
+
+    .sidebar-content dd { font-weight: bold; }
+
+    .sidebar-content p {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .op-banner {
+      padding: 10px 12px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .op-banner strong {
+      display: block;
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 2px;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────────── */
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: #555;
+    }
+
+    footer div {
+      padding: 5px 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    footer div + div {
+      border-left: 1px solid var(--rule);
+    }
+
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      main { grid-template-columns: 1fr; }
+      .primary { border-right: none; border-bottom: 1px solid var(--rule); }
+      .construction-block h1 { font-size: 2.4rem; }
+      header { grid-template-columns: 1fr; }
+      .header-meta { text-align: left; }
+      .header-meta span { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <div class="callsign">N6CBL</div>
+      <div class="domain">N6CBL.radio</div>
+    </div>
+    <div class="header-meta">
+      <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
+      <span>FCC AMATEUR RADIO — GENERAL CLASS</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="primary">
+
+      <div class="section-label">Status</div>
+
+      <div class="construction-block">
+        <h1>Under<br><em>Con&shy;struc&shy;tion</em></h1>
+        <p>
+          This site is being built. It will be the personal web presence of N6CBL —
+          a place for tools, radio experiments, 3D print files, writing, and whatever
+          else warrants a permanent URL. No timeline. Check back.
+        </p>
+      </div>
+
+      <div class="planned">
+        <div class="section-label">Planned content</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="path">/</td>
+              <td class="desc">Home — index of everything on the site</td>
+              <td class="st st-wip">WIP</td>
+            </tr>
+            <tr>
+              <td class="path">/blog/</td>
+              <td class="desc">Posts: technical, radio, builds, misc</td>
+              <td class="st st-planned">Planned</td>
+            </tr>
+            <tr>
+              <td class="path">/tools/</td>
+              <td class="desc">Browser-based utilities — radio, math, general</td>
+              <td class="st st-planned">Planned</td>
+            </tr>
+            <tr>
+              <td class="path">/prints/</td>
+              <td class="desc">3D print catalog with downloadable files</td>
+              <td class="st st-planned">Planned</td>
+            </tr>
+            <tr>
+              <td class="path">/radio/</td>
+              <td class="desc">Logbook, APRS data, SDR resources, band notes</td>
+              <td class="st st-planned">Planned</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="sidebar">
+
+      <div class="sidebar-section">
+        <div class="section-label">Station</div>
+        <div class="op-banner">
+          <strong>N6CBL</strong>
+          Amateur Radio Operator<br>
+          FCC ULS — Active License
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Site info</div>
+        <div class="sidebar-content">
+          <dl>
+            <dt>Host</dt>
+            <dd>Cloudflare Pages</dd>
+            <dt>Domain</dt>
+            <dd>N6CBL.radio</dd>
+            <dt>Source</dt>
+            <dd>GitHub</dd>
+            <dt>Stack</dt>
+            <dd>HTML / CSS</dd>
+            <dt>JS</dt>
+            <dd>None (yet)</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Design doctrine</div>
+        <div class="sidebar-content">
+          <p>
+            Dense, not sparse. Explicit over implicit. Performance is design.
+            Verbosity over opacity. Timeless and unfashionable.
+            Opposite of minimalism.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <span>N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:n6cbl@arrl.net">CONTACT</a>
+    </div>
+  </footer>
+
+</body>
+</html>
