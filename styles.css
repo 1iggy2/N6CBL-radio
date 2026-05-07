@@ -589,11 +589,18 @@ td.pota-cta a:hover { text-decoration: underline; }
 footer {
   border-top: 2px solid var(--rule);
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto auto;
   font-size: 0.65rem;
   letter-spacing: 0.06em;
   color: var(--muted);
 }
+
+.footer-claude {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-claude svg { display: block; flex-shrink: 0; }
 
 footer div {
   padding: 5px 12px;
