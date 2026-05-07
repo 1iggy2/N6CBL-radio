@@ -30,7 +30,11 @@ must be defensible against these principles:
 
 ### Aesthetic Execution
 
-- **Typography**: System monospace for data/code/meta, system serif or tight sans for body
+- **Typography**: Engineered, not decorative. Three roles:
+  - **Data/UI/labels**: `"Consolas", "Menlo", "Monaco", "Courier New", monospace` — Consolas and Menlo are clean geometric monospaces; Courier New is a last resort only (too slab-serif at display sizes).
+  - **Body/prose**: `system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif`
+  - **Display/headings**: `"DIN Alternate", "Arial Narrow", "Helvetica Neue", Helvetica, Arial, sans-serif` — DIN Alternate ships on all Apple devices and is essentially free D-Din. Aspirational paid upgrades: D-Din (type.today) or Los Alamos Mono (US Graphics Company). Do not use Courier New at display sizes — it reads as slab-serif and lacks precision.
+  - Never use: Comic Sans, Papyrus, rounded typefaces, anything that reads as casual or decorative.
 - **Color**: High contrast. Black on white baseline. Single functional accent color.
 - **Layout**: Grid-based, dense, full-width. No centered hero sections with padding.
 - **Borders/Rules**: Use lines to organize. No shadows, no gradients, no border-radius.
