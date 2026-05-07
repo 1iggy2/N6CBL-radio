@@ -193,48 +193,24 @@
     /* ── POTA SECTION ───────────────────────────────────────────────────── */
     .pota-section { border-bottom: 1px solid var(--rule); }
 
-    .pota-state {
-      padding: 8px 12px;
-      font-size: 0.72rem;
-      color: #666;
-      border-bottom: 1px solid #ccc;
+    .pota-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .pota-state a { color: inherit; }
-
-    td.pota-ref {
-      font-family: var(--mono);
-      white-space: nowrap;
-      width: 1%;
-      font-weight: bold;
+    .pota-wrap iframe {
+      display: block;
+      border: none;
+      width: 1000px;
+      height: 1250px;
     }
-
-    td.pota-date {
-      white-space: nowrap;
-      width: 1%;
-      color: #555;
-    }
-
-    td.pota-loc {
-      white-space: nowrap;
-      width: 1%;
-      color: #555;
-    }
-
-    td.pota-qso {
-      white-space: nowrap;
-      width: 1%;
-      text-align: right;
-    }
-
-    td.pota-name { font-family: var(--sans); }
 
     .pota-footer {
       padding: 5px 12px;
       font-size: 0.65rem;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: flex-end;
+      border-top: 1px solid #ccc;
       color: #666;
     }
 
@@ -421,22 +397,11 @@
       </div>
 
       <div class="pota-section">
-        <div class="section-label">POTA — Parks on the Air — Recent Activations</div>
-        <div id="pota-state" class="pota-state">Fetching activation log from api.pota.app&hellip;</div>
-        <table id="pota-table" hidden>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Park</th>
-              <th>Name</th>
-              <th>Location</th>
-              <th style="text-align:right">QSOs</th>
-            </tr>
-          </thead>
-          <tbody id="pota-tbody"></tbody>
-        </table>
+        <div class="section-label">POTA — Parks on the Air</div>
+        <div class="pota-wrap">
+          <iframe src="https://pota-stats.wd4dan.net/?call=N6CBL" scrolling="no" title="POTA stats for N6CBL"></iframe>
+        </div>
         <div class="pota-footer">
-          <span id="pota-fetched"></span>
           <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">Full POTA profile &rarr;</a>
         </div>
       </div>
@@ -487,7 +452,7 @@
             <dt>Stack</dt>
             <dd>HTML / CSS</dd>
             <dt>JS</dt>
-            <dd>Minimal</dd>
+            <dd>None</dd>
           </dl>
         </div>
       </div>
@@ -516,73 +481,6 @@
     </div>
   </footer>
 
-  <script>
-    (function () {
-      var stateEl   = document.getElementById('pota-state');
-      var tableEl   = document.getElementById('pota-table');
-      var tbodyEl   = document.getElementById('pota-tbody');
-      var fetchedEl = document.getElementById('pota-fetched');
-
-      function pad(n) { return String(n).padStart(2, '0'); }
-
-      function formatDate(str) {
-        if (!str) return '—';
-        var d = new Date(str);
-        if (isNaN(d)) return str;
-        return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
-      }
-
-      function showError(msg) {
-        stateEl.innerHTML = msg;
-        stateEl.hidden = false;
-        tableEl.hidden = true;
-      }
-
-      fetch('/api/pota-activations')
-        .then(function (r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.json();
-        })
-        .then(function (data) {
-          if (!Array.isArray(data) || data.length === 0) {
-            showError('No activations on record yet. <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">View POTA profile &rarr;</a>');
-            return;
-          }
-
-          var rows = data.slice(0, 10);
-          var html = '';
-          for (var i = 0; i < rows.length; i++) {
-            var a = rows[i];
-            var ref  = a.reference   || '—';
-            var name = a.name        || '—';
-            var loc  = a.locationDesc || '—';
-            var qso  = (a.qsoCount != null) ? a.qsoCount : '—';
-            var date = formatDate(a.date);
-            html += '<tr>'
-              + '<td class="pota-date">' + date + '</td>'
-              + '<td class="pota-ref"><a href="https://pota.app/#/park/' + ref + '" target="_blank" rel="noopener">' + ref + '</a></td>'
-              + '<td class="pota-name">' + name + '</td>'
-              + '<td class="pota-loc">' + loc + '</td>'
-              + '<td class="pota-qso">' + qso + '</td>'
-              + '</tr>';
-          }
-          tbodyEl.innerHTML = html;
-
-          var now = new Date();
-          fetchedEl.textContent = 'Fetched ' + now.getUTCFullYear() + '-'
-            + pad(now.getUTCMonth() + 1) + '-' + pad(now.getUTCDate())
-            + ' ' + pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ' UTC'
-            + ' — showing ' + rows.length + ' of ' + data.length + ' activations';
-
-          stateEl.hidden = true;
-          tableEl.hidden = false;
-        })
-        .catch(function (err) {
-          showError('Could not load activation data (' + err.message + '). '
-            + '<a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">View on POTA &rarr;</a>');
-        });
-    })();
-  </script>
 
 </body>
 </html>
