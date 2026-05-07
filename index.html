@@ -227,25 +227,27 @@
     .sidenav-links .link-label { font-family: var(--sans); }
     .sidenav-links .link-arrow { color: #888; flex-shrink: 0; }
 
-    /* sidenav definition list */
+    /* sidenav definition list — stacked: label line above value line */
     .sidenav-dl {
       padding: 8px 10px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 2px 10px;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
     }
 
     .sidenav-dl dt {
-      color: #666;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
+      color: #888;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding-top: 1px;
-      white-space: nowrap;
+      margin-top: 7px;
     }
 
-    .sidenav-dl dd { font-weight: bold; }
+    .sidenav-dl dt:first-child { margin-top: 0; }
+
+    .sidenav-dl dd {
+      font-weight: bold;
+      margin-left: 0;
+    }
+
     .sidenav-dl dd.tbd { color: #aaa; font-weight: normal; font-style: italic; }
 
     /* ── MAIN CONTENT ───────────────────────────────────────────────────── */
@@ -477,12 +479,15 @@
     /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
     @media (max-width: 768px) {
       /* Narrow the sidebar instead of stacking it — permanent sidebar is the design */
-      .layout-body { grid-template-columns: 150px 1fr; }
-      .sidenav-dl  { padding: 6px 8px; gap: 2px 8px; }
+      .layout-body { grid-template-columns: 120px 1fr; }
+      .sidenav-dl  { padding: 6px 8px; }
+      .sidenav-dl dt { margin-top: 5px; }
       .op-card     { padding: 6px 8px; }
-      .op-callsign { font-size: 1.3rem; }
+      .op-callsign { font-size: 1.2rem; }
+      .op-name     { font-size: 0.7rem; }
+      .op-meta     { font-size: 0.6rem; }
       .sidenav-links a,
-      .nav-item a  { padding: 5px 8px; font-size: 0.68rem; }
+      .nav-item a  { padding: 4px 8px; font-size: 0.65rem; }
       .sidenav-label { padding: 3px 8px; }
       .construction-block h1 { font-size: 2.4rem; }
       header { grid-template-columns: 1fr; }
@@ -490,6 +495,7 @@
       .header-meta span { justify-content: flex-start; }
       .map-placeholder { height: 160px; }
       .map-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
+      .station-photo-wrap img { height: 200px; }
     }
 
     /* Only collapse to single column on truly tiny screens */
@@ -610,7 +616,7 @@
           <dt>Radio</dt>
           <dd>Elecraft KX2</dd>
           <dt>Antenna</dt>
-          <dd>Chameleon SS-17 vertical + radials</dd>
+          <dd>Chameleon SS-17</dd>
           <dt>Power</dt>
           <dd>Bioenno LiFePO4</dd>
           <dt>Mode</dt>
@@ -643,7 +649,8 @@
           <!-- Place field photo at images/field-station.jpg -->
           <img src="images/field-station.jpg"
                alt="Chameleon SS-17 vertical antenna deployed at a coastal parking lot, Southern California"
-               width="1280" height="720">
+               width="1280" height="720"
+               onerror="this.closest('.station-photo-section').hidden=true">
           <figcaption class="photo-caption">
             <span>Chameleon SS-17 vertical + radials &middot; Elecraft KX2 &middot; Southern California coast</span>
             <span>Portable HF &middot; POTA activation</span>
