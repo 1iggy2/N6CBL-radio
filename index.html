@@ -184,6 +184,56 @@
 
     td.desc { font-family: var(--sans); }
 
+    /* ── POTA SECTION ───────────────────────────────────────────────────── */
+    .pota-section { border-bottom: 1px solid var(--rule); }
+
+    .pota-state {
+      padding: 8px 12px;
+      font-size: 0.72rem;
+      color: #666;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .pota-state a { color: inherit; }
+
+    td.pota-ref {
+      font-family: var(--mono);
+      white-space: nowrap;
+      width: 1%;
+      font-weight: bold;
+    }
+
+    td.pota-date {
+      white-space: nowrap;
+      width: 1%;
+      color: #555;
+    }
+
+    td.pota-loc {
+      white-space: nowrap;
+      width: 1%;
+      color: #555;
+    }
+
+    td.pota-qso {
+      white-space: nowrap;
+      width: 1%;
+      text-align: right;
+    }
+
+    td.pota-name { font-family: var(--sans); }
+
+    .pota-footer {
+      padding: 5px 12px;
+      font-size: 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #666;
+    }
+
+    .pota-footer a { color: inherit; text-decoration: underline; }
+
     /* sidebar */
     .sidebar { padding: 0; }
 
@@ -236,6 +286,32 @@
       letter-spacing: -0.01em;
       margin-bottom: 2px;
     }
+
+    /* profile links list */
+    .links-list {
+      list-style: none;
+      font-size: 0.78rem;
+    }
+
+    .links-list li {
+      border-bottom: 1px solid #ddd;
+      padding: 5px 0;
+    }
+
+    .links-list li:last-child { border-bottom: none; }
+
+    .links-list a {
+      color: var(--black);
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .links-list a:hover { text-decoration: underline; }
+
+    .links-list .link-label { font-family: var(--sans); }
+    .links-list .link-arrow { color: #888; font-size: 0.65rem; }
 
     /* ── FOOTER ─────────────────────────────────────────────────────────── */
     footer {
@@ -338,6 +414,27 @@
         </table>
       </div>
 
+      <div class="pota-section">
+        <div class="section-label">POTA — Parks on the Air — Recent Activations</div>
+        <div id="pota-state" class="pota-state">Fetching activation log from api.pota.app&hellip;</div>
+        <table id="pota-table" hidden>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Park</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th style="text-align:right">QSOs</th>
+            </tr>
+          </thead>
+          <tbody id="pota-tbody"></tbody>
+        </table>
+        <div class="pota-footer">
+          <span id="pota-fetched"></span>
+          <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">Full POTA profile &rarr;</a>
+        </div>
+      </div>
+
     </div>
 
     <div class="sidebar">
@@ -348,6 +445,26 @@
           <strong>N6CBL</strong>
           Amateur Radio Operator<br>
           FCC ULS — Active License
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Profiles</div>
+        <div class="sidebar-content">
+          <ul class="links-list">
+            <li>
+              <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+                <span class="link-label">QRZ.com/N6CBL</span>
+                <span class="link-arrow">&#8599;</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+                <span class="link-label">POTA Profile</span>
+                <span class="link-arrow">&#8599;</span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -364,7 +481,7 @@
             <dt>Stack</dt>
             <dd>HTML / CSS</dd>
             <dt>JS</dt>
-            <dd>None (yet)</dd>
+            <dd>Minimal</dd>
           </dl>
         </div>
       </div>
@@ -392,6 +509,74 @@
       <a href="mailto:n6cbl@arrl.net">CONTACT</a>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      var stateEl   = document.getElementById('pota-state');
+      var tableEl   = document.getElementById('pota-table');
+      var tbodyEl   = document.getElementById('pota-tbody');
+      var fetchedEl = document.getElementById('pota-fetched');
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+
+      function formatDate(str) {
+        if (!str) return '—';
+        var d = new Date(str);
+        if (isNaN(d)) return str;
+        return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+      }
+
+      function showError(msg) {
+        stateEl.innerHTML = msg;
+        stateEl.hidden = false;
+        tableEl.hidden = true;
+      }
+
+      fetch('https://api.pota.app/activation/N6CBL')
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          if (!Array.isArray(data) || data.length === 0) {
+            showError('No activations on record yet. <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">View POTA profile &rarr;</a>');
+            return;
+          }
+
+          var rows = data.slice(0, 10);
+          var html = '';
+          for (var i = 0; i < rows.length; i++) {
+            var a = rows[i];
+            var ref  = a.reference   || '—';
+            var name = a.name        || '—';
+            var loc  = a.locationDesc || '—';
+            var qso  = (a.qsoCount != null) ? a.qsoCount : '—';
+            var date = formatDate(a.date);
+            html += '<tr>'
+              + '<td class="pota-date">' + date + '</td>'
+              + '<td class="pota-ref"><a href="https://pota.app/#/park/' + ref + '" target="_blank" rel="noopener">' + ref + '</a></td>'
+              + '<td class="pota-name">' + name + '</td>'
+              + '<td class="pota-loc">' + loc + '</td>'
+              + '<td class="pota-qso">' + qso + '</td>'
+              + '</tr>';
+          }
+          tbodyEl.innerHTML = html;
+
+          var now = new Date();
+          fetchedEl.textContent = 'Fetched ' + now.getUTCFullYear() + '-'
+            + pad(now.getUTCMonth() + 1) + '-' + pad(now.getUTCDate())
+            + ' ' + pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ' UTC'
+            + ' — showing ' + rows.length + ' of ' + data.length + ' activations';
+
+          stateEl.hidden = true;
+          tableEl.hidden = false;
+        })
+        .catch(function (err) {
+          showError('Could not load activation data (' + err.message + '). '
+            + '<a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">View on POTA &rarr;</a>');
+        });
+    })();
+  </script>
 
 </body>
 </html>
