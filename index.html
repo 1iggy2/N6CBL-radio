@@ -26,13 +26,7 @@
       line-height: 1.4;
       min-height: 100vh;
       display: grid;
-      grid-template-rows: 4px auto 1fr auto;
-    }
-
-    body::before {
-      content: '';
-      display: block;
-      background: linear-gradient(to right, #B22234 33.33%, #f5f5f0 33.33%, #f5f5f0 66.66%, #3C3B6E 66.66%);
+      grid-template-rows: auto 1fr auto;
     }
 
     /* ── HEADER ─────────────────────────────────────────────────────────── */
@@ -48,6 +42,12 @@
       border-right: 1px solid var(--rule);
     }
 
+    .callsign-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     .callsign {
       font-size: 2.4rem;
       font-weight: bold;
@@ -55,10 +55,30 @@
       line-height: 1;
     }
 
+    .flag {
+      height: 38px;
+      width: auto;
+      display: block;
+      border: 1px solid #ccc;
+    }
+
+    .site-sub {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-top: 2px;
+    }
+
     .domain {
       font-size: 0.75rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: #555;
+    }
+
+    .grid-sq {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       color: #555;
     }
 
@@ -333,8 +353,14 @@
 
   <header>
     <div class="site-id">
-      <div class="callsign">N6CBL</div>
-      <div class="domain">N6CBL.radio</div>
+      <div class="callsign-row">
+        <div class="callsign">N6CBL</div>
+        <img src="flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+      </div>
+      <div class="site-sub">
+        <span class="domain">N6CBL.radio</span>
+        <span class="grid-sq">DM03tu</span>
+      </div>
     </div>
     <div class="header-meta">
       <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
