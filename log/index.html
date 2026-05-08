@@ -179,23 +179,6 @@
       </div>
       <div id="log-date-range" class="log-date-range" hidden></div>
 
-      <div class="section-label">Sessions</div>
-      <div id="sessions-state" class="log-state">Loading&hellip;</div>
-      <table id="sessions-table" hidden>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Reference</th>
-            <th>Bands</th>
-            <th>Modes</th>
-            <th class="num">QSOs</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="sessions-tbody"></tbody>
-      </table>
-
       <div class="section-label split">
         <span>All QSOs</span>
         <span id="qso-count-label" class="log-count"></span>
@@ -215,13 +198,13 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th>UTC</th>
+            <th class="col-utc">UTC</th>
             <th>Call</th>
             <th>Band</th>
             <th>Mode</th>
-            <th>Freq</th>
-            <th>Sent</th>
-            <th>Rcvd</th>
+            <th class="col-freq">Freq</th>
+            <th class="col-rst">Sent</th>
+            <th class="col-rst">Rcvd</th>
           </tr>
         </thead>
         <tbody id="qso-tbody"></tbody>
@@ -266,9 +249,6 @@
 
     var statsEl      = document.getElementById('log-stats');
     var dateRangeEl  = document.getElementById('log-date-range');
-    var sessStateEl  = document.getElementById('sessions-state');
-    var sessTableEl  = document.getElementById('sessions-table');
-    var sessTbodyEl  = document.getElementById('sessions-tbody');
     var qsoStateEl   = document.getElementById('qso-state');
     var qsoTableEl   = document.getElementById('qso-table');
     var qsoTbodyEl   = document.getElementById('qso-tbody');
@@ -285,7 +265,6 @@
       .then(function (data) {
         logData = data;
         renderStats(data.stats);
-        renderSessions(data.sessions);
         renderQSOs(data.qsos, data.sessions, '');
         if (data.generated) {
           updatedEl.textContent = 'Data as of ' + data.generated.slice(0, 10);
@@ -303,8 +282,7 @@
         });
       })
       .catch(function () {
-        sessStateEl.textContent = 'Log data unavailable.';
-        qsoStateEl.textContent  = 'Log data unavailable.';
+        qsoStateEl.textContent = 'Log data unavailable.';
         qsoStateEl.hidden = false;
       });
 
@@ -319,36 +297,6 @@
         dateRangeEl.textContent = stats.date_range;
         dateRangeEl.hidden = false;
       }
-    }
-
-    function renderSessions(sessions) {
-      if (!sessions || sessions.length === 0) {
-        sessStateEl.textContent = 'No sessions yet. Upload .adi files to /logs/ in this repository.';
-        return;
-      }
-      var html = '';
-      for (var i = 0; i < sessions.length; i++) {
-        var s = sessions[i];
-        var ref = s.reference
-          ? '<a href="https://pota.app/#/park/' + esc(s.reference) + '" target="_blank" rel="noopener">'
-            + esc(s.reference) + ' ↗</a>'
-          : '&mdash;';
-        var typeLabel = s.type === 'pota'
-          ? '<span class="st st-wip">POTA</span>'
-          : 'General';
-        html += '<tr>'
-          + '<td class="qso-date">' + esc(s.date || '—') + '</td>'
-          + '<td>' + typeLabel + '</td>'
-          + '<td class="qso-ref">' + ref + '</td>'
-          + '<td class="qso-muted">' + esc((s.bands || []).join(' · ') || '—') + '</td>'
-          + '<td class="qso-muted">' + esc((s.modes || []).join(' · ') || '—') + '</td>'
-          + '<td class="num">' + (s.qso_count || 0) + '</td>'
-          + '<td><a href="#sid-' + esc(s.id) + '">Jump ↓</a></td>'
-          + '</tr>';
-      }
-      sessTbodyEl.innerHTML = html;
-      sessStateEl.hidden = true;
-      sessTableEl.hidden = false;
     }
 
     function renderQSOs(qsos, sessions, filter) {
@@ -400,7 +348,7 @@
         hdr += ' · ' + rows.length + ' QSO' + (rows.length !== 1 ? 's' : '');
 
         html += '<tr class="log-session-hdr" id="sid-' + esc(grp.sid) + '">'
-          + '<td colspan="8">' + esc(hdr) + '</td>'
+          + '<td colspan="99">' + esc(hdr) + '</td>'
           + '</tr>';
 
         for (var qi = 0; qi < rows.length; qi++) {

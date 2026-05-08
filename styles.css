@@ -766,6 +766,10 @@ footer a:hover { text-decoration: underline; }
   .activations-table td.act-data,
   .activations-table th.col-notes,
   .activations-table td.act-notes { display: none; }
+
+  /* QSO table: keep Date / Call / Band / Mode, drop UTC / Freq / RST */
+  .col-utc, .col-freq, .col-rst,
+  td.qso-time, td.qso-freq, td.qso-rst { display: none; }
 }
 
 /* Only collapse to single column on truly tiny screens */
