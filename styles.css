@@ -664,6 +664,8 @@ td.pota-cta a:hover { text-decoration: underline; }
   justify-content: space-between;
   align-items: center;
   gap: 8px;
+  background: var(--tint);
+  color: var(--black);
 }
 .log-header-stats,
 .log-header-range {
@@ -779,6 +781,172 @@ footer a:hover { text-decoration: underline; }
   .col-mode, .col-freq, .col-rst,
   td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
   #qso-table td, #qso-table th { padding: 4px 6px; }
+
+  /* Log header: drop date range to prevent wrap on narrow screens */
+  .log-header-range { display: none; }
+
+  /* Stats map: limit height on small screens */
+  .stats-map-section .stats-map-wrap { max-height: 240px; overflow: hidden; }
+
+  /* Stats grids */
+  .stats-core-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-core-grid .stat:nth-child(even)   { border-right: none; }
+  .stats-core-grid .stat:nth-child(-n+4)   { border-bottom: 1px solid var(--rule-2); }
+
+  /* WAS grid: tighter on mobile */
+  .was-grid { gap: 3px; }
+  .was-state { font-size: 0.62rem; padding: 3px 4px; }
+
+  /* Band/mode tables side by side: stack on mobile */
+  .stats-tables-row { grid-template-columns: 1fr; }
+}
+
+/* ── STATS PAGE ─────────────────────────────────────────────────────── */
+.stats-map-section {
+  border-bottom: 2px solid var(--rule);
+}
+
+.stats-map-wrap {
+  position: relative;
+  line-height: 0;
+}
+
+.stats-map-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.stats-map-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.stats-map-bar {
+  padding: 5px 12px;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--rule-2);
+}
+
+.stats-core-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-bottom: 1px solid var(--rule);
+}
+
+.stats-tables-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+
+.stats-table-panel {
+  border-right: 1px solid var(--rule);
+}
+
+.stats-table-panel:last-child { border-right: none; }
+
+.stats-table-panel table { border-bottom: none; }
+
+/* WAS — Worked All States grid */
+.was-section { border-bottom: 1px solid var(--rule); }
+
+.was-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.was-state {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  padding: 3px 6px;
+  border: 1px solid var(--rule-2);
+  background: var(--white);
+  color: #bbb;
+  min-width: 32px;
+  text-align: center;
+}
+
+.was-state.worked {
+  background: #d4edda;
+  color: #1a5c2a;
+  border-color: #1a5c2a;
+}
+
+.was-summary {
+  padding: 5px 12px;
+  font-size: 0.65rem;
+  color: var(--muted);
+  border-top: 1px solid var(--rule-2);
+}
+
+/* Hour distribution */
+.hour-section { border-bottom: 1px solid var(--rule); }
+
+.hour-bar-cell {
+  width: 55%;
+  padding: 3px 12px;
+  vertical-align: middle;
+}
+
+.hour-bar-track {
+  background: var(--tint);
+  height: 10px;
+  position: relative;
+}
+
+.hour-bar-fill {
+  background: var(--accent);
+  height: 100%;
+  position: absolute;
+  left: 0; top: 0;
+}
+
+td.hour-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  width: 1%;
+  color: var(--muted);
+}
+
+td.hour-count {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-align: right;
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* Bar cells in band/mode tables */
+td.bar-cell {
+  padding: 3px 12px;
+  vertical-align: middle;
+}
+
+.bar-track {
+  background: var(--tint);
+  height: 8px;
+  position: relative;
+  min-width: 40px;
+}
+
+.bar-fill {
+  background: var(--accent);
+  height: 100%;
+  position: absolute;
+  left: 0; top: 0;
 }
 
 /* Only collapse to single column on truly tiny screens */

@@ -40,6 +40,28 @@ def parse_adif_file(path):
     return qsos
 
 
+def maidenhead_to_latlon(grid):
+    grid = grid.upper().strip()
+    if len(grid) < 4:
+        return None, None
+    try:
+        lon = (ord(grid[0]) - ord('A')) * 20 - 180
+        lat = (ord(grid[1]) - ord('A')) * 10 - 90
+        lon += int(grid[2]) * 2
+        lat += int(grid[3])
+        if len(grid) >= 6:
+            lon += (ord(grid[4]) - ord('A')) * 5 / 60
+            lat += (ord(grid[5]) - ord('A')) * 2.5 / 60
+            lon += 2.5 / 60
+            lat += 1.25 / 60
+        else:
+            lon += 1
+            lat += 0.5
+        return round(lat, 4), round(lon, 4)
+    except (ValueError, IndexError):
+        return None, None
+
+
 def fmt_date(raw):
     raw = raw.strip()
     if len(raw) == 8 and raw.isdigit():
@@ -96,32 +118,39 @@ def main():
         date_raw = first.get('QSO_DATE', '')
         date = fmt_date(date_raw) if date_raw else session_id[:10].replace('_', '-')
 
-        bands = sorted(set(q.get('BAND', '').lower() for q in raw_qsos if q.get('BAND')))
-        modes = sorted(set(q.get('MODE', '').upper() for q in raw_qsos if q.get('MODE')))
+        session_bands = sorted(set(q.get('BAND', '').lower() for q in raw_qsos if q.get('BAND')))
+        session_modes = sorted(set(q.get('MODE', '').upper() for q in raw_qsos if q.get('MODE')))
 
         sessions.append({
             'id': session_id,
             'date': date,
             'type': 'pota' if is_pota else 'general',
             'reference': park_ref,
-            'bands': bands,
-            'modes': modes,
+            'bands': session_bands,
+            'modes': session_modes,
             'qso_count': len(raw_qsos),
         })
 
         for q in raw_qsos:
+            grid = q.get('GRIDSQUARE', '').upper().strip()
+            lat, lon = maidenhead_to_latlon(grid) if grid else (None, None)
             all_qsos.append({
-                'date':     fmt_date(q.get('QSO_DATE', '')),
-                'time':     fmt_time(q.get('TIME_ON', '')),
-                'call':     q.get('CALL', '').upper().strip(),
-                'band':     q.get('BAND', '').lower(),
-                'freq':     q.get('FREQ', ''),
-                'mode':     q.get('MODE', '').upper(),
-                'rst_sent': q.get('RST_SENT', ''),
-                'rst_rcvd': q.get('RST_RCVD', ''),
-                'name':     q.get('NAME', ''),
-                'comment':  q.get('COMMENT', '') or q.get('NOTES', ''),
-                'session':  session_id,
+                'date':       fmt_date(q.get('QSO_DATE', '')),
+                'time':       fmt_time(q.get('TIME_ON', '')),
+                'call':       q.get('CALL', '').upper().strip(),
+                'band':       q.get('BAND', '').lower(),
+                'freq':       q.get('FREQ', ''),
+                'mode':       q.get('MODE', '').upper(),
+                'rst_sent':   q.get('RST_SENT', ''),
+                'rst_rcvd':   q.get('RST_RCVD', ''),
+                'name':       q.get('NAME', ''),
+                'comment':    q.get('COMMENT', '') or q.get('NOTES', ''),
+                'session':    session_id,
+                'gridsquare': grid,
+                'lat':        lat,
+                'lon':        lon,
+                'state':      q.get('STATE', '').upper().strip(),
+                'dxcc':       q.get('DXCC', '').strip(),
             })
 
         print(f"  {path.name}: {len(raw_qsos)} QSOs, type={('pota' if is_pota else 'general')}, ref={park_ref or '—'}")
@@ -133,6 +162,16 @@ def main():
     pota_parks = len(set(s['reference'] for s in sessions if s.get('reference')))
     dates = [q['date'] for q in all_qsos if q['date']]
     date_range = f"{min(dates)} — {max(dates)}" if dates else ''
+    unique_grids = len(set(q['gridsquare'] for q in all_qsos if q.get('gridsquare')))
+    states_worked = sorted(set(q['state'] for q in all_qsos if q.get('state')))
+    band_counts = {}
+    for q in all_qsos:
+        if q['band']:
+            band_counts[q['band']] = band_counts.get(q['band'], 0) + 1
+    mode_counts = {}
+    for q in all_qsos:
+        if q['mode']:
+            mode_counts[q['mode']] = mode_counts.get(q['mode'], 0) + 1
 
     output = {
         'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -142,6 +181,10 @@ def main():
             'unique_calls':  unique_calls,
             'pota_parks':    pota_parks,
             'date_range':    date_range,
+            'unique_grids':  unique_grids,
+            'states_worked': states_worked,
+            'bands':         band_counts,
+            'modes':         mode_counts,
         },
         'sessions': sessions,
         'qsos':     all_qsos,
