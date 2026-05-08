@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL QSO log — all contacts, POTA activations, and field sessions from Southern California.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/log/">
+  <meta property="og:title" content="QSO Log — N6CBL.radio">
+  <meta property="og:description" content="All contacts logged by N6CBL — POTA activations and general operation. Search by callsign.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Log — N6CBL.radio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
+      <span>FCC AMATEUR RADIO &mdash; GENERAL CLASS</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/" aria-current="page">
+              <span class="nav-path">/log/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/radio/">
+              <span class="nav-path">/radio/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; 20m</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <div class="main-content">
+
+      <div class="section-label split">
+        <span>/log/ &mdash; QSO log</span>
+        <span class="section-tag">ADIF</span>
+      </div>
+
+      <div class="page-intro">
+        <h1>QSO<br><em>Log</em></h1>
+        <p>
+          All contacts logged by N6CBL. Covers POTA activations and general operation.
+          Upload <code>.adi</code> files to <code>/logs/</code> in the repository — data
+          is processed and deployed automatically on each push.
+        </p>
+      </div>
+
+      <div id="log-stats" class="stats-grid" hidden>
+        <div class="stat">
+          <div class="stat-label">TOTAL QSOs</div>
+          <div id="stat-qsos" class="stat-value">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">UNIQUE CALLS</div>
+          <div id="stat-calls" class="stat-value">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">POTA PARKS</div>
+          <div id="stat-parks" class="stat-value">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">SESSIONS</div>
+          <div id="stat-sessions" class="stat-value">—</div>
+        </div>
+      </div>
+      <div id="log-date-range" class="log-date-range" hidden></div>
+
+      <div class="section-label">Sessions</div>
+      <div id="sessions-state" class="log-state">Loading&hellip;</div>
+      <table id="sessions-table" hidden>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Reference</th>
+            <th>Bands</th>
+            <th>Modes</th>
+            <th class="num">QSOs</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="sessions-tbody"></tbody>
+      </table>
+
+      <div class="section-label split">
+        <span>All QSOs</span>
+        <span id="qso-count-label" class="log-count"></span>
+      </div>
+
+      <div class="log-search-bar">
+        <input type="text" id="log-search" class="log-search-input"
+               placeholder="Filter by callsign&hellip;"
+               autocomplete="off" autocapitalize="characters" spellcheck="false"
+               maxlength="12">
+        <button id="log-search-clear" class="log-search-clear" hidden
+                aria-label="Clear filter">&times; Clear</button>
+      </div>
+
+      <div id="qso-state" class="log-state"></div>
+      <table id="qso-table" hidden>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>UTC</th>
+            <th>Call</th>
+            <th>Band</th>
+            <th>Mode</th>
+            <th>Freq</th>
+            <th>Sent</th>
+            <th>Rcvd</th>
+          </tr>
+        </thead>
+        <tbody id="qso-tbody"></tbody>
+      </table>
+
+      <div class="log-footer">
+        <span id="log-updated"></span>
+        <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">POTA profile &#8599;</a>
+      </div>
+
+    </div><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
+      </svg>
+      <span>Vibe coded with <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a></span>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    var logData = null;
+
+    var statsEl      = document.getElementById('log-stats');
+    var dateRangeEl  = document.getElementById('log-date-range');
+    var sessStateEl  = document.getElementById('sessions-state');
+    var sessTableEl  = document.getElementById('sessions-table');
+    var sessTbodyEl  = document.getElementById('sessions-tbody');
+    var qsoStateEl   = document.getElementById('qso-state');
+    var qsoTableEl   = document.getElementById('qso-table');
+    var qsoTbodyEl   = document.getElementById('qso-tbody');
+    var qsoCountEl   = document.getElementById('qso-count-label');
+    var updatedEl    = document.getElementById('log-updated');
+    var searchEl     = document.getElementById('log-search');
+    var clearEl      = document.getElementById('log-search-clear');
+
+    fetch('/data/qso-log.json')
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        logData = data;
+        renderStats(data.stats);
+        renderSessions(data.sessions);
+        renderQSOs(data.qsos, data.sessions, '');
+        if (data.generated) {
+          updatedEl.textContent = 'Data as of ' + data.generated.slice(0, 10);
+        }
+        searchEl.addEventListener('input', debounce(function () {
+          var q = searchEl.value.trim().toUpperCase();
+          clearEl.hidden = !q;
+          renderQSOs(data.qsos, data.sessions, q);
+        }, 180));
+        clearEl.addEventListener('click', function () {
+          searchEl.value = '';
+          clearEl.hidden = true;
+          renderQSOs(data.qsos, data.sessions, '');
+          searchEl.focus();
+        });
+      })
+      .catch(function () {
+        sessStateEl.textContent = 'Log data unavailable.';
+        qsoStateEl.textContent  = 'Log data unavailable.';
+        qsoStateEl.hidden = false;
+      });
+
+    function renderStats(stats) {
+      if (!stats) return;
+      document.getElementById('stat-qsos').textContent     = stats.qso_count     || '0';
+      document.getElementById('stat-calls').textContent    = stats.unique_calls   || '0';
+      document.getElementById('stat-parks').textContent    = stats.pota_parks     || '0';
+      document.getElementById('stat-sessions').textContent = stats.session_count  || '0';
+      statsEl.hidden = false;
+      if (stats.date_range) {
+        dateRangeEl.textContent = stats.date_range;
+        dateRangeEl.hidden = false;
+      }
+    }
+
+    function renderSessions(sessions) {
+      if (!sessions || sessions.length === 0) {
+        sessStateEl.textContent = 'No sessions yet. Upload .adi files to /logs/ in this repository.';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < sessions.length; i++) {
+        var s = sessions[i];
+        var ref = s.reference
+          ? '<a href="https://pota.app/#/park/' + esc(s.reference) + '" target="_blank" rel="noopener">'
+            + esc(s.reference) + ' ↗</a>'
+          : '&mdash;';
+        var typeLabel = s.type === 'pota'
+          ? '<span class="st st-wip">POTA</span>'
+          : 'General';
+        html += '<tr>'
+          + '<td class="qso-date">' + esc(s.date || '—') + '</td>'
+          + '<td>' + typeLabel + '</td>'
+          + '<td class="qso-ref">' + ref + '</td>'
+          + '<td class="qso-muted">' + esc((s.bands || []).join(' · ') || '—') + '</td>'
+          + '<td class="qso-muted">' + esc((s.modes || []).join(' · ') || '—') + '</td>'
+          + '<td class="num">' + (s.qso_count || 0) + '</td>'
+          + '<td><a href="#sid-' + esc(s.id) + '">Jump ↓</a></td>'
+          + '</tr>';
+      }
+      sessTbodyEl.innerHTML = html;
+      sessStateEl.hidden = true;
+      sessTableEl.hidden = false;
+    }
+
+    function renderQSOs(qsos, sessions, filter) {
+      qsoCountEl.textContent = '';
+      if (!qsos || qsos.length === 0) {
+        qsoStateEl.textContent = 'No QSOs logged yet. Upload .adi files to /logs/ to populate.';
+        qsoStateEl.hidden = false;
+        qsoTableEl.hidden = true;
+        return;
+      }
+
+      var sessMap = {};
+      if (sessions) {
+        for (var i = 0; i < sessions.length; i++) {
+          sessMap[sessions[i].id] = sessions[i];
+        }
+      }
+
+      /* group QSOs by session, preserving JSON order (newest session first) */
+      var groups = [], groupIdx = {};
+      for (var i = 0; i < qsos.length; i++) {
+        var sid = qsos[i].session || '';
+        if (!(sid in groupIdx)) {
+          groupIdx[sid] = groups.length;
+          groups.push({ sid: sid, qsos: [] });
+        }
+        groups[groupIdx[sid]].qsos.push(qsos[i]);
+      }
+
+      var html = '', totalMatch = 0;
+      for (var g = 0; g < groups.length; g++) {
+        var grp  = groups[g];
+        var sess = sessMap[grp.sid] || null;
+        var rows = filter
+          ? grp.qsos.filter(function (q) { return q.call && q.call.indexOf(filter) !== -1; })
+          : grp.qsos;
+        if (rows.length === 0) continue;
+        totalMatch += rows.length;
+
+        var hdr = (sess && sess.date) ? sess.date : grp.sid;
+        if (sess && sess.type === 'pota' && sess.reference) {
+          hdr += ' · POTA · ' + sess.reference;
+        } else {
+          hdr += ' · General operation';
+        }
+        if (sess && sess.bands && sess.bands.length) {
+          hdr += ' · ' + sess.bands.join('/');
+        }
+        hdr += ' · ' + rows.length + ' QSO' + (rows.length !== 1 ? 's' : '');
+
+        html += '<tr class="log-session-hdr" id="sid-' + esc(grp.sid) + '">'
+          + '<td colspan="8">' + esc(hdr) + '</td>'
+          + '</tr>';
+
+        for (var qi = 0; qi < rows.length; qi++) {
+          var q = rows[qi];
+          html += '<tr>'
+            + '<td class="qso-date">' + esc(q.date     || '—') + '</td>'
+            + '<td class="qso-time">' + esc(q.time     || '—') + '</td>'
+            + '<td class="qso-call">' + esc(q.call     || '—') + '</td>'
+            + '<td class="qso-band">' + esc(q.band     || '—') + '</td>'
+            + '<td class="qso-mode">' + esc(q.mode     || '—') + '</td>'
+            + '<td class="qso-freq">' + esc(q.freq     || '—') + '</td>'
+            + '<td class="qso-rst">'  + esc(q.rst_sent || '—') + '</td>'
+            + '<td class="qso-rst">'  + esc(q.rst_rcvd || '—') + '</td>'
+            + '</tr>';
+        }
+      }
+
+      if (filter && totalMatch === 0) {
+        qsoStateEl.textContent = 'No QSOs found matching “' + filter + '”.';
+        qsoStateEl.hidden = false;
+        qsoTableEl.hidden = true;
+        qsoCountEl.textContent = '0 matches';
+        return;
+      }
+
+      qsoTbodyEl.innerHTML = html;
+      qsoCountEl.textContent = filter
+        ? totalMatch + ' match' + (totalMatch !== 1 ? 'es' : '') + ' for ' + filter
+        : qsos.length + ' total';
+      qsoStateEl.hidden = true;
+      qsoTableEl.hidden = false;
+    }
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;');
+    }
+
+    function debounce(fn, ms) {
+      var t;
+      return function () { clearTimeout(t); t = setTimeout(fn, ms); };
+    }
+  })();
+  </script>
+
+</body>
+</html>

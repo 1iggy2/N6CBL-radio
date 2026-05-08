@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Workers
+name: Process logs and deploy
 
 on:
   push:
@@ -7,10 +7,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Process ADIF logs
+        run: python3 scripts/process-logs.py
 
       - name: Deploy via Wrangler
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Commit updated log data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/qso-log.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: regenerate qso-log.json [skip ci]"
+          git push
