@@ -659,13 +659,21 @@ td.pota-cta a:hover { text-decoration: underline; }
   letter-spacing: 0.05em;
 }
 
-.log-date-range {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  padding: 4px 0 8px;
-  border-bottom: 1px solid var(--rule);
+.log-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
+.log-header-stats,
+.log-header-range {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.log-header-stats { flex-shrink: 0; }
 
 .log-footer {
   display: flex;
@@ -767,9 +775,10 @@ footer a:hover { text-decoration: underline; }
   .activations-table th.col-notes,
   .activations-table td.act-notes { display: none; }
 
-  /* QSO table: keep Date / Call / Band / Mode, drop UTC / Freq / RST */
-  .col-utc, .col-freq, .col-rst,
-  td.qso-time, td.qso-freq, td.qso-rst { display: none; }
+  /* QSO table: keep Date / UTC / Call / Band — drop Mode / Freq / RST */
+  .col-mode, .col-freq, .col-rst,
+  td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
+  #qso-table td, #qso-table th { padding: 4px 6px; }
 }
 
 /* Only collapse to single column on truly tiny screens */

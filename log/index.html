@@ -145,39 +145,11 @@
 
     <div class="main-content">
 
-      <div class="section-label split">
+      <div class="section-label log-meta">
         <span>/log/ &mdash; QSO log</span>
-        <span class="section-tag">ADIF</span>
+        <span id="log-header-stats" class="log-header-stats"></span>
+        <span id="log-header-range" class="log-header-range"></span>
       </div>
-
-      <div class="page-intro">
-        <h1>QSO<br><em>Log</em></h1>
-        <p>
-          All contacts logged by N6CBL. Covers POTA activations and general operation.
-          Upload <code>.adi</code> files to <code>/logs/</code> in the repository — data
-          is processed and deployed automatically on each push.
-        </p>
-      </div>
-
-      <div id="log-stats" class="stats-grid" hidden>
-        <div class="stat">
-          <div class="stat-label">TOTAL QSOs</div>
-          <div id="stat-qsos" class="stat-value">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">UNIQUE CALLS</div>
-          <div id="stat-calls" class="stat-value">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">POTA PARKS</div>
-          <div id="stat-parks" class="stat-value">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">SESSIONS</div>
-          <div id="stat-sessions" class="stat-value">—</div>
-        </div>
-      </div>
-      <div id="log-date-range" class="log-date-range" hidden></div>
 
       <div class="section-label split">
         <span>All QSOs</span>
@@ -198,10 +170,10 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th class="col-utc">UTC</th>
+            <th>UTC</th>
             <th>Call</th>
             <th>Band</th>
-            <th>Mode</th>
+            <th class="col-mode">Mode</th>
             <th class="col-freq">Freq</th>
             <th class="col-rst">Sent</th>
             <th class="col-rst">Rcvd</th>
@@ -247,15 +219,15 @@
   (function () {
     var logData = null;
 
-    var statsEl      = document.getElementById('log-stats');
-    var dateRangeEl  = document.getElementById('log-date-range');
-    var qsoStateEl   = document.getElementById('qso-state');
-    var qsoTableEl   = document.getElementById('qso-table');
-    var qsoTbodyEl   = document.getElementById('qso-tbody');
-    var qsoCountEl   = document.getElementById('qso-count-label');
-    var updatedEl    = document.getElementById('log-updated');
-    var searchEl     = document.getElementById('log-search');
-    var clearEl      = document.getElementById('log-search-clear');
+    var qsoStateEl  = document.getElementById('qso-state');
+    var qsoTableEl  = document.getElementById('qso-table');
+    var qsoTbodyEl  = document.getElementById('qso-tbody');
+    var qsoCountEl  = document.getElementById('qso-count-label');
+    var updatedEl   = document.getElementById('log-updated');
+    var searchEl    = document.getElementById('log-search');
+    var clearEl     = document.getElementById('log-search-clear');
+    var hdrStatsEl  = document.getElementById('log-header-stats');
+    var hdrRangeEl  = document.getElementById('log-header-range');
 
     fetch('/data/qso-log.json')
       .then(function (r) {
@@ -264,7 +236,13 @@
       })
       .then(function (data) {
         logData = data;
-        renderStats(data.stats);
+        if (data.stats) {
+          var s = data.stats;
+          hdrStatsEl.textContent = s.qso_count + ' QSOs · '
+            + s.unique_calls + ' calls · '
+            + s.pota_parks + ' park' + (s.pota_parks !== 1 ? 's' : '');
+          if (s.date_range) hdrRangeEl.textContent = s.date_range;
+        }
         renderQSOs(data.qsos, data.sessions, '');
         if (data.generated) {
           updatedEl.textContent = 'Data as of ' + data.generated.slice(0, 10);
@@ -285,19 +263,6 @@
         qsoStateEl.textContent = 'Log data unavailable.';
         qsoStateEl.hidden = false;
       });
-
-    function renderStats(stats) {
-      if (!stats) return;
-      document.getElementById('stat-qsos').textContent     = stats.qso_count     || '0';
-      document.getElementById('stat-calls').textContent    = stats.unique_calls   || '0';
-      document.getElementById('stat-parks').textContent    = stats.pota_parks     || '0';
-      document.getElementById('stat-sessions').textContent = stats.session_count  || '0';
-      statsEl.hidden = false;
-      if (stats.date_range) {
-        dateRangeEl.textContent = stats.date_range;
-        dateRangeEl.hidden = false;
-      }
-    }
 
     function renderQSOs(qsos, sessions, filter) {
       qsoCountEl.textContent = '';
