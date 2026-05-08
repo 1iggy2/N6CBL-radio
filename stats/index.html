@@ -247,8 +247,8 @@
           <span>Worked All States (WAS)</span>
           <span id="was-header-count" class="log-count"></span>
         </div>
-        <div id="was-grid" class="was-grid">
-          <span style="color:var(--muted);font-size:0.72rem">Loading&hellip;</span>
+        <div id="was-grid" class="was-tile-grid">
+          <span style="color:var(--muted);font-size:0.72rem;grid-column:1/span 12">Loading&hellip;</span>
         </div>
         <div id="was-summary" class="was-summary"></div>
       </section>
@@ -402,14 +402,27 @@
       document.getElementById('modes-tbody').innerHTML = html;
     }
 
+    /* Geographic tile grid — (row, col) 1-indexed for CSS grid */
+    var TILE_POS = {
+      AK:[1,1],                                                             ME:[1,12],
+      WA:[2,1],       MT:[2,3], ND:[2,4], MN:[2,5], WI:[2,6], MI:[2,7],   VT:[2,10], NH:[2,11],
+      OR:[3,1], ID:[3,2], WY:[3,3], SD:[3,4], IA:[3,5], IL:[3,6], IN:[3,7], OH:[3,8], PA:[3,9], NY:[3,10], MA:[3,11],
+      CA:[4,1], NV:[4,2], UT:[4,3], CO:[4,4], NE:[4,5], MO:[4,6], KY:[4,7], WV:[4,8], VA:[4,9], NJ:[4,10], RI:[4,11],
+                AZ:[5,2], NM:[5,3], KS:[5,4], AR:[5,5], TN:[5,6], NC:[5,7], SC:[5,8], MD:[5,9], DE:[5,10], CT:[5,11],
+                          OK:[6,3], TX:[6,4], LA:[6,5], MS:[6,6], AL:[6,7], GA:[6,8], FL:[6,9],
+      HI:[7,1]
+    };
+
     function renderWAS(worked) {
       var workedSet = {};
       for (var i = 0; i < worked.length; i++) workedSet[worked[i]] = true;
       var html = '';
-      for (var i = 0; i < US_STATES.length; i++) {
-        var st  = US_STATES[i];
-        var cls = workedSet[st] ? 'was-state worked' : 'was-state';
-        html   += '<span class="' + cls + '">' + st + '</span>';
+      var states = Object.keys(TILE_POS);
+      for (var i = 0; i < states.length; i++) {
+        var st  = states[i];
+        var pos = TILE_POS[st];
+        var cls = workedSet[st] ? 'was-tile worked' : 'was-tile';
+        html   += '<span class="' + cls + '" style="grid-row:' + pos[0] + ';grid-column:' + pos[1] + '">' + st + '</span>';
       }
       document.getElementById('was-grid').innerHTML = html;
       document.getElementById('was-header-count').textContent = worked.length + '/50';

@@ -275,6 +275,14 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
+}
+
+.section-label.split > *:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .section-tag {
@@ -793,9 +801,12 @@ footer a:hover { text-decoration: underline; }
   .stats-core-grid .stat:nth-child(even)   { border-right: none; }
   .stats-core-grid .stat:nth-child(-n+4)   { border-bottom: 1px solid var(--rule-2); }
 
-  /* WAS grid: tighter on mobile */
-  .was-grid { gap: 3px; }
-  .was-state { font-size: 0.62rem; padding: 3px 4px; }
+  /* WAS tile map: smaller font on mobile */
+  .was-tile-grid { gap: 2px; padding: 8px; }
+  .was-tile { font-size: 0.52rem; padding: 3px 0; }
+
+  /* Stats map bar: truncate right label on mobile */
+  #map-bar-grids { display: none; }
 
   /* Band/mode tables side by side: stack on mobile */
   .stats-tables-row { grid-template-columns: 1fr; }
@@ -855,30 +866,32 @@ footer a:hover { text-decoration: underline; }
 
 .stats-table-panel table { border-bottom: none; }
 
-/* WAS — Worked All States grid */
+/* WAS — Worked All States tile map */
 .was-section { border-bottom: 1px solid var(--rule); }
 
-.was-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+.was-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 3px;
   padding: 10px 12px;
 }
 
-.was-state {
+.was-tile {
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: bold;
-  letter-spacing: 0.04em;
-  padding: 3px 6px;
+  letter-spacing: 0.03em;
+  text-align: center;
+  padding: 4px 1px;
   border: 1px solid var(--rule-2);
   background: var(--white);
   color: #bbb;
-  min-width: 32px;
-  text-align: center;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.was-state.worked {
+.was-tile.worked {
   background: #d4edda;
   color: #1a5c2a;
   border-color: #1a5c2a;
