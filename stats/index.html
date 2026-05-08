@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL ham radio statistics — QSO count, bands, modes, Worked All States progress, and contact map.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/stats/">
+  <meta property="og:title" content="Stats — N6CBL.radio">
+  <meta property="og:description" content="Ham radio statistics for N6CBL — contact map, WAS progress, bands, modes, and more.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Stats — N6CBL.radio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
+      <span>FCC AMATEUR RADIO &mdash; GENERAL CLASS</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/stats/" aria-current="page">
+              <span class="nav-path">/stats/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/radio/">
+              <span class="nav-path">/radio/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; 20m</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <div class="main-content">
+
+      <!-- ── MAP ─────────────────────────────────────────────────────── -->
+      <section class="stats-map-section">
+        <div class="section-label split">
+          <span>/stats/ &mdash; Contact Map &mdash; DM03tu</span>
+          <span id="map-bar-grids" class="log-count"></span>
+        </div>
+        <div class="stats-map-wrap">
+          <img src="/images/world-map.svg"
+               alt="World map with N6CBL contact arcs plotted from DM03tu"
+               class="stats-map-img"
+               width="1000" height="500">
+          <svg id="contact-overlay"
+               viewBox="0 0 1000 500"
+               class="stats-map-overlay"
+               preserveAspectRatio="xMidYMid meet"
+               aria-hidden="true"></svg>
+        </div>
+        <div class="stats-map-bar">
+          <span>N6CBL &middot; DM03tu &middot; 33.85&deg;N 118.38&deg;W &middot; Los Angeles, CA</span>
+          <span id="map-bar-count">&mdash;</span>
+        </div>
+      </section>
+
+      <!-- ── CORE STATS ──────────────────────────────────────────────── -->
+      <div class="section-label split">
+        <span>Statistics</span>
+        <span id="stats-date-range" class="log-count"></span>
+      </div>
+      <div class="stats-core-grid">
+        <div class="stat">
+          <span class="stat-label">Total QSOs</span>
+          <span id="stat-qsos" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Unique Calls</span>
+          <span id="stat-calls" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">States (WAS)</span>
+          <span id="stat-states" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Grid Squares</span>
+          <span id="stat-grids" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">POTA Parks</span>
+          <span id="stat-parks" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Sessions</span>
+          <span id="stat-sessions" class="stat-value">—</span>
+        </div>
+      </div>
+
+      <!-- ── BANDS & MODES ───────────────────────────────────────────── -->
+      <div class="section-label">Bands &amp; Modes</div>
+      <div class="stats-tables-row">
+        <div class="stats-table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Band</th>
+                <th class="num">QSOs</th>
+                <th></th>
+                <th class="num">%</th>
+              </tr>
+            </thead>
+            <tbody id="bands-tbody">
+              <tr><td colspan="4" style="color:var(--muted)">Loading&hellip;</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="stats-table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th class="num">QSOs</th>
+                <th></th>
+                <th class="num">%</th>
+              </tr>
+            </thead>
+            <tbody id="modes-tbody">
+              <tr><td colspan="4" style="color:var(--muted)">Loading&hellip;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── WORKED ALL STATES ───────────────────────────────────────── -->
+      <section class="was-section">
+        <div class="section-label split">
+          <span>Worked All States (WAS)</span>
+          <span id="was-header-count" class="log-count"></span>
+        </div>
+        <div id="was-grid" class="was-grid">
+          <span style="color:var(--muted);font-size:0.72rem">Loading&hellip;</span>
+        </div>
+        <div id="was-summary" class="was-summary"></div>
+      </section>
+
+      <!-- ── HOUR DISTRIBUTION ───────────────────────────────────────── -->
+      <section class="hour-section">
+        <div class="section-label">UTC Activity by Hour</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Hour (UTC)</th>
+              <th></th>
+              <th class="num">QSOs</th>
+            </tr>
+          </thead>
+          <tbody id="hours-tbody">
+            <tr><td colspan="3" style="color:var(--muted)">Loading&hellip;</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── TOP CONTACTS ────────────────────────────────────────────── -->
+      <div class="section-label">Top Contacts</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Callsign</th>
+            <th class="num">QSOs</th>
+          </tr>
+        </thead>
+        <tbody id="top-tbody">
+          <tr><td colspan="2" style="color:var(--muted)">Loading&hellip;</td></tr>
+        </tbody>
+      </table>
+
+      <div class="log-footer">
+        <span id="stats-updated"></span>
+        <a href="/log/">Full QSO log &#8594;</a>
+      </div>
+
+    </div><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
+      </svg>
+      <span>Vibe coded with <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a></span>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    var HOME_LAT = 33.8542, HOME_LON = -118.375;
+    var US_STATES = [
+      'AK','AL','AR','AZ','CA','CO','CT','DE','FL','GA',
+      'HI','IA','ID','IL','IN','KS','KY','LA','MA','MD',
+      'ME','MI','MN','MO','MS','MT','NC','ND','NE','NH',
+      'NJ','NM','NV','NY','OH','OK','OR','PA','RI','SC',
+      'SD','TN','TX','UT','VA','VT','WA','WI','WV','WY'
+    ];
+
+    fetch('/data/qso-log.json')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var s = data.stats;
+        var qsos = data.qsos || [];
+
+        var usWorked = (s.states_worked || []).filter(function (st) {
+          return US_STATES.indexOf(st) !== -1;
+        });
+
+        document.getElementById('stat-qsos').textContent     = s.qso_count    || 0;
+        document.getElementById('stat-calls').textContent    = s.unique_calls  || 0;
+        document.getElementById('stat-states').textContent   = usWorked.length + '/50';
+        document.getElementById('stat-grids').textContent    = s.unique_grids  || 0;
+        document.getElementById('stat-parks').textContent    = s.pota_parks    || 0;
+        document.getElementById('stat-sessions').textContent = s.session_count || 0;
+
+        if (s.date_range) {
+          document.getElementById('stats-date-range').textContent = s.date_range;
+        }
+        if (data.generated) {
+          document.getElementById('stats-updated').textContent =
+            'Data as of ' + data.generated.slice(0, 10);
+        }
+
+        renderBandsTable(s.bands || {}, s.qso_count || 0);
+        renderModesTable(s.modes || {}, s.qso_count || 0);
+        renderWAS(usWorked);
+        renderHours(qsos);
+        renderTopContacts(qsos);
+        renderMap(qsos, s.qso_count || 0);
+      })
+      .catch(function () {
+        document.getElementById('stat-qsos').textContent = 'Error';
+      });
+
+    function renderBandsTable(bands, total) {
+      var sorted = Object.keys(bands).sort(function (a, b) { return bands[b] - bands[a]; });
+      if (!sorted.length) { document.getElementById('bands-tbody').innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No data</td></tr>'; return; }
+      var max = bands[sorted[0]];
+      var html = '';
+      for (var i = 0; i < sorted.length; i++) {
+        var b = sorted[i], n = bands[b];
+        var pct = total ? Math.round(n / total * 100) : 0;
+        var w   = Math.round(n / max * 100);
+        html += '<tr>'
+          + '<td class="qso-band">' + esc(b) + '</td>'
+          + '<td class="hour-count">' + n + '</td>'
+          + '<td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div></td>'
+          + '<td class="hour-count" style="color:var(--muted)">' + pct + '%</td>'
+          + '</tr>';
+      }
+      document.getElementById('bands-tbody').innerHTML = html;
+    }
+
+    function renderModesTable(modes, total) {
+      var sorted = Object.keys(modes).sort(function (a, b) { return modes[b] - modes[a]; });
+      if (!sorted.length) { document.getElementById('modes-tbody').innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No data</td></tr>'; return; }
+      var max = modes[sorted[0]];
+      var html = '';
+      for (var i = 0; i < sorted.length; i++) {
+        var m = sorted[i], n = modes[m];
+        var pct = total ? Math.round(n / total * 100) : 0;
+        var w   = Math.round(n / max * 100);
+        html += '<tr>'
+          + '<td class="qso-mode">' + esc(m) + '</td>'
+          + '<td class="hour-count">' + n + '</td>'
+          + '<td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div></td>'
+          + '<td class="hour-count" style="color:var(--muted)">' + pct + '%</td>'
+          + '</tr>';
+      }
+      document.getElementById('modes-tbody').innerHTML = html;
+    }
+
+    function renderWAS(worked) {
+      var workedSet = {};
+      for (var i = 0; i < worked.length; i++) workedSet[worked[i]] = true;
+      var html = '';
+      for (var i = 0; i < US_STATES.length; i++) {
+        var st  = US_STATES[i];
+        var cls = workedSet[st] ? 'was-state worked' : 'was-state';
+        html   += '<span class="' + cls + '">' + st + '</span>';
+      }
+      document.getElementById('was-grid').innerHTML = html;
+      document.getElementById('was-header-count').textContent = worked.length + '/50';
+      document.getElementById('was-summary').textContent =
+        worked.length + ' of 50 states worked — ' + (50 - worked.length) + ' remaining for WAS';
+    }
+
+    function renderHours(qsos) {
+      var buckets = new Array(24).fill(0);
+      for (var i = 0; i < qsos.length; i++) {
+        var t = (qsos[i].time || '').split(':');
+        var h = parseInt(t[0], 10);
+        if (!isNaN(h) && h >= 0 && h < 24) buckets[h]++;
+      }
+      var max = Math.max.apply(null, buckets) || 1;
+      var html = '';
+      for (var h = 0; h < 24; h++) {
+        if (buckets[h] === 0) continue;
+        var w = Math.round(buckets[h] / max * 100);
+        html += '<tr>'
+          + '<td class="hour-label">' + (h < 10 ? '0' + h : '' + h) + ':00Z</td>'
+          + '<td class="hour-bar-cell"><div class="hour-bar-track"><div class="hour-bar-fill" style="width:' + w + '%"></div></div></td>'
+          + '<td class="hour-count">' + buckets[h] + '</td>'
+          + '</tr>';
+      }
+      document.getElementById('hours-tbody').innerHTML =
+        html || '<tr><td colspan="3" style="color:var(--muted)">No data</td></tr>';
+    }
+
+    function renderTopContacts(qsos) {
+      var counts = {};
+      for (var i = 0; i < qsos.length; i++) {
+        var c = qsos[i].call;
+        if (c) counts[c] = (counts[c] || 0) + 1;
+      }
+      var sorted = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+      var multi  = sorted.filter(function (c) { return counts[c] > 1; });
+      var show   = multi.length ? multi.slice(0, 10) : sorted.slice(0, 10);
+      var html   = '';
+      for (var i = 0; i < show.length; i++) {
+        var c = show[i];
+        html += '<tr>'
+          + '<td class="qso-call">' + esc(c) + '</td>'
+          + '<td class="hour-count">' + counts[c] + '</td>'
+          + '</tr>';
+      }
+      document.getElementById('top-tbody').innerHTML =
+        html || '<tr><td colspan="2" style="color:var(--muted)">No repeats logged yet</td></tr>';
+    }
+
+    /* ── MAP ─────────────────────────────────────────────────────────── */
+    function toSVG(lat, lon) {
+      return [(lon + 180) * 1000 / 360, (90 - lat) * 500 / 180];
+    }
+
+    function greatCirclePath(lat1, lon1, lat2, lon2, steps) {
+      var r   = Math.PI / 180;
+      var pts = [];
+      for (var i = 0; i <= steps; i++) {
+        var f = i / steps;
+        var d = Math.acos(Math.min(1, Math.max(-1,
+          Math.sin(lat1*r)*Math.sin(lat2*r) +
+          Math.cos(lat1*r)*Math.cos(lat2*r)*Math.cos((lon2-lon1)*r)
+        )));
+        if (d < 0.0001) { pts.push(toSVG(lat2, lon2)); continue; }
+        var A = Math.sin((1-f)*d) / Math.sin(d);
+        var B = Math.sin(f*d)     / Math.sin(d);
+        var x = A*Math.cos(lat1*r)*Math.cos(lon1*r) + B*Math.cos(lat2*r)*Math.cos(lon2*r);
+        var y = A*Math.cos(lat1*r)*Math.sin(lon1*r) + B*Math.cos(lat2*r)*Math.sin(lon2*r);
+        var z = A*Math.sin(lat1*r) + B*Math.sin(lat2*r);
+        pts.push(toSVG(
+          Math.atan2(z, Math.sqrt(x*x + y*y)) / r,
+          Math.atan2(y, x) / r
+        ));
+      }
+      return 'M ' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L ');
+    }
+
+    function renderMap(qsos, totalQsos) {
+      var svg = document.getElementById('contact-overlay');
+      if (!svg) return;
+
+      var seen  = {};
+      var paths = '';
+      var dots  = '';
+
+      for (var i = 0; i < qsos.length; i++) {
+        var q = qsos[i];
+        if (!q.lat || !q.lon || !q.gridsquare) continue;
+        if (seen[q.gridsquare]) continue;
+        seen[q.gridsquare] = true;
+
+        var d = greatCirclePath(HOME_LAT, HOME_LON, q.lat, q.lon, 20);
+        paths += '<path d="' + d + '" fill="none" stroke="#c8401a" stroke-width="0.7" stroke-opacity="0.45"/>';
+
+        var pt = toSVG(q.lat, q.lon);
+        dots  += '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1)
+          + '" r="2.2" fill="#c8401a" fill-opacity="0.85"/>';
+      }
+
+      var gridCount = Object.keys(seen).length;
+      var home = toSVG(HOME_LAT, HOME_LON);
+      var hx   = home[0].toFixed(1);
+      var hy   = home[1].toFixed(1);
+      var homeMarker =
+          '<circle cx="' + hx + '" cy="' + hy + '" r="9"  fill="none" stroke="#c8401a" stroke-width="1.5" stroke-opacity="0.6"/>'
+        + '<circle cx="' + hx + '" cy="' + hy + '" r="4"  fill="#c8401a"/>';
+
+      svg.innerHTML = paths + dots + homeMarker;
+
+      document.getElementById('map-bar-grids').textContent =
+        gridCount + ' grids · ' + totalQsos + ' QSOs';
+      document.getElementById('map-bar-count').textContent =
+        gridCount + ' unique grid squares plotted';
+    }
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  })();
+  </script>
+
+</body>
+</html>
