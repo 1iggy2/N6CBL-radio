@@ -70,7 +70,7 @@ Key rules:
 - Links use `font-family: var(--mono)` for paths, muted for descriptions
 - External links end with ↗, internal links have no icon
 - Every implemented or planned site route must be exposed in the permanent sidebar
-  navigator, including subpages such as `/activations/`. "Flat, not hierarchical"
+  navigator. "Flat, not hierarchical"
   means a shallow visible list, not hidden secondary pages, footer-only links,
   hover menus, accordions, or mega-menus.
 - When a route is moved or consolidated, update the navigator and site plan so the
@@ -127,7 +127,6 @@ decision here with rationale before implementing.
 /                  — splash / home, world map, station overview
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
-/activations/      — POTA activations log, per-activation notes & photos
 /blog/             — posts: technical, radio, misc
 /tools/            — browser-based utilities
 /prints/           — 3D print catalog with files
@@ -140,7 +139,6 @@ decision here with rationale before implementing.
 /index.html              — home page
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats
-/activations/index.html  — POTA log
 /blog/index.html         — field journal running list
 /blog/compose/index.html — browser helper that generates static blog snippets
 /styles.css              — single shared stylesheet for all pages
