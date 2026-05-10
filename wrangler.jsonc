@@ -6,6 +6,12 @@
   "observability": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "n6cbl.radio",
+      "custom_domain": true
+    }
+  ],
   "vars": {
     "GITHUB_REPO": "1iggy2/N6CBL-radio"
   },

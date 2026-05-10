@@ -42,9 +42,21 @@ Allow only the owner email address that should be able to publish. The Worker re
 the Access-authenticated email from the request headers and refuses requests with
 no Access identity.
 
-### 2. Confirm Worker vars in the repo
+### 2. Confirm Worker routing and vars in the repo
 
-`wrangler.jsonc` should contain the non-secret target repository binding:
+`wrangler.jsonc` should route the production hostname through this Worker so
+`/api/blog/publish` reaches the same Worker that serves the static assets:
+
+```json
+"routes": [
+  {
+    "pattern": "n6cbl.radio",
+    "custom_domain": true
+  }
+]
+```
+
+It should also contain the non-secret target repository binding:
 
 ```json
 "vars": {
@@ -94,7 +106,8 @@ deploy. Worker secrets let the deployed Worker commit blog source back to GitHub
 | `Cloudflare Access identity is required` | The request did not arrive through the protected Access route. | Protect `/blog/compose/*` and `/api/blog/publish`, then reopen the compose page through Access. |
 | `Cloudflare Access identity is not authorized` | Access authenticated an email outside the optional Worker allow-list. | Update `ALLOWED_EMAILS` / `ALLOWED_EMAIL`, or remove the extra allow-list if Access is already narrow. |
 | `GITHUB_TOKEN and GITHUB_REPO are required` | The Worker is missing the GitHub token secret or repo var. | Run `npx wrangler secret put GITHUB_TOKEN`; confirm `GITHUB_REPO` in `wrangler.jsonc`; redeploy. |
-| `GitHub commit failed` | GitHub rejected the API write. | Confirm the token has contents write permission and can access this repository. |
+| `GitHub ... failed (...): Not Found (HTTP 404)` | GitHub rejected a repository, branch, blob, tree, commit, or ref-update request. | Confirm `GITHUB_REPO` points at the repository and the Worker `GITHUB_TOKEN` can access it with contents write permission. |
+| Browser shows a plain `Not Found` or `HTTP 404` submit failure | The request did not reach the Worker JSON error handler, or an upstream returned a non-JSON 404. | Confirm the deployed Worker owns `/api/blog/publish`, then check Cloudflare Worker logs for the failed request. |
 
 ## Local/manual fallback
 
