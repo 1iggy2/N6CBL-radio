@@ -67,6 +67,13 @@ Key rules:
   controls.
 - Links use `font-family: var(--mono)` for paths, muted for descriptions
 - External links end with ↗, internal links have no icon
+- Every implemented or planned site route must be exposed in the permanent sidebar
+  navigator, including subpages such as `/activations/`. "Flat, not hierarchical"
+  means a shallow visible list, not hidden secondary pages, footer-only links,
+  hover menus, accordions, or mega-menus.
+- When a route is moved or consolidated, update the navigator and site plan so the
+  visible list points at the durable destination; do not leave orphaned pages
+  discoverable only by URL.
 
 **Table-of-text content indexes**
 Content archives (blog posts, POTA activations, print files) are presented as dense
