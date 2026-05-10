@@ -125,6 +125,8 @@ decision here with rationale before implementing.
 
 ```
 /                  — splash / home, world map, station overview
+/log/              — QSO log: primary source of contact/session records
+/log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
 /activations/      — POTA activations log, per-activation notes & photos
 /blog/             — posts: technical, radio, misc
 /tools/            — browser-based utilities
@@ -136,6 +138,8 @@ decision here with rationale before implementing.
 
 ```
 /index.html              — home page
+/log/index.html          — QSO log
+/log/stats/index.html    — QSO log analysis and stats
 /activations/index.html  — POTA log
 /blog/index.html         — field journal running list
 /blog/compose/index.html — browser helper that generates static blog snippets
