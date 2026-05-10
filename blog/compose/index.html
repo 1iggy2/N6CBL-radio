@@ -505,20 +505,33 @@
         }));
         var response = await fetch('/api/blog/publish', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify(payload)
         });
-        var data = await response.json().catch(function () { return {}; });
+        var responseText = await response.text();
+        var data = parseJsonResponse(responseText);
         if (!response.ok) {
-          throw new Error(data.error || ('HTTP ' + response.status));
+          throw new Error(data.error || responseText || ('HTTP ' + response.status + ' ' + response.statusText));
         }
         commitState.innerHTML = '<a href="' + escAttr(data.commitUrl || '#') + '" target="_blank" rel="noopener">' + escText(data.commitSha || 'committed') + ' &#8599;</a>';
         validationState.textContent = 'Committed source and images; build workflow will regenerate static HTML';
         setStatus('Committed', 'live');
       } catch (err) {
         commitState.textContent = err.message;
+        validationState.textContent = 'Submit failed before a commit confirmation. Check GitHub for the target file before retrying.';
         setStatus('Failed', 'todo');
         submitButton.disabled = false;
+      }
+    }
+
+    function parseJsonResponse(text) {
+      try {
+        return text ? JSON.parse(text) : {};
+      } catch (err) {
+        return {};
       }
     }
 

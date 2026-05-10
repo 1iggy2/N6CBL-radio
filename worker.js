@@ -176,11 +176,15 @@ async function commitFiles(env, branch, message, files) {
   const refEndpoint = `https://api.github.com/repos/${env.GITHUB_REPO}/git/ref/heads/${encodeURIComponent(branch)}`;
   const refResponse = await githubFetch(refEndpoint, env);
   const ref = await refResponse.json().catch(() => ({}));
-  if (!refResponse.ok) return { error: ref.message || `GitHub ref lookup failed with HTTP ${refResponse.status}`, status: 502 };
+  if (!refResponse.ok) {
+    return githubFailure('GitHub branch lookup failed', refResponse, ref, { branch });
+  }
 
   const commitResponse = await githubFetch(ref.object.url, env);
   const parentCommit = await commitResponse.json().catch(() => ({}));
-  if (!commitResponse.ok) return { error: parentCommit.message || `GitHub commit lookup failed with HTTP ${commitResponse.status}`, status: 502 };
+  if (!commitResponse.ok) {
+    return githubFailure('GitHub parent commit lookup failed', commitResponse, parentCommit, { branch });
+  }
 
   const tree = [];
   for (const file of files) {
@@ -189,7 +193,9 @@ async function commitFiles(env, branch, message, files) {
       body: JSON.stringify({ content: file.content, encoding: file.encoding || 'base64' }),
     });
     const blob = await blobResponse.json().catch(() => ({}));
-    if (!blobResponse.ok) return { error: blob.message || `GitHub blob create failed with HTTP ${blobResponse.status}`, status: 502 };
+    if (!blobResponse.ok) {
+      return githubFailure('GitHub blob create failed', blobResponse, blob, { path: file.path });
+    }
     tree.push({ path: file.path, mode: '100644', type: 'blob', sha: blob.sha });
   }
 
@@ -198,7 +204,9 @@ async function commitFiles(env, branch, message, files) {
     body: JSON.stringify({ base_tree: parentCommit.tree.sha, tree }),
   });
   const newTree = await treeResponse.json().catch(() => ({}));
-  if (!treeResponse.ok) return { error: newTree.message || `GitHub tree create failed with HTTP ${treeResponse.status}`, status: 502 };
+  if (!treeResponse.ok) {
+    return githubFailure('GitHub tree create failed', treeResponse, newTree, { fileCount: files.length });
+  }
 
   const newCommitResponse = await githubFetch(`https://api.github.com/repos/${env.GITHUB_REPO}/git/commits`, env, {
     method: 'POST',
@@ -213,16 +221,35 @@ async function commitFiles(env, branch, message, files) {
     }),
   });
   const newCommit = await newCommitResponse.json().catch(() => ({}));
-  if (!newCommitResponse.ok) return { error: newCommit.message || `GitHub commit create failed with HTTP ${newCommitResponse.status}`, status: 502 };
+  if (!newCommitResponse.ok) {
+    return githubFailure('GitHub commit create failed', newCommitResponse, newCommit, { fileCount: files.length });
+  }
 
   const updateResponse = await githubFetch(refEndpoint, env, {
     method: 'PATCH',
     body: JSON.stringify({ sha: newCommit.sha }),
   });
   const update = await updateResponse.json().catch(() => ({}));
-  if (!updateResponse.ok) return { error: update.message || `GitHub ref update failed with HTTP ${updateResponse.status}`, status: 502 };
+  if (!updateResponse.ok) {
+    return githubFailure('GitHub branch update failed', updateResponse, update, { branch });
+  }
 
   return { sha: newCommit.sha, htmlUrl: newCommit.html_url };
+}
+
+function githubFailure(action, response, body, context = {}) {
+  const message = stringValue(body.message) || response.statusText || 'GitHub request failed';
+  const contextText = Object.entries(context)
+    .filter(([, value]) => value !== undefined && value !== '')
+    .map(([key, value]) => `${key}=${value}`)
+    .join(', ');
+  const hint = response.status === 404
+    ? '; confirm GITHUB_REPO points at the repository and GITHUB_TOKEN can access it with contents write permission'
+    : '';
+  return {
+    error: `${action}${contextText ? ` (${contextText})` : ''}: ${message} (HTTP ${response.status})${hint}`,
+    status: 502,
+  };
 }
 
 function contentsEndpoint(env, filePath) {
