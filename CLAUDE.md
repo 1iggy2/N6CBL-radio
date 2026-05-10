@@ -62,8 +62,10 @@ Key rules:
 - Every routable internal page, including utility and workflow subpages such as
   `/blog/compose/`, appears as its own top-level row in the visible navigation list.
   Do not hide subpages only inside parent-page body links.
-- Keep this exposure flat: list the full path (`/blog/compose/`) as a peer row
-  instead of nesting it under `/blog/`, indenting it, or adding expandable child
+- Keep this exposure flat: subpages remain peer rows in the always-visible
+  navigator. For subpage labels, use `↳` (`&#x21B3;`) plus the leaf route (for
+  example `↳ compose/`) to indicate path hierarchy without repeating the parent
+  path; do not use nested lists, indentation-only hierarchy, or expandable child
   controls.
 - Links use `font-family: var(--mono)` for paths, muted for descriptions
 - External links end with ↗, internal links have no icon
