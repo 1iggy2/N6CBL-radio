@@ -7,7 +7,8 @@ pattern: newest entry first, dense index table at the top, full post text below.
 ## Normal path: owner web publisher
 
 1. Open `/blog/compose/` after passing the Cloudflare Access policy for the owner
-   email address.
+   email address. The Worker now trusts that Access policy by default, so
+   `ALLOWED_EMAIL` is optional instead of required for the owner-only route.
 2. Fill out the text fields. V1 auto-publishing is text-only; the photo controls are
    retained as staging/preview for the next image-upload iteration.
 3. Click `Submit post to GitHub`.
@@ -71,8 +72,10 @@ The published pages remain static HTML; Cloudflare serves the committed output.
 ## Publish checklist
 
 - [ ] `/blog/compose/` and `/api/blog/publish` are protected by Cloudflare Access.
-- [ ] Worker secrets are configured: `ALLOWED_EMAIL`, `GITHUB_TOKEN`, and
-      `GITHUB_REPO`.
+- [ ] Worker authentication is configured: Cloudflare Access protects the compose
+      page/API route, optional `ALLOWED_EMAIL` or comma-separated `ALLOWED_EMAILS`
+      narrows the Access identities, `GITHUB_REPO` is set in `wrangler.jsonc`,
+      and the required `GITHUB_TOKEN` secret is configured.
 - [ ] Date is `YYYY-MM-DD`.
 - [ ] Slug is lowercase hyphenated text.
 - [ ] New JSON source file is committed under `/content/blog/`.

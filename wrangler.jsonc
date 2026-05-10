@@ -6,6 +6,9 @@
   "observability": {
     "enabled": true
   },
+  "vars": {
+    "GITHUB_REPO": "1iggy2/N6CBL-radio"
+  },
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
