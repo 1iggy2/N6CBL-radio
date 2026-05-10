@@ -1,0 +1,40 @@
+{
+  "date": "2026-05-10",
+  "publishedAt": "2026-05-10T21:27:15.763Z",
+  "title": "Dockweiler POTA Set Up",
+  "slug": "dockweiler-pota-set-up",
+  "type": "FIELD REPORT",
+  "tags": [
+    "Pota",
+    "kx2",
+    "dockweiler",
+    "images"
+  ],
+  "context": "A few photos from previous activations",
+  "body": [
+    "Uploading a few photos of previous activations to add some real ham content onto the site. Some images I've taken over the last few months doing activations. This is my current workhorse POTA set up, kx2, ss17, Bioenno battery. \n-Cam"
+  ],
+  "photos": [
+    {
+      "src": "/images/blog/2026-05-10-dockweiler-pota-set-up/img_8147.jpeg",
+      "alt": "Sunset Views",
+      "caption": "Sunset Views",
+      "width": 4032,
+      "height": 3024
+    },
+    {
+      "src": "/images/blog/2026-05-10-dockweiler-pota-set-up/img_7942.jpeg",
+      "alt": "SS17 Mount",
+      "caption": "SS17 Mount",
+      "width": 4032,
+      "height": 3024
+    },
+    {
+      "src": "/images/blog/2026-05-10-dockweiler-pota-set-up/img_7943.jpeg",
+      "alt": "KX2 in Model 3",
+      "caption": "KX2 in Model 3",
+      "width": 5712,
+      "height": 4284
+    }
+  ]
+}
