@@ -183,7 +183,7 @@
             </label>
             <label class="composer-wide">
               <span>Photo upload staging</span>
-              <input id="post-photos" type="file" accept="image/*" multiple>
+              <input id="post-photos" type="file" accept="image/*,.heic,.heif" multiple>
             </label>
             <label class="composer-wide">
               <span>Body paragraphs</span>
@@ -210,7 +210,7 @@
           <dt>Clickable URLs</dt>
           <dd>Paste the full <code>https://example.com/page</code> URL. The blog build makes it clickable and opens it in a new tab.</dd>
           <dt>Embedded images</dt>
-          <dd>Use uploaded image paths inside a body paragraph when the image belongs between paragraphs: <code>&lt;figure class=&quot;blog-photo&quot;&gt;&lt;img src=&quot;/images/blog/YYYY-MM-DD-slug/file.webp&quot; alt=&quot;...&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;...&lt;/figcaption&gt;&lt;/figure&gt;</code>. Matching staged images render only in the body, not again at the top.</dd>
+          <dd>Upload photos, then copy the generated <code>&lt;figure&gt;</code> block from Photo staging into Body paragraphs where the image belongs. Matching staged images render only in the body, not again at the top.</dd>
           <dt>Inline HTML</dt>
           <dd>HTML in the body is rendered as trusted publisher markup. Use plain URLs for normal links so routine posts stay easy to scan.</dd>
         </dl>
@@ -226,6 +226,7 @@
             <h2>Photo staging</h2>
             <p id="photo-target" class="composer-help">Select photos to see the target folder.</p>
             <div id="photo-preview" class="photo-preview-grid"></div>
+            <div id="photo-snippets" class="photo-snippet-list" aria-live="polite"></div>
           </div>
           <div class="composer-panel publish-panel">
             <h2>Publish transaction</h2>
@@ -256,8 +257,8 @@
           </li>
           <li>
             Image uploads are submitted with the post JSON in one Git commit. Keep total
-            upload size under 75 MB; each image must be JPEG, PNG, WebP, or GIF and
-            under 25 MB.
+            upload size under 75 MB; each image must be JPEG, PNG, WebP, GIF, HEIC,
+            or HEIF and under 25 MB.
           </li>
           <li>
             A successful submit creates <code>/content/blog/YYYY-MM-DD-slug.json</code>
@@ -277,7 +278,8 @@
   (function () {
     var MAX_IMAGE_BYTES = 25 * 1024 * 1024;
     var MAX_UPLOAD_BYTES = 75 * 1024 * 1024;
-    var IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    var IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];
+    var IMAGE_EXTENSIONS = /\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
     var imageDetails = {};
 
     var dateEl = document.getElementById('post-date');
@@ -292,6 +294,7 @@
     var photosEl = document.getElementById('post-photos');
     var photoTarget = document.getElementById('photo-target');
     var photoPreview = document.getElementById('photo-preview');
+    var photoSnippets = document.getElementById('photo-snippets');
     var statusEl = document.getElementById('composer-status');
     var validationState = document.getElementById('validation-state');
     var repoFileState = document.getElementById('repo-file-state');
@@ -338,6 +341,7 @@
         ? 'Image target folder: ' + folder + ' · ' + payload.photos.length + ' selected · ' + Math.round(totalSelectedBytes() / 1024) + ' KB staged'
         : 'Select photos to stage images under ' + folder;
       updateValidation(payload);
+      renderPhotoSnippets(payload);
     }
 
     function buildPayload(includeUploads) {
@@ -403,7 +407,7 @@
       var names = {};
       payload.photos.forEach(function (photo, index) {
         var label = 'photo ' + (index + 1);
-        if (IMAGE_TYPES.indexOf(photo.mimeType) === -1) problems.push(label + ' must be JPEG, PNG, WebP, or GIF');
+        if (!isAllowedImage(photo)) problems.push(label + ' must be JPEG, PNG, WebP, GIF, HEIC, or HEIF');
         if (photo.size > MAX_IMAGE_BYTES) problems.push(label + ' must stay under 25 MB');
         if (names[photo.fileName]) problems.push(label + ' duplicates image filename ' + photo.fileName);
         names[photo.fileName] = true;
@@ -528,6 +532,10 @@
           URL.revokeObjectURL(src);
           render();
         };
+        img.onerror = function () {
+          URL.revokeObjectURL(src);
+          img.replaceWith(photoPreviewFallback(file));
+        };
         var cap = document.createElement('figcaption');
         cap.textContent = safeFileName(file.name) + ' · ' + Math.round(file.size / 1024) + ' KB';
         item.appendChild(img);
@@ -535,6 +543,112 @@
         photoPreview.appendChild(item);
       });
       render();
+    }
+
+    function renderPhotoSnippets(payload) {
+      photoSnippets.innerHTML = '';
+      if (!payload.photos.length) return;
+      var header = document.createElement('div');
+      header.className = 'photo-snippet-header';
+      var heading = document.createElement('h3');
+      heading.textContent = 'Embeddable figure HTML';
+      var copyAll = document.createElement('button');
+      copyAll.type = 'button';
+      copyAll.className = 'copy-button';
+      copyAll.textContent = 'Copy all figure HTML';
+      copyAll.addEventListener('click', function () {
+        copyText(payload.photos.map(embeddedFigureHtml).join('\n\n'), copyAll);
+      });
+      header.appendChild(heading);
+      header.appendChild(copyAll);
+      photoSnippets.appendChild(header);
+      payload.photos.forEach(function (photo) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'photo-snippet-item';
+
+        var label = document.createElement('div');
+        label.className = 'photo-snippet-label';
+        label.textContent = photo.fileName;
+
+        var textarea = document.createElement('textarea');
+        textarea.rows = 5;
+        textarea.readOnly = true;
+        textarea.value = embeddedFigureHtml(photo);
+
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'copy-button';
+        button.textContent = 'Copy figure HTML';
+        button.addEventListener('click', function () {
+          copyText(textarea.value, button);
+        });
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(textarea);
+        wrapper.appendChild(button);
+        photoSnippets.appendChild(wrapper);
+      });
+    }
+
+    function photoPreviewFallback(file) {
+      var fallback = document.createElement('div');
+      fallback.className = 'photo-preview-fallback';
+      fallback.textContent = safeFileName(file.name).match(/\.hei[cf]$/i)
+        ? 'HEIC/HEIF preview unavailable in this browser; upload is still staged.'
+        : 'Preview unavailable; upload is still staged.';
+      return fallback;
+    }
+
+    function embeddedFigureHtml(photo) {
+      var caption = photo.caption || photo.alt || photo.fileName;
+      return [
+        '<figure class="blog-photo">',
+        '  <img src="' + escapeSnippetAttribute(photo.src) + '" alt="' + escapeSnippetAttribute(photo.alt || caption) + '" loading="lazy">',
+        '  <figcaption>' + escapeSnippetText(caption) + '</figcaption>',
+        '</figure>'
+      ].join('\n');
+    }
+
+    function isAllowedImage(photo) {
+      return IMAGE_TYPES.indexOf(photo.mimeType) !== -1 || IMAGE_EXTENSIONS.test(photo.fileName);
+    }
+
+    async function copyText(text, button) {
+      var original = button.textContent;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          fallbackCopyText(text);
+        }
+        button.textContent = 'Copied';
+      } catch (err) {
+        fallbackCopyText(text);
+        button.textContent = 'Copied';
+      }
+      window.setTimeout(function () {
+        button.textContent = original;
+      }, 1500);
+    }
+
+    function fallbackCopyText(text) {
+      var textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+
+    function escapeSnippetText(text) {
+      return escText(text).replace(/"/g, '&quot;');
+    }
+
+    function escapeSnippetAttribute(text) {
+      return escapeSnippetText(text).replace(/'/g, '&#39;');
     }
 
     function captionForFile(file, index) {

@@ -2,7 +2,8 @@ const MAX_POST_BYTES = 32 * 1024;
 const MAX_PUBLISH_BYTES = 75 * 1024 * 1024;
 const MAX_REQUEST_BYTES = 100 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
-const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif']);
+const IMAGE_FILE_PATTERN = /^[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
 
 export default {
   async fetch(request, env) {
@@ -160,8 +161,8 @@ function validatePost(post, photoUploads) {
   photoUploads.forEach((photo, index) => {
     const label = `photo ${index + 1}`;
     if (!photo.fileName) problems.push(`${label} file name is required`);
-    if (!/^[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp|gif)$/i.test(photo.fileName)) problems.push(`${label} needs a safe image filename`);
-    if (!IMAGE_MIME_TYPES.has(photo.mimeType)) problems.push(`${label} must be JPEG, PNG, WebP, or GIF`);
+    if (!IMAGE_FILE_PATTERN.test(photo.fileName)) problems.push(`${label} needs a safe image filename`);
+    if (!isAllowedImage(photo)) problems.push(`${label} must be JPEG, PNG, WebP, GIF, HEIC, or HEIF`);
     if (!photo.contentBase64 || !isBase64(photo.contentBase64)) problems.push(`${label} has invalid image data`);
     if (!photo.caption) problems.push(`${label} caption is required`);
     if (!photo.alt) problems.push(`${label} alt text is required`);
@@ -253,6 +254,10 @@ function githubFailure(action, response, body, context = {}) {
     error: `${action}${contextText ? ` (${contextText})` : ''}: ${message} (HTTP ${response.status})${hint}`,
     status: 502,
   };
+}
+
+function isAllowedImage(photo) {
+  return IMAGE_MIME_TYPES.has(photo.mimeType) || IMAGE_FILE_PATTERN.test(photo.fileName);
 }
 
 function contentsEndpoint(env, filePath) {
