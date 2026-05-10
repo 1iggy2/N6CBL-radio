@@ -1256,3 +1256,106 @@ td.bar-cell {
   .blog-prose { font-size: 0.88rem; }
   .photo-preview-grid { grid-template-columns: 1fr; }
 }
+
+/* ── RADIO PAGE ─────────────────────────────────────────────────────── */
+.radio-page section {
+  border-bottom: 1px solid var(--rule);
+}
+
+.radio-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-meta span:last-child {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.radio-intro h1 { max-width: 18ch; }
+
+.radio-core-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.radio-reference-table,
+.radio-kit-table,
+.radio-activation-table,
+.radio-band-table,
+.radio-link-table,
+.radio-future-table {
+  table-layout: fixed;
+}
+
+.radio-value {
+  font-family: var(--mono);
+  font-weight: bold;
+}
+
+.radio-note-col,
+.radio-role-col {
+  color: var(--muted);
+}
+
+.radio-activation-table th:first-child,
+.radio-activation-table th:nth-child(2),
+.radio-band-table th:first-child,
+.radio-band-table th:nth-child(2) {
+  width: 96px;
+}
+
+.radio-activation-table th:nth-child(3),
+.radio-activation-table th:nth-child(4),
+.radio-activation-table th:nth-child(5),
+.radio-band-table th:nth-child(3) {
+  width: 64px;
+}
+
+.radio-activation-table th:last-child,
+.radio-link-table th:last-child {
+  width: 86px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .radio-meta span:last-child,
+  .radio-note-col,
+  .radio-role-col,
+  .radio-link-table th:nth-child(2),
+  .radio-link-table td:nth-child(2),
+  .radio-future-table th:nth-child(3),
+  .radio-future-table td:nth-child(3) {
+    display: none;
+  }
+
+  .radio-core-grid { grid-template-columns: repeat(2, 1fr); }
+  .radio-core-grid .stat:nth-child(even) { border-right: none; }
+  .radio-core-grid .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule-2); }
+
+  .radio-activation-table th:first-child,
+  .radio-activation-table th:nth-child(2),
+  .radio-band-table th:first-child,
+  .radio-band-table th:nth-child(2) {
+    width: auto;
+  }
+
+  .radio-activation-table th:nth-child(3),
+  .radio-activation-table th:nth-child(4),
+  .radio-activation-table th:nth-child(5),
+  .radio-band-table th:nth-child(3) {
+    width: 48px;
+  }
+
+  .radio-activation-table th:last-child { width: 58px; }
+  .radio-page th,
+  .radio-page td { padding: 4px 6px; }
+}
+.radio-mode {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
