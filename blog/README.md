@@ -19,7 +19,8 @@ at the top, full post text below.
    - paste the new table row at the top of the `Post index` table body;
    - paste the new `<article>` block below the `NEW POST INSERTION POINT` comment;
    - keep newest posts first;
-   - update the post count in the `/blog/ — field journal` metadata line.
+   - update the post count in the `/blog/ — field journal` metadata line;
+   - update the `Latest field note` table in `/index.html` so the home page points at the newest post.
 6. Commit directly with an imperative message, for example:
 
    ```text
@@ -52,7 +53,17 @@ Cloudflare serves the committed files.
 - [ ] Date is `YYYY-MM-DD`.
 - [ ] New index row is newest-first.
 - [ ] New article block is newest-first.
+- [ ] Home page `Latest field note` row points at the newest post.
 - [ ] Image paths resolve under `/images/blog/YYYY-MM-DD-slug/`.
 - [ ] Images have captions and `alt` text.
 - [ ] `/blog/index.html` still has a viewport meta tag.
 - [ ] The page has no decorative card grid or thumbnail-only navigation.
+
+## Future migration trigger
+
+Keep the static HTML workflow until the duplicate edits become the bottleneck. If
+updating the blog index, full article block, home-page latest row, and post count
+starts producing stale metadata, move the post source of truth to Markdown files
+with frontmatter and generate the static HTML during deploy. Do not switch to
+runtime Markdown rendering for core content; the published pages should remain
+fast static HTML.
