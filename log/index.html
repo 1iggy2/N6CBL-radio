@@ -33,7 +33,7 @@
       </a>
     </div>
     <div class="header-meta">
-      <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
       <span>FCC AMATEUR RADIO &mdash; GENERAL CLASS</span>
     </div>
   </header>
@@ -242,6 +242,7 @@
       })
       .then(function (data) {
         logData = data;
+        renderHeaderStat(data);
         if (data.stats) {
           var s = data.stats;
           hdrStatsEl.textContent = s.qso_count + ' QSOs · '
@@ -351,6 +352,21 @@
         : qsos.length + ' total';
       qsoStateEl.hidden = true;
       qsoTableEl.hidden = false;
+    }
+
+    function renderHeaderStat(data) {
+      var el = document.getElementById('header-stat');
+      if (!el) return;
+      var sessions = data.sessions || [];
+      if (sessions.length === 0) return;
+      var s = sessions[0];
+      var band = (s.bands && s.bands.length) ? String(s.bands[0]).toUpperCase() : '';
+      var parts = ['LAST ACTIVATION'];
+      if (s.reference) parts.push(s.reference);
+      if (band) parts.push(band);
+      parts.push((s.qso_count || 0) + ' QSOs');
+      if (s.date) parts.push(s.date);
+      el.textContent = parts.join(' · ');
     }
 
     function esc(s) {
