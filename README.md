@@ -18,10 +18,10 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | Path | Content |
 |---|---|
 | `/` | Home / current splash |
+| `/station/` | My station: operator profile, gear, hardware notes, modes |
 | `/blog/` | Posts |
 | `/tools/` | Browser utilities |
 | `/prints/` | 3D print catalog |
-| `/radio/` | My station: operator profile, gear, hardware notes, modes |
 
 ## Development
 

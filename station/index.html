@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="N6CBL station reference — operator profile, current equipment, portable hardware, operating modes, and CW proficiency notes.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://n6cbl.radio/radio/">
+  <meta property="og:url" content="https://n6cbl.radio/station/">
   <meta property="og:title" content="My Station — N6CBL.radio">
   <meta property="og:description" content="Operator profile, current equipment, portable hardware, operating modes, and CW proficiency notes for N6CBL.">
   <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
@@ -61,6 +61,11 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/station/" aria-current="page">
+              <span class="nav-path">/station/</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/blog/">
               <span class="nav-path">/blog/</span>
             </a>
@@ -78,11 +83,6 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/radio/" aria-current="page">
-              <span class="nav-path">/radio/</span>
             </a>
           </li>
         </ul>
@@ -150,7 +150,7 @@
     <main class="main-content radio-page">
 
       <div class="section-label radio-meta">
-        <span>/radio/ &mdash; my station</span>
+        <span>/station/ &mdash; my station</span>
         <span>hardware / operator / practice state</span>
       </div>
 
@@ -228,8 +228,8 @@
             <tr>
               <td class="path">Radio</td>
               <td class="radio-value">QRP Labs QMX</td>
-              <td class="desc radio-role-col">80/60/40/30/20 m CW and digital QRP kit</td>
-              <td class="desc radio-note-col">Hardware and digital-mode tinkering platform</td>
+              <td class="desc radio-role-col">80/60/40/30/20 m SSB/CW/digital QRP kit</td>
+              <td class="desc radio-note-col">Portable QRP platform for SSB, CW, and digital-mode tinkering</td>
             </tr>
             <tr>
               <td class="path">Radio</td>
@@ -303,7 +303,7 @@
       </section>
 
       <section class="radio-accessories" aria-labelledby="radio-accessories-heading">
-        <div class="section-label" id="radio-accessories-heading">Paddles and power</div>
+        <div class="section-label" id="radio-accessories-heading">Paddles, solar, and power</div>
         <table class="radio-kit-table radio-compact-table">
           <thead>
             <tr>
@@ -333,20 +333,32 @@
               <td class="desc radio-note-col">No primary paddle selected yet; CW proficiency is still developing</td>
             </tr>
             <tr>
+              <td class="path">Solar</td>
+              <td class="radio-value">PowerFilm SC-122430NE MPPT</td>
+              <td class="desc radio-role-col">Solar charge controller for field power</td>
+              <td class="desc radio-note-col">MPPT controller for portable LiFePO4 charging setup</td>
+            </tr>
+            <tr>
+              <td class="path">Solar</td>
+              <td class="radio-value">2&times; PowerFilm BSP-80-LITE</td>
+              <td class="desc radio-role-col">Portable 80 W solar panels</td>
+              <td class="desc radio-note-col">Field charging array for longer activations and battery recovery</td>
+            </tr>
+            <tr>
               <td class="path">Power</td>
-              <td class="radio-value">Bioenno Power 12 V, 3 Ah LiFePO4</td>
+              <td class="radio-value">1&times; Bioenno Power 12 V, 3 Ah LiFePO4</td>
               <td class="desc radio-role-col">Lithium iron phosphate chemistry; light field pack</td>
-              <td class="desc radio-note-col">Default light-pack battery for current portable use</td>
+              <td class="desc radio-note-col">Light-pack battery for current portable use</td>
             </tr>
             <tr>
               <td class="path">Power</td>
-              <td class="radio-value">Bioenno Power 12 V, 4.5 Ah LiFePO4</td>
+              <td class="radio-value">2&times; Bioenno Power 12 V, 4.5 Ah LiFePO4</td>
               <td class="desc radio-role-col">Lithium iron phosphate chemistry; medium reserve</td>
-              <td class="desc radio-note-col">Higher reserve option when weight matters less</td>
+              <td class="desc radio-note-col">Higher reserve options when weight matters less</td>
             </tr>
             <tr>
               <td class="path">Power</td>
-              <td class="radio-value">Bioenno Power 12 V, 9 Ah LiFePO4</td>
+              <td class="radio-value">2&times; Bioenno Power 12 V, 9 Ah LiFePO4</td>
               <td class="desc radio-role-col">Lithium iron phosphate chemistry; high reserve</td>
               <td class="desc radio-note-col">Longer sessions, testing, and extra margin</td>
             </tr>
