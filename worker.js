@@ -2,6 +2,10 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === '/stats' || url.pathname === '/stats/') {
+      return Response.redirect(new URL('/log/stats/', url), 301);
+    }
+
     if (url.pathname === '/api/pota-activations') {
       try {
         const resp = await fetch('https://api.pota.app/activation/N6CBL', {

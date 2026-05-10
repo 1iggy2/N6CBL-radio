@@ -18,6 +18,8 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | Path | Content |
 |---|---|
 | `/` | Home / current splash |
+| `/log/` | QSO log |
+| `/log/stats/` | QSO log statistics and analysis |
 | `/blog/` | Posts |
 | `/tools/` | Browser utilities |
 | `/prints/` | 3D print catalog |
