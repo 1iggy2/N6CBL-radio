@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL blog composer — generate static HTML for field reports and photo posts.">
+  <meta name="robots" content="noindex">
+  <title>Blog Composer — N6CBL.radio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span>N6CBL.radio &mdash; /BLOG/COMPOSE/</span>
+      <span>STATIC HTML GENERATOR &mdash; LOCAL BROWSER ONLY</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/stats/">
+              <span class="nav-path">/stats/</span>
+              <span class="nav-badge st-wip">WIP</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/" aria-current="page">
+              <span class="nav-path">/blog/</span>
+              <span class="nav-badge st-live">Live</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/radio/">
+              <span class="nav-path">/radio/</span>
+              <span class="nav-badge st-planned">Planned</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Composer notes</div>
+        <dl class="sidenav-dl">
+          <dt>Output</dt>
+          <dd>HTML snippets</dd>
+          <dt>Uploads</dt>
+          <dd>GitHub web UI</dd>
+          <dt>Images</dt>
+          <dd>WebP preferred</dd>
+          <dt>Build</dt>
+          <dd>None</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content">
+
+      <div class="section-label blog-meta">
+        <span>/blog/compose/ &mdash; static post helper</span>
+        <span>client-side only</span>
+      </div>
+
+      <section class="page-intro blog-intro">
+        <h1>Write once. Commit the parts.</h1>
+        <p>
+          This page does not publish by itself. It turns human-readable fields,
+          Markdown-like paragraphs, and selected photo filenames into the two static
+          HTML snippets needed by <code>/blog/index.html</code>.
+        </p>
+      </section>
+
+      <section class="composer-section" aria-labelledby="composer-heading">
+        <div class="section-label split">
+          <span id="composer-heading">Post input</span>
+          <span class="section-tag todo">Manual commit required</span>
+        </div>
+
+        <form class="composer-form" id="composer-form">
+          <div class="composer-grid">
+            <label>
+              <span>Date</span>
+              <input id="post-date" type="date" required>
+            </label>
+            <label>
+              <span>Title / reference</span>
+              <input id="post-title" type="text" placeholder="Crystal Cove quick activation" required>
+            </label>
+            <label>
+              <span>Type</span>
+              <input id="post-type" type="text" placeholder="FIELD REPORT" value="FIELD REPORT">
+            </label>
+            <label>
+              <span>Tags</span>
+              <input id="post-tags" type="text" placeholder="POTA, KX2, antenna">
+            </label>
+            <label class="composer-wide">
+              <span>Context line for index</span>
+              <input id="post-context" type="text" placeholder="Short description shown in the dense table.">
+            </label>
+            <label class="composer-wide">
+              <span>Photo upload staging</span>
+              <input id="post-photos" type="file" accept="image/*" multiple>
+            </label>
+            <label class="composer-wide">
+              <span>Body paragraphs</span>
+              <textarea id="post-body" rows="10" placeholder="Write paragraphs separated by blank lines. Keep factual details: park, gear, weather, bands, failures, fixes."></textarea>
+            </label>
+            <label class="composer-wide">
+              <span>Photo captions, one per line</span>
+              <textarea id="post-captions" rows="4" placeholder="station.jpg | KX2 on the picnic table, 2026-05-10."></textarea>
+            </label>
+          </div>
+        </form>
+      </section>
+
+      <section class="composer-section" aria-labelledby="preview-heading">
+        <div class="section-label split">
+          <span id="preview-heading">Preview / generated output</span>
+          <span id="composer-status" class="section-tag live">Ready</span>
+        </div>
+        <div class="composer-output-grid">
+          <div class="composer-panel">
+            <h2>Photo staging</h2>
+            <p id="photo-target" class="composer-help">Select photos to see the target folder.</p>
+            <div id="photo-preview" class="photo-preview-grid"></div>
+          </div>
+          <div class="composer-panel">
+            <h2>Index row</h2>
+            <textarea id="index-output" rows="7" readonly></textarea>
+            <button type="button" class="copy-button" data-copy="index-output">Copy index row</button>
+          </div>
+          <div class="composer-panel composer-wide">
+            <h2>Article block</h2>
+            <textarea id="article-output" rows="18" readonly></textarea>
+            <button type="button" class="copy-button" data-copy="article-output">Copy article block</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="blog-tools-section" aria-labelledby="publish-heading">
+        <div class="section-label split">
+          <span id="publish-heading">Publish checklist</span>
+          <span class="section-tag todo">GitHub web UI</span>
+        </div>
+        <ol class="publish-list">
+          <li>Upload selected image files to <code>/images/blog/YYYY-MM-DD-slug/</code>.</li>
+          <li>Paste the generated table row into the <code>Post index</code> table body.</li>
+          <li>Paste the generated article block below the insertion comment in <code>/blog/index.html</code>.</li>
+          <li>Update the post count in the <code>blog-meta</code> label.</li>
+          <li>Commit with an imperative message, for example: <code>Add Crystal Cove field report</code>.</li>
+        </ol>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <script>
+  (function () {
+    var dateEl = document.getElementById('post-date');
+    var titleEl = document.getElementById('post-title');
+    var typeEl = document.getElementById('post-type');
+    var tagsEl = document.getElementById('post-tags');
+    var contextEl = document.getElementById('post-context');
+    var bodyEl = document.getElementById('post-body');
+    var captionsEl = document.getElementById('post-captions');
+    var photosEl = document.getElementById('post-photos');
+    var indexOutput = document.getElementById('index-output');
+    var articleOutput = document.getElementById('article-output');
+    var photoTarget = document.getElementById('photo-target');
+    var photoPreview = document.getElementById('photo-preview');
+    var statusEl = document.getElementById('composer-status');
+
+    dateEl.value = new Date().toISOString().slice(0, 10);
+
+    document.getElementById('composer-form').addEventListener('input', render);
+    photosEl.addEventListener('change', renderPhotos);
+    document.querySelectorAll('.copy-button').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var target = document.getElementById(button.getAttribute('data-copy'));
+        target.select();
+        document.execCommand('copy');
+        statusEl.textContent = 'Copied';
+        setTimeout(function () { statusEl.textContent = 'Ready'; }, 1200);
+      });
+    });
+
+    render();
+
+    function render() {
+      var date = dateEl.value || 'YYYY-MM-DD';
+      var title = titleEl.value.trim() || 'Untitled field note';
+      var slug = slugify(title);
+      var id = 'post-' + date + '-' + slug;
+      var context = contextEl.value.trim() || 'Field journal entry.';
+      var type = (typeEl.value.trim() || 'FIELD REPORT').toUpperCase();
+      var tags = tagsEl.value.trim() || 'untagged';
+      var folder = '/images/blog/' + date + '-' + slug + '/';
+      var paragraphs = bodyEl.value.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean);
+      var captions = parseCaptions(captionsEl.value, folder);
+      var figureHtml = captions.map(function (item) {
+        return '          <figure class="blog-photo">\n'
+          + '            <img src="' + escAttr(item.src) + '" alt="' + escAttr(item.alt) + '" loading="lazy">\n'
+          + '            <figcaption>' + escText(item.caption) + '</figcaption>\n'
+          + '          </figure>';
+      }).join('\n');
+      var proseHtml = paragraphs.length
+        ? paragraphs.map(function (p) { return '            <p>\n              ' + escText(p) + '\n            </p>'; }).join('\n')
+        : '            <p>\n              Draft body goes here.\n            </p>';
+
+      indexOutput.value = '            <tr>\n'
+        + '              <td class="blog-date">' + escText(date) + '</td>\n'
+        + '              <td class="blog-ref">' + escText(title) + '</td>\n'
+        + '              <td class="blog-context">' + escText(context) + '</td>\n'
+        + '              <td class="blog-cta"><a href="#' + escAttr(id) + '">Read &#8594;</a></td>\n'
+        + '            </tr>';
+
+      articleOutput.value = '        <article class="blog-post" id="' + escAttr(id) + '">\n'
+        + '          <header class="blog-post-header">\n'
+        + '            <div class="blog-post-date">' + escText(date) + '</div>\n'
+        + '            <h2>' + escText(title) + '</h2>\n'
+        + '            <div class="blog-post-meta">\n'
+        + '              <span>TYPE: ' + escText(type) + '</span>\n'
+        + '              <span>TAGS: ' + escText(tags) + '</span>\n'
+        + '              <span>STATUS: LIVE</span>\n'
+        + '            </div>\n'
+        + '          </header>\n'
+        + (figureHtml ? figureHtml + '\n' : '')
+        + '          <div class="blog-prose">\n'
+        + proseHtml + '\n'
+        + '          </div>\n'
+        + '        </article>';
+
+      photoTarget.textContent = 'Image target folder: ' + folder;
+    }
+
+    function renderPhotos() {
+      photoPreview.innerHTML = '';
+      Array.prototype.forEach.call(photosEl.files, function (file) {
+        var item = document.createElement('figure');
+        item.className = 'photo-preview-item';
+        var img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.alt = file.name;
+        img.onload = function () { URL.revokeObjectURL(img.src); };
+        var cap = document.createElement('figcaption');
+        cap.textContent = file.name + ' · ' + Math.round(file.size / 1024) + ' KB';
+        item.appendChild(img);
+        item.appendChild(cap);
+        photoPreview.appendChild(item);
+      });
+      render();
+    }
+
+    function parseCaptions(text, folder) {
+      return text.split('\n').map(function (line) { return line.trim(); }).filter(Boolean).map(function (line) {
+        var parts = line.split('|');
+        var file = (parts[0] || '').trim();
+        var caption = (parts.slice(1).join('|') || file).trim();
+        return { src: folder + file, alt: caption, caption: caption };
+      });
+    }
+
+    function slugify(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled';
+    }
+
+    function escText(text) {
+      return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function escAttr(text) {
+      return escText(text).replace(/"/g, '&quot;');
+    }
+  })();
+  </script>
+
+</body>
+</html>
