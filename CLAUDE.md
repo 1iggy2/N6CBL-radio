@@ -59,6 +59,12 @@ The sidebar is a persistent operational panel — not a temporary menu.
 Key rules:
 - Active page indicated by background highlight and/or bold weight
 - Status badges (WIP, PLANNED, LIVE) are always visible, not on hover
+- Every routable internal page, including utility and workflow subpages such as
+  `/blog/compose/`, appears as its own top-level row in the visible navigation list.
+  Do not hide subpages only inside parent-page body links.
+- Keep this exposure flat: list the full path (`/blog/compose/`) as a peer row
+  instead of nesting it under `/blog/`, indenting it, or adding expandable child
+  controls.
 - Links use `font-family: var(--mono)` for paths, muted for descriptions
 - External links end with ↗, internal links have no icon
 
