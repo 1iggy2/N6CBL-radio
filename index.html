@@ -25,6 +25,7 @@
         <div class="callsign-row">
           <div class="callsign">N6CBL</div>
           <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+          <span id="header-stat" class="header-activation">LAST ACTIVATION &mdash;</span>
         </div>
         <div class="site-sub">
           <span class="domain">N6CBL.radio</span>
@@ -33,7 +34,6 @@
       </a>
     </div>
     <div class="header-meta">
-      <span id="header-stat">LAST ACTIVATION &mdash;</span>
       <span>FCC AMATEUR RADIO &mdash; GENERAL CLASS</span>
     </div>
   </header>
@@ -157,8 +157,7 @@
           Personal site of N6CBL &mdash; Cameron Gable. Avionics systems engineer,
           amateur radio operator. I operate portable HF from Southern California,
           activating parks and coastal locations with an Elecraft KX2 and quick-deploy
-          field antennas. This site will carry tools, radio experiments, 3D prints,
-          writing, and whatever else warrants a permanent URL.
+          field antennas.
         </p>
       </div>
 
@@ -190,7 +189,7 @@
                autocomplete="off" autocapitalize="characters" spellcheck="false"
                maxlength="12">
       </div>
-      <div id="lookup-state" class="lookup-state">Enter a callsign to search all logged QSOs.</div>
+      <div id="lookup-state" class="lookup-state"></div>
       <table id="lookup-table" hidden>
         <thead>
           <tr>
@@ -404,7 +403,7 @@
     lookupInputEl.addEventListener('input', debounce(function () {
       var q = lookupInputEl.value.trim().toUpperCase();
       if (!q) {
-        lookupStateEl.textContent = 'Enter a callsign to search all logged QSOs.';
+        lookupStateEl.textContent = '';
         lookupStateEl.hidden = false;
         lookupTableEl.hidden = true;
         lookupMetaEl.textContent = '';

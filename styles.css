@@ -89,9 +89,17 @@ header {
   color: var(--muted);
 }
 
+.header-activation {
+  margin-left: auto;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
 .header-meta {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  align-items: center;
   font-size: 0.7rem;
   text-align: right;
 }
@@ -101,10 +109,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
 }
-
-.header-meta span + span { border-top: 1px solid var(--rule); }
 
 
 /* ── TWO-PANEL LAYOUT ─────────────────────────────────────────────── */
@@ -741,8 +746,9 @@ footer a:hover { text-decoration: underline; }
   .sidenav-label { padding: 3px 8px; }
   .page-intro h1 { font-size: 2.2rem; }
   header { grid-template-columns: 1fr; }
-  .header-meta { text-align: left; }
+  .header-meta { text-align: left; border-top: 1px solid var(--rule); }
   .header-meta span { justify-content: flex-start; }
+  .header-activation { font-size: 0.6rem; }
   .world-map { height: 200px; object-position: center 35%; }
   .map-bar { flex-direction: column; align-items: flex-start; gap: 2px; }
   .station-photo-wrap img { height: 220px; object-position: center 65%; }

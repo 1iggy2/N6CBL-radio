@@ -137,6 +137,7 @@ exceeds what's manageable by hand-edit (≈ 10 content pages), revisit.
 
 ## Development Guidelines
 
+- Always push to the default branch `main`. Never push to other branches without explicit instruction.
 - HTML must validate. Run `tidy -errors -quiet -utf8` to check.
 - CSS should work without JavaScript. Progressive enhancement only.
 - Every page must have a `<title>`, `<meta description>`, and correct `lang`.
