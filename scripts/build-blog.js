@@ -128,7 +128,31 @@ function renderPhoto(photo) {
 }
 
 function renderTextParagraph(text) {
-  return `            <p>\n              ${escapeHtml(String(text))}\n            </p>`;
+  return `            <p>
+              ${renderInlineText(String(text))}
+            </p>`;
+}
+
+function renderInlineText(text) {
+  const urlPattern = /https?:\/\/[^\s<>"']+/g;
+  let output = '';
+  let lastIndex = 0;
+  let match;
+  while ((match = urlPattern.exec(text)) !== null) {
+    const url = match[0];
+    const trimmedUrl = url.replace(/[.,!?;:)]*$/, '');
+    const trailing = url.slice(trimmedUrl.length);
+    output += escapeHtml(text.slice(lastIndex, match.index));
+    output += renderExternalLink(trimmedUrl);
+    output += escapeHtml(trailing);
+    lastIndex = match.index + url.length;
+  }
+  output += escapeHtml(text.slice(lastIndex));
+  return output;
+}
+
+function renderExternalLink(url) {
+  return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)} &#8599;</a>`;
 }
 
 function renderHtmlParagraph(html) {

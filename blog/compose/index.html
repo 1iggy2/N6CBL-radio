@@ -233,6 +233,7 @@
             <label class="composer-wide">
               <span>Body paragraphs</span>
               <textarea id="post-body" rows="10" placeholder="Write paragraphs separated by blank lines. Keep factual details: park, gear, weather, bands, failures, fixes."></textarea>
+              <span class="composer-help">Plain <code>https://</code> and <code>http://</code> URLs are automatically rendered as new-tab links in the public post. Separate paragraphs with one blank line.</span>
             </label>
             <label class="composer-wide">
               <span>Photo captions, one per line</span>
@@ -241,6 +242,21 @@
             </label>
           </div>
         </form>
+      </section>
+
+      <section class="blog-tools-section composer-cheat-sheet" aria-labelledby="syntax-heading">
+        <div class="section-label split">
+          <span id="syntax-heading">Body syntax quick reference</span>
+          <span class="section-tag live">Minimal rules</span>
+        </div>
+        <dl class="syntax-guide">
+          <dt>Paragraphs</dt>
+          <dd>Put one blank line between paragraphs. Each paragraph becomes one public prose block.</dd>
+          <dt>Clickable URLs</dt>
+          <dd>Paste the full <code>https://example.com/page</code> URL. The blog build makes it clickable and opens it in a new tab.</dd>
+          <dt>Inline HTML</dt>
+          <dd>Do not hand-write anchors for normal links. Use plain URLs so the structured source stays easy to read.</dd>
+        </dl>
       </section>
 
       <section class="composer-section" aria-labelledby="preview-heading">
