@@ -9,13 +9,14 @@ pattern: newest entry first, dense index table at the top, full post text below.
 1. Open `/blog/compose/` after passing the Cloudflare Access policy for the owner
    email address. The Worker now trusts that Access policy by default, so
    `ALLOWED_EMAIL` is optional instead of required for the owner-only route.
-2. Fill out the text fields. V1 auto-publishing is text-only; the photo controls are
-   retained as staging/preview for the next image-upload iteration.
+2. Fill out the text fields and select any post images. Captions are one per line,
+   or `filename | caption` when you want to bind text to a specific file.
 3. Click `Submit post to GitHub`.
 4. The Cloudflare Worker validates the Access email and commits a new file at:
 
    ```text
    /content/blog/YYYY-MM-DD-slug.json
+   /images/blog/YYYY-MM-DD-slug/*
    ```
 
 5. The `Build blog` GitHub Action runs `node scripts/build-blog.js`, regenerates the
@@ -122,16 +123,18 @@ New web-submitted posts should use plain `body` paragraphs.
 
 ## Photo rules
 
-- V1 web submit is text-only. Do not submit photos through the Worker until image
-  upload support is added.
-- The post schema keeps a `photos` array so V2 can publish images without changing
-  the content model.
-- Prefer WebP. JPEG is acceptable for camera originals that have already been
-  resized and compressed.
+- The web publisher submits image files through the Worker with the structured post
+  source in a single Git commit.
+- Keep each image under 3 MB and the combined image upload under 10 MB. This is an
+  owner-publisher convenience, not a bulk media ingestion system.
+- JPEG, PNG, WebP, and GIF are accepted. Prefer WebP. JPEG is acceptable for camera
+  originals that have already been resized and compressed.
 - Store committed images under `/images/blog/YYYY-MM-DD-slug/` so every post owns
-  its assets.
+  its assets. The browser publisher does this path construction automatically.
 - Every image needs a caption and useful `alt` text. Treat images as data: what,
-  where, when, and why the reader should care.
+  where, when, and why the reader should care. The caption is reused as alt text
+  unless the source JSON is edited manually afterward.
+- Multiple images render side-by-side on wider screens and stack at mobile width.
 
 ## Post structure
 
@@ -154,7 +157,7 @@ The published pages remain static HTML; Cloudflare serves the committed output.
 - [ ] New JSON source file is committed under `/content/blog/`.
 - [ ] `node scripts/build-blog.js` regenerates `/blog/index.html` and the home-page
       latest field note.
-- [ ] Images, when reintroduced, resolve under `/images/blog/YYYY-MM-DD-slug/` and
-      include captions plus `alt` text.
+- [ ] Images resolve under `/images/blog/YYYY-MM-DD-slug/`, stay within upload
+      limits, and include captions plus `alt` text.
 - [ ] `/blog/index.html` still has a viewport meta tag.
 - [ ] The page has no decorative card grid or thumbnail-only navigation.

@@ -88,14 +88,19 @@ function renderHomeRow(post) {
 }
 
 function renderArticle(post) {
-  const photoHtml = post.photos.map(renderPhoto).join('\n');
+  const photoHtml = renderPhotoGrid(post.photos);
   const paragraphs = Array.isArray(post.bodyHtml) ? post.bodyHtml.map(renderHtmlParagraph) : post.body.map(renderTextParagraph);
   return `        <article class="blog-post" id="${postId(post)}">\n          <header class="blog-post-header">\n            <div class="blog-post-date">${escapeHtml(post.date)}</div>\n            <h2>${escapeHtml(post.title)}</h2>\n            <div class="blog-post-meta">\n              <span>TYPE: ${escapeHtml(post.type.toUpperCase())}</span>\n              <span>TAGS: ${escapeHtml(post.tags.join(', ') || 'untagged')}</span>\n              <span>STATUS: LIVE</span>\n            </div>\n          </header>\n${photoHtml ? photoHtml + '\n' : ''}          <div class="blog-prose">\n${paragraphs.join('\n')}\n          </div>\n        </article>`;
 }
 
+function renderPhotoGrid(photos) {
+  if (!photos.length) return '';
+  return `          <div class="blog-photo-grid">\n${photos.map(renderPhoto).join('\n')}\n          </div>`;
+}
+
 function renderPhoto(photo) {
   const size = photo.width && photo.height ? ` width="${Number(photo.width)}" height="${Number(photo.height)}"` : '';
-  return `          <figure class="blog-photo">\n            <img src="${escapeAttribute(photo.src)}" alt="${escapeAttribute(photo.alt || photo.caption || '')}"${size} loading="lazy">\n            <figcaption>${escapeHtml(photo.caption || photo.alt || '')}</figcaption>\n          </figure>`;
+  return `            <figure class="blog-photo">\n              <img src="${escapeAttribute(photo.src)}" alt="${escapeAttribute(photo.alt || photo.caption || '')}"${size} loading="lazy">\n              <figcaption>${escapeHtml(photo.caption || photo.alt || '')}</figcaption>\n            </figure>`;
 }
 
 function renderTextParagraph(text) {
