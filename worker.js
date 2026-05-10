@@ -1,4 +1,8 @@
 const MAX_POST_BYTES = 32 * 1024;
+const MAX_PUBLISH_BYTES = 75 * 1024 * 1024;
+const MAX_REQUEST_BYTES = 100 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
 
 export default {
   async fetch(request, env) {
@@ -48,7 +52,7 @@ async function publishBlogPost(request, env) {
   }
 
   const length = Number(request.headers.get('content-length') || 0);
-  if (length > MAX_POST_BYTES) return json({ error: 'payload too large' }, 413);
+  if (length > MAX_REQUEST_BYTES) return json({ error: 'payload too large' }, 413);
 
   let payload;
   try {
@@ -57,73 +61,173 @@ async function publishBlogPost(request, env) {
     return json({ error: 'invalid JSON payload' }, 400);
   }
 
-  const post = normalizePost(payload);
-  const problems = validatePost(post);
+  const photoUploads = normalizePhotoUploads(payload);
+  const post = normalizePost(payload, photoUploads);
+  const problems = validatePost(post, photoUploads);
   if (problems.length) return json({ error: problems.join('; ') }, 400);
 
   const branch = env.GITHUB_BRANCH || 'main';
-  const filePath = `content/blog/${post.date}-${post.slug}.json`;
-  const content = JSON.stringify(post, null, 2) + '\n';
-  const apiPath = encodeURIComponent(filePath).replace(/%2F/g, '/');
-  const endpoint = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${apiPath}`;
-  const message = `Add ${post.title} blog post`;
+  const postPath = `content/blog/${post.date}-${post.slug}.json`;
+  const postContent = JSON.stringify(post, null, 2) + '\n';
 
-  const exists = await githubFetch(endpoint + `?ref=${encodeURIComponent(branch)}`, env);
+  const exists = await githubFetch(contentsEndpoint(env, postPath) + `?ref=${encodeURIComponent(branch)}`, env);
   if (exists.status === 200) {
-    return json({ error: `${filePath} already exists` }, 409);
+    return json({ error: `${postPath} already exists` }, 409);
   }
   if (exists.status !== 404) {
     return json({ error: `GitHub lookup failed with HTTP ${exists.status}` }, 502);
   }
 
-  const response = await githubFetch(endpoint, env, {
-    method: 'PUT',
-    body: JSON.stringify({
-      message,
-      content: toBase64(content),
-      branch,
-      committer: env.GITHUB_COMMITTER_NAME && env.GITHUB_COMMITTER_EMAIL ? {
-        name: env.GITHUB_COMMITTER_NAME,
-        email: env.GITHUB_COMMITTER_EMAIL,
-      } : undefined,
-    }),
-  });
-  const result = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    return json({ error: result.message || `GitHub commit failed with HTTP ${response.status}` }, 502);
+  const imagePaths = photoUploads.map((photo) => `images/blog/${post.date}-${post.slug}/${photo.fileName}`);
+  const duplicatePath = firstDuplicate(imagePaths);
+  if (duplicatePath) return json({ error: `duplicate image path ${duplicatePath}` }, 400);
+
+  for (const imagePath of imagePaths) {
+    const imageExists = await githubFetch(contentsEndpoint(env, imagePath) + `?ref=${encodeURIComponent(branch)}`, env);
+    if (imageExists.status === 200) return json({ error: `${imagePath} already exists` }, 409);
+    if (imageExists.status !== 404) {
+      return json({ error: `GitHub lookup failed for ${imagePath} with HTTP ${imageExists.status}` }, 502);
+    }
   }
+
+  const commitResult = await commitFiles(env, branch, `Add ${post.title} blog post`, [
+    { path: postPath, content: toBase64(postContent), encoding: 'base64' },
+    ...photoUploads.map((photo) => ({
+      path: `images/blog/${post.date}-${post.slug}/${photo.fileName}`,
+      content: photo.contentBase64,
+      encoding: 'base64',
+    })),
+  ]);
+
+  if (commitResult.error) return json({ error: commitResult.error }, commitResult.status || 502);
 
   return json({
     status: 'committed',
-    filePath,
-    commitSha: result.commit && result.commit.sha,
-    commitUrl: result.commit && result.commit.html_url,
+    filePath: postPath,
+    imagePaths,
+    commitSha: commitResult.sha,
+    commitUrl: commitResult.htmlUrl,
     postUrl: `/blog/#post-${post.date}-${post.slug}`,
   }, 201);
 }
 
-function normalizePost(payload) {
+function normalizePost(payload, photoUploads) {
+  const date = stringValue(payload.date);
+  const slug = slugify(stringValue(payload.slug || payload.title));
   return {
-    date: stringValue(payload.date),
+    date,
     title: stringValue(payload.title),
-    slug: slugify(stringValue(payload.slug || payload.title)),
+    slug,
     type: stringValue(payload.type || 'FIELD REPORT').toUpperCase(),
     tags: Array.isArray(payload.tags) ? payload.tags.map(stringValue).filter(Boolean) : [],
     context: stringValue(payload.context),
     body: Array.isArray(payload.body) ? payload.body.map(stringValue).filter(Boolean) : [],
-    photos: [],
+    photos: photoUploads.map((photo) => ({
+      src: `/images/blog/${date}-${slug}/${photo.fileName}`,
+      alt: photo.alt,
+      caption: photo.caption,
+      width: photo.width,
+      height: photo.height,
+    })),
   };
 }
 
-function validatePost(post) {
+function normalizePhotoUploads(payload) {
+  if (!Array.isArray(payload.photos)) return [];
+  return payload.photos.map((photo) => ({
+    fileName: fileNameValue(photo.fileName || photo.name),
+    mimeType: stringValue(photo.mimeType || photo.type).toLowerCase(),
+    size: Number(photo.size || 0),
+    width: Number(photo.width || 0) || undefined,
+    height: Number(photo.height || 0) || undefined,
+    alt: stringValue(photo.alt || photo.caption || photo.fileName || photo.name),
+    caption: stringValue(photo.caption || photo.alt || photo.fileName || photo.name),
+    contentBase64: compactBase64(photo.contentBase64 || photo.data || ''),
+  })).filter((photo) => photo.fileName || photo.contentBase64 || photo.caption);
+}
+
+function validatePost(post, photoUploads) {
   const problems = [];
   if (!/^\d{4}-\d{2}-\d{2}$/.test(post.date)) problems.push('date must be YYYY-MM-DD');
   if (!post.title) problems.push('title is required');
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug)) problems.push('slug must be lowercase hyphenated text');
   if (!post.context) problems.push('context is required');
   if (!post.body.length) problems.push('body is required');
-  if (JSON.stringify(post).length > MAX_POST_BYTES) problems.push('post is too large');
+  if (JSON.stringify(post).length > MAX_POST_BYTES) problems.push('post metadata is too large');
+
+  let imageBytes = 0;
+  photoUploads.forEach((photo, index) => {
+    const label = `photo ${index + 1}`;
+    if (!photo.fileName) problems.push(`${label} file name is required`);
+    if (!/^[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp|gif)$/i.test(photo.fileName)) problems.push(`${label} needs a safe image filename`);
+    if (!IMAGE_MIME_TYPES.has(photo.mimeType)) problems.push(`${label} must be JPEG, PNG, WebP, or GIF`);
+    if (!photo.contentBase64 || !isBase64(photo.contentBase64)) problems.push(`${label} has invalid image data`);
+    if (!photo.caption) problems.push(`${label} caption is required`);
+    if (!photo.alt) problems.push(`${label} alt text is required`);
+    const actualBytes = photo.size || base64Bytes(photo.contentBase64);
+    if (actualBytes > MAX_IMAGE_BYTES) problems.push(`${label} exceeds 25 MB`);
+    imageBytes += actualBytes;
+  });
+  if (imageBytes > MAX_PUBLISH_BYTES - MAX_POST_BYTES) problems.push('combined image payload exceeds 75 MB');
   return problems;
+}
+
+async function commitFiles(env, branch, message, files) {
+  const refEndpoint = `https://api.github.com/repos/${env.GITHUB_REPO}/git/ref/heads/${encodeURIComponent(branch)}`;
+  const refResponse = await githubFetch(refEndpoint, env);
+  const ref = await refResponse.json().catch(() => ({}));
+  if (!refResponse.ok) return { error: ref.message || `GitHub ref lookup failed with HTTP ${refResponse.status}`, status: 502 };
+
+  const commitResponse = await githubFetch(ref.object.url, env);
+  const parentCommit = await commitResponse.json().catch(() => ({}));
+  if (!commitResponse.ok) return { error: parentCommit.message || `GitHub commit lookup failed with HTTP ${commitResponse.status}`, status: 502 };
+
+  const tree = [];
+  for (const file of files) {
+    const blobResponse = await githubFetch(`https://api.github.com/repos/${env.GITHUB_REPO}/git/blobs`, env, {
+      method: 'POST',
+      body: JSON.stringify({ content: file.content, encoding: file.encoding || 'base64' }),
+    });
+    const blob = await blobResponse.json().catch(() => ({}));
+    if (!blobResponse.ok) return { error: blob.message || `GitHub blob create failed with HTTP ${blobResponse.status}`, status: 502 };
+    tree.push({ path: file.path, mode: '100644', type: 'blob', sha: blob.sha });
+  }
+
+  const treeResponse = await githubFetch(`https://api.github.com/repos/${env.GITHUB_REPO}/git/trees`, env, {
+    method: 'POST',
+    body: JSON.stringify({ base_tree: parentCommit.tree.sha, tree }),
+  });
+  const newTree = await treeResponse.json().catch(() => ({}));
+  if (!treeResponse.ok) return { error: newTree.message || `GitHub tree create failed with HTTP ${treeResponse.status}`, status: 502 };
+
+  const newCommitResponse = await githubFetch(`https://api.github.com/repos/${env.GITHUB_REPO}/git/commits`, env, {
+    method: 'POST',
+    body: JSON.stringify({
+      message,
+      tree: newTree.sha,
+      parents: [ref.object.sha],
+      committer: env.GITHUB_COMMITTER_NAME && env.GITHUB_COMMITTER_EMAIL ? {
+        name: env.GITHUB_COMMITTER_NAME,
+        email: env.GITHUB_COMMITTER_EMAIL,
+      } : undefined,
+    }),
+  });
+  const newCommit = await newCommitResponse.json().catch(() => ({}));
+  if (!newCommitResponse.ok) return { error: newCommit.message || `GitHub commit create failed with HTTP ${newCommitResponse.status}`, status: 502 };
+
+  const updateResponse = await githubFetch(refEndpoint, env, {
+    method: 'PATCH',
+    body: JSON.stringify({ sha: newCommit.sha }),
+  });
+  const update = await updateResponse.json().catch(() => ({}));
+  if (!updateResponse.ok) return { error: update.message || `GitHub ref update failed with HTTP ${updateResponse.status}`, status: 502 };
+
+  return { sha: newCommit.sha, htmlUrl: newCommit.html_url };
+}
+
+function contentsEndpoint(env, filePath) {
+  const apiPath = encodeURIComponent(filePath).replace(/%2F/g, '/');
+  return `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${apiPath}`;
 }
 
 function authorizePublisher(request, env) {
@@ -177,6 +281,37 @@ function json(data, status = 200, extraHeaders = {}) {
 
 function stringValue(value) {
   return String(value || '').trim();
+}
+
+function fileNameValue(value) {
+  return stringValue(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .replace(/^\.+/, '');
+}
+
+function compactBase64(value) {
+  return stringValue(value).replace(/^data:[^;]+;base64,/, '').replace(/\s/g, '');
+}
+
+function isBase64(value) {
+  return /^[A-Za-z0-9+/]+={0,2}$/.test(value) && value.length % 4 === 0;
+}
+
+function base64Bytes(value) {
+  const padding = value.endsWith('==') ? 2 : value.endsWith('=') ? 1 : 0;
+  return Math.floor(value.length * 3 / 4) - padding;
+}
+
+function firstDuplicate(values) {
+  const seen = new Set();
+  for (const value of values) {
+    if (seen.has(value)) return value;
+    seen.add(value);
+  }
+  return '';
 }
 
 function slugify(text) {

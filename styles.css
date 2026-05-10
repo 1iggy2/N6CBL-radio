@@ -1228,16 +1228,25 @@ td.bar-cell {
 
 .blog-prose p + p { margin-top: 10px; }
 
-.blog-photo {
-  margin: 0;
+.blog-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   border-bottom: 1px solid var(--rule-2);
 }
 
+.blog-photo {
+  margin: 0;
+  border-right: 1px solid var(--rule-2);
+  min-width: 0;
+}
+
+.blog-photo:last-child { border-right: none; }
+
 .blog-photo img {
   display: block;
-  width: auto;
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  max-height: 520px;
   object-fit: contain;
   background: var(--black);
 }
@@ -1376,6 +1385,12 @@ td.bar-cell {
   }
   .blog-post h2 { font-size: 1.55rem; }
   .blog-prose { font-size: 0.88rem; }
+  .blog-photo-grid { grid-template-columns: 1fr; }
+  .blog-photo {
+    border-right: none;
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .blog-photo:last-child { border-bottom: none; }
   .photo-preview-grid { grid-template-columns: 1fr; }
 }
 

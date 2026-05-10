@@ -150,7 +150,7 @@
         <p>
           This owner-only tool submits structured blog source to GitHub through the
           Cloudflare Worker. The generated snippets remain visible for inspection,
-          but publishing no longer requires image-folder setup or HTML surgery.
+          including uploaded image files in the post-owned image folder.
         </p>
       </section>
 
@@ -173,8 +173,8 @@
           <li>
             Add the required Worker secret with
             <code>npx wrangler secret put GITHUB_TOKEN</code>. Use a GitHub token that
-            can write repository contents so the Worker can create
-            <code>content/blog/YYYY-MM-DD-slug.json</code>.
+            can write repository contents so the Worker can create the post JSON plus
+            any <code>images/blog/YYYY-MM-DD-slug/</code> uploads.
           </li>
           <li>
             Optional tighter gate: add <code>ALLOWED_EMAILS</code> with
@@ -296,13 +296,14 @@
             The Worker also checks the authenticated email before writing to GitHub.
           </li>
           <li>
-            V1 publishes text-only posts. If photo files or captions are present, the
-            page keeps showing the target folder but blocks auto-submit until image
-            upload support lands.
+            Image uploads are submitted with the post JSON in one Git commit. Keep total
+            upload size under 75 MB; each image must be JPEG, PNG, WebP, or GIF and
+            under 25 MB.
           </li>
           <li>
             A successful submit creates <code>/content/blog/YYYY-MM-DD-slug.json</code>
-            in GitHub. The blog build workflow regenerates static HTML from that source.
+            and any selected files under <code>/images/blog/YYYY-MM-DD-slug/</code>. The
+            blog build workflow regenerates static HTML from that source.
           </li>
           <li>
             The copied HTML snippets are inspection tools and emergency fallback, not
@@ -319,6 +320,11 @@
 
   <script>
   (function () {
+    var MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+    var MAX_UPLOAD_BYTES = 75 * 1024 * 1024;
+    var IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    var imageDetails = {};
+
     var dateEl = document.getElementById('post-date');
     var titleEl = document.getElementById('post-title');
     var slugEl = document.getElementById('post-slug');
@@ -369,16 +375,10 @@
     render();
 
     function render() {
-      var payload = buildPayload();
+      var payload = buildPayload(false);
       var id = 'post-' + payload.date + '-' + payload.slug;
       var folder = '/images/blog/' + payload.date + '-' + payload.slug + '/';
-      var captions = parseCaptions(captionsEl.value, folder);
-      var figureHtml = captions.map(function (item) {
-        return '          <figure class="blog-photo">\n'
-          + '            <img src="' + escAttr(item.src) + '" alt="' + escAttr(item.alt) + '" loading="lazy">\n'
-          + '            <figcaption>' + escText(item.caption) + '</figcaption>\n'
-          + '          </figure>';
-      }).join('\n');
+      var figureHtml = renderFigureHtml(payload.photos);
       var proseHtml = payload.body.length
         ? payload.body.map(function (p) { return '            <p>\n              ' + escText(p) + '\n            </p>'; }).join('\n')
         : '            <p>\n              Draft body goes here.\n            </p>';
@@ -410,14 +410,17 @@
         + '        </article>';
 
       jsonOutput.value = JSON.stringify(payload, null, 2) + '\n';
-      photoTarget.textContent = 'Image target folder: ' + folder + ' (V1 auto-submit is text-only)';
+      photoTarget.textContent = payload.photos.length
+        ? 'Image target folder: ' + folder + ' · ' + payload.photos.length + ' selected · ' + Math.round(totalSelectedBytes() / 1024) + ' KB staged'
+        : 'Select photos to stage images under ' + folder;
       updateValidation(payload);
     }
 
-    function buildPayload() {
+    function buildPayload(includeUploads) {
       var title = titleEl.value.trim() || 'Untitled field note';
       var slug = slugEl.value.trim() || slugify(title);
       var date = dateEl.value || new Date().toISOString().slice(0, 10);
+      var folder = '/images/blog/' + date + '-' + slug + '/';
       return {
         date: date,
         title: title,
@@ -426,21 +429,37 @@
         tags: tagsEl.value.split(',').map(function (tag) { return tag.trim(); }).filter(Boolean),
         context: contextEl.value.trim(),
         body: bodyEl.value.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean),
-        photos: []
+        photos: Array.prototype.map.call(photosEl.files, function (file, index) {
+          var caption = captionForFile(file, index);
+          var fileName = safeFileName(file.name);
+          var detail = imageDetails[fileKey(file)] || {};
+          var photo = {
+            src: folder + fileName,
+            fileName: fileName,
+            alt: caption,
+            caption: caption,
+            mimeType: file.type,
+            size: file.size,
+            width: detail.width,
+            height: detail.height
+          };
+          if (!includeUploads) return photo;
+          photo.file = file;
+          return photo;
+        })
       };
     }
 
     function updateValidation(payload) {
       var problems = validatePayload(payload);
-      if (photosEl.files.length || captionsEl.value.trim()) {
-        problems.push('image upload is reserved for V2');
-      }
       if (problems.length) {
         validationState.textContent = problems.join('; ');
         submitButton.disabled = true;
         setStatus('Blocked', 'todo');
       } else {
-        validationState.textContent = 'Ready to submit text-only post';
+        validationState.textContent = payload.photos.length
+          ? 'Ready to submit post with ' + payload.photos.length + ' image file(s)'
+          : 'Ready to submit text-only post';
         submitButton.disabled = false;
         setStatus('Ready', 'live');
       }
@@ -448,26 +467,42 @@
 
     function validatePayload(payload) {
       var problems = [];
+      var totalBytes = totalSelectedBytes();
       if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.date)) problems.push('date must be YYYY-MM-DD');
       if (!payload.title || payload.title === 'Untitled field note') problems.push('title required');
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(payload.slug)) problems.push('slug must be lowercase hyphenated text');
       if (!payload.context) problems.push('context required');
       if (!payload.body.length) problems.push('body required');
+      if (totalBytes > MAX_UPLOAD_BYTES) problems.push('combined image payload must stay under 75 MB');
+      var names = {};
+      payload.photos.forEach(function (photo, index) {
+        var label = 'photo ' + (index + 1);
+        if (IMAGE_TYPES.indexOf(photo.mimeType) === -1) problems.push(label + ' must be JPEG, PNG, WebP, or GIF');
+        if (photo.size > MAX_IMAGE_BYTES) problems.push(label + ' must stay under 25 MB');
+        if (names[photo.fileName]) problems.push(label + ' duplicates image filename ' + photo.fileName);
+        names[photo.fileName] = true;
+        if (!photo.caption) problems.push(label + ' caption required');
+      });
       return problems;
     }
 
     async function submitPost() {
-      var payload = buildPayload();
+      var payload = buildPayload(true);
       var problems = validatePayload(payload);
-      if (photosEl.files.length || captionsEl.value.trim()) problems.push('image upload is reserved for V2');
       if (problems.length) {
         validationState.textContent = problems.join('; ');
         return;
       }
       submitButton.disabled = true;
-      commitState.textContent = 'Submitting to /api/blog/publish';
+      commitState.textContent = 'Encoding uploads and submitting to /api/blog/publish';
       setStatus('Submitting', 'todo');
       try {
+        payload.photos = await Promise.all(payload.photos.map(async function (photo) {
+          var file = photo.file;
+          delete photo.file;
+          photo.contentBase64 = await readFileBase64(file);
+          return photo;
+        }));
         var response = await fetch('/api/blog/publish', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -478,7 +513,7 @@
           throw new Error(data.error || ('HTTP ' + response.status));
         }
         commitState.innerHTML = '<a href="' + escAttr(data.commitUrl || '#') + '" target="_blank" rel="noopener">' + escText(data.commitSha || 'committed') + ' &#8599;</a>';
-        validationState.textContent = 'Committed source; build workflow will regenerate static HTML';
+        validationState.textContent = 'Committed source and images; build workflow will regenerate static HTML';
         setStatus('Committed', 'live');
       } catch (err) {
         commitState.textContent = err.message;
@@ -494,15 +529,21 @@
 
     function renderPhotos() {
       photoPreview.innerHTML = '';
+      imageDetails = {};
       Array.prototype.forEach.call(photosEl.files, function (file) {
         var item = document.createElement('figure');
         item.className = 'photo-preview-item';
         var img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
+        var src = URL.createObjectURL(file);
+        img.src = src;
         img.alt = file.name;
-        img.onload = function () { URL.revokeObjectURL(img.src); };
+        img.onload = function () {
+          imageDetails[fileKey(file)] = { width: img.naturalWidth, height: img.naturalHeight };
+          URL.revokeObjectURL(src);
+          render();
+        };
         var cap = document.createElement('figcaption');
-        cap.textContent = file.name + ' · ' + Math.round(file.size / 1024) + ' KB';
+        cap.textContent = safeFileName(file.name) + ' · ' + Math.round(file.size / 1024) + ' KB';
         item.appendChild(img);
         item.appendChild(cap);
         photoPreview.appendChild(item);
@@ -510,13 +551,58 @@
       render();
     }
 
-    function parseCaptions(text, folder) {
-      return text.split('\n').map(function (line) { return line.trim(); }).filter(Boolean).map(function (line) {
-        var parts = line.split('|');
-        var file = (parts[0] || '').trim();
-        var caption = (parts.slice(1).join('|') || file).trim();
-        return { src: folder + file, alt: caption, caption: caption };
+    function renderFigureHtml(photos) {
+      if (!photos.length) return '';
+      return '          <div class="blog-photo-grid">\n'
+        + photos.map(function (item) {
+          var size = item.width && item.height ? ' width="' + Number(item.width) + '" height="' + Number(item.height) + '"' : '';
+          return '            <figure class="blog-photo">\n'
+            + '              <img src="' + escAttr(item.src) + '" alt="' + escAttr(item.alt) + '"' + size + ' loading="lazy">\n'
+            + '              <figcaption>' + escText(item.caption) + '</figcaption>\n'
+            + '            </figure>';
+        }).join('\n')
+        + '\n          </div>';
+    }
+
+    function captionForFile(file, index) {
+      var lines = captionsEl.value.split('\n').map(function (line) { return line.trim(); }).filter(Boolean);
+      var fallback = '';
+      var direct = lines[index] || '';
+      var named = lines.filter(function (line) {
+        return line.split('|')[0].trim().toLowerCase() === file.name.toLowerCase()
+          || line.split('|')[0].trim().toLowerCase() === safeFileName(file.name).toLowerCase();
+      })[0];
+      var line = named || direct;
+      if (!line) return fallback;
+      var parts = line.split('|');
+      if (parts.length > 1) return parts.slice(1).join('|').trim() || fallback;
+      return line;
+    }
+
+    function totalSelectedBytes() {
+      return Array.prototype.reduce.call(photosEl.files, function (sum, file) { return sum + file.size; }, 0);
+    }
+
+    function readFileBase64(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function () { resolve(String(reader.result).split(',')[1] || ''); };
+        reader.onerror = function () { reject(reader.error || new Error('could not read ' + file.name)); };
+        reader.readAsDataURL(file);
       });
+    }
+
+    function safeFileName(name) {
+      return String(name || 'image')
+        .toLowerCase()
+        .replace(/[^a-z0-9._-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .replace(/^\.+/, '') || 'image';
+    }
+
+    function fileKey(file) {
+      return [file.name, file.size, file.lastModified].join('|');
     }
 
     function slugify(text) {
