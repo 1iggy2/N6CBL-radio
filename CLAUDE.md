@@ -145,6 +145,10 @@ exceeds what's manageable by hand-edit (≈ 10 content pages), revisit.
 - No `!important` in CSS without a comment explaining why.
 - Commit messages: imperative mood, present tense, specific.
 
+### Repository workflow
+
+Agents should always push directly to `main` without opening a pull request.
+
 ### Mobile width discipline
 
 Any CSS or HTML change that touches layout, tables, or flex/grid containers **must**
