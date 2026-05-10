@@ -173,8 +173,10 @@ function validatePost(post, photoUploads) {
 }
 
 async function commitFiles(env, branch, message, files) {
-  const refEndpoint = `https://api.github.com/repos/${env.GITHUB_REPO}/git/ref/heads/${encodeURIComponent(branch)}`;
-  const refResponse = await githubFetch(refEndpoint, env);
+  const encodedBranch = encodeURIComponent(branch);
+  const readRefEndpoint = `https://api.github.com/repos/${env.GITHUB_REPO}/git/ref/heads/${encodedBranch}`;
+  const updateRefEndpoint = `https://api.github.com/repos/${env.GITHUB_REPO}/git/refs/heads/${encodedBranch}`;
+  const refResponse = await githubFetch(readRefEndpoint, env);
   const ref = await refResponse.json().catch(() => ({}));
   if (!refResponse.ok) {
     return githubFailure('GitHub branch lookup failed', refResponse, ref, { branch });
@@ -225,7 +227,7 @@ async function commitFiles(env, branch, message, files) {
     return githubFailure('GitHub commit create failed', newCommitResponse, newCommit, { fileCount: files.length });
   }
 
-  const updateResponse = await githubFetch(refEndpoint, env, {
+  const updateResponse = await githubFetch(updateRefEndpoint, env, {
     method: 'PATCH',
     body: JSON.stringify({ sha: newCommit.sha }),
   });
