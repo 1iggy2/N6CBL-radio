@@ -433,6 +433,7 @@ header {
 
 table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   font-size: 0.78rem;
 }
@@ -776,15 +777,13 @@ footer a:hover { text-decoration: underline; }
   .stats-core-grid .stat:nth-child(even)   { border-right: none; }
   .stats-core-grid .stat:nth-child(-n+4)   { border-bottom: 1px solid var(--rule-2); }
 
-  /* WAS tile map: smaller font on mobile */
-  .was-tile-grid { gap: 2px; padding: 8px; }
-  .was-tile { font-size: 0.52rem; padding: 3px 0; }
-
   /* Stats map bar: truncate right label on mobile */
   #map-bar-grids { display: none; }
 
   /* Band/mode tables side by side: stack on mobile */
   .stats-tables-row { grid-template-columns: 1fr; }
+  .stats-table-panel { border-right: none; border-bottom: 1px solid var(--rule); }
+  .stats-table-panel:last-child { border-bottom: none; }
 }
 
 /* ── STATS PAGE ─────────────────────────────────────────────────────────────────── */
@@ -812,14 +811,25 @@ footer a:hover { text-decoration: underline; }
 
 .stats-map-bar {
   padding: 5px 12px;
+  min-width: 0;
   font-size: 0.65rem;
   letter-spacing: 0.06em;
   color: var(--muted);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   border-top: 1px solid var(--rule-2);
 }
+
+.stats-map-bar span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-map-bar span:last-child { flex-shrink: 0; }
 
 .stats-core-grid {
   display: grid;
@@ -839,7 +849,8 @@ footer a:hover { text-decoration: underline; }
 
 .stats-table-panel:last-child { border-right: none; }
 
-.stats-table-panel table { border-bottom: none; }
+.stats-table-panel table { border-bottom: none; table-layout: fixed; }
+.hour-section table { table-layout: fixed; }
 
 /* WAS — Worked All States tile map */
 .was-section { border-bottom: 1px solid var(--rule); }
@@ -938,7 +949,13 @@ td.bar-cell {
 }
 
 /* WAS geographic map image */
-.was-map-img { display: block; width: 100%; height: auto; }
+.was-map-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background: var(--tint);
+}
 
 /* stats-core-grid cascade fix: repeat rule after stats page CSS overrides earlier @media block */
 @media (max-width: 768px) {
@@ -950,6 +967,8 @@ td.bar-cell {
 /* Only collapse to single column on truly tiny screens */
 @media (max-width: 420px) {
   .layout-body { grid-template-columns: 1fr; }
+  th, td { padding-left: 8px; padding-right: 8px; }
+  .hour-bar-cell, td.bar-cell { padding-left: 8px; padding-right: 8px; }
   .sidenav {
     position: static;
     height: auto;

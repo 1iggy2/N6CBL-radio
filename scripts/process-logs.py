@@ -77,124 +77,151 @@ def fmt_time(raw):
 
 
 def generate_was_svg(states_worked):
-    W, H = 960, 580
+    """Generate a lightweight, recognizable WAS SVG map.
 
-    M_X0, M_X1, M_Y0, M_Y1 = 0, 960, 0, 460
-    M_LON0, M_LON1, M_LAT0, M_LAT1 = -125.0, -66.0, 24.0, 49.5
-
-    def proj_main(lat, lon):
-        x = M_X0 + (lon - M_LON0) / (M_LON1 - M_LON0) * (M_X1 - M_X0)
-        y = M_Y0 + (M_LAT1 - lat) / (M_LAT1 - M_LAT0) * (M_Y1 - M_Y0)
-        return x, y
-
-    AK_X0, AK_X1, AK_Y0, AK_Y1 = 5, 220, 465, 578
-    AK_LON0, AK_LON1, AK_LAT0, AK_LAT1 = -168.0, -130.0, 54.5, 71.5
-
-    def proj_ak(lat, lon):
-        x = AK_X0 + (lon - AK_LON0) / (AK_LON1 - AK_LON0) * (AK_X1 - AK_X0)
-        y = AK_Y0 + (AK_LAT1 - lat) / (AK_LAT1 - AK_LAT0) * (AK_Y1 - AK_Y0)
-        return x, y
-
-    HI_X0, HI_X1, HI_Y0, HI_Y1 = 230, 420, 492, 578
-    HI_LON0, HI_LON1, HI_LAT0, HI_LAT1 = -162.0, -154.0, 18.7, 22.5
-
-    def proj_hi(lat, lon):
-        x = HI_X0 + (lon - HI_LON0) / (HI_LON1 - HI_LON0) * (HI_X1 - HI_X0)
-        y = HI_Y0 + (HI_LAT1 - lat) / (HI_LAT1 - HI_LAT0) * (HI_Y1 - HI_Y0)
-        return x, y
-
+    The geometry below is intentionally simplified: state borders are coarse
+    enough to keep the static site fast, but shaped enough to read immediately
+    as the United States instead of an abstract rectangular tile grid.
+    Coordinates are lon/lat pairs, projected into a fixed SVG canvas with
+    Alaska and Hawaii in explicit inset boxes.
+    """
+    W, H = 960, 585
     worked_set = set(states_worked)
 
-    STATES = [
-        ('AL', 30.1, 35.0, -88.5, -84.9, proj_main),
-        ('AR', 33.0, 36.5, -94.6, -89.7, proj_main),
-        ('AZ', 31.3, 37.0, -114.8, -109.0, proj_main),
-        ('CA', 32.5, 42.0, -124.4, -114.1, proj_main),
-        ('CO', 37.0, 41.0, -109.1, -102.0, proj_main),
-        ('CT', 40.9, 42.1, -73.7, -71.8, proj_main),
-        ('DE', 38.4, 39.8, -75.8, -75.0, proj_main),
-        ('FL', 24.4, 31.0, -87.6, -80.0, proj_main),
-        ('GA', 30.4, 35.0, -85.6, -80.9, proj_main),
-        ('IA', 40.4, 43.5, -96.6, -90.1, proj_main),
-        ('ID', 41.9, 49.0, -117.2, -111.0, proj_main),
-        ('IL', 36.9, 42.5, -91.5, -87.5, proj_main),
-        ('IN', 37.8, 41.8, -88.1, -84.8, proj_main),
-        ('KS', 36.9, 40.0, -102.1, -94.6, proj_main),
-        ('KY', 36.5, 39.1, -89.6, -81.9, proj_main),
-        ('LA', 28.9, 33.0, -94.0, -89.0, proj_main),
-        ('MA', 41.2, 42.9, -73.5, -69.9, proj_main),
-        ('MD', 37.9, 39.7, -79.5, -75.1, proj_main),
-        ('ME', 43.1, 47.5, -71.1, -67.0, proj_main),
-        ('MI', 41.7, 48.3, -90.4, -82.4, proj_main),
-        ('MN', 43.5, 49.4, -97.2, -89.5, proj_main),
-        ('MO', 35.9, 40.6, -95.8, -89.1, proj_main),
-        ('MS', 30.2, 35.0, -91.7, -88.1, proj_main),
-        ('MT', 44.4, 49.0, -116.0, -104.0, proj_main),
-        ('NC', 33.8, 36.6, -84.3, -75.5, proj_main),
-        ('ND', 45.9, 49.0, -104.1, -96.6, proj_main),
-        ('NE', 40.0, 43.0, -104.1, -95.3, proj_main),
-        ('NH', 42.7, 45.3, -72.6, -70.7, proj_main),
-        ('NJ', 38.9, 41.4, -75.6, -74.0, proj_main),
-        ('NM', 31.3, 37.0, -109.1, -103.0, proj_main),
-        ('NV', 35.0, 42.0, -120.0, -114.0, proj_main),
-        ('NY', 40.5, 45.0, -79.8, -71.9, proj_main),
-        ('OH', 38.4, 42.3, -84.8, -80.5, proj_main),
-        ('OK', 33.6, 37.0, -103.0, -94.4, proj_main),
-        ('OR', 41.9, 46.2, -124.6, -116.5, proj_main),
-        ('PA', 39.7, 42.3, -80.5, -74.7, proj_main),
-        ('RI', 41.1, 42.0, -71.9, -71.1, proj_main),
-        ('SC', 32.0, 35.2, -83.4, -78.5, proj_main),
-        ('SD', 42.5, 45.9, -104.1, -96.4, proj_main),
-        ('TN', 34.9, 36.7, -90.3, -81.7, proj_main),
-        ('TX', 25.8, 36.5, -106.6, -93.5, proj_main),
-        ('UT', 37.0, 42.0, -114.1, -109.0, proj_main),
-        ('VA', 36.5, 39.5, -83.7, -75.2, proj_main),
-        ('VT', 42.7, 45.0, -73.4, -71.5, proj_main),
-        ('WA', 45.5, 49.0, -124.7, -116.9, proj_main),
-        ('WI', 42.5, 47.1, -92.9, -86.8, proj_main),
-        ('WV', 37.2, 40.6, -82.6, -77.7, proj_main),
-        ('WY', 41.0, 45.0, -111.1, -104.1, proj_main),
-        ('AK', 54.6, 71.4, -168.0, -130.0, proj_ak),
-        ('HI', 18.9, 22.2, -160.2, -154.8, proj_hi),
-    ]
+    MAIN = {'x0': 22, 'x1': 938, 'y0': 12, 'y1': 430,
+            'lon0': -125.0, 'lon1': -66.5, 'lat0': 24.0, 'lat1': 49.5}
+    AK = {'x0': 36, 'x1': 326, 'y0': 456, 'y1': 572,
+          'lon0': -170.0, 'lon1': -130.0, 'lat0': 52.0, 'lat1': 72.0}
+    HI = {'x0': 385, 'x1': 565, 'y0': 496, 'y1': 562,
+          'lon0': -161.0, 'lon1': -154.5, 'lat0': 18.5, 'lat1': 22.5}
 
-    def make_state(st, lat_min, lat_max, lon_min, lon_max, proj, worked):
-        x1, y1 = proj(lat_max, lon_min)
-        x2, y2 = proj(lat_min, lon_max)
-        rx, ry = min(x1, x2), min(y1, y2)
-        rw, rh = abs(x2 - x1), abs(y2 - y1)
-        cx, cy = rx + rw / 2, ry + rh / 2
-        if worked:
-            fill, stroke, tc = '#2a7a2a', '#1a5c1a', '#fff'
-        else:
-            fill, stroke, tc = '#e8e8e3', '#ccc', '#888'
-        fs = max(5.0, min(rw * 0.32, rh * 0.50, 11.0))
-        r = (f'<rect x="{rx:.1f}" y="{ry:.1f}" width="{rw:.1f}" height="{rh:.1f}" '
-             f'fill="{fill}" stroke="{stroke}" stroke-width="0.5"/>')
-        t = (f'<text x="{cx:.1f}" y="{cy:.1f}" font-family="monospace" font-size="{fs:.1f}" '
-             f'font-weight="bold" fill="{tc}" text-anchor="middle" '
-             f'dominant-baseline="central">{st}</text>')
-        return r + t
+    def project(pt, box=MAIN):
+        lon, lat = pt
+        x = box['x0'] + (lon - box['lon0']) / (box['lon1'] - box['lon0']) * (box['x1'] - box['x0'])
+        y = box['y0'] + (box['lat1'] - lat) / (box['lat1'] - box['lat0']) * (box['y1'] - box['y0'])
+        return x, y
 
-    lines = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}">']
+    def path_for(rings, box=MAIN):
+        parts = []
+        for ring in rings:
+            pts = [project(pt, box) for pt in ring]
+            parts.append('M ' + ' L '.join(f'{x:.1f},{y:.1f}' for x, y in pts) + ' Z')
+        return ' '.join(parts)
+
+    def text_xy(lon, lat, box=MAIN):
+        x, y = project((lon, lat), box)
+        return f'{x:.1f}', f'{y:.1f}'
+
+    # Simplified state polygons. Not survey-grade; designed as a fast, readable
+    # WAS status graphic with true geographic adjacency and a recognizable coast.
+    states = {
+        'WA': [[(-124.7,48.4),(-124.0,45.6),(-117.0,45.6),(-117.0,49.0),(-123.2,49.0)]],
+        'OR': [[(-124.6,45.6),(-123.8,42.0),(-117.0,42.0),(-117.0,45.6)]],
+        'CA': [[(-124.3,42.0),(-120.0,42.0),(-114.2,35.0),(-117.1,32.5),(-121.0,34.4),(-123.8,39.0)]],
+        'ID': [[(-117.0,49.0),(-111.0,49.0),(-111.0,44.5),(-114.0,44.5),(-114.0,42.0),(-117.0,42.0)]],
+        'NV': [[(-120.0,42.0),(-114.0,42.0),(-114.0,37.0),(-114.8,35.0),(-120.0,39.0)]],
+        'AZ': [[(-114.8,37.0),(-109.0,37.0),(-109.0,31.3),(-111.0,31.3),(-114.8,32.5)]],
+        'MT': [[(-116.0,49.0),(-104.0,49.0),(-104.0,45.0),(-111.0,45.0),(-111.0,44.5),(-116.0,44.5)]],
+        'WY': [[(-111.0,45.0),(-104.0,45.0),(-104.0,41.0),(-111.0,41.0)]],
+        'UT': [[(-114.0,42.0),(-109.0,42.0),(-109.0,37.0),(-114.0,37.0)]],
+        'CO': [[(-109.0,41.0),(-102.0,41.0),(-102.0,37.0),(-109.0,37.0)]],
+        'NM': [[(-109.0,37.0),(-103.0,37.0),(-103.0,32.0),(-106.6,31.8),(-109.0,31.3)]],
+        'ND': [[(-104.0,49.0),(-97.0,49.0),(-97.0,45.9),(-104.0,45.9)]],
+        'SD': [[(-104.0,45.9),(-96.5,45.9),(-96.5,42.5),(-104.0,42.5)]],
+        'NE': [[(-104.0,42.5),(-95.3,42.5),(-95.3,40.0),(-102.0,40.0),(-104.0,41.0)]],
+        'KS': [[(-102.0,40.0),(-94.6,40.0),(-94.6,37.0),(-102.0,37.0)]],
+        'OK': [[(-103.0,37.0),(-94.4,37.0),(-94.4,33.7),(-97.0,33.7),(-97.0,35.0),(-103.0,35.0)]],
+        'TX': [[(-106.6,32.0),(-103.0,32.0),(-103.0,35.0),(-97.0,35.0),(-97.0,33.7),(-94.0,33.7),(-93.5,30.0),(-97.0,25.8),(-100.0,28.5),(-104.0,29.8)]],
+        'MN': [[(-97.0,49.0),(-89.5,49.0),(-89.5,46.0),(-92.0,46.0),(-92.0,43.5),(-96.5,43.5),(-97.0,45.9)]],
+        'IA': [[(-96.5,43.5),(-91.0,43.5),(-90.1,41.0),(-91.0,40.4),(-96.5,40.4)]],
+        'MO': [[(-95.8,40.4),(-91.0,40.4),(-89.1,36.0),(-90.0,35.9),(-94.6,36.5),(-94.6,37.0),(-95.8,37.0)]],
+        'AR': [[(-94.6,36.5),(-90.0,36.5),(-89.7,33.0),(-94.0,33.0),(-94.6,33.7)]],
+        'LA': [[(-94.0,33.0),(-89.7,33.0),(-89.0,29.3),(-91.5,29.0),(-93.8,29.7)]],
+        'WI': [[(-92.9,46.8),(-86.8,46.8),(-86.8,43.0),(-90.1,42.5),(-92.0,43.5),(-92.0,46.0)]],
+        'IL': [[(-91.5,42.5),(-87.5,42.5),(-87.5,37.0),(-89.1,37.0),(-90.1,40.4)]],
+        'MS': [[(-91.7,35.0),(-88.1,35.0),(-88.1,30.2),(-89.7,30.2),(-91.0,31.0)]],
+        'AL': [[(-88.5,35.0),(-85.0,35.0),(-85.0,31.0),(-87.6,30.2),(-88.1,30.2)]],
+        'MI': [[(-90.4,47.5),(-84.5,47.5),(-84.5,45.5),(-87.0,45.0),(-90.4,46.0)], [(-86.5,45.0),(-82.4,43.8),(-82.4,41.7),(-86.0,41.7),(-87.0,43.0)]],
+        'IN': [[(-88.1,41.8),(-84.8,41.8),(-84.8,37.8),(-87.5,37.8),(-87.5,41.8)]],
+        'KY': [[(-89.6,37.8),(-82.0,37.8),(-81.9,36.6),(-85.0,36.6),(-89.1,36.9)]],
+        'TN': [[(-90.3,36.6),(-81.7,36.6),(-82.2,35.0),(-90.0,35.0)]],
+        'OH': [[(-84.8,42.2),(-80.5,42.2),(-80.5,39.0),(-82.0,38.4),(-84.8,39.1)]],
+        'WV': [[(-82.6,40.6),(-79.0,40.6),(-77.7,39.0),(-80.0,37.2),(-82.2,37.8)]],
+        'VA': [[(-83.7,39.0),(-75.2,39.0),(-75.5,36.6),(-81.7,36.6),(-80.0,37.2)]],
+        'NC': [[(-84.3,36.6),(-75.5,36.6),(-75.8,34.0),(-80.0,34.0),(-84.3,35.2)]],
+        'SC': [[(-83.4,35.2),(-80.0,34.0),(-78.5,32.0),(-81.0,32.0),(-83.4,33.2)]],
+        'GA': [[(-85.0,35.0),(-82.2,35.0),(-80.9,32.0),(-83.0,30.6),(-85.0,31.0)]],
+        'FL': [[(-87.6,30.6),(-83.0,30.6),(-80.0,25.2),(-81.2,24.5),(-82.6,27.0),(-84.5,29.0),(-87.6,30.2)]],
+        'PA': [[(-80.5,42.3),(-74.7,42.0),(-74.7,39.7),(-79.0,39.7),(-80.5,40.6)]],
+        'NY': [[(-79.8,45.0),(-73.3,45.0),(-71.9,41.3),(-74.7,40.5),(-79.8,42.0)]],
+        'VT': [[(-73.4,45.0),(-71.5,45.0),(-71.5,42.7),(-73.0,42.7)]],
+        'NH': [[(-71.5,45.0),(-70.7,43.0),(-71.1,42.7),(-72.6,42.7),(-72.0,45.0)]],
+        'ME': [[(-71.1,47.5),(-67.0,45.0),(-69.8,43.1),(-70.7,43.0),(-71.5,45.0)]],
+        'MA': [[(-73.5,42.9),(-69.9,42.6),(-70.6,41.2),(-73.5,41.2)]],
+        'RI': [[(-71.9,42.0),(-71.1,42.0),(-71.1,41.1),(-71.9,41.1)]],
+        'CT': [[(-73.7,42.1),(-71.8,42.1),(-71.8,40.9),(-73.7,40.9)]],
+        'NJ': [[(-75.6,41.4),(-74.0,41.0),(-74.3,38.9),(-75.6,39.7)]],
+        'DE': [[(-75.8,39.8),(-75.0,39.7),(-75.0,38.4),(-75.8,38.7)]],
+        'MD': [[(-79.5,39.7),(-75.1,39.7),(-75.2,38.0),(-77.0,38.0),(-79.0,39.0)]],
+        'AK': [[(-168,71),(-150,70),(-141,60),(-130,56),(-145,54),(-160,55),(-170,60)]],
+        'HI': [[(-160.2,22.2),(-159.4,21.8),(-158.0,21.2),(-156.5,20.4),(-155.5,19.5),(-154.8,19.0)]],
+    }
+
+    worked_set = worked_set.intersection(states)
+
+    label_pos = {
+        'AL': (-86.7, 32.8), 'AK': (-151, 61.2), 'AZ': (-111.8, 34.1), 'AR': (-92.4, 34.8),
+        'CA': (-119.5, 37.2), 'CO': (-105.5, 39.0), 'CT': (-72.7, 41.55), 'DE': (-75.35, 39.1),
+        'FL': (-82.4, 28.0), 'GA': (-83.4, 32.8), 'HI': (-157.5, 20.7), 'ID': (-114.0, 45.2),
+        'IL': (-89.3, 40.0), 'IN': (-86.3, 39.9), 'IA': (-93.5, 42.0), 'KS': (-98.2, 38.4),
+        'KY': (-85.2, 37.2), 'LA': (-91.7, 30.8), 'ME': (-69.5, 45.3), 'MD': (-77.0, 38.8),
+        'MA': (-71.6, 42.1), 'MI': (-85.5, 44.0), 'MN': (-94.4, 46.2), 'MS': (-89.7, 32.9),
+        'MO': (-92.4, 38.5), 'MT': (-110.2, 47.0), 'NE': (-99.7, 41.4), 'NV': (-117.0, 39.0),
+        'NH': (-71.6, 43.7), 'NJ': (-74.8, 40.2), 'NM': (-106.0, 34.5), 'NY': (-75.7, 43.1),
+        'NC': (-79.5, 35.3), 'ND': (-100.4, 47.5), 'OH': (-82.7, 40.4), 'OK': (-97.5, 35.6),
+        'OR': (-120.5, 44.0), 'PA': (-77.7, 40.8), 'RI': (-71.5, 41.5), 'SC': (-80.9, 33.7),
+        'SD': (-100.2, 44.4), 'TN': (-86.1, 35.8), 'TX': (-99.2, 31.1), 'UT': (-111.7, 39.5),
+        'VT': (-72.6, 44.0), 'VA': (-78.5, 37.6), 'WA': (-120.8, 47.4), 'WV': (-80.6, 38.7),
+        'WI': (-89.6, 44.5), 'WY': (-107.5, 43.0),
+    }
+
+    def state_box(st):
+        if st == 'AK':
+            return AK
+        if st == 'HI':
+            return HI
+        return MAIN
+
+    lines = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-labelledby="was-title was-desc">']
+    lines.append('<title id="was-title">Worked All States map</title>')
+    lines.append('<desc id="was-desc">United States state map with worked states shown in green and unworked states in gray.</desc>')
     lines.append(f'<rect width="{W}" height="{H}" fill="#f5f5f0"/>')
-    lines.append(f'<rect x="{AK_X0}" y="{AK_Y0}" width="{AK_X1 - AK_X0}" '
-                 f'height="{AK_Y1 - AK_Y0}" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/>')
-    lines.append(f'<rect x="{HI_X0}" y="{HI_Y0}" width="{HI_X1 - HI_X0}" '
-                 f'height="{HI_Y1 - HI_Y0}" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/>')
+    lines.append('<g fill="none" stroke="#cfcfc8" stroke-width="1">')
+    lines.append(f'<rect x="{AK["x0"]}" y="{AK["y0"]}" width="{AK["x1"] - AK["x0"]}" height="{AK["y1"] - AK["y0"]}"/>')
+    lines.append(f'<rect x="{HI["x0"]}" y="{HI["y0"]}" width="{HI["x1"] - HI["x0"]}" height="{HI["y1"] - HI["y0"]}"/>')
+    lines.append('</g>')
 
-    not_worked = [s for s in STATES if s[0] not in worked_set]
-    worked_states = [s for s in STATES if s[0] in worked_set]
-    for s in not_worked + worked_states:
-        lines.append(make_state(s[0], s[1], s[2], s[3], s[4], s[5], s[0] in worked_set))
+    for st in sorted(states):
+        worked = st in worked_set
+        fill = '#2f7d32' if worked else '#e8e8e3'
+        stroke = '#1f5e23' if worked else '#c7c7bf'
+        lines.append(f'<path id="was-{st}" d="{path_for(states[st], state_box(st))}" fill="{fill}" stroke="{stroke}" stroke-width="1.1" vector-effect="non-scaling-stroke"/>')
 
+    for st in sorted(states):
+        bx = state_box(st)
+        x, y = text_xy(*label_pos[st], bx)
+        color = '#fff' if st in worked_set else '#777'
+        fs = '12' if st not in ('CT', 'DE', 'RI', 'NJ', 'MD', 'MA', 'NH', 'VT') else '10'
+        lines.append(f'<text x="{x}" y="{y}" font-family="Consolas, Menlo, Monaco, monospace" font-size="{fs}" font-weight="700" fill="{color}" text-anchor="middle" dominant-baseline="central">{st}</text>')
+
+    lines.append('<text x="42" y="449" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" fill="#777">ALASKA INSET</text>')
+    lines.append('<text x="391" y="489" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" fill="#777">HAWAII INSET</text>')
     lines.append('</svg>')
 
     out_path = Path('data/was-map.svg')
     out_path.parent.mkdir(exist_ok=True)
     out_path.write_text('\n'.join(lines))
     print(f'Generated WAS map -> {out_path} ({len(worked_set)} states worked)')
-
 
 def main():
     logs_dir = Path('logs')
