@@ -1,0 +1,26 @@
+# Keep Wrangler's static asset upload limited to browser-facing files.
+# The assets directory is the repository root, so explicitly exclude GitHub
+# checkout metadata and project/operator files that are not site assets.
+.git/
+.github/
+.wrangler/
+node_modules/
+
+# Local secrets and generated diagnostics.
+.dev.vars*
+.env*
+*.log
+
+# Repository guidance and source-only files; these should not be public assets.
+.assetsignore
+.gitignore
+AGENTS.md
+CLAUDE.md
+README.md
+blog/README.md
+scripts/
+worker.js
+wrangler.jsonc
+
+# Raw source logs are processed into /data/qso-log.json for the public site.
+logs/
