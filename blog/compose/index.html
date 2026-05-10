@@ -228,12 +228,44 @@
           <span class="section-tag todo">GitHub web UI</span>
         </div>
         <ol class="publish-list">
-          <li>Upload selected image files to <code>/images/blog/YYYY-MM-DD-slug/</code>.</li>
-          <li>Paste the generated table row into the <code>Post index</code> table body.</li>
-          <li>Paste the generated article block below the insertion comment in <code>/blog/index.html</code>.</li>
-          <li>Update the post count in the <code>blog-meta</code> label.</li>
-          <li>Update the <code>Latest field note</code> row in <code>/index.html</code>.</li>
-          <li>Commit with an imperative message, for example: <code>Add Crystal Cove field report</code>.</li>
+          <li>
+            Create a new image folder in the repository at
+            <code>/images/blog/YYYY-MM-DD-slug/</code>. Use the exact date from the
+            post form and a lowercase, hyphenated slug from the title. Upload the
+            optimized image files shown in <code>Photo staging</code> into that folder.
+          </li>
+          <li>
+            Open <code>/blog/index.html</code> for editing. Find the
+            <code>Post index</code> section near the top of the file, then paste the
+            generated <code>Index row</code> as the first row inside that table body so
+            the newest post stays first.
+          </li>
+          <li>
+            In the same file, <code>/blog/index.html</code>, find the
+            <code>NEW POST INSERTION POINT</code> comment below the index table. Paste
+            the generated <code>Article block</code> immediately below that comment and
+            above the older posts.
+          </li>
+          <li>
+            Still in <code>/blog/index.html</code>, update the post count in the
+            <code>blog-meta</code> label near the page heading so the visible metadata
+            matches the number of published posts.
+          </li>
+          <li>
+            Open the home page file, <code>/index.html</code>. Find the
+            <code>Latest field note</code> row in the status table and replace its date,
+            title, summary, and link target with the new post.
+          </li>
+          <li>
+            Before committing, check that every pasted image path starts with
+            <code>/images/blog/YYYY-MM-DD-slug/</code>, every image has useful
+            <code>alt</code> text and a caption, and the generated post link points to
+            the article <code>id</code> you pasted.
+          </li>
+          <li>
+            Commit the changed files and uploaded images with an imperative message,
+            for example: <code>Add Crystal Cove field report</code>.
+          </li>
         </ol>
       </section>
 
