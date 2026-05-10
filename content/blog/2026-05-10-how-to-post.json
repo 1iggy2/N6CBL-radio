@@ -1,0 +1,20 @@
+{
+  "date": "2026-05-10",
+  "title": "Welcome / how to post",
+  "slug": "how-to-post",
+  "type": "SITE NOTE",
+  "tags": [
+    "workflow",
+    "photos",
+    "field-journal"
+  ],
+  "context": "How the owner-only browser publisher turns structured source into static blog output.",
+  "bodyHtml": [
+    "Welcome to the N6CBL.radio field journal. This page is a static generated log for activation reports, station changes, project notes, useful failures, and photos that deserve a longer shelf life than a social-media post. The index above is the short table of records; the full text lives below it in newest-first order.",
+    "To make a new post, open the owner-only <a href=\"/blog/compose/\">/blog/compose/</a> publisher after passing Cloudflare Access. Fill in the date, title, slug, type, tags, index context line, and body paragraphs. The page shows the generated table row, article block, and JSON source before anything is submitted.",
+    "When the post is submitted, the Cloudflare Worker validates the Access email and commits a new structured file under <code>/content/blog/YYYY-MM-DD-slug.json</code>. The GitHub Action then runs <code>node scripts/build-blog.js</code>, regenerates the blog index plus home-page latest field note, and commits those static HTML files for Cloudflare to deploy.",
+    "V1 web publishing is text-only. The photo staging controls remain visible because image upload is the next publishing problem to solve, but auto-submit is blocked when photo files or caption lines are present. Future image support should preserve the same post-owned path convention: <code>/images/blog/YYYY-MM-DD-slug/</code>.",
+    "The fallback path is still inspectable: create or edit a JSON file in <code>/content/blog/</code>, run the build script locally, validate the generated HTML, and commit the source plus generated output. Normal publishing should not require direct GitHub uploads or hand-editing article HTML."
+  ],
+  "photos": []
+}

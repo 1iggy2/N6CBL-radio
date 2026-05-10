@@ -75,11 +75,6 @@
               <span class="nav-path">/blog/</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="/blog/compose/">
-              <span class="nav-path" aria-label="/blog/compose/">&#x21B3; compose/</span>
-            </a>
-          </li>
           <li class="nav-item nav-item-unimplemented">
             <a href="/tools/">
               <span class="nav-path">/tools/</span>
@@ -230,14 +225,14 @@
             <tr>
               <td class="path">/blog/</td>
               <td class="st st-live">Live</td>
-              <td>Field journal and long-form notes.</td>
-              <td class="desc roadmap-wide-col">How can posts become web-submittable without turning the site into a fragile CMS?</td>
+              <td>Generated field journal and long-form notes.</td>
+              <td class="desc roadmap-wide-col">How should image upload join the owner-only structured publishing workflow?</td>
             </tr>
             <tr>
               <td class="path">/blog/compose/</td>
-              <td class="st st-live">Live</td>
-              <td>Static snippet helper for writing posts by hand.</td>
-              <td class="desc roadmap-wide-col">Should this evolve into authenticated submission, or remain an offline drafting tool?</td>
+              <td class="st st-live">Owner-only</td>
+              <td>Cloudflare Access-protected publisher that commits structured blog source through the Worker.</td>
+              <td class="desc roadmap-wide-col">V1 is text-only; image upload should reuse the same post-owned asset path when it ships.</td>
             </tr>
             <tr>
               <td class="path">/tools/</td>
@@ -276,9 +271,9 @@
               <td class="roadmap-id">R-001</td>
               <td class="roadmap-feature">Web-submittable blog posts</td>
               <td class="roadmap-area">blog publishing</td>
-              <td class="st st-wip">P0</td>
+              <td class="st st-live">LIVE</td>
               <td class="roadmap-vote">+3</td>
-              <td class="desc roadmap-wide-col">This removes the largest publishing friction while preserving static output: draft in the browser, authenticate, submit to a moderation queue, then commit generated HTML or structured post data after review.</td>
+              <td class="desc roadmap-wide-col">Owner-only browser publishing now preserves static output without manual HTML surgery: draft in the browser, authenticate through Cloudflare Access, submit structured JSON to GitHub, then let the build workflow regenerate committed static pages.</td>
             </tr>
             <tr>
               <td class="roadmap-id">R-002</td>
@@ -464,7 +459,7 @@
             <tr>
               <td class="blog-date"><time datetime="2026-05-10">2026-05-10</time></td>
               <td class="roadmap-feature">Treat web-submittable blog posts as a P0 project.</td>
-              <td class="desc roadmap-wide-col">The current composer helps with snippets, but publishing still requires editing source files. Submission should become easier without surrendering moderation or static output.</td>
+              <td class="desc roadmap-wide-col">The composer now commits structured source through an authenticated Worker. The remaining publishing friction is image upload, not text-entry or HTML editing.</td>
             </tr>
             <tr>
               <td class="blog-date"><time datetime="2026-05-10">2026-05-10</time></td>
