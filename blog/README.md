@@ -131,8 +131,10 @@ generated HTML:
 }
 ```
 
-`bodyHtml` is supported for existing trusted posts that need inline links or code.
-New web-submitted posts should use plain `body` paragraphs.
+Body entries are trusted owner-publisher text. Plain entries are escaped and get
+automatic URL linking. Entries containing HTML render as publisher-authored markup,
+which lets a post place an image, figure, code block, or other small HTML block
+between paragraphs without switching to a separate field.
 
 ## Photo rules
 
@@ -147,7 +149,21 @@ New web-submitted posts should use plain `body` paragraphs.
 - Every image needs a caption and useful `alt` text. Treat images as data: what,
   where, when, and why the reader should care. The caption is reused as alt text
   unless the source JSON is edited manually afterward.
-- Multiple images render side-by-side on wider screens and stack at mobile width.
+- Multiple images render side-by-side on wider screens and stack at mobile width
+  when they are left in the top photo set.
+- To place an uploaded image between paragraphs, reference its final `src` path in a
+  body HTML block, for example:
+
+  ```html
+  <figure class="blog-photo">
+    <img src="/images/blog/YYYY-MM-DD-slug/file.webp" alt="KX2 on the picnic table" loading="lazy">
+    <figcaption>KX2 on the picnic table, 2026-05-10.</figcaption>
+  </figure>
+  ```
+
+  The generator checks body text for each staged photo `src`. A matched photo stays
+  in the body only and is not duplicated in the top photo grid. Unreferenced photos
+  still render in the top grid.
 
 ## Post structure
 

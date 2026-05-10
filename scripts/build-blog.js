@@ -101,8 +101,9 @@ function renderHomeRow(post) {
 }
 
 function renderArticle(post) {
-  const photoHtml = renderPhotoGrid(post.photos);
-  const paragraphs = Array.isArray(post.bodyHtml) ? post.bodyHtml.map(renderHtmlParagraph) : post.body.map(renderTextParagraph);
+  const bodyBlocks = Array.isArray(post.bodyHtml) ? post.bodyHtml : post.body;
+  const photoHtml = renderPhotoGrid(photosNotEmbedded(post.photos, bodyBlocks));
+  const paragraphs = Array.isArray(post.bodyHtml) ? post.bodyHtml.map(renderHtmlBlock) : post.body.map(renderBodyBlock);
   return `        <article class="blog-post" id="${postId(post)}">\n          <header class="blog-post-header">\n            <div class="blog-post-date">${escapeHtml(post.date)}</div>\n            <h2>${escapeHtml(post.title)}</h2>\n            <div class="blog-post-meta">\n              <span>TYPE: ${escapeHtml(post.type.toUpperCase())}</span>\n              <span>TAGS: ${escapeHtml(post.tags.join(', ') || 'untagged')}</span>\n              <span>STATUS: LIVE</span>${renderPublishedMeta(post)}\n            </div>\n          </header>\n${photoHtml ? photoHtml + '\n' : ''}          <div class="blog-prose">\n${paragraphs.join('\n')}\n          </div>\n        </article>`;
 }
 
@@ -117,6 +118,12 @@ function formatPublishedAt(value) {
   return date.toISOString().replace(/:\d{2}\.\d{3}Z$/, 'Z');
 }
 
+function photosNotEmbedded(photos, bodyBlocks) {
+  if (!photos.length) return [];
+  const bodyText = Array.isArray(bodyBlocks) ? bodyBlocks.join('\n') : '';
+  return photos.filter((photo) => !bodyText.includes(photo.src));
+}
+
 function renderPhotoGrid(photos) {
   if (!photos.length) return '';
   return `          <div class="blog-photo-grid">\n${photos.map(renderPhoto).join('\n')}\n          </div>`;
@@ -127,10 +134,16 @@ function renderPhoto(photo) {
   return `            <figure class="blog-photo">\n              <img src="${escapeAttribute(photo.src)}" alt="${escapeAttribute(photo.alt || photo.caption || '')}"${size} loading="lazy">\n              <figcaption>${escapeHtml(photo.caption || photo.alt || '')}</figcaption>\n            </figure>`;
 }
 
-function renderTextParagraph(text) {
+function renderBodyBlock(text) {
+  const value = String(text);
+  if (containsHtml(value)) return renderHtmlBlock(value);
   return `            <p>
-              ${renderInlineText(String(text))}
+              ${renderInlineText(value)}
             </p>`;
+}
+
+function containsHtml(value) {
+  return /<\/?[a-z][\s\S]*>/i.test(value);
 }
 
 function renderInlineText(text) {
@@ -155,8 +168,16 @@ function renderExternalLink(url) {
   return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)} &#8599;</a>`;
 }
 
-function renderHtmlParagraph(html) {
-  return `            <p>\n              ${String(html)}\n            </p>`;
+function renderHtmlBlock(html) {
+  const value = String(html).trim();
+  if (/^<(?:figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b/i.test(value)) {
+    return indentHtmlBlock(value);
+  }
+  return `            <p>\n              ${value}\n            </p>`;
+}
+
+function indentHtmlBlock(html) {
+  return html.split('\n').map((line) => `            ${line}`).join('\n');
 }
 
 function postId(post) {

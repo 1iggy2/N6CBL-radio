@@ -145,51 +145,6 @@
         <span>Access-protected publisher</span>
       </div>
 
-      <section class="page-intro blog-intro">
-        <h1>Write once. Commit source.</h1>
-        <p>
-          This owner-only tool submits structured blog source and staged images to
-          GitHub through the Cloudflare Worker. The build workflow regenerates the
-          public static HTML after the source commit lands.
-        </p>
-      </section>
-
-      <section class="blog-tools-section" aria-labelledby="config-heading">
-        <div class="section-label split">
-          <span id="config-heading">One-time repository / Cloudflare setup</span>
-          <span class="section-tag live">Required before submit works</span>
-        </div>
-        <ol class="publish-list">
-          <li>
-            Cloudflare Access must protect both <code>/blog/compose/*</code> and
-            <code>/api/blog/publish</code>. The Access policy should allow the owner
-            email address that is allowed to publish.
-          </li>
-          <li>
-            <code>wrangler.jsonc</code> carries the non-secret Worker var
-            <code>GITHUB_REPO</code>. If this repository is renamed or forked, update
-            that value before deploy.
-          </li>
-          <li>
-            Add the required Worker secret with
-            <code>npx wrangler secret put GITHUB_TOKEN</code>. Use a GitHub token that
-            can write repository contents so the Worker can create the post JSON plus
-            any <code>images/blog/YYYY-MM-DD-slug/</code> uploads.
-          </li>
-          <li>
-            Optional tighter gate: add <code>ALLOWED_EMAILS</code> with
-            <code>npx wrangler secret put ALLOWED_EMAILS</code>. Use a comma-separated
-            list of Access-authenticated email addresses. Legacy
-            <code>ALLOWED_EMAIL</code> still works for one address.
-          </li>
-          <li>
-            GitHub Actions deployment still needs repository secrets
-            <code>CLOUDFLARE_API_TOKEN</code> and <code>CLOUDFLARE_ACCOUNT_ID</code> so
-            pushes to <code>main</code> can publish the Worker/site.
-          </li>
-        </ol>
-      </section>
-
       <section class="composer-section" aria-labelledby="composer-heading">
         <div class="section-label split">
           <span id="composer-heading">Post input</span>
@@ -233,7 +188,7 @@
             <label class="composer-wide">
               <span>Body paragraphs</span>
               <textarea id="post-body" rows="10" placeholder="Write paragraphs separated by blank lines. Keep factual details: park, gear, weather, bands, failures, fixes."></textarea>
-              <span class="composer-help">Plain <code>https://</code> and <code>http://</code> URLs are automatically rendered as new-tab links in the public post. Separate paragraphs with one blank line.</span>
+              <span class="composer-help">Plain URLs become links. Separate paragraphs with one blank line. To place an uploaded image between paragraphs, paste an <code>&lt;img&gt;</code> or <code>&lt;figure&gt;</code> block that uses the staged file path.</span>
             </label>
             <label class="composer-wide">
               <span>Photo captions, one per line</span>
@@ -254,14 +209,16 @@
           <dd>Put one blank line between paragraphs. Each paragraph becomes one public prose block.</dd>
           <dt>Clickable URLs</dt>
           <dd>Paste the full <code>https://example.com/page</code> URL. The blog build makes it clickable and opens it in a new tab.</dd>
+          <dt>Embedded images</dt>
+          <dd>Use uploaded image paths inside a body paragraph when the image belongs between paragraphs: <code>&lt;figure class=&quot;blog-photo&quot;&gt;&lt;img src=&quot;/images/blog/YYYY-MM-DD-slug/file.webp&quot; alt=&quot;...&quot; loading=&quot;lazy&quot;&gt;&lt;figcaption&gt;...&lt;/figcaption&gt;&lt;/figure&gt;</code>. Matching staged images render only in the body, not again at the top.</dd>
           <dt>Inline HTML</dt>
-          <dd>Do not hand-write anchors for normal links. Use plain URLs so the structured source stays easy to read.</dd>
+          <dd>HTML in the body is rendered as trusted publisher markup. Use plain URLs for normal links so routine posts stay easy to scan.</dd>
         </dl>
       </section>
 
       <section class="composer-section" aria-labelledby="preview-heading">
         <div class="section-label split">
-          <span id="preview-heading">Preview / source / publish</span>
+          <span id="preview-heading">Preview / publish</span>
           <span id="composer-status" class="section-tag live">Ready</span>
         </div>
         <div class="composer-output-grid">
@@ -270,12 +227,7 @@
             <p id="photo-target" class="composer-help">Select photos to see the target folder.</p>
             <div id="photo-preview" class="photo-preview-grid"></div>
           </div>
-          <div class="composer-panel">
-            <h2>Structured source</h2>
-            <textarea id="json-output" rows="18" readonly></textarea>
-            <button type="button" class="copy-button" data-copy="json-output">Copy JSON source</button>
-          </div>
-          <div class="composer-panel composer-wide publish-panel">
+          <div class="composer-panel publish-panel">
             <h2>Publish transaction</h2>
             <dl class="publish-status-grid">
               <dt>Authentication</dt>
@@ -310,7 +262,7 @@
           <li>
             A successful submit creates <code>/content/blog/YYYY-MM-DD-slug.json</code>
             and any selected files under <code>/images/blog/YYYY-MM-DD-slug/</code>. The
-            blog build workflow regenerates static HTML from that source.
+            blog build workflow regenerates the public static HTML.
           </li>
         </ol>
       </section>
@@ -338,7 +290,6 @@
     var bodyEl = document.getElementById('post-body');
     var captionsEl = document.getElementById('post-captions');
     var photosEl = document.getElementById('post-photos');
-    var jsonOutput = document.getElementById('json-output');
     var photoTarget = document.getElementById('photo-target');
     var photoPreview = document.getElementById('photo-preview');
     var statusEl = document.getElementById('composer-status');
@@ -383,7 +334,6 @@
       var folder = '/images/blog/' + payload.date + '-' + payload.slug + '/';
       urlEl.value = '/blog/#' + id;
       repoFileState.textContent = 'content/blog/' + payload.date + '-' + payload.slug + '.json';
-      jsonOutput.value = JSON.stringify(payload, null, 2) + '\n';
       photoTarget.textContent = payload.photos.length
         ? 'Image target folder: ' + folder + ' · ' + payload.photos.length + ' selected · ' + Math.round(totalSelectedBytes() / 1024) + ' KB staged'
         : 'Select photos to stage images under ' + folder;
@@ -493,7 +443,7 @@
           throw new Error(data.error || responseText || ('HTTP ' + response.status + ' ' + response.statusText));
         }
         commitState.innerHTML = '<a href="' + escAttr(data.commitUrl || '#') + '" target="_blank" rel="noopener">' + escText(data.commitSha || 'committed') + ' &#8599;</a>';
-        validationState.textContent = 'Committed source and images; build workflow will regenerate static HTML';
+        validationState.textContent = 'Committed post and images; build workflow will regenerate static HTML';
         setStatus('Committed', 'live');
       } catch (err) {
         commitState.textContent = err.message;
