@@ -127,10 +127,10 @@ decision here with rationale before implementing.
 /                  — splash / home, world map, station overview
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
+/station/          — my station: operator profile, gear, hardware notes, modes, CW progress
 /blog/             — posts: technical, radio, misc
 /tools/            — browser-based utilities
 /prints/           — 3D print catalog with files
-/radio/            — my station: operator profile, gear, hardware notes, modes, CW progress
 ```
 
 ## File Layout
@@ -139,6 +139,7 @@ decision here with rationale before implementing.
 /index.html              — home page
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats
+/station/index.html      — station reference and inventory
 /blog/index.html         — field journal running list
 /blog/compose/index.html — browser helper that generates static blog snippets
 /styles.css              — single shared stylesheet for all pages
