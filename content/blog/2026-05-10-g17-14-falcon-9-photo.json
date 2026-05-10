@@ -1,0 +1,26 @@
+{
+  "date": "2026-05-10",
+  "publishedAt": "2026-05-10T22:28:40.577Z",
+  "title": "G17-14 Falcon 9 Photo",
+  "slug": "g17-14-falcon-9-photo",
+  "type": "FIELD REPORT",
+  "tags": [
+    "spaces",
+    "images"
+  ],
+  "context": "A test for the new embeddable photo update",
+  "body": [
+    "A photo of the Starlink mission G17-14 on 4.22.2026 from Los Angeles.",
+    "<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-05-10-g17-14-falcon-9-photo/img_8514.heic\" alt=\"B1019 watches g17-14\" loading=\"lazy\">\n  <figcaption>B1019 watches g17-14</figcaption>\n</figure>",
+    "Booster 1019 from out front of HT01 watches this flight. This picture is taken from the roof of blue lot.\n-Cam"
+  ],
+  "photos": [
+    {
+      "src": "/images/blog/2026-05-10-g17-14-falcon-9-photo/img_8514.heic",
+      "alt": "B1019 watches g17-14",
+      "caption": "B1019 watches g17-14",
+      "width": 4032,
+      "height": 3024
+    }
+  ]
+}
