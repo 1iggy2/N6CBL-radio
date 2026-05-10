@@ -142,15 +142,17 @@ between paragraphs without switching to a separate field.
   source in a single Git commit.
 - Keep each image under 25 MB and the combined image upload under 75 MB. This is an
   owner-publisher convenience, not a bulk media ingestion system.
-- JPEG, PNG, WebP, and GIF are accepted. Prefer WebP. JPEG is acceptable for camera
-  originals that have already been resized and compressed.
+- JPEG, PNG, WebP, GIF, HEIC, and HEIF are accepted. Prefer WebP when it is
+  already available. JPEG is acceptable for camera originals that have already been
+  resized and compressed.
 - Store committed images under `/images/blog/YYYY-MM-DD-slug/` so every post owns
   its assets. The browser publisher does this path construction automatically.
 - Every image needs a caption and useful `alt` text. Treat images as data: what,
   where, when, and why the reader should care. The caption is reused as alt text
   unless the source JSON is edited manually afterward.
 - Multiple images render side-by-side on wider screens and stack at mobile width
-  when they are left in the top photo set.
+  when they are left in the top photo set. The compose UI also emits copy/paste
+  figure HTML for explicit in-body placement.
 - To place an uploaded image between paragraphs, reference its final `src` path in a
   body HTML block, for example:
 
