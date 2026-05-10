@@ -18,6 +18,9 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | Path | Content |
 |---|---|
 | `/` | Home / current splash |
+| `/roadmap/` | Site planning ledger, project priorities, and idea voting |
+| `/log/` | QSO log and contact records |
+| `/log/stats/` | QSO analysis and statistics |
 | `/station/` | My station: operator profile, gear, hardware notes, modes |
 | `/blog/` | Posts |
 | `/tools/` | Browser utilities |

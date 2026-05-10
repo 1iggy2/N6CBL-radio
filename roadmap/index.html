@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL.radio roadmap — planned routes, feature backlog, idea voting protocol, and design rationale for future site work.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/roadmap/">
+  <meta property="og:title" content="Roadmap — N6CBL.radio">
+  <meta property="og:description" content="Planning ledger for N6CBL.radio: routes, project priorities, idea exchange, voting, and design rationale.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Roadmap — N6CBL.radio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /ROADMAP/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/roadmap/" aria-current="page">
+              <span class="nav-path">/roadmap/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/stats/">
+              <span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/station/">
+              <span class="nav-path">/station/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/compose/">
+              <span class="nav-path" aria-label="/blog/compose/">&#x21B3; compose/</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item-unimplemented">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item-unimplemented">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; 20m</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">General Class &middot; DM03tu</div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content roadmap-page">
+
+      <section class="roadmap-dossier" aria-labelledby="roadmap-dossier-heading">
+        <div class="section-label split">
+          <span id="roadmap-dossier-heading">Roadmap control</span>
+          <span class="section-tag live">planning surface</span>
+        </div>
+        <table class="roadmap-control-table">
+          <tbody>
+            <tr>
+              <th scope="row">Purpose</th>
+              <td>Plan routes, features, design language, data flows, and idea votes before implementation.</td>
+            </tr>
+            <tr>
+              <th scope="row">Last reviewed</th>
+              <td><time datetime="2026-05-10">2026-05-10</time></td>
+            </tr>
+            <tr>
+              <th scope="row">Planning rule</th>
+              <td>New top-level routes, workflow changes, and data integrations should appear here with rationale before they ship.</td>
+            </tr>
+            <tr>
+              <th scope="row">Voting rule</th>
+              <td>Votes expose preference, not command authority. The operator makes the final call after weighing usefulness, maintenance cost, privacy, and design fit.</td>
+            </tr>
+            <tr>
+              <th scope="row">Design rule</th>
+              <td>Dense tables, labeled metadata, visible state, static-first delivery, and no decorative interface chrome.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="roadmap-route-inventory" aria-labelledby="route-inventory-heading">
+        <div class="section-label split">
+          <span id="route-inventory-heading">Route inventory</span>
+          <span class="section-tag">current map</span>
+        </div>
+        <table class="roadmap-route-table">
+          <thead>
+            <tr>
+              <th>Route</th>
+              <th>Status</th>
+              <th>Function</th>
+              <th class="roadmap-wide-col">Next planning question</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="path">/</td>
+              <td class="st st-live">Live</td>
+              <td>Operational front page: identity, map, contact lookup, latest note, and roadmap preview.</td>
+              <td class="desc roadmap-wide-col">How much live operational state belongs on the home page before it becomes a dashboard?</td>
+            </tr>
+            <tr>
+              <td class="path">/roadmap/</td>
+              <td class="st st-live">Live</td>
+              <td>Planning ledger for routes, future features, idea exchange, voting, and rationale.</td>
+              <td class="desc roadmap-wide-col">Which ideas deserve promotion from backlog to active project?</td>
+            </tr>
+            <tr>
+              <td class="path">/log/</td>
+              <td class="st st-live">Live</td>
+              <td>Primary QSO record and searchable contact ledger.</td>
+              <td class="desc roadmap-wide-col">Should imports remain committed static JSON or move behind a moderated upload workflow?</td>
+            </tr>
+            <tr>
+              <td class="path">/log/stats/</td>
+              <td class="st st-live">Live</td>
+              <td>Analysis of contacts, sessions, states, countries, bands, and modes.</td>
+              <td class="desc roadmap-wide-col">Which stats change operating behavior instead of merely decorating the log?</td>
+            </tr>
+            <tr>
+              <td class="path">/station/</td>
+              <td class="st st-live">Live</td>
+              <td>Operator profile, equipment inventory, antenna notes, power notes, and operating capabilities.</td>
+              <td class="desc roadmap-wide-col">How should field test data be captured so it is comparable across antennas and locations?</td>
+            </tr>
+            <tr>
+              <td class="path">/blog/</td>
+              <td class="st st-live">Live</td>
+              <td>Field journal and long-form notes.</td>
+              <td class="desc roadmap-wide-col">How can posts become web-submittable without turning the site into a fragile CMS?</td>
+            </tr>
+            <tr>
+              <td class="path">/blog/compose/</td>
+              <td class="st st-live">Live</td>
+              <td>Static snippet helper for writing posts by hand.</td>
+              <td class="desc roadmap-wide-col">Should this evolve into authenticated submission, or remain an offline drafting tool?</td>
+            </tr>
+            <tr>
+              <td class="path">/tools/</td>
+              <td class="st st-planned">Planned</td>
+              <td>Small browser utilities for radio math, field planning, and repeatable station workflows.</td>
+              <td class="desc roadmap-wide-col">Which three tools are useful enough to justify permanent navigation?</td>
+            </tr>
+            <tr>
+              <td class="path">/prints/</td>
+              <td class="st st-planned">Planned</td>
+              <td>3D print catalog with downloadable files, revisions, materials, settings, and field photos.</td>
+              <td class="desc roadmap-wide-col">What metadata makes a print reproducible by someone other than the operator?</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="roadmap-projects" aria-labelledby="project-ledger-heading">
+        <div class="section-label split">
+          <span id="project-ledger-heading">Project ledger</span>
+          <span class="section-tag todo">vote queue</span>
+        </div>
+        <table class="roadmap-project-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Project</th>
+              <th>Area</th>
+              <th>Priority</th>
+              <th>Vote</th>
+              <th class="roadmap-wide-col">Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="roadmap-id">R-001</td>
+              <td class="roadmap-feature">Web-submittable blog posts</td>
+              <td class="roadmap-area">blog publishing</td>
+              <td class="st st-wip">P0</td>
+              <td class="roadmap-vote">+3</td>
+              <td class="desc roadmap-wide-col">This removes the largest publishing friction while preserving static output: draft in the browser, authenticate, submit to a moderation queue, then commit generated HTML or structured post data after review.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-002</td>
+              <td class="roadmap-feature">Idea exchange and voting</td>
+              <td class="roadmap-area">roadmap workflow</td>
+              <td class="st st-wip">P0</td>
+              <td class="roadmap-vote">+3</td>
+              <td class="desc roadmap-wide-col">The roadmap should become a working conversation surface, not a static proclamation. Ideas need stable IDs, yes/no/defer votes, rationale, and moderation so good suggestions survive outside chat history.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-003</td>
+              <td class="roadmap-feature">Shared site chrome</td>
+              <td class="roadmap-area">site chrome</td>
+              <td class="st st-wip">P0</td>
+              <td class="roadmap-vote">+2</td>
+              <td class="desc roadmap-wide-col">The sidebar is intentionally permanent, but hand-copying it across pages makes every route addition error-prone. A small static include strategy or generation script would protect consistency without adopting a heavy framework.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-004</td>
+              <td class="roadmap-feature">Radio tools workbench</td>
+              <td class="roadmap-area">tools</td>
+              <td class="st st-planned">P1</td>
+              <td class="roadmap-vote">+2</td>
+              <td class="desc roadmap-wide-col">Start with tools that answer field questions: antenna length calculator, battery/runtime estimator, grid locator helper, UTC/local sked converter, and POTA activation checklist.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-005</td>
+              <td class="roadmap-feature">Print catalog schema</td>
+              <td class="roadmap-area">prints</td>
+              <td class="st st-planned">P1</td>
+              <td class="roadmap-vote">+1</td>
+              <td class="desc roadmap-wide-col">A print is only useful if material, layer height, hardware, revision, radio fitment, field failures, and download files are recorded in a repeatable table.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-006</td>
+              <td class="roadmap-feature">QSO import cockpit</td>
+              <td class="roadmap-area">log data</td>
+              <td class="st st-planned">P1</td>
+              <td class="roadmap-vote">+1</td>
+              <td class="desc roadmap-wide-col">ADIF files should be checked, summarized, deduplicated, and previewed before they change committed log data. This creates confidence in every downstream statistic.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-007</td>
+              <td class="roadmap-feature">Field activation planner</td>
+              <td class="roadmap-area">field workflow</td>
+              <td class="st st-planned">P1</td>
+              <td class="roadmap-vote">0</td>
+              <td class="desc roadmap-wide-col">Combine park reference, grid, forecast placeholders, band plan, gear checklist, battery estimate, and post-activation notes so the same page supports planning and after-action review.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-008</td>
+              <td class="roadmap-feature">Station experiment notebook</td>
+              <td class="roadmap-area">station tests</td>
+              <td class="st st-planned">P2</td>
+              <td class="roadmap-vote">0</td>
+              <td class="desc roadmap-wide-col">Antenna and power experiments need comparable rows: date, site, configuration, counterpoise, bands, contacts, RBN spots, subjective handling, failure notes, and next change.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-009</td>
+              <td class="roadmap-feature">APRS and telemetry panel</td>
+              <td class="roadmap-area">telemetry</td>
+              <td class="st st-planned">P2</td>
+              <td class="roadmap-vote">0</td>
+              <td class="desc roadmap-wide-col">Telemetry should be cached and summarized as station state, not embedded as a third-party map widget. Privacy boundaries and stale-data labels are mandatory.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">R-010</td>
+              <td class="roadmap-feature">Search and index ledger</td>
+              <td class="roadmap-area">global search</td>
+              <td class="st st-deferred">P3</td>
+              <td class="roadmap-vote">-1</td>
+              <td class="desc roadmap-wide-col">Search is useful after enough posts, tools, prints, and station notes exist. Until then, dense tables and browser find are simpler and more honest.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="roadmap-protocol" aria-labelledby="idea-protocol-heading">
+        <div class="section-label split">
+          <span id="idea-protocol-heading">Idea exchange protocol</span>
+          <span class="section-tag">how votes work</span>
+        </div>
+        <table class="roadmap-protocol-table">
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Required fields</th>
+              <th class="roadmap-wide-col">Promotion rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="roadmap-id">Intake</td>
+              <td>Title, route if known, problem statement, user affected, proposed result.</td>
+              <td class="desc roadmap-wide-col">An idea enters the ledger only when it describes a real site or operating problem, not just a cool technology.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">Vote</td>
+              <td>Upvote, downvote, defer, and one-sentence rationale.</td>
+              <td class="desc roadmap-wide-col">Votes are advisory signal. A low-vote maintenance fix can outrank a popular decorative feature.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">Shape</td>
+              <td>Acceptance criteria, data model, privacy risk, mobile risk, and maintenance owner.</td>
+              <td class="desc roadmap-wide-col">The feature must have enough definition that a future implementation can be reviewed against objective criteria.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">Build</td>
+              <td>Files changed, validation command, rollback path, and final route exposure.</td>
+              <td class="desc roadmap-wide-col">A project is build-ready only when it can ship as static-first HTML/CSS/JS or has a documented reason to use the Worker.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">Review</td>
+              <td>Post-ship result, defects, usage signal, and next decision.</td>
+              <td class="desc roadmap-wide-col">A shipped feature returns to the roadmap if it creates follow-up work or proves a design assumption wrong.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="roadmap-design" aria-labelledby="design-language-heading">
+        <div class="section-label split">
+          <span id="design-language-heading">Design language commitments</span>
+          <span class="section-tag">rationale</span>
+        </div>
+        <table class="roadmap-design-table">
+          <thead>
+            <tr>
+              <th>Commitment</th>
+              <th class="roadmap-wide-col">Reason</th>
+              <th>Effect on future work</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="roadmap-feature">Tables before cards</td>
+              <td class="desc roadmap-wide-col">The site is a reference surface. Tables expose comparison, missing data, timestamps, and status better than decorative card grids.</td>
+              <td>Posts, prints, tools, and ideas start as rows.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-feature">State is visible</td>
+              <td class="desc roadmap-wide-col">Visitors should know whether data is live, stale, manual, generated, planned, or deferred.</td>
+              <td>Every data feature needs generated dates and empty states.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-feature">Static-first</td>
+              <td class="desc roadmap-wide-col">Performance and durability matter more than editing convenience. Dynamic behavior must earn its operational cost.</td>
+              <td>Workers are used for submissions, proxying, or moderation only when static files cannot do the job.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-feature">Permanent navigation</td>
+              <td class="desc roadmap-wide-col">The site structure is itself content. Hidden menus would make planned work and obscure utilities harder to discover.</td>
+              <td>New routes must appear in the sidebar or remain non-routable drafts.</td>
+            </tr>
+            <tr>
+              <td class="roadmap-feature">No fake polish</td>
+              <td class="desc roadmap-wide-col">Gradients, shadows, rounded cards, animations, and vague landing-page copy do not help a radio operator find facts.</td>
+              <td>Complexity goes into metadata, not decoration.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="roadmap-decisions" aria-labelledby="decision-log-heading">
+        <div class="section-label split">
+          <span id="decision-log-heading">Decision log</span>
+          <span class="section-tag">dated record</span>
+        </div>
+        <table class="roadmap-decision-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Decision</th>
+              <th class="roadmap-wide-col">Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="blog-date"><time datetime="2026-05-10">2026-05-10</time></td>
+              <td class="roadmap-feature">Create /roadmap/ as the planning surface.</td>
+              <td class="desc roadmap-wide-col">The site had enough implemented and planned routes that future work needed a visible planning layer rather than impulse-driven additions.</td>
+            </tr>
+            <tr>
+              <td class="blog-date"><time datetime="2026-05-10">2026-05-10</time></td>
+              <td class="roadmap-feature">Treat web-submittable blog posts as a P0 project.</td>
+              <td class="desc roadmap-wide-col">The current composer helps with snippets, but publishing still requires editing source files. Submission should become easier without surrendering moderation or static output.</td>
+            </tr>
+            <tr>
+              <td class="blog-date"><time datetime="2026-05-10">2026-05-10</time></td>
+              <td class="roadmap-feature">Make idea voting advisory and public.</td>
+              <td class="desc roadmap-wide-col">Votes are useful signal, but the operator must still reject work that harms performance, privacy, maintainability, or the site's design doctrine.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+</body>
+</html>
