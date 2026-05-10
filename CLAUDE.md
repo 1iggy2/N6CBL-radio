@@ -58,7 +58,7 @@ The sidebar is a persistent operational panel — not a temporary menu.
 
 Key rules:
 - Active page indicated by background highlight and/or bold weight
-- Status badges (WIP, PLANNED, LIVE) are always visible, not on hover
+- Implemented routes appear as plain path text; unimplemented routes stay visible in the navigator with muted text until they ship. Do not add separate LIVE, WIP, or PLANNED badges to the sidebar navigation.
 - Every routable internal page, including utility and workflow subpages such as
   `/blog/compose/`, appears as its own top-level row in the visible navigation list.
   Do not hide subpages only inside parent-page body links.
