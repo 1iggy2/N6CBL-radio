@@ -157,8 +157,7 @@
           Personal site of N6CBL &mdash; Cameron Gable. Avionics systems engineer,
           amateur radio operator. I operate portable HF from Southern California,
           activating parks and coastal locations with an Elecraft KX2 and quick-deploy
-          field antennas. This site will carry tools, radio experiments, 3D prints,
-          writing, and whatever else warrants a permanent URL.
+          field antennas.
         </p>
       </div>
 
@@ -190,7 +189,7 @@
                autocomplete="off" autocapitalize="characters" spellcheck="false"
                maxlength="12">
       </div>
-      <div id="lookup-state" class="lookup-state">Enter a callsign to search all logged QSOs.</div>
+      <div id="lookup-state" class="lookup-state" hidden></div>
       <table id="lookup-table" hidden>
         <thead>
           <tr>
@@ -404,8 +403,8 @@
     lookupInputEl.addEventListener('input', debounce(function () {
       var q = lookupInputEl.value.trim().toUpperCase();
       if (!q) {
-        lookupStateEl.textContent = 'Enter a callsign to search all logged QSOs.';
-        lookupStateEl.hidden = false;
+        lookupStateEl.textContent = '';
+        lookupStateEl.hidden = true;
         lookupTableEl.hidden = true;
         lookupMetaEl.textContent = '';
         return;
