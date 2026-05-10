@@ -189,7 +189,7 @@
                autocomplete="off" autocapitalize="characters" spellcheck="false"
                maxlength="12">
       </div>
-      <div id="lookup-state" class="lookup-state"></div>
+      <div id="lookup-state" class="lookup-state" hidden></div>
       <table id="lookup-table" hidden>
         <thead>
           <tr>
@@ -404,7 +404,7 @@
       var q = lookupInputEl.value.trim().toUpperCase();
       if (!q) {
         lookupStateEl.textContent = '';
-        lookupStateEl.hidden = false;
+        lookupStateEl.hidden = true;
         lookupTableEl.hidden = true;
         lookupMetaEl.textContent = '';
         return;
