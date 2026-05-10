@@ -200,9 +200,9 @@
           <tbody>
             <tr>
               <td class="blog-date">2026-05-10</td>
-              <td class="blog-ref">Blog rack installed</td>
-              <td class="blog-context">Site mechanics, posting workflow, and photo handling.</td>
-              <td class="blog-cta"><a href="#post-2026-05-10-blog-rack-installed">Read &#8594;</a></td>
+              <td class="blog-ref">Welcome / how to post</td>
+              <td class="blog-context">Human instructions for writing, adding images, and publishing a new entry.</td>
+              <td class="blog-cta"><a href="#post-2026-05-10-how-to-post">Read &#8594;</a></td>
             </tr>
           </tbody>
         </table>
@@ -245,10 +245,10 @@
           3. Keep newest posts first. Keep dates as YYYY-MM-DD.
         -->
 
-        <article class="blog-post" id="post-2026-05-10-blog-rack-installed">
+        <article class="blog-post" id="post-2026-05-10-how-to-post">
           <header class="blog-post-header">
             <div class="blog-post-date">2026-05-10</div>
-            <h2>Blog rack installed</h2>
+            <h2>Welcome / how to post</h2>
             <div class="blog-post-meta">
               <span>TYPE: SITE NOTE</span>
               <span>TAGS: workflow, photos, field-journal</span>
@@ -257,21 +257,44 @@
           </header>
           <div class="blog-prose">
             <p>
-              This page is now the long-running journal rack for N6CBL.radio. It is
-              deliberately plain: no card grid, no hidden summaries, no feed reader
-              mystery meat. The index gives the date, reference, context, and action;
-              the posts live below it in reverse chronological order.
+              Welcome to the N6CBL.radio field journal. This page is a static,
+              human-maintained log for activation reports, station changes, project
+              notes, useful failures, and photos that deserve a longer shelf life
+              than a social-media post. The index above is the short table of
+              records; the full text lives below it in newest-first order.
             </p>
             <p>
-              The intended use is field-report density. Drop in activation photos,
-              antenna notes, propagation observations, station failures, successful
-              repairs, half-formed thoughts, and anything else that should survive
-              longer than a social-media post.
+              To make a new post, open <a href="/blog/compose/">/blog/compose/</a>
+              and fill in the date, title, type, tags, index context line, body
+              paragraphs, and any photo captions. The composer runs entirely in the
+              browser. It does not publish anything by itself; it only produces the
+              exact table row and article block to paste into this file.
             </p>
             <p>
-              Publishing stays compatible with the static-site constraint. The
-              browser composer generates copy-paste HTML, GitHub handles human image
-              uploads, and Cloudflare serves the committed files without a build step.
+              If the post has images, first resize and compress them. Prefer WebP;
+              JPEG is fine for already-compressed camera exports. Upload the files
+              under <code>/images/blog/YYYY-MM-DD-slug/</code>, where the slug matches
+              the post title closely enough that a future reader can identify the
+              owner. Every image should have useful alt text and a caption that says
+              what the reader is seeing, where it happened, and why it matters.
+            </p>
+            <p>
+              In GitHub, edit <code>/blog/index.html</code>. Paste the generated
+              table row at the top of the <code>Post index</code> table body, then
+              paste the generated <code>&lt;article&gt;</code> block directly under the
+              <code>NEW POST INSERTION POINT</code> comment. Keep dates in
+              <code>YYYY-MM-DD</code> format, keep newest posts first in both places,
+              and update the post count in the <code>/blog/ &mdash; field journal</code>
+              metadata line.
+            </p>
+            <p>
+              Before committing, check the link in the new table row points to the
+              new article <code>id</code>, image paths resolve, and the post still reads
+              like a field note: concrete date, place, gear, frequencies or bands,
+              operating conditions, what broke, what worked, and what should be
+              remembered next time. Commit directly with an imperative message such
+              as <code>Add Crystal Cove field report</code>; Cloudflare publishes the
+              committed static files.
             </p>
           </div>
         </article>
