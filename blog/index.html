@@ -172,6 +172,12 @@
             <!-- BLOG_INDEX_START -->
             <tr>
               <td class="blog-date">2026-05-10</td>
+              <td class="blog-ref">Image Upload Test</td>
+              <td class="blog-context">Test of the new image upload plumbing</td>
+              <td class="blog-cta"><a href="#post-2026-05-10-image-upload-test">Read &#8594;</a></td>
+            </tr>
+            <tr>
+              <td class="blog-date">2026-05-10</td>
               <td class="blog-ref">Direct Blog Posting</td>
               <td class="blog-context">Testing a new feature of the site</td>
               <td class="blog-cta"><a href="#post-2026-05-10-direct-blog-posting">Read &#8594;</a></td>
@@ -187,12 +193,6 @@
               <td class="blog-ref">Welcome / how to post</td>
               <td class="blog-context">How the owner-only browser publisher turns structured source into static blog output.</td>
               <td class="blog-cta"><a href="#post-2026-05-10-how-to-post">Read &#8594;</a></td>
-            </tr>
-            <tr>
-              <td class="blog-date">2026-05-10</td>
-              <td class="blog-ref">Image Upload Test</td>
-              <td class="blog-context">Test of the new image upload plumbing</td>
-              <td class="blog-cta"><a href="#post-2026-05-10-image-upload-test">Read &#8594;</a></td>
             </tr>
           <!-- BLOG_INDEX_END -->
           </tbody>
@@ -212,6 +212,33 @@
           3. Keep newest posts first. Keep dates as YYYY-MM-DD.
         -->
         <!-- BLOG_POSTS_START -->
+        <article class="blog-post" id="post-2026-05-10-image-upload-test">
+          <header class="blog-post-header">
+            <div class="blog-post-date">2026-05-10</div>
+            <h2>Image Upload Test</h2>
+            <div class="blog-post-meta">
+              <span>TYPE: FIELD REPORT</span>
+              <span>TAGS: Otter</span>
+              <span>STATUS: LIVE</span>
+              <span>PUBLISHED: 2026-05-10T21:13Z</span>
+            </div>
+          </header>
+          <div class="blog-photo-grid">
+            <figure class="blog-photo">
+              <img src="/images/blog/2026-05-10-image-upload-test/7026eb6e-90c0-426a-854c-697905c0bead.png" alt="otter contemplating life" width="1024" height="1536" loading="lazy">
+              <figcaption>otter contemplating life</figcaption>
+            </figure>
+            <figure class="blog-photo">
+              <img src="/images/blog/2026-05-10-image-upload-test/img_8417.jpeg" alt="Hermosa beach" width="4284" height="5712" loading="lazy">
+              <figcaption>Hermosa beach</figcaption>
+            </figure>
+          </div>
+          <div class="blog-prose">
+            <p>
+              It's always hermosa in Hermosa
+            </p>
+          </div>
+        </article>
         <article class="blog-post" id="post-2026-05-10-direct-blog-posting">
           <header class="blog-post-header">
             <div class="blog-post-date">2026-05-10</div>
@@ -220,6 +247,7 @@
               <span>TYPE: FIELD REPORT</span>
               <span>TAGS: infrastructure</span>
               <span>STATUS: LIVE</span>
+              <span>PUBLISHED: 2026-05-10T20:23Z</span>
             </div>
           </header>
           <div class="blog-prose">
@@ -236,6 +264,7 @@
               <span>TYPE: INTRODUCTORY</span>
               <span>TAGS: hello, trips</span>
               <span>STATUS: LIVE</span>
+              <span>PUBLISHED: 2026-05-10T18:58Z</span>
             </div>
           </header>
           <div class="blog-photo-grid">
@@ -264,6 +293,7 @@
               <span>TYPE: SITE NOTE</span>
               <span>TAGS: workflow, photos, field-journal</span>
               <span>STATUS: LIVE</span>
+              <span>PUBLISHED: 2026-05-10T18:58Z</span>
             </div>
           </header>
           <div class="blog-prose">
@@ -281,32 +311,6 @@
             </p>
             <p>
               The fallback path is still inspectable: create or edit a JSON file in <code>/content/blog/</code>, run the build script locally, validate the generated HTML, and commit the source plus generated output. Normal publishing should not require direct GitHub uploads or hand-editing article HTML.
-            </p>
-          </div>
-        </article>
-        <article class="blog-post" id="post-2026-05-10-image-upload-test">
-          <header class="blog-post-header">
-            <div class="blog-post-date">2026-05-10</div>
-            <h2>Image Upload Test</h2>
-            <div class="blog-post-meta">
-              <span>TYPE: FIELD REPORT</span>
-              <span>TAGS: Otter</span>
-              <span>STATUS: LIVE</span>
-            </div>
-          </header>
-          <div class="blog-photo-grid">
-            <figure class="blog-photo">
-              <img src="/images/blog/2026-05-10-image-upload-test/7026eb6e-90c0-426a-854c-697905c0bead.png" alt="otter contemplating life" width="1024" height="1536" loading="lazy">
-              <figcaption>otter contemplating life</figcaption>
-            </figure>
-            <figure class="blog-photo">
-              <img src="/images/blog/2026-05-10-image-upload-test/img_8417.jpeg" alt="Hermosa beach" width="4284" height="5712" loading="lazy">
-              <figcaption>Hermosa beach</figcaption>
-            </figure>
-          </div>
-          <div class="blog-prose">
-            <p>
-              It's always hermosa in Hermosa
             </p>
           </div>
         </article>

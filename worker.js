@@ -62,7 +62,7 @@ async function publishBlogPost(request, env) {
   }
 
   const photoUploads = normalizePhotoUploads(payload);
-  const post = normalizePost(payload, photoUploads);
+  const post = normalizePost(payload, photoUploads, new Date());
   const problems = validatePost(post, photoUploads);
   if (problems.length) return json({ error: problems.join('; ') }, 400);
 
@@ -111,11 +111,12 @@ async function publishBlogPost(request, env) {
   }, 201);
 }
 
-function normalizePost(payload, photoUploads) {
+function normalizePost(payload, photoUploads, publishedAtDate) {
   const date = stringValue(payload.date);
   const slug = slugify(stringValue(payload.slug || payload.title));
   return {
     date,
+    publishedAt: publishedAtDate.toISOString(),
     title: stringValue(payload.title),
     slug,
     type: stringValue(payload.type || 'FIELD REPORT').toUpperCase(),

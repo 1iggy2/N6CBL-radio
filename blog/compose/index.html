@@ -348,7 +348,7 @@
     var submitButton = document.getElementById('submit-post');
     var slugTouched = false;
 
-    dateEl.value = new Date().toISOString().slice(0, 10);
+    dateEl.value = localDateValue(new Date());
 
     titleEl.addEventListener('input', function () {
       if (!slugTouched) slugEl.value = slugify(titleEl.value);
@@ -423,12 +423,14 @@
     function buildPayload(includeUploads) {
       var title = titleEl.value.trim() || 'Untitled field note';
       var slug = slugEl.value.trim() || slugify(title);
-      var date = dateEl.value || new Date().toISOString().slice(0, 10);
+      var date = dateEl.value || localDateValue(new Date());
       var folder = '/images/blog/' + date + '-' + slug + '/';
       return {
         date: date,
         title: title,
         slug: slug,
+        // The Cloudflare Worker adds publishedAt at commit time so same-day posts
+        // sort by actual publish timestamp instead of slug text.
         type: (typeEl.value.trim() || 'FIELD REPORT').toUpperCase(),
         tags: tagsEl.value.split(',').map(function (tag) { return tag.trim(); }).filter(Boolean),
         context: contextEl.value.trim(),
@@ -641,6 +643,13 @@
       var parts = line.split('|');
       if (parts.length > 1) return parts.slice(1).join('|').trim() || fallback;
       return line;
+    }
+
+    function localDateValue(date) {
+      var year = date.getFullYear();
+      var month = String(date.getMonth() + 1).padStart(2, '0');
+      var day = String(date.getDate()).padStart(2, '0');
+      return year + '-' + month + '-' + day;
     }
 
     function totalSelectedBytes() {

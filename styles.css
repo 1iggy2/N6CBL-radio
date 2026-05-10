@@ -1248,7 +1248,7 @@ td.bar-cell {
   height: auto;
   max-height: 520px;
   object-fit: contain;
-  background: var(--black);
+  background: var(--white);
 }
 
 .blog-photo figcaption {
