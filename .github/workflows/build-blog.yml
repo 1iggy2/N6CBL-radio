@@ -1,0 +1,44 @@
+name: Build blog
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/blog/**'
+      - 'scripts/build-blog.js'
+      - 'blog/index.html'
+      - 'index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Generate blog HTML
+        run: node scripts/build-blog.js
+
+      - name: Commit generated blog output
+        run: |
+          if git diff --quiet -- blog/index.html index.html; then
+            echo "Blog output is current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog/index.html index.html
+          git commit -m "Build blog index"
+          git push

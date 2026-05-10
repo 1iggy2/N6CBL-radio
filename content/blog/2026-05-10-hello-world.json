@@ -1,0 +1,25 @@
+{
+  "date": "2026-05-10",
+  "title": "Hello World",
+  "slug": "hello-world",
+  "type": "INTRODUCTORY",
+  "tags": [
+    "hello",
+    "trips"
+  ],
+  "context": "First human-written post on the site.",
+  "body": [
+    "Hello world. It's Cam. This is the first human-written content on the site. I have really enjoyed vibe coding this website. It is something I never would have put the effort into without AI, but it still feels like meaningful self-expression.",
+    "I started using Codex tonight, in addition to the Claude Code workflow that I started with. Both are excellent. I am testing this composer by uploading an image of myself on the Eiger from October 2025. No radio was played on that trip, but it was a great time. Brain surgery is coming up quick; I am hoping for the best there, and this site has been a great distraction.",
+    "— Cam"
+  ],
+  "photos": [
+    {
+      "src": "/images/blog/2026-05-10-hello-world/cam_eiger.jpg",
+      "alt": "Cam standing on the Eiger in October 2025",
+      "caption": "Cam on the Eiger · October 2025",
+      "width": 1250,
+      "height": 1666
+    }
+  ]
+}

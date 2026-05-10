@@ -59,9 +59,12 @@ The sidebar is a persistent operational panel — not a temporary menu.
 Key rules:
 - Active page indicated by background highlight and/or bold weight
 - Implemented routes appear as plain path text; unimplemented routes stay visible in the navigator with muted text until they ship. Do not add separate LIVE, WIP, or PLANNED badges to the sidebar navigation.
-- Every routable internal page, including utility and workflow subpages such as
-  `/blog/compose/`, appears as its own top-level row in the visible navigation list.
-  Do not hide subpages only inside parent-page body links.
+- Every public routable internal page appears as its own top-level row in the
+  visible navigation list. Do not hide public subpages only inside parent-page body
+  links.
+- Owner-only operational routes, such as `/blog/compose/`, may be omitted from the
+  public navigator when protected by Cloudflare Access and used only as publishing
+  controls rather than public site content.
 - Keep this exposure flat: subpages remain peer rows in the always-visible
   navigator. For subpage labels, use `↳` (`&#x21B3;`) plus the leaf route (for
   example `↳ compose/`) to indicate path hierarchy without repeating the parent
@@ -69,10 +72,10 @@ Key rules:
   controls.
 - Links use `font-family: var(--mono)` for paths, muted for descriptions
 - External links end with ↗, internal links have no icon
-- Every implemented or planned site route must be exposed in the permanent sidebar
-  navigator. "Flat, not hierarchical"
-  means a shallow visible list, not hidden secondary pages, footer-only links,
-  hover menus, accordions, or mega-menus.
+- Every implemented or planned public site route must be exposed in the permanent
+  sidebar navigator. "Flat, not hierarchical" means a shallow visible list, not
+  hidden secondary pages, footer-only links, hover menus, accordions, or
+  mega-menus.
 - When a route is moved or consolidated, update the navigator and site plan so the
   visible list points at the durable destination; do not leave orphaned pages
   discoverable only by URL.
@@ -125,9 +128,12 @@ or at the end of a section as a footer link.
 - JavaScript only when it adds information value, not atmosphere
 - No build step required for basic pages
 - Cloudflare Pages for hosting (auto-deploys from this repo)
+- Blog output is generated from structured post source because browser submission
+  must not require hand-editing HTML or manually updating duplicate metadata.
 
-When a build system becomes necessary (blog, asset pipeline), document the
-decision here with rationale before implementing.
+The blog build step is intentionally narrow: `scripts/build-blog.js` reads
+`/content/blog/*.json` and regenerates the static blog/home HTML that Cloudflare
+serves. Do not add runtime Markdown rendering or a client-side CMS for core posts.
 
 ## Site Structure (planned)
 
@@ -150,8 +156,10 @@ decision here with rationale before implementing.
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats
 /station/index.html      — station reference and inventory
-/blog/index.html         — field journal running list
-/blog/compose/index.html — browser helper that generates static blog snippets
+/blog/index.html         — generated field journal running list
+/blog/compose/index.html — owner-only browser publisher for structured blog source
+/content/blog/           — structured blog post JSON source
+/scripts/build-blog.js   — static blog/home generator
 /styles.css              — single shared stylesheet for all pages
 /flag-us.svg             — header US flag
 /images/                 — page imagery (field photos, world map)
@@ -162,9 +170,10 @@ decision here with rationale before implementing.
 /.github/workflows/      — fetch-pota cron, deploy automation
 ```
 
-CSS lives in a single shared stylesheet (`/styles.css`). Each page is a
-hand-written HTML file that links it. No build step. When the page count
-exceeds what's manageable by hand-edit (≈ 10 content pages), revisit.
+CSS lives in a single shared stylesheet (`/styles.css`). Most pages are
+hand-written HTML files that link it. Blog posts are the exception: structured JSON
+source is committed under `/content/blog/`, then `scripts/build-blog.js` regenerates
+static HTML so publishing does not require HTML surgery.
 
 ## Development Guidelines
 

@@ -66,11 +66,6 @@
               <span class="nav-path">/blog/</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="/blog/compose/" aria-current="page">
-              <span class="nav-path" aria-label="/blog/compose/">&#x21B3; compose/</span>
-            </a>
-          </li>
           <li class="nav-item nav-item-unimplemented">
             <a href="/tools/">
               <span class="nav-path">/tools/</span>
@@ -146,23 +141,23 @@
     <main class="main-content">
 
       <div class="section-label blog-meta">
-        <span aria-label="/blog/compose/">&#x21B3; compose/ &mdash; static post helper</span>
-        <span>client-side only</span>
+        <span aria-label="/blog/compose/">&#x21B3; compose/ &mdash; owner publisher</span>
+        <span>Access-protected publisher</span>
       </div>
 
       <section class="page-intro blog-intro">
-        <h1>Write once. Commit the parts.</h1>
+        <h1>Write once. Commit source.</h1>
         <p>
-          This page does not publish by itself. It turns human-readable fields,
-          Markdown-like paragraphs, and selected photo filenames into the two static
-          HTML snippets needed by <code>/blog/index.html</code>.
+          This owner-only tool submits structured blog source to GitHub through the
+          Cloudflare Worker. The generated snippets remain visible for inspection,
+          but publishing no longer requires image-folder setup or HTML surgery.
         </p>
       </section>
 
       <section class="composer-section" aria-labelledby="composer-heading">
         <div class="section-label split">
           <span id="composer-heading">Post input</span>
-          <span class="section-tag todo">Manual commit required</span>
+          <span class="section-tag live">Auto-commit enabled</span>
         </div>
 
         <form class="composer-form" id="composer-form">
@@ -187,6 +182,14 @@
               <span>Context line for index</span>
               <input id="post-context" type="text" placeholder="Short description shown in the dense table.">
             </label>
+            <label>
+              <span>Slug</span>
+              <input id="post-slug" type="text" placeholder="crystal-cove-quick-activation">
+            </label>
+            <label>
+              <span>Expected URL</span>
+              <input id="post-url" type="text" readonly>
+            </label>
             <label class="composer-wide">
               <span>Photo upload staging</span>
               <input id="post-photos" type="file" accept="image/*" multiple>
@@ -205,7 +208,7 @@
 
       <section class="composer-section" aria-labelledby="preview-heading">
         <div class="section-label split">
-          <span id="preview-heading">Preview / generated output</span>
+          <span id="preview-heading">Preview / generated output / publish</span>
           <span id="composer-status" class="section-tag live">Ready</span>
         </div>
         <div class="composer-output-grid">
@@ -219,57 +222,55 @@
             <textarea id="index-output" rows="7" readonly></textarea>
             <button type="button" class="copy-button" data-copy="index-output">Copy index row</button>
           </div>
+          <div class="composer-panel">
+            <h2>Structured source</h2>
+            <textarea id="json-output" rows="18" readonly></textarea>
+            <button type="button" class="copy-button" data-copy="json-output">Copy JSON source</button>
+          </div>
           <div class="composer-panel composer-wide">
             <h2>Article block</h2>
             <textarea id="article-output" rows="18" readonly></textarea>
             <button type="button" class="copy-button" data-copy="article-output">Copy article block</button>
+          </div>
+          <div class="composer-panel composer-wide publish-panel">
+            <h2>Publish transaction</h2>
+            <dl class="publish-status-grid">
+              <dt>Authentication</dt>
+              <dd id="auth-state">Cloudflare Access required upstream</dd>
+              <dt>Validation</dt>
+              <dd id="validation-state">Waiting for input</dd>
+              <dt>Repository file</dt>
+              <dd id="repo-file-state">content/blog/YYYY-MM-DD-slug.json</dd>
+              <dt>Commit</dt>
+              <dd id="commit-state">Not submitted</dd>
+            </dl>
+            <button type="button" id="submit-post" class="copy-button publish-button">Submit post to GitHub</button>
           </div>
         </div>
       </section>
 
       <section class="blog-tools-section" aria-labelledby="publish-heading">
         <div class="section-label split">
-          <span id="publish-heading">Publish checklist</span>
-          <span class="section-tag todo">GitHub web UI</span>
+          <span id="publish-heading">Publish notes</span>
+          <span class="section-tag live">Worker commit</span>
         </div>
         <ol class="publish-list">
           <li>
-            Create a new image folder in the repository at
-            <code>/images/blog/YYYY-MM-DD-slug/</code>. Use the exact date from the
-            post form and a lowercase, hyphenated slug from the title. Upload the
-            optimized image files shown in <code>Photo staging</code> into that folder.
+            Cloudflare Access should protect this page and <code>/api/blog/publish</code>.
+            The Worker also checks the authenticated email before writing to GitHub.
           </li>
           <li>
-            Open <code>/blog/index.html</code> for editing. Find the
-            <code>Post index</code> section near the top of the file, then paste the
-            generated <code>Index row</code> as the first row inside that table body so
-            the newest post stays first.
+            V1 publishes text-only posts. If photo files or captions are present, the
+            page keeps showing the target folder but blocks auto-submit until image
+            upload support lands.
           </li>
           <li>
-            In the same file, <code>/blog/index.html</code>, find the
-            <code>NEW POST INSERTION POINT</code> comment below the index table. Paste
-            the generated <code>Article block</code> immediately below that comment and
-            above the older posts.
+            A successful submit creates <code>/content/blog/YYYY-MM-DD-slug.json</code>
+            in GitHub. The blog build workflow regenerates static HTML from that source.
           </li>
           <li>
-            Still in <code>/blog/index.html</code>, update the post count in the
-            <code>blog-meta</code> label near the page heading so the visible metadata
-            matches the number of published posts.
-          </li>
-          <li>
-            Open the home page file, <code>/index.html</code>. Find the
-            <code>Latest field note</code> row in the status table and replace its date,
-            title, summary, and link target with the new post.
-          </li>
-          <li>
-            Before committing, check that every pasted image path starts with
-            <code>/images/blog/YYYY-MM-DD-slug/</code>, every image has useful
-            <code>alt</code> text and a caption, and the generated post link points to
-            the article <code>id</code> you pasted.
-          </li>
-          <li>
-            Commit the changed files and uploaded images with an imperative message,
-            for example: <code>Add Crystal Cove field report</code>.
+            The copied HTML snippets are inspection tools and emergency fallback, not
+            the normal publishing path.
           </li>
         </ol>
       </section>
@@ -284,6 +285,8 @@
   (function () {
     var dateEl = document.getElementById('post-date');
     var titleEl = document.getElementById('post-title');
+    var slugEl = document.getElementById('post-slug');
+    var urlEl = document.getElementById('post-url');
     var typeEl = document.getElementById('post-type');
     var tagsEl = document.getElementById('post-tags');
     var contextEl = document.getElementById('post-context');
@@ -292,36 +295,47 @@
     var photosEl = document.getElementById('post-photos');
     var indexOutput = document.getElementById('index-output');
     var articleOutput = document.getElementById('article-output');
+    var jsonOutput = document.getElementById('json-output');
     var photoTarget = document.getElementById('photo-target');
     var photoPreview = document.getElementById('photo-preview');
     var statusEl = document.getElementById('composer-status');
+    var validationState = document.getElementById('validation-state');
+    var repoFileState = document.getElementById('repo-file-state');
+    var commitState = document.getElementById('commit-state');
+    var submitButton = document.getElementById('submit-post');
+    var slugTouched = false;
 
     dateEl.value = new Date().toISOString().slice(0, 10);
 
+    titleEl.addEventListener('input', function () {
+      if (!slugTouched) slugEl.value = slugify(titleEl.value);
+      render();
+    });
+    slugEl.addEventListener('input', function () {
+      slugTouched = true;
+      slugEl.value = slugify(slugEl.value);
+      render();
+    });
     document.getElementById('composer-form').addEventListener('input', render);
     photosEl.addEventListener('change', renderPhotos);
+    submitButton.addEventListener('click', submitPost);
     document.querySelectorAll('.copy-button').forEach(function (button) {
       button.addEventListener('click', function () {
         var target = document.getElementById(button.getAttribute('data-copy'));
+        if (!target) return;
         target.select();
         document.execCommand('copy');
-        statusEl.textContent = 'Copied';
-        setTimeout(function () { statusEl.textContent = 'Ready'; }, 1200);
+        setStatus('Copied', 'live');
+        setTimeout(function () { setStatus('Ready', 'live'); }, 1200);
       });
     });
 
     render();
 
     function render() {
-      var date = dateEl.value || 'YYYY-MM-DD';
-      var title = titleEl.value.trim() || 'Untitled field note';
-      var slug = slugify(title);
-      var id = 'post-' + date + '-' + slug;
-      var context = contextEl.value.trim() || 'Field journal entry.';
-      var type = (typeEl.value.trim() || 'FIELD REPORT').toUpperCase();
-      var tags = tagsEl.value.trim() || 'untagged';
-      var folder = '/images/blog/' + date + '-' + slug + '/';
-      var paragraphs = bodyEl.value.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean);
+      var payload = buildPayload();
+      var id = 'post-' + payload.date + '-' + payload.slug;
+      var folder = '/images/blog/' + payload.date + '-' + payload.slug + '/';
       var captions = parseCaptions(captionsEl.value, folder);
       var figureHtml = captions.map(function (item) {
         return '          <figure class="blog-photo">\n'
@@ -329,24 +343,27 @@
           + '            <figcaption>' + escText(item.caption) + '</figcaption>\n'
           + '          </figure>';
       }).join('\n');
-      var proseHtml = paragraphs.length
-        ? paragraphs.map(function (p) { return '            <p>\n              ' + escText(p) + '\n            </p>'; }).join('\n')
+      var proseHtml = payload.body.length
+        ? payload.body.map(function (p) { return '            <p>\n              ' + escText(p) + '\n            </p>'; }).join('\n')
         : '            <p>\n              Draft body goes here.\n            </p>';
 
+      urlEl.value = '/blog/#' + id;
+      repoFileState.textContent = 'content/blog/' + payload.date + '-' + payload.slug + '.json';
+
       indexOutput.value = '            <tr>\n'
-        + '              <td class="blog-date">' + escText(date) + '</td>\n'
-        + '              <td class="blog-ref">' + escText(title) + '</td>\n'
-        + '              <td class="blog-context">' + escText(context) + '</td>\n'
+        + '              <td class="blog-date">' + escText(payload.date) + '</td>\n'
+        + '              <td class="blog-ref">' + escText(payload.title) + '</td>\n'
+        + '              <td class="blog-context">' + escText(payload.context) + '</td>\n'
         + '              <td class="blog-cta"><a href="#' + escAttr(id) + '">Read &#8594;</a></td>\n'
         + '            </tr>';
 
       articleOutput.value = '        <article class="blog-post" id="' + escAttr(id) + '">\n'
         + '          <header class="blog-post-header">\n'
-        + '            <div class="blog-post-date">' + escText(date) + '</div>\n'
-        + '            <h2>' + escText(title) + '</h2>\n'
+        + '            <div class="blog-post-date">' + escText(payload.date) + '</div>\n'
+        + '            <h2>' + escText(payload.title) + '</h2>\n'
         + '            <div class="blog-post-meta">\n'
-        + '              <span>TYPE: ' + escText(type) + '</span>\n'
-        + '              <span>TAGS: ' + escText(tags) + '</span>\n'
+        + '              <span>TYPE: ' + escText(payload.type) + '</span>\n'
+        + '              <span>TAGS: ' + escText(payload.tags.join(', ') || 'untagged') + '</span>\n'
         + '              <span>STATUS: LIVE</span>\n'
         + '            </div>\n'
         + '          </header>\n'
@@ -356,7 +373,87 @@
         + '          </div>\n'
         + '        </article>';
 
-      photoTarget.textContent = 'Image target folder: ' + folder;
+      jsonOutput.value = JSON.stringify(payload, null, 2) + '\n';
+      photoTarget.textContent = 'Image target folder: ' + folder + ' (V1 auto-submit is text-only)';
+      updateValidation(payload);
+    }
+
+    function buildPayload() {
+      var title = titleEl.value.trim() || 'Untitled field note';
+      var slug = slugEl.value.trim() || slugify(title);
+      var date = dateEl.value || new Date().toISOString().slice(0, 10);
+      return {
+        date: date,
+        title: title,
+        slug: slug,
+        type: (typeEl.value.trim() || 'FIELD REPORT').toUpperCase(),
+        tags: tagsEl.value.split(',').map(function (tag) { return tag.trim(); }).filter(Boolean),
+        context: contextEl.value.trim(),
+        body: bodyEl.value.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean),
+        photos: []
+      };
+    }
+
+    function updateValidation(payload) {
+      var problems = validatePayload(payload);
+      if (photosEl.files.length || captionsEl.value.trim()) {
+        problems.push('image upload is reserved for V2');
+      }
+      if (problems.length) {
+        validationState.textContent = problems.join('; ');
+        submitButton.disabled = true;
+        setStatus('Blocked', 'todo');
+      } else {
+        validationState.textContent = 'Ready to submit text-only post';
+        submitButton.disabled = false;
+        setStatus('Ready', 'live');
+      }
+    }
+
+    function validatePayload(payload) {
+      var problems = [];
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.date)) problems.push('date must be YYYY-MM-DD');
+      if (!payload.title || payload.title === 'Untitled field note') problems.push('title required');
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(payload.slug)) problems.push('slug must be lowercase hyphenated text');
+      if (!payload.context) problems.push('context required');
+      if (!payload.body.length) problems.push('body required');
+      return problems;
+    }
+
+    async function submitPost() {
+      var payload = buildPayload();
+      var problems = validatePayload(payload);
+      if (photosEl.files.length || captionsEl.value.trim()) problems.push('image upload is reserved for V2');
+      if (problems.length) {
+        validationState.textContent = problems.join('; ');
+        return;
+      }
+      submitButton.disabled = true;
+      commitState.textContent = 'Submitting to /api/blog/publish';
+      setStatus('Submitting', 'todo');
+      try {
+        var response = await fetch('/api/blog/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        var data = await response.json().catch(function () { return {}; });
+        if (!response.ok) {
+          throw new Error(data.error || ('HTTP ' + response.status));
+        }
+        commitState.innerHTML = '<a href="' + escAttr(data.commitUrl || '#') + '" target="_blank" rel="noopener">' + escText(data.commitSha || 'committed') + ' &#8599;</a>';
+        validationState.textContent = 'Committed source; build workflow will regenerate static HTML';
+        setStatus('Committed', 'live');
+      } catch (err) {
+        commitState.textContent = err.message;
+        setStatus('Failed', 'todo');
+        submitButton.disabled = false;
+      }
+    }
+
+    function setStatus(text, mode) {
+      statusEl.textContent = text;
+      statusEl.className = 'section-tag ' + (mode || 'live');
     }
 
     function renderPhotos() {
