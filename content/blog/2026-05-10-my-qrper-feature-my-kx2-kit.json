@@ -1,0 +1,23 @@
+{
+  "date": "2026-05-10",
+  "publishedAt": "2026-05-10T21:38:30.704Z",
+  "title": "My QRPer Feature: My KX2 Kit",
+  "slug": "my-qrper-feature-my-kx2-kit",
+  "type": "FIELD REPORT",
+  "tags": [],
+  "context": "Read the article K4SWL wrote on my KX2 kit",
+  "body": [
+    "https://qrper.com/2025/04/field-radio-kit-gallery-ko6bybs-compact-watertight-elecraft-kx2-kit/",
+    "I wrote this up for Thomas a while ago now, but it's a set of 3D printed inserts I made for the Seahorse waterproof case to hold my KX2 securely. Still use it in a rather similar form to this day, although I've moved past trying to get the AX2 to work. Compromised station power or compromised antennas, I haven't had success with both.",
+    "KO6BYB was my original ham callsign, I got a vanity call N6CBL earlier this year after getting my general license. N6CBL is supposed to be CABLE, which is a nickname I have had at work. Cameron Gable -> Cable -> Cable, it's a good nickname for someone who does AVI systems and all the harnesses, cables, and wires involved."
+  ],
+  "photos": [
+    {
+      "src": "/images/blog/2026-05-10-my-qrper-feature-my-kx2-kit/header-ko6byb-kx2-waterproof-case-1.jpeg.webp",
+      "alt": "The KX2 Kit",
+      "caption": "The KX2 Kit",
+      "width": 1038,
+      "height": 576
+    }
+  ]
+}
