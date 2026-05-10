@@ -247,7 +247,26 @@
           <span>Worked All States (WAS)</span>
           <span id="was-header-count" class="log-count"></span>
         </div>
-        <img id="was-map" src="/data/was-map.svg" alt="Worked All States geographic map" class="was-map-img">
+        <div class="was-ledger" aria-live="polite">
+          <div class="was-panel was-panel-worked">
+            <div class="was-panel-heading">
+              <span>Worked</span>
+              <span id="was-worked-count">0</span>
+            </div>
+            <ol id="was-worked-list" class="was-state-list was-state-list-worked">
+              <li class="was-empty">Loading&hellip;</li>
+            </ol>
+          </div>
+          <div class="was-panel was-panel-remaining">
+            <div class="was-panel-heading">
+              <span>Remaining</span>
+              <span id="was-remaining-count">50</span>
+            </div>
+            <ol id="was-remaining-list" class="was-state-list was-state-list-remaining">
+              <li class="was-empty">Loading&hellip;</li>
+            </ol>
+          </div>
+        </div>
         <div id="was-summary" class="was-summary"></div>
       </section>
 
@@ -325,6 +344,18 @@
       'NJ','NM','NV','NY','OH','OK','OR','PA','RI','SC',
       'SD','TN','TX','UT','VA','VT','WA','WI','WV','WY'
     ];
+    var US_STATE_NAMES = {
+      AK: 'Alaska', AL: 'Alabama', AR: 'Arkansas', AZ: 'Arizona', CA: 'California',
+      CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', FL: 'Florida', GA: 'Georgia',
+      HI: 'Hawaii', IA: 'Iowa', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana',
+      KS: 'Kansas', KY: 'Kentucky', LA: 'Louisiana', MA: 'Massachusetts', MD: 'Maryland',
+      ME: 'Maine', MI: 'Michigan', MN: 'Minnesota', MO: 'Missouri', MS: 'Mississippi',
+      MT: 'Montana', NC: 'North Carolina', ND: 'North Dakota', NE: 'Nebraska', NH: 'New Hampshire',
+      NJ: 'New Jersey', NM: 'New Mexico', NV: 'Nevada', NY: 'New York', OH: 'Ohio',
+      OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina',
+      SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VA: 'Virginia',
+      VT: 'Vermont', WA: 'Washington', WI: 'Wisconsin', WV: 'West Virginia', WY: 'Wyoming'
+    };
 
     fetch('/data/qso-log.json')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -401,9 +432,27 @@
     }
 
     function renderWAS(worked) {
+      var workedSet = {};
+      for (var i = 0; i < worked.length; i++) workedSet[worked[i]] = true;
+      var remaining = US_STATES.filter(function (st) { return !workedSet[st]; });
+
       document.getElementById('was-header-count').textContent = worked.length + '/50';
+      document.getElementById('was-worked-count').textContent = worked.length;
+      document.getElementById('was-remaining-count').textContent = remaining.length;
+      document.getElementById('was-worked-list').innerHTML = renderStateRows(worked, 'worked');
+      document.getElementById('was-remaining-list').innerHTML = renderStateRows(remaining, 'remaining');
       document.getElementById('was-summary').textContent =
-        worked.length + ' of 50 states worked — ' + (50 - worked.length) + ' remaining for WAS';
+        worked.length + ' of 50 states worked — ' + remaining.length + ' remaining for WAS';
+    }
+
+    function renderStateRows(states, status) {
+      if (!states.length) return '<li class="was-empty">None</li>';
+      return states.map(function (st) {
+        return '<li class="was-state-row was-state-row-' + status + '">'
+          + '<span class="was-state-code">' + esc(st) + '</span>'
+          + '<span class="was-state-name">' + esc(US_STATE_NAMES[st] || st) + '</span>'
+          + '</li>';
+      }).join('');
     }
 
     function renderHours(qsos) {

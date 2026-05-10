@@ -780,7 +780,10 @@ footer a:hover { text-decoration: underline; }
   /* Stats map bar: truncate right label on mobile */
   #map-bar-grids { display: none; }
 
-  /* Band/mode tables side by side: stack on mobile */
+  /* WAS ledger and band/mode tables: stack on mobile */
+  .was-ledger { grid-template-columns: 1fr; }
+  .was-panel + .was-panel { border-left: none; border-top: 1px solid var(--rule); }
+
   .stats-tables-row { grid-template-columns: 1fr; }
   .stats-table-panel { border-right: none; border-bottom: 1px solid var(--rule); }
   .stats-table-panel:last-child { border-bottom: none; }
@@ -852,36 +855,73 @@ footer a:hover { text-decoration: underline; }
 .stats-table-panel table { border-bottom: none; table-layout: fixed; }
 .hour-section table { table-layout: fixed; }
 
-/* WAS — Worked All States tile map */
+/* WAS — Worked All States ledger */
 .was-section { border-bottom: 1px solid var(--rule); }
 
-.was-tile-grid {
+.was-ledger {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 3px;
-  padding: 10px 12px;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--rule);
 }
 
-.was-tile {
-  font-family: var(--mono);
-  font-size: 0.62rem;
+.was-panel { min-width: 0; }
+.was-panel + .was-panel { border-left: 1px solid var(--rule); }
+
+.was-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 12px;
+  border-bottom: 1px solid var(--rule-2);
+  background: var(--tint);
+  color: var(--muted);
+  font-size: 0.68rem;
   font-weight: bold;
-  letter-spacing: 0.03em;
-  text-align: center;
-  padding: 4px 1px;
-  border: 1px solid var(--rule-2);
-  background: var(--white);
-  color: #bbb;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.was-state-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.was-state-row,
+.was-empty {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
   min-width: 0;
+  padding: 4px 8px;
+  border-right: 1px solid var(--rule-2);
+  border-bottom: 1px solid var(--rule-2);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.was-empty {
+  display: block;
+  color: var(--muted);
+  grid-column: 1 / -1;
+}
+
+.was-state-code {
+  font-weight: bold;
+  letter-spacing: 0.08em;
+}
+
+.was-state-name {
+  color: var(--muted);
   overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.was-tile.worked {
-  background: #d4edda;
-  color: #1a5c2a;
-  border-color: #1a5c2a;
-}
+.was-state-row-worked .was-state-code { color: #1a5c2a; }
+.was-state-row-remaining .was-state-code { color: #777; }
 
 .was-summary {
   padding: 5px 12px;
@@ -946,15 +986,6 @@ td.bar-cell {
   height: 100%;
   position: absolute;
   left: 0; top: 0;
-}
-
-/* WAS geographic map image */
-.was-map-img {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  background: var(--tint);
 }
 
 /* stats-core-grid cascade fix: repeat rule after stats page CSS overrides earlier @media block */
