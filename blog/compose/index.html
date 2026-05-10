@@ -154,6 +154,42 @@
         </p>
       </section>
 
+      <section class="blog-tools-section" aria-labelledby="config-heading">
+        <div class="section-label split">
+          <span id="config-heading">One-time repository / Cloudflare setup</span>
+          <span class="section-tag live">Required before submit works</span>
+        </div>
+        <ol class="publish-list">
+          <li>
+            Cloudflare Access must protect both <code>/blog/compose/*</code> and
+            <code>/api/blog/publish</code>. The Access policy should allow the owner
+            email address that is allowed to publish.
+          </li>
+          <li>
+            <code>wrangler.jsonc</code> carries the non-secret Worker var
+            <code>GITHUB_REPO</code>. If this repository is renamed or forked, update
+            that value before deploy.
+          </li>
+          <li>
+            Add the required Worker secret with
+            <code>npx wrangler secret put GITHUB_TOKEN</code>. Use a GitHub token that
+            can write repository contents so the Worker can create
+            <code>content/blog/YYYY-MM-DD-slug.json</code>.
+          </li>
+          <li>
+            Optional tighter gate: add <code>ALLOWED_EMAILS</code> with
+            <code>npx wrangler secret put ALLOWED_EMAILS</code>. Use a comma-separated
+            list of Access-authenticated email addresses. Legacy
+            <code>ALLOWED_EMAIL</code> still works for one address.
+          </li>
+          <li>
+            GitHub Actions deployment still needs repository secrets
+            <code>CLOUDFLARE_API_TOKEN</code> and <code>CLOUDFLARE_ACCOUNT_ID</code> so
+            pushes to <code>main</code> can publish the Worker/site.
+          </li>
+        </ol>
+      </section>
+
       <section class="composer-section" aria-labelledby="composer-heading">
         <div class="section-label split">
           <span id="composer-heading">Post input</span>
