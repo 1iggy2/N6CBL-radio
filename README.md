@@ -21,7 +21,7 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | `/blog/` | Posts |
 | `/tools/` | Browser utilities |
 | `/prints/` | 3D print catalog |
-| `/radio/` | Ham radio resources |
+| `/radio/` | My station: operator profile, gear, hardware notes, modes |
 
 ## Development
 
