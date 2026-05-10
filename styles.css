@@ -252,15 +252,20 @@ header {
 /* ── MAIN CONTENT ──────────────────────────────────────────────────────── */
 .main-content { min-width: 0; }
 
-/* ── SHARED SECTION LABEL ─────────────────────────────────────────────── */
+/* ── SHARED SECTION LABEL ───────────────────────────────────────────────
+   Main content labels are light by default. Reserve filled black labels for
+   persistent chrome like the sidebar, so the page hierarchy is exposed by
+   rules and density instead of repeated maximum-contrast bands.
+─────────────────────────────────────────────────────────────────────── */
 .section-label {
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   padding: 5px 12px;
+  border-top: 2px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  background: var(--black);
-  color: var(--white);
+  background: var(--tint);
+  color: var(--black);
 }
 
 .section-label.split {
@@ -294,7 +299,7 @@ header {
 }
 
 .map-section .section-label.split {
-  border-bottom-color: #2a2a2a;
+  border-bottom-color: var(--rule);
 }
 
 .world-map {
@@ -739,6 +744,8 @@ footer a:hover { text-decoration: underline; }
   .op-meta     { font-size: 0.6rem; }
   .sidenav-links a,
   .nav-item a  { padding: 4px 8px; font-size: 0.65rem; }
+  .nav-item a  { flex-direction: column; align-items: flex-start; gap: 1px; }
+  .nav-badge   { font-size: 0.5rem; }
   .sidenav-label { padding: 3px 8px; }
   .page-intro h1 { font-size: 2.2rem; }
   header { grid-template-columns: auto minmax(0, 1fr); }
