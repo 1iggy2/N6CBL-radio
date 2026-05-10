@@ -283,7 +283,6 @@
             <th>Type</th>
             <th>Reference</th>
             <th class="num">QSOs</th>
-            <th></th>
           </tr>
         </thead>
         <tbody id="recent-tbody"></tbody>
@@ -427,7 +426,6 @@
           + '<td>' + typeLabel + '</td>'
           + '<td class="qso-ref">' + ref + '</td>'
           + '<td class="num">' + (s.qso_count || 0) + '</td>'
-          + '<td><a href="/log/#sid-' + esc(s.id) + '">View &#8594;</a></td>'
           + '</tr>';
       }
       recentTbodyEl.innerHTML = html;

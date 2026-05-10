@@ -145,6 +145,25 @@ exceeds what's manageable by hand-edit (≈ 10 content pages), revisit.
 - No `!important` in CSS without a comment explaining why.
 - Commit messages: imperative mood, present tense, specific.
 
+### Mobile width discipline
+
+Any CSS or HTML change that touches layout, tables, or flex/grid containers **must**
+be checked for mobile viewport overflow. The canonical failure mode: a wide table or
+fixed-width element forces `body` wider than the viewport, causing the page to zoom
+out on iOS/Android.
+
+Rules:
+- Tables must never have a fixed total width that exceeds the viewport. Prefer
+  `table-layout: fixed` with `overflow-x: auto` on a wrapping `div`, or drop columns
+  on narrow viewports via `@media`.
+- No table column whose content is purely decorative or navigational (e.g., a "View →"
+  CTA that duplicates a section-footer link) — these are the first candidates to cut
+  when a table is too wide for mobile.
+- After any table or layout change, mentally check: what happens at 390px (iPhone 15)?
+  Does any element create horizontal scroll? If yes, fix before committing.
+- The `<meta name="viewport" content="width=device-width, initial-scale=1.0">` tag is
+  required on every page. Never omit or alter it.
+
 ## Callsign Context
 
 N6CBL is an FCC-licensed amateur radio operator. The site may include:
