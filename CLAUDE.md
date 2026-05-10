@@ -77,6 +77,14 @@ Key rules:
   visible list points at the durable destination; do not leave orphaned pages
   discoverable only by URL.
 
+**Reference / inventory pages**
+Operational reference pages such as `/station/` should lead with labeled data blocks
+and dense tables, not a billboard-style narrative summary. If the section label and
+table headers already identify the page purpose, do not add a standalone hero, lede,
+or prose explainer above the first data table. Put explanatory copy in table notes,
+section labels, captions, or row descriptions where it directly supports a specific
+fact. The data is the page.
+
 **Table-of-text content indexes**
 Content archives (blog posts, POTA activations, print files) are presented as dense
 text tables: Date | Reference | Context | CTA. Every row has an explicit action link.
