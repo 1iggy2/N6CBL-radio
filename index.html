@@ -316,6 +316,8 @@
     </div>
   </footer>
 
+  <script src="/site-chrome.js"></script>
+
   <script>
   (function () {
     var logCache = null;
@@ -339,8 +341,7 @@
 
     function loadLog(cb) {
       if (logCache) { cb(logCache); return; }
-      fetch('/data/qso-log.json')
-        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      window.N6CBLChrome.loadQsoLog()
         .then(function (d) { logCache = d; cb(d); })
         .catch(function () {
           lookupStateEl.textContent = 'Log data unavailable.';
@@ -396,25 +397,6 @@
       if (countEl) countEl.textContent = gc + ' grids · ' + qsos.length + ' QSOs';
     });
 
-    /* ── Header stat ─────────────────────────────────────────────── */
-    loadLog(function (data) {
-      var el = document.getElementById('header-stat');
-      if (!el) return;
-      var sessions = data.sessions || [];
-      if (sessions.length === 0) return;
-      var s = sessions[0];
-      var band = '';
-      var qsos = data.qsos || [];
-      for (var i = 0; i < qsos.length; i++) {
-        if (qsos[i].session === s.id && qsos[i].band) { band = qsos[i].band.toUpperCase(); break; }
-      }
-      var parts = ['LAST ACTIVATION'];
-      if (s.reference) parts.push(s.reference);
-      if (band) parts.push(band);
-      parts.push((s.qso_count || 0) + ' QSOs');
-      if (s.date) parts.push(s.date);
-      el.textContent = parts.join(' · ');
-    });
 
     /* ── QSO lookup ──────────────────────────────────────────────────── */
     lookupInputEl.addEventListener('input', debounce(function () {

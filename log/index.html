@@ -233,6 +233,8 @@
     </div>
   </footer>
 
+  <script src="/site-chrome.js"></script>
+
   <script>
   (function () {
     var logData = null;
@@ -247,14 +249,9 @@
     var hdrStatsEl  = document.getElementById('log-header-stats');
     var hdrRangeEl  = document.getElementById('log-header-range');
 
-    fetch('/data/qso-log.json')
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
+    window.N6CBLChrome.loadQsoLog()
       .then(function (data) {
         logData = data;
-        renderHeaderStat(data);
         if (data.stats) {
           var s = data.stats;
           hdrStatsEl.textContent = s.qso_count + ' QSOs · '
@@ -366,20 +363,6 @@
       qsoTableEl.hidden = false;
     }
 
-    function renderHeaderStat(data) {
-      var el = document.getElementById('header-stat');
-      if (!el) return;
-      var sessions = data.sessions || [];
-      if (sessions.length === 0) return;
-      var s = sessions[0];
-      var band = (s.bands && s.bands.length) ? String(s.bands[0]).toUpperCase() : '';
-      var parts = ['LAST ACTIVATION'];
-      if (s.reference) parts.push(s.reference);
-      if (band) parts.push(band);
-      parts.push((s.qso_count || 0) + ' QSOs');
-      if (s.date) parts.push(s.date);
-      el.textContent = parts.join(' · ');
-    }
 
     function esc(s) {
       return String(s)

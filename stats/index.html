@@ -346,6 +346,8 @@
     </div>
   </footer>
 
+  <script src="/site-chrome.js"></script>
+
   <script>
   (function () {
     var HOME_LAT = 33.8542, HOME_LON = -118.375;
@@ -369,10 +371,8 @@
       VT: 'Vermont', WA: 'Washington', WI: 'Wisconsin', WV: 'West Virginia', WY: 'Wyoming'
     };
 
-    fetch('/data/qso-log.json')
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    window.N6CBLChrome.loadQsoLog()
       .then(function (data) {
-        renderHeaderStat(data);
         var s = data.stats;
         var qsos = data.qsos || [];
 
@@ -577,20 +577,6 @@
         gridCount + ' unique grid squares plotted';
     }
 
-    function renderHeaderStat(data) {
-      var el = document.getElementById('header-stat');
-      if (!el) return;
-      var sessions = data.sessions || [];
-      if (sessions.length === 0) return;
-      var session = sessions[0];
-      var band = (session.bands && session.bands.length) ? String(session.bands[0]).toUpperCase() : '';
-      var parts = ['LAST ACTIVATION'];
-      if (session.reference) parts.push(session.reference);
-      if (band) parts.push(band);
-      parts.push((session.qso_count || 0) + ' QSOs');
-      if (session.date) parts.push(session.date);
-      el.textContent = parts.join(' · ');
-    }
 
     function esc(s) {
       return String(s)
