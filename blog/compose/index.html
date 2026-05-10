@@ -237,10 +237,15 @@
               <dd id="validation-state">Waiting for input</dd>
               <dt>Repository file</dt>
               <dd id="repo-file-state">content/blog/YYYY-MM-DD-slug.json</dd>
+              <dt>Preview</dt>
+              <dd id="preview-state">Not rendered</dd>
               <dt>Commit</dt>
               <dd id="commit-state">Not submitted</dd>
             </dl>
-            <button type="button" id="submit-post" class="copy-button publish-button">Submit post to GitHub</button>
+            <div class="publish-actions">
+              <button type="button" id="preview-post" class="copy-button">Open rendered preview</button>
+              <button type="button" id="submit-post" class="copy-button publish-button">Submit post to GitHub</button>
+            </div>
           </div>
         </div>
       </section>
@@ -254,6 +259,11 @@
           <li>
             Cloudflare Access should protect this page and <code>/api/blog/publish</code>.
             The Worker also checks the authenticated email before writing to GitHub.
+          </li>
+          <li>
+            Use <code>Open rendered preview</code> before submitting to inspect the exact static
+            article chrome, paragraphs, links, and staged image placement in a separate draft
+            window.
           </li>
           <li>
             Image uploads are submitted with the post JSON in one Git commit. Keep total
@@ -298,9 +308,12 @@
     var statusEl = document.getElementById('composer-status');
     var validationState = document.getElementById('validation-state');
     var repoFileState = document.getElementById('repo-file-state');
+    var previewState = document.getElementById('preview-state');
     var commitState = document.getElementById('commit-state');
+    var previewButton = document.getElementById('preview-post');
     var submitButton = document.getElementById('submit-post');
     var slugTouched = false;
+    var previewObjectUrls = [];
 
     dateEl.value = localDateValue(new Date());
 
@@ -318,6 +331,7 @@
       prefillCaptionLines();
       renderPhotos();
     });
+    previewButton.addEventListener('click', openRenderedPreview);
     submitButton.addEventListener('click', submitPost);
     document.querySelectorAll('[data-copy]').forEach(function (button) {
       button.addEventListener('click', function () {
@@ -384,13 +398,19 @@
       var problems = validatePayload(payload);
       if (problems.length) {
         validationState.textContent = problems.join('; ');
+        previewState.textContent = 'Fix validation before rendering';
+        previewButton.disabled = true;
         submitButton.disabled = true;
         setStatus('Blocked', 'todo');
       } else {
         validationState.textContent = payload.photos.length
           ? 'Ready to submit post with ' + payload.photos.length + ' image file(s)'
           : 'Ready to submit text-only post';
+        previewButton.disabled = false;
         submitButton.disabled = false;
+        if (previewState.textContent === 'Fix validation before rendering') {
+          previewState.textContent = 'Ready to render draft';
+        }
         setStatus('Ready', 'live');
       }
     }
@@ -414,6 +434,175 @@
         if (!photo.caption) problems.push(label + ' caption required');
       });
       return problems;
+    }
+
+
+    function openRenderedPreview() {
+      var payload = buildPayload(false);
+      var problems = validatePayload(payload);
+      if (problems.length) {
+        validationState.textContent = problems.join('; ');
+        previewState.textContent = 'Preview blocked by validation';
+        return;
+      }
+
+      var previewWindow = window.open('', 'n6cbl-blog-preview');
+      if (!previewWindow) {
+        previewState.textContent = 'Popup blocked; allow popups for this composer';
+        setStatus('Preview blocked', 'todo');
+        return;
+      }
+
+      revokePreviewObjectUrls();
+      var objectUrlsBySrc = {};
+      Array.prototype.forEach.call(photosEl.files, function (file, index) {
+        var photo = payload.photos[index];
+        if (!photo) return;
+        var objectUrl = URL.createObjectURL(file);
+        previewObjectUrls.push(objectUrl);
+        objectUrlsBySrc[photo.src] = objectUrl;
+      });
+
+      var previewHtml = renderPreviewDocument(payload, objectUrlsBySrc);
+      previewWindow.document.open();
+      previewWindow.document.write(previewHtml);
+      previewWindow.document.close();
+      previewWindow.focus();
+      previewState.textContent = 'Rendered ' + payload.date + '-' + payload.slug + ' in draft window';
+      setStatus('Preview rendered', 'live');
+    }
+
+    function revokePreviewObjectUrls() {
+      previewObjectUrls.forEach(function (objectUrl) { URL.revokeObjectURL(objectUrl); });
+      previewObjectUrls = [];
+    }
+
+    function renderPreviewDocument(payload, objectUrlsBySrc) {
+      var articleHtml = renderPreviewArticle(payload, objectUrlsBySrc);
+      return [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '  <meta charset="UTF-8">',
+        '  <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '  <meta name="robots" content="noindex">',
+        '  <title>Draft preview — ' + escText(payload.title) + ' — N6CBL.radio</title>',
+        '  <link rel="stylesheet" href="/styles.css">',
+        '</head>',
+        '<body>',
+        '  <main class="main-content draft-preview-main">',
+        '    <div class="section-label blog-meta">',
+        '      <span>DRAFT RENDER — not published</span>',
+        '      <span>' + escText(payload.date + '-' + payload.slug) + '</span>',
+        '    </div>',
+        '    <section class="blog-posts" aria-label="Rendered draft post">',
+        articleHtml,
+        '    </section>',
+        '  </main>',
+        '</body>',
+        '</html>'
+      ].join('\n');
+    }
+
+    function renderPreviewArticle(payload, objectUrlsBySrc) {
+      var bodyBlocks = payload.body;
+      var photos = photosNotEmbedded(payload.photos, bodyBlocks);
+      var photoHtml = renderPreviewPhotoGrid(photos, objectUrlsBySrc);
+      var paragraphs = bodyBlocks.map(function (block) { return renderPreviewBodyBlock(block, objectUrlsBySrc); });
+      return [
+        '      <article class="blog-post" id="post-' + escAttr(payload.date + '-' + payload.slug) + '">',
+        '        <header class="blog-post-header">',
+        '          <div class="blog-post-date">' + escText(payload.date) + '</div>',
+        '          <h2>' + escText(payload.title) + '</h2>',
+        '          <div class="blog-post-meta">',
+        '            <span>TYPE: ' + escText(payload.type.toUpperCase()) + '</span>',
+        '            <span>TAGS: ' + escText(payload.tags.join(', ') || 'untagged') + '</span>',
+        '            <span>STATUS: DRAFT PREVIEW</span>',
+        '          </div>',
+        '        </header>',
+        photoHtml,
+        '        <div class="blog-prose">',
+        paragraphs.join('\n'),
+        '        </div>',
+        '      </article>'
+      ].filter(Boolean).join('\n');
+    }
+
+    function photosNotEmbedded(photos, bodyBlocks) {
+      if (!photos.length) return [];
+      var bodyText = Array.isArray(bodyBlocks) ? bodyBlocks.join('\n') : '';
+      return photos.filter(function (photo) { return bodyText.indexOf(photo.src) === -1; });
+    }
+
+    function renderPreviewPhotoGrid(photos, objectUrlsBySrc) {
+      if (!photos.length) return '';
+      return [
+        '        <div class="blog-photo-grid">',
+        photos.map(function (photo) { return renderPreviewPhoto(photo, objectUrlsBySrc); }).join('\n'),
+        '        </div>'
+      ].join('\n');
+    }
+
+    function renderPreviewPhoto(photo, objectUrlsBySrc) {
+      var size = photo.width && photo.height ? ' width="' + Number(photo.width) + '" height="' + Number(photo.height) + '"' : '';
+      return [
+        '          <figure class="blog-photo">',
+        '            <img src="' + escAttr(objectUrlsBySrc[photo.src] || photo.src) + '" alt="' + escAttr(photo.alt || photo.caption || '') + '"' + size + ' loading="lazy">',
+        '            <figcaption>' + escText(photo.caption || photo.alt || '') + '</figcaption>',
+        '          </figure>'
+      ].join('\n');
+    }
+
+    function renderPreviewBodyBlock(text, objectUrlsBySrc) {
+      var value = String(text);
+      if (containsHtml(value)) return indentPreviewHtmlBlock(rewritePreviewImageSources(value, objectUrlsBySrc));
+      return [
+        '          <p>',
+        '            ' + renderInlineText(value),
+        '          </p>'
+      ].join('\n');
+    }
+
+    function containsHtml(value) {
+      return /<\/?[a-z][\s\S]*>/i.test(value);
+    }
+
+    function rewritePreviewImageSources(html, objectUrlsBySrc) {
+      var output = String(html);
+      Object.keys(objectUrlsBySrc).forEach(function (src) {
+        output = output.split(src).join(escAttr(objectUrlsBySrc[src]));
+      });
+      return output;
+    }
+
+    function indentPreviewHtmlBlock(html) {
+      var value = String(html).trim();
+      if (/^<(?:figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b/i.test(value)) {
+        return value.split('\n').map(function (line) { return '          ' + line; }).join('\n');
+      }
+      return [
+        '          <p>',
+        '            ' + value,
+        '          </p>'
+      ].join('\n');
+    }
+
+    function renderInlineText(text) {
+      var urlPattern = /https?:\/\/[^\s<>"']+/g;
+      var output = '';
+      var lastIndex = 0;
+      var match;
+      while ((match = urlPattern.exec(text)) !== null) {
+        var url = match[0];
+        var trimmedUrl = url.replace(/[.,!?;:)]*$/, '');
+        var trailing = url.slice(trimmedUrl.length);
+        output += escText(text.slice(lastIndex, match.index));
+        output += '<a href="' + escAttr(trimmedUrl) + '" target="_blank" rel="noopener noreferrer">' + escText(trimmedUrl) + ' &#8599;</a>';
+        output += escText(trailing);
+        lastIndex = match.index + url.length;
+      }
+      output += escText(text.slice(lastIndex));
+      return output;
     }
 
     async function submitPost() {
