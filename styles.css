@@ -481,58 +481,6 @@ td.st {
 
 td.desc { font-family: var(--sans); }
 
-/* ── ACTIVATIONS TABLE ────────────────────────────────────────────────────── */
-.activations-section { border-bottom: 1px solid var(--rule); }
-
-td.act-date  { white-space: nowrap; width: 1%; color: var(--muted); font-family: var(--mono); }
-td.act-ref   { white-space: nowrap; width: 1%; font-family: var(--mono); font-weight: bold; }
-td.act-loc   { white-space: nowrap; width: 1%; color: var(--muted); font-family: var(--mono); font-size: 0.72rem; }
-td.act-park  { font-family: var(--sans); }
-td.act-num   { white-space: nowrap; width: 1%; text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
-td.act-total { white-space: nowrap; width: 1%; text-align: right; font-variant-numeric: tabular-nums; font-weight: bold; }
-td.act-notes { white-space: nowrap; width: 1%; font-size: 0.7rem; color: #888; font-family: var(--sans); font-style: italic; }
-td.act-cta   { white-space: nowrap; width: 1%; text-align: right; }
-
-td.act-cta a {
-  color: var(--black);
-  text-decoration: none;
-}
-
-td.act-cta a:hover { text-decoration: underline; }
-
-.act-zero { color: #aaa; }
-
-.activations-footer {
-  padding: 5px 12px;
-  font-size: 0.65rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #666;
-  border-top: 1px solid var(--rule-2);
-}
-
-.activations-footer a { color: inherit; text-decoration: underline; }
-
-/* ── NOTES PANEL (activations sub-section) ──────────────────────────────────────── */
-.notes-section { border-bottom: 1px solid var(--rule); }
-
-.notes-empty {
-  padding: 18px 14px;
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  color: var(--muted);
-  max-width: 64ch;
-  line-height: 1.55;
-}
-
-.notes-empty code {
-  font-family: var(--mono);
-  background: var(--tint);
-  padding: 1px 4px;
-  font-size: 0.78rem;
-}
-
 /* ── POTA TABLE (home) ────────────────────────────────────────────────────── */
 .pota-section { border-bottom: 1px solid var(--rule); }
 
@@ -763,16 +711,6 @@ footer a:hover { text-decoration: underline; }
   .stat:nth-child(2) { border-right: none; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule-2); }
   .stat-value { font-size: 1.7rem; }
-  /* hide low-priority columns to keep the activations table readable */
-  .activations-table th.col-loc,
-  .activations-table td.act-loc,
-  .activations-table th.col-cw,
-  .activations-table td.act-cw,
-  .activations-table th.col-data,
-  .activations-table td.act-data,
-  .activations-table th.col-notes,
-  .activations-table td.act-notes { display: none; }
-
   /* QSO table: keep Date / UTC / Call / Band — drop Mode / Freq / RST */
   .col-mode, .col-freq, .col-rst,
   td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
