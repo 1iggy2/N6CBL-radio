@@ -1,7 +1,7 @@
-/* ─────────────────────────────────────────────────────────────────────
+/* ───────────────────────────────────────────────────────────────────────
    N6CBL.radio — shared stylesheet
    Design doctrine: dense, explicit, engineered. See CLAUDE.md.
-───────────────────────────────────────────────────────────────────── */
+─────────────────────────────────────────────────────────────────────── */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -30,7 +30,7 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
-/* ── HEADER ─────────────────────────────────────────────────────────── */
+/* ── HEADER ──────────────────────────────────────────────────────── */
 header {
   border-bottom: 2px solid var(--rule);
   display: grid;
@@ -106,23 +106,15 @@ header {
 
 .header-meta span + span { border-top: 1px solid var(--rule); }
 
-.status-dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
 
-/* ── TWO-PANEL LAYOUT ───────────────────────────────────────────────── */
+/* ── TWO-PANEL LAYOUT ─────────────────────────────────────────────── */
 .layout-body {
   display: grid;
   grid-template-columns: 220px 1fr;
   min-height: 0;
 }
 
-/* ── SIDENAV ────────────────────────────────────────────────────────── */
+/* ── SIDENAV ──────────────────────────────────────────────────────── */
 .sidenav {
   border-right: 2px solid var(--rule);
   position: sticky;
@@ -257,10 +249,10 @@ header {
 
 .sidenav-dl dd.tbd { color: #aaa; font-weight: normal; font-style: italic; }
 
-/* ── MAIN CONTENT ───────────────────────────────────────────────────── */
+/* ── MAIN CONTENT ──────────────────────────────────────────────────────── */
 .main-content { min-width: 0; }
 
-/* ── SHARED SECTION LABEL ───────────────────────────────────────────── */
+/* ── SHARED SECTION LABEL ─────────────────────────────────────────────── */
 .section-label {
   font-size: 0.65rem;
   letter-spacing: 0.18em;
@@ -295,7 +287,7 @@ header {
 .section-tag.todo { background: var(--accent); color: white; }
 .section-tag.live { background: #2a7a2a; color: white; }
 
-/* ── WORLD MAP SECTION ──────────────────────────────────────────────── */
+/* ── WORLD MAP SECTION ─────────────────────────────────────────────── */
 .map-section {
   background: var(--black);
   border-bottom: 2px solid var(--rule);
@@ -325,7 +317,7 @@ header {
   border-top: 1px solid #2a2a2a;
 }
 
-/* ── STATION PHOTO ──────────────────────────────────────────────────── */
+/* ── STATION PHOTO ─────────────────────────────────────────────────────── */
 .station-photo-section { border-bottom: 1px solid var(--rule); }
 
 .station-photo-wrap { margin: 0; }
@@ -350,7 +342,7 @@ header {
   letter-spacing: 0.03em;
 }
 
-/* ── PAGE INTRO / HERO ──────────────────────────────────────────────── */
+/* ── PAGE INTRO / HERO ─────────────────────────────────────────────── */
 .page-intro {
   padding: 22px 14px 18px;
   border-bottom: 1px solid var(--rule);
@@ -383,36 +375,20 @@ header {
 
 .page-intro a { color: var(--accent); }
 
-/* ── CONSTRUCTION BLOCK (home) ─────────────────────────────────────── */
-.construction-block {
-  padding: 24px 12px 16px;
+/* ── BIO BLOCK (home) ─────────────────────────────────────────────── */
+.bio-block {
+  padding: 10px 12px 12px;
   border-bottom: 1px solid var(--rule);
 }
 
-.construction-block h1 {
-  font-family: var(--display);
-  font-size: 3.5rem;
-  font-weight: bold;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  max-width: 14ch;
-}
-
-.construction-block h1 em {
-  font-style: normal;
-  color: var(--accent);
-}
-
-.construction-block p {
-  margin-top: 14px;
+.bio-block p {
   font-size: 0.85rem;
-  max-width: 52ch;
+  max-width: 60ch;
   line-height: 1.55;
   font-family: var(--sans);
 }
 
-/* ── STATS GRID ─────────────────────────────────────────────────────── */
+/* ── STATS GRID ──────────────────────────────────────────────────────── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -452,7 +428,7 @@ header {
   letter-spacing: 0.04em;
 }
 
-/* ── TABLES (shared) ────────────────────────────────────────────────── */
+/* ── TABLES (shared) ─────────────────────────────────────────────────────── */
 .planned { border-bottom: 1px solid var(--rule); }
 
 table {
@@ -499,7 +475,7 @@ td.st {
 
 td.desc { font-family: var(--sans); }
 
-/* ── ACTIVATIONS TABLE ──────────────────────────────────────────────── */
+/* ── ACTIVATIONS TABLE ────────────────────────────────────────────────────── */
 .activations-section { border-bottom: 1px solid var(--rule); }
 
 td.act-date  { white-space: nowrap; width: 1%; color: var(--muted); font-family: var(--mono); }
@@ -532,7 +508,7 @@ td.act-cta a:hover { text-decoration: underline; }
 
 .activations-footer a { color: inherit; text-decoration: underline; }
 
-/* ── NOTES PANEL (activations sub-section) ──────────────────────────── */
+/* ── NOTES PANEL (activations sub-section) ──────────────────────────────────────── */
 .notes-section { border-bottom: 1px solid var(--rule); }
 
 .notes-empty {
@@ -551,7 +527,7 @@ td.act-cta a:hover { text-decoration: underline; }
   font-size: 0.78rem;
 }
 
-/* ── POTA TABLE (home) ──────────────────────────────────────────────── */
+/* ── POTA TABLE (home) ────────────────────────────────────────────────────── */
 .pota-section { border-bottom: 1px solid var(--rule); }
 
 .pota-state {
@@ -593,7 +569,7 @@ td.pota-cta a:hover { text-decoration: underline; }
 
 .pota-footer a { color: inherit; text-decoration: underline; }
 
-/* ── QSO LOG ─────────────────────────────────────────────────────────── */
+/* ── QSO LOG ─────────────────────────────────────────────────────────────────────── */
 
 /* Column types shared between /log/ and home page lookup table */
 .qso-date  { font-family: var(--mono); font-size: 0.8rem; white-space: nowrap; width: 90px; }
@@ -697,7 +673,7 @@ td.pota-cta a:hover { text-decoration: underline; }
 
 /* Home page QSO lookup */
 .lookup-bar {
-  padding: 8px 0;
+  padding: 6px 12px;
   border-bottom: 1px solid var(--rule);
 }
 
@@ -717,12 +693,12 @@ td.pota-cta a:hover { text-decoration: underline; }
 }
 
 .lookup-state {
-  padding: 10px 0;
+  padding: 6px 12px;
   font-size: 0.82rem;
   color: var(--muted);
 }
 
-/* ── FOOTER ─────────────────────────────────────────────────────────── */
+/* ── FOOTER ─────────────────────────────────────────────────────────────────────── */
 footer {
   border-top: 2px solid var(--rule);
   display: grid;
@@ -750,7 +726,7 @@ footer div + div { border-left: 1px solid var(--rule); }
 footer a { color: inherit; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 
-/* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   /* Narrow the sidebar instead of stacking it — permanent sidebar is the design */
   .layout-body { grid-template-columns: 120px 1fr; }
@@ -763,7 +739,6 @@ footer a:hover { text-decoration: underline; }
   .sidenav-links a,
   .nav-item a  { padding: 4px 8px; font-size: 0.65rem; }
   .sidenav-label { padding: 3px 8px; }
-  .construction-block h1,
   .page-intro h1 { font-size: 2.2rem; }
   header { grid-template-columns: 1fr; }
   .header-meta { text-align: left; }
@@ -812,7 +787,7 @@ footer a:hover { text-decoration: underline; }
   .stats-tables-row { grid-template-columns: 1fr; }
 }
 
-/* ── STATS PAGE ─────────────────────────────────────────────────────── */
+/* ── STATS PAGE ─────────────────────────────────────────────────────────────────── */
 .stats-map-section {
   border-bottom: 2px solid var(--rule);
 }

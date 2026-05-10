@@ -33,7 +33,7 @@
       </a>
     </div>
     <div class="header-meta">
-      <span><span class="status-dot"></span> SITE STATUS: UNDER CONSTRUCTION</span>
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
       <span>FCC AMATEUR RADIO &mdash; GENERAL CLASS</span>
     </div>
   </header>
@@ -151,6 +151,17 @@
 
     <div class="main-content">
 
+      <div class="section-label">About</div>
+      <div class="bio-block">
+        <p>
+          Personal site of N6CBL &mdash; Cameron Gable. Avionics systems engineer,
+          amateur radio operator. I operate portable HF from Southern California,
+          activating parks and coastal locations with an Elecraft KX2 and quick-deploy
+          field antennas. This site will carry tools, radio experiments, 3D prints,
+          writing, and whatever else warrants a permanent URL.
+        </p>
+      </div>
+
       <section class="stats-map-section">
         <div class="section-label split">
           <span>QSO Contact Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
@@ -172,6 +183,32 @@
         </div>
       </section>
 
+      <div class="section-label">QSO Lookup &mdash; worked N6CBL?</div>
+      <div class="lookup-bar">
+        <input type="text" id="lookup-input" class="lookup-input"
+               placeholder="Enter a callsign &mdash; e.g. W6XY"
+               autocomplete="off" autocapitalize="characters" spellcheck="false"
+               maxlength="12">
+      </div>
+      <div id="lookup-state" class="lookup-state">Enter a callsign to search all logged QSOs.</div>
+      <table id="lookup-table" hidden>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>UTC</th>
+            <th>Call</th>
+            <th>Band</th>
+            <th>Mode</th>
+            <th>Session</th>
+          </tr>
+        </thead>
+        <tbody id="lookup-tbody"></tbody>
+      </table>
+      <div class="pota-footer">
+        <span id="lookup-meta"></span>
+        <a href="/log/">Full QSO log &#8594;</a>
+      </div>
+
       <div class="station-photo-section">
         <figure class="station-photo-wrap">
           <img src="/images/field-station.jpg"
@@ -183,19 +220,6 @@
             <span>POTA activation</span>
           </figcaption>
         </figure>
-      </div>
-
-      <div class="section-label">Status</div>
-
-      <div class="construction-block">
-        <h1>Under<br><em>Con&shy;struc&shy;tion</em></h1>
-        <p>
-          Personal site of N6CBL &mdash; Cameron Gable. Avionics systems engineer,
-          amateur radio operator. I operate portable HF from Southern California,
-          activating parks and coastal locations with an Elecraft KX2 and quick-deploy
-          field antennas. This site will carry tools, radio experiments, 3D prints,
-          writing, and whatever else warrants a permanent URL.
-        </p>
       </div>
 
       <div class="planned">
@@ -248,50 +272,6 @@
         </table>
       </div>
 
-      <div class="section-label">QSO Lookup &mdash; worked N6CBL?</div>
-      <div class="lookup-bar">
-        <input type="text" id="lookup-input" class="lookup-input"
-               placeholder="Enter a callsign &mdash; e.g. W6XY"
-               autocomplete="off" autocapitalize="characters" spellcheck="false"
-               maxlength="12">
-      </div>
-      <div id="lookup-state" class="lookup-state">Enter a callsign to search all logged QSOs.</div>
-      <table id="lookup-table" hidden>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>UTC</th>
-            <th>Call</th>
-            <th>Band</th>
-            <th>Mode</th>
-            <th>Session</th>
-          </tr>
-        </thead>
-        <tbody id="lookup-tbody"></tbody>
-      </table>
-      <div class="pota-footer">
-        <span id="lookup-meta"></span>
-        <a href="/log/">Full QSO log &#8594;</a>
-      </div>
-
-      <div class="section-label">Recent Sessions</div>
-      <div id="recent-state" class="log-state">Loading&hellip;</div>
-      <table id="recent-table" hidden>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Reference</th>
-            <th class="num">QSOs</th>
-          </tr>
-        </thead>
-        <tbody id="recent-tbody"></tbody>
-      </table>
-      <div class="pota-footer">
-        <span id="recent-meta"></span>
-        <a href="/log/">Full log &#8594;</a>
-      </div>
-
     </div><!-- /.main-content -->
 
   </div><!-- /.layout-body -->
@@ -329,10 +309,6 @@
     var lookupTableEl = document.getElementById('lookup-table');
     var lookupTbodyEl = document.getElementById('lookup-tbody');
     var lookupMetaEl  = document.getElementById('lookup-meta');
-    var recentStateEl = document.getElementById('recent-state');
-    var recentTableEl = document.getElementById('recent-table');
-    var recentTbodyEl = document.getElementById('recent-tbody');
-    var recentMetaEl  = document.getElementById('recent-meta');
 
     function esc(s) {
       return String(s)
@@ -351,7 +327,6 @@
         .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(function (d) { logCache = d; cb(d); })
         .catch(function () {
-          recentStateEl.textContent = 'Log data unavailable.';
           lookupStateEl.textContent = 'Log data unavailable.';
         });
     }
@@ -405,33 +380,24 @@
       if (countEl) countEl.textContent = gc + ' grids · ' + qsos.length + ' QSOs';
     });
 
-    /* ── Recent sessions ─────────────────────────────────────────────── */
+    /* ── Header stat ─────────────────────────────────────────────── */
     loadLog(function (data) {
+      var el = document.getElementById('header-stat');
+      if (!el) return;
       var sessions = data.sessions || [];
-      if (sessions.length === 0) {
-        recentStateEl.textContent = 'No sessions logged yet.';
-        return;
+      if (sessions.length === 0) return;
+      var s = sessions[0];
+      var band = '';
+      var qsos = data.qsos || [];
+      for (var i = 0; i < qsos.length; i++) {
+        if (qsos[i].session === s.id && qsos[i].band) { band = qsos[i].band.toUpperCase(); break; }
       }
-      var shown = sessions.slice(0, 5);
-      var html = '';
-      for (var i = 0; i < shown.length; i++) {
-        var s = shown[i];
-        var ref = s.reference
-          ? '<a href="https://pota.app/#/park/' + esc(s.reference) + '" target="_blank" rel="noopener">'
-            + esc(s.reference) + ' ↗</a>'
-          : '&mdash;';
-        var typeLabel = s.type === 'pota' ? '<span class="st st-wip">POTA</span>' : 'General';
-        html += '<tr>'
-          + '<td class="qso-date">' + esc(s.date || '—') + '</td>'
-          + '<td>' + typeLabel + '</td>'
-          + '<td class="qso-ref">' + ref + '</td>'
-          + '<td class="num">' + (s.qso_count || 0) + '</td>'
-          + '</tr>';
-      }
-      recentTbodyEl.innerHTML = html;
-      recentMetaEl.textContent = shown.length + ' of ' + sessions.length + ' sessions';
-      recentStateEl.hidden = true;
-      recentTableEl.hidden = false;
+      var parts = ['LAST ACTIVATION'];
+      if (s.reference) parts.push(s.reference);
+      if (band) parts.push(band);
+      parts.push((s.qso_count || 0) + ' QSOs');
+      if (s.date) parts.push(s.date);
+      el.textContent = parts.join(' · ');
     });
 
     /* ── QSO lookup ──────────────────────────────────────────────────── */
