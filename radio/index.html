@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="N6CBL radio operating notes — station reference, portable HF kit, activation ledger, band notes, and chase links.">
+  <meta name="description" content="N6CBL station reference — operator profile, current equipment, portable hardware, operating modes, and CW proficiency notes.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://n6cbl.radio/radio/">
-  <meta property="og:title" content="Radio — N6CBL.radio">
-  <meta property="og:description" content="Station reference, portable HF kit, activation ledger, band notes, and chase links for N6CBL.">
+  <meta property="og:title" content="My Station — N6CBL.radio">
+  <meta property="og:description" content="Operator profile, current equipment, portable hardware, operating modes, and CW proficiency notes for N6CBL.">
   <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
   <meta property="og:image:width" content="1536">
   <meta property="og:image:height" content="1024">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@camgablex">
   <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
-  <title>Radio — N6CBL.radio</title>
+  <title>My Station — N6CBL.radio</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -34,7 +34,7 @@
     </div>
     <div class="header-meta">
       <span id="header-stat">LAST ACTIVATION &mdash;</span>
-      <span>N6CBL.radio &mdash; /RADIO/</span>
+      <span>N6CBL.radio &mdash; /STATION/</span>
     </div>
   </header>
 
@@ -132,11 +132,11 @@
           <dt>Radio</dt>
           <dd>Elecraft KX2</dd>
           <dt>Antenna</dt>
-          <dd>Chameleon SS-17</dd>
+          <dd>CHA SS17</dd>
           <dt>Power</dt>
           <dd>Bioenno LiFePO4</dd>
           <dt>Mode</dt>
-          <dd>SSB &middot; 20m</dd>
+          <dd>SSB &middot; FT8 &middot; CW study</dd>
           <dt>QTH</dt>
           <dd>DM03tu</dd>
         </dl>
@@ -158,46 +158,22 @@
     <main class="main-content radio-page">
 
       <div class="section-label radio-meta">
-        <span>/radio/ &mdash; operating notes</span>
-        <span id="radio-data-state">static fallback</span>
+        <span>/radio/ &mdash; my station</span>
+        <span>hardware / operator / practice state</span>
       </div>
 
       <section class="page-intro radio-intro">
-        <h1>Station reference. Field notes.</h1>
+        <h1>My station. Hardware, tinkering, operator state.</h1>
         <p>
-          Practical operating information for N6CBL: current portable station,
-          logging workflow, activation history, band evidence, and chase links.
-          This page is intentionally a field manual, not a hero page.
+          This page answers the station questions that do not belong in the QSO log:
+          what equipment is in the kit, what modes are actually being used, what is
+          being learned, and what constraints shape the station. The log records
+          results. This page records the operator and the hardware.
         </p>
       </section>
 
-      <section class="radio-stats" aria-labelledby="radio-stats-heading">
-        <div class="section-label split">
-          <span id="radio-stats-heading">Current log summary</span>
-          <span id="radio-date-range" class="log-count">2026-02-28 &mdash; 2026-03-21</span>
-        </div>
-        <div class="stats-core-grid radio-core-grid">
-          <div class="stat">
-            <span class="stat-label">QSOs</span>
-            <span id="radio-stat-qsos" class="stat-value">123</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Sessions</span>
-            <span id="radio-stat-sessions" class="stat-value">7</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Unique Calls</span>
-            <span id="radio-stat-calls" class="stat-value">114</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">POTA Parks</span>
-            <span id="radio-stat-parks" class="stat-value">1</span>
-          </div>
-        </div>
-      </section>
-
       <section class="radio-reference" aria-labelledby="radio-reference-heading">
-        <div class="section-label" id="radio-reference-heading">Station reference</div>
+        <div class="section-label" id="radio-reference-heading">Operator reference</div>
         <table class="radio-reference-table">
           <thead>
             <tr>
@@ -220,145 +196,242 @@
             <tr>
               <td class="path">License</td>
               <td class="radio-value">FCC General Class</td>
-              <td class="desc radio-note-col">Voice and data operating privileges across HF allocations</td>
+              <td class="desc radio-note-col">HF privileges for voice, data, and CW development</td>
             </tr>
             <tr>
-              <td class="path">Primary pattern</td>
-              <td class="radio-value">Portable HF</td>
-              <td class="desc radio-note-col">Parks, coastal locations, and quick-deploy field operation</td>
+              <td class="path">Station pattern</td>
+              <td class="radio-value">Portable QRP HF</td>
+              <td class="desc radio-note-col">The practical station is built around small radios, field antennas, and quick-deploy power</td>
+            </tr>
+            <tr>
+              <td class="path">Home QTH</td>
+              <td class="radio-value">Antenna-limited</td>
+              <td class="desc radio-note-col">Current home location does not support a useful permanent antenna</td>
             </tr>
           </tbody>
         </table>
       </section>
 
       <section class="radio-kit" aria-labelledby="radio-kit-heading">
-        <div class="section-label" id="radio-kit-heading">Portable HF kit</div>
+        <div class="section-label split">
+          <span id="radio-kit-heading">Station inventory</span>
+          <span class="log-count">KX2 primary</span>
+        </div>
         <table class="radio-kit-table">
           <thead>
             <tr>
               <th>System</th>
               <th>Item</th>
               <th class="radio-role-col">Role</th>
-              <th class="radio-note-col">Notes</th>
+              <th class="radio-note-col">Status / use</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="path">Radio</td>
               <td class="radio-value">Elecraft KX2</td>
-              <td class="desc radio-role-col">HF transceiver</td>
-              <td class="desc radio-note-col">Primary portable rig for field SSB operation</td>
+              <td class="desc radio-role-col">80&ndash;10 m SSB/CW/data transceiver</td>
+              <td class="desc radio-note-col">Primary radio; preferred portable HF platform</td>
             </tr>
             <tr>
-              <td class="path">Antenna</td>
-              <td class="radio-value">Chameleon SS-17</td>
-              <td class="desc radio-role-col">Vertical radiator</td>
-              <td class="desc radio-note-col">Quick-deploy field antenna</td>
+              <td class="path">Radio</td>
+              <td class="radio-value">QRP Labs QMX</td>
+              <td class="desc radio-role-col">80/60/40/30/20 m CW/digital/SSB kit transceiver</td>
+              <td class="desc radio-note-col">Hardware and digital-mode tinkering platform</td>
+            </tr>
+            <tr>
+              <td class="path">Radio</td>
+              <td class="radio-value">LNR Precision Mountain Topper MTR3B-V4 Currahee</td>
+              <td class="desc radio-role-col">Three-band CW transceiver</td>
+              <td class="desc radio-note-col">CW-focused ultralight rig; proficiency dependent</td>
+            </tr>
+            <tr>
+              <td class="path">Radio</td>
+              <td class="radio-value">Xiegu X6100</td>
+              <td class="desc radio-role-col">HF/6 m SDR transceiver</td>
+              <td class="desc radio-note-col">Secondary portable SDR platform</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="radio-antennas" aria-labelledby="radio-antennas-heading">
+        <div class="section-label split">
+          <span id="radio-antennas-heading">Antennas</span>
+          <span class="log-count">CHA SS17 primary</span>
+        </div>
+        <table class="radio-kit-table">
+          <thead>
+            <tr>
+              <th>Antenna</th>
+              <th>Type</th>
+              <th class="radio-role-col">Primary use</th>
+              <th class="radio-note-col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="radio-value">Chameleon Antenna CHA SS17</td>
+              <td class="desc">17 ft stainless telescoping whip</td>
+              <td class="desc radio-role-col">Primary field radiator</td>
+              <td class="desc radio-note-col">Fast portable deployment with suitable matching and counterpoise/radial setup</td>
+            </tr>
+            <tr>
+              <td class="radio-value">Elecraft AX1</td>
+              <td class="desc">Multi-band whip</td>
+              <td class="desc radio-role-col">Ultralight / backup</td>
+              <td class="desc radio-note-col">Compact KX2-compatible field antenna</td>
+            </tr>
+            <tr>
+              <td class="radio-value">Elecraft AX2 with AXE1 40 m extender</td>
+              <td class="desc">20 m miniature whip plus 40 m coil</td>
+              <td class="desc radio-role-col">Minimal portable kit</td>
+              <td class="desc radio-note-col">Smallest practical whip package in the station inventory</td>
+            </tr>
+            <tr>
+              <td class="radio-value">PackTenna Mini Random Wire</td>
+              <td class="desc">End-fed random wire</td>
+              <td class="desc radio-role-col">Wire-antenna experiments</td>
+              <td class="desc radio-note-col">Portable wire option when supports and space are available</td>
+            </tr>
+            <tr>
+              <td class="radio-value">PackTenna Linked Dipole, 20 m</td>
+              <td class="desc">Linked dipole</td>
+              <td class="desc radio-role-col">Resonant field antenna</td>
+              <td class="desc radio-note-col">Full-size portable wire antenna for 20 m work</td>
+            </tr>
+            <tr>
+              <td class="radio-value">Chameleon Antenna CHA F-LOOP 3.0</td>
+              <td class="desc">Portable magnetic loop</td>
+              <td class="desc radio-role-col">Home / restricted-space test</td>
+              <td class="desc radio-note-col">Acquired to try FT8 from the home QTH; no successful home FT8 contacts yet</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="radio-accessories" aria-labelledby="radio-accessories-heading">
+        <div class="section-label" id="radio-accessories-heading">Paddles and power</div>
+        <table class="radio-kit-table">
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>Item</th>
+              <th class="radio-role-col">Role</th>
+              <th class="radio-note-col">Status / use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="path">Paddle</td>
+              <td class="radio-value">CW Morse Outdoor Pocket Double Paddle</td>
+              <td class="desc radio-role-col">Portable iambic paddle</td>
+              <td class="desc radio-note-col">Part of the CW practice kit</td>
+            </tr>
+            <tr>
+              <td class="path">Paddle</td>
+              <td class="radio-value">Elecraft KXPD2 Precision Keyer Paddle</td>
+              <td class="desc radio-role-col">KX2-mounted paddle</td>
+              <td class="desc radio-note-col">Dedicated compact paddle for the KX2</td>
+            </tr>
+            <tr>
+              <td class="path">Paddle</td>
+              <td class="radio-value">N6ARA TinyPaddle</td>
+              <td class="desc radio-role-col">Miniature field paddle</td>
+              <td class="desc radio-note-col">No primary paddle selected yet; CW proficiency is still developing</td>
             </tr>
             <tr>
               <td class="path">Power</td>
-              <td class="radio-value">Bioenno LiFePO4</td>
-              <td class="desc radio-role-col">Battery</td>
-              <td class="desc radio-note-col">Portable activation power</td>
+              <td class="radio-value">Bioenno Power 12 V, 3 Ah LiFePO4</td>
+              <td class="desc radio-role-col">Primary field battery</td>
+              <td class="desc radio-note-col">Default light-pack battery for current portable use</td>
             </tr>
             <tr>
-              <td class="path">Logger</td>
-              <td class="radio-value">PoLo by Ham2K</td>
-              <td class="desc radio-role-col">Field logging</td>
-              <td class="desc radio-note-col">Preferred logger for portable operating and POTA sessions</td>
+              <td class="path">Power</td>
+              <td class="radio-value">Bioenno Power 12 V, 4.5 Ah LiFePO4</td>
+              <td class="desc radio-role-col">Medium field battery</td>
+              <td class="desc radio-note-col">Higher reserve option when weight matters less</td>
+            </tr>
+            <tr>
+              <td class="path">Power</td>
+              <td class="radio-value">Bioenno Power 12 V, 9 Ah LiFePO4</td>
+              <td class="desc radio-role-col">High-reserve field battery</td>
+              <td class="desc radio-note-col">Longer sessions, testing, and extra margin</td>
             </tr>
           </tbody>
         </table>
       </section>
 
-      <section class="radio-activations" aria-labelledby="radio-activations-heading">
-        <div class="section-label split">
-          <span id="radio-activations-heading">Activation ledger</span>
-          <span id="radio-activation-count" class="log-count">7 sessions</span>
-        </div>
-        <table class="radio-activation-table">
+      <section class="radio-modes" aria-labelledby="radio-modes-heading">
+        <div class="section-label" id="radio-modes-heading">Operating modes</div>
+        <table class="radio-reference-table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Reference</th>
-              <th>Band</th>
               <th>Mode</th>
-              <th class="num">QSOs</th>
-              <th>CTA</th>
+              <th>Status</th>
+              <th class="radio-note-col">Operator note</th>
             </tr>
           </thead>
-          <tbody id="radio-activations-tbody">
+          <tbody>
             <tr>
-              <td class="qso-date">2026-03-21</td>
-              <td class="qso-ref">US-3425</td>
-              <td class="qso-band">20m</td>
               <td class="radio-mode">SSB</td>
-              <td class="hour-count">10</td>
-              <td class="blog-cta"><a href="/log/">View log &#8594;</a></td>
+              <td class="radio-value">Primary</td>
+              <td class="desc radio-note-col">Main operating mode for current portable HF contacts</td>
             </tr>
             <tr>
-              <td class="qso-date">2026-03-19</td>
-              <td class="qso-ref">US-3425</td>
-              <td class="qso-band">20m</td>
-              <td class="radio-mode">SSB</td>
-              <td class="hour-count">24</td>
-              <td class="blog-cta"><a href="/log/">View log &#8594;</a></td>
+              <td class="radio-mode">FT8</td>
+              <td class="radio-value">Occasional</td>
+              <td class="desc radio-note-col">Used as a digital-mode experiment; the home magloop attempt has not produced contacts yet</td>
             </tr>
             <tr>
-              <td class="qso-date">2026-03-17</td>
-              <td class="qso-ref">US-3425</td>
-              <td class="qso-band">20m</td>
-              <td class="radio-mode">SSB</td>
-              <td class="hour-count">44</td>
-              <td class="blog-cta"><a href="/log/">View log &#8594;</a></td>
+              <td class="radio-mode">CW</td>
+              <td class="radio-value">In training</td>
+              <td class="desc radio-note-col">Practice is active, but no CW QSO has been completed</td>
             </tr>
           </tbody>
         </table>
-        <div class="pota-footer">
-          <span id="radio-activations-meta">Static fallback: newest three sessions shown.</span>
-          <a href="/log/">Full QSO log &#8594;</a>
-        </div>
       </section>
 
-      <section class="radio-bands" aria-labelledby="radio-bands-heading">
+      <section class="radio-cw" aria-labelledby="radio-cw-heading">
         <div class="section-label split">
-          <span id="radio-bands-heading">Band notes</span>
-          <span id="radio-band-count" class="log-count">20m primary</span>
+          <span id="radio-cw-heading">CW proficiency</span>
+          <span class="log-count">no CW QSO yet</span>
         </div>
-        <table class="radio-band-table">
+        <table class="radio-reference-table">
           <thead>
             <tr>
-              <th>Band</th>
-              <th>Mode</th>
-              <th class="num">QSOs</th>
-              <th class="radio-note-col">Operating note</th>
+              <th>Area</th>
+              <th>Current state</th>
+              <th class="radio-note-col">Next useful work</th>
             </tr>
           </thead>
-          <tbody id="radio-bands-tbody">
+          <tbody>
             <tr>
-              <td class="qso-band">20m</td>
-              <td class="radio-mode">SSB</td>
-              <td class="hour-count">123</td>
-              <td class="desc radio-note-col">Primary portable HF pattern in the current committed log.</td>
+              <td class="path">On-air CW</td>
+              <td class="radio-value">Not yet</td>
+              <td class="desc radio-note-col">No completed CW QSO at the current skill level</td>
             </tr>
             <tr>
-              <td class="qso-band">40m</td>
-              <td class="qso-muted">&mdash;</td>
-              <td class="hour-count">0</td>
-              <td class="desc radio-note-col">Add after first logged use.</td>
+              <td class="path">Copy practice</td>
+              <td class="radio-value">Callsigns</td>
+              <td class="desc radio-note-col">Continue callsign copy until characters are recognized by sound instead of counted</td>
             </tr>
             <tr>
-              <td class="qso-band">10m</td>
-              <td class="qso-muted">&mdash;</td>
-              <td class="hour-count">0</td>
-              <td class="desc radio-note-col">Add after first logged use.</td>
+              <td class="path">Main blocker</td>
+              <td class="radio-value">Counting elements</td>
+              <td class="desc radio-note-col">Break the habit of counting dits and dahs; build instant character recognition</td>
+            </tr>
+            <tr>
+              <td class="path">Goal</td>
+              <td class="radio-value">First clean CW QSO</td>
+              <td class="desc radio-note-col">Reach enough receive confidence to make a basic exchange without turning the contact into a typing test</td>
             </tr>
           </tbody>
         </table>
       </section>
 
       <section class="radio-chase" aria-labelledby="radio-chase-heading">
-        <div class="section-label" id="radio-chase-heading">Chase / contact reference</div>
+        <div class="section-label" id="radio-chase-heading">Where results live</div>
         <table class="radio-link-table">
           <thead>
             <tr>
@@ -370,53 +443,18 @@
           <tbody>
             <tr>
               <td class="path">Worked N6CBL?</td>
-              <td class="desc">Search the full committed QSO log by callsign.</td>
+              <td class="desc">Search the committed QSO log by callsign.</td>
               <td class="blog-cta"><a href="/log/">Search log &#8594;</a></td>
             </tr>
             <tr>
+              <td class="path">Statistics</td>
+              <td class="desc">Counts, maps, bands, modes, and log-derived analysis.</td>
+              <td class="blog-cta"><a href="/log/stats/">View stats &#8594;</a></td>
+            </tr>
+            <tr>
               <td class="path">Profile</td>
-              <td class="desc">External callsign reference and station profile.</td>
+              <td class="desc">External callsign reference and public station profile.</td>
               <td class="blog-cta"><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">QRZ &#8599;</a></td>
-            </tr>
-            <tr>
-              <td class="path">POTA</td>
-              <td class="desc">Activator profile, park references, and POTA activity.</td>
-              <td class="blog-cta"><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">POTA &#8599;</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="radio-future" aria-labelledby="radio-future-heading">
-        <div class="section-label" id="radio-future-heading">Future interfaces</div>
-        <table class="radio-future-table">
-          <thead>
-            <tr>
-              <th>Interface</th>
-              <th>Status</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="path">APRS</td>
-              <td class="st st-planned">Planned</td>
-              <td class="desc">Add when there is a stable public packet source or station telemetry feed.</td>
-            </tr>
-            <tr>
-              <td class="path">SDR</td>
-              <td class="st st-planned">Planned</td>
-              <td class="desc">Receiver notes, waterfall captures, or setup documentation when useful.</td>
-            </tr>
-            <tr>
-              <td class="path">Band conditions</td>
-              <td class="st st-planned">Planned</td>
-              <td class="desc">Only add if the display creates concrete operating value.</td>
-            </tr>
-            <tr>
-              <td class="path">Antenna experiments</td>
-              <td class="st st-planned">Planned</td>
-              <td class="desc">Field measurements, deployment notes, and comparison results.</td>
             </tr>
           </tbody>
         </table>
@@ -451,114 +489,6 @@
   </footer>
 
   <script src="/site-chrome.js"></script>
-
-  <script>
-  (function () {
-    var dataStateEl = document.getElementById('radio-data-state');
-    var dateRangeEl = document.getElementById('radio-date-range');
-    var activationCountEl = document.getElementById('radio-activation-count');
-    var activationMetaEl = document.getElementById('radio-activations-meta');
-    var activationTbodyEl = document.getElementById('radio-activations-tbody');
-    var bandsTbodyEl = document.getElementById('radio-bands-tbody');
-    var bandCountEl = document.getElementById('radio-band-count');
-
-    window.N6CBLChrome.loadQsoLog()
-      .then(function (data) {
-        renderSummary(data.stats || {}, data.generated || '');
-        renderActivations(data.sessions || []);
-        renderBands((data.stats && data.stats.bands) || {}, (data.stats && data.stats.modes) || {}, (data.stats && data.stats.qso_count) || 0);
-      })
-      .catch(function () {
-        dataStateEl.textContent = 'static fallback — log data unavailable';
-      });
-
-    function renderSummary(stats, generated) {
-      setText('radio-stat-qsos', stats.qso_count || 0);
-      setText('radio-stat-sessions', stats.session_count || 0);
-      setText('radio-stat-calls', stats.unique_calls || 0);
-      setText('radio-stat-parks', stats.pota_parks || 0);
-      if (stats.date_range) dateRangeEl.textContent = stats.date_range;
-      dataStateEl.textContent = generated ? 'data generated ' + generated.slice(0, 10) : 'live data loaded';
-    }
-
-    function renderActivations(sessions) {
-      if (!sessions.length) {
-        activationTbodyEl.innerHTML = '<tr><td colspan="6" class="qso-muted">No sessions logged yet.</td></tr>';
-        activationCountEl.textContent = '0 sessions';
-        activationMetaEl.textContent = 'Upload ADIF files to /logs/ to populate the activation ledger.';
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < sessions.length; i++) {
-        var s = sessions[i];
-        html += '<tr>'
-          + '<td class="qso-date">' + esc(s.date || '—') + '</td>'
-          + '<td class="qso-ref">' + esc(s.reference || sessionType(s)) + '</td>'
-          + '<td class="qso-band">' + esc(joinOrDash(s.bands)) + '</td>'
-          + '<td class="radio-mode">' + esc(joinOrDash(s.modes)) + '</td>'
-          + '<td class="hour-count">' + esc(s.qso_count || 0) + '</td>'
-          + '<td class="blog-cta"><a href="/log/">View log &#8594;</a></td>'
-          + '</tr>';
-      }
-      activationTbodyEl.innerHTML = html;
-      activationCountEl.textContent = sessions.length + ' session' + (sessions.length !== 1 ? 's' : '');
-      activationMetaEl.textContent = 'Rendered from /data/qso-log.json. Newest sessions first.';
-    }
-
-    function renderBands(bands, modes, total) {
-      var bandNames = Object.keys(bands).sort(function (a, b) { return bands[b] - bands[a]; });
-      var modeNames = Object.keys(modes).sort(function (a, b) { return modes[b] - modes[a]; });
-      if (!bandNames.length) {
-        bandsTbodyEl.innerHTML = '<tr><td colspan="4" class="qso-muted">No band data yet.</td></tr>';
-        bandCountEl.textContent = 'no band data';
-        return;
-      }
-
-      var primaryMode = modeNames.length ? modeNames[0] : '—';
-      var html = '';
-      for (var i = 0; i < bandNames.length; i++) {
-        var band = bandNames[i];
-        var count = bands[band] || 0;
-        var pct = total ? Math.round(count / total * 100) : 0;
-        html += '<tr>'
-          + '<td class="qso-band">' + esc(band) + '</td>'
-          + '<td class="radio-mode">' + esc(primaryMode) + '</td>'
-          + '<td class="hour-count">' + esc(count) + '</td>'
-          + '<td class="desc radio-note-col">' + esc(noteForBand(band, pct)) + '</td>'
-          + '</tr>';
-      }
-      bandsTbodyEl.innerHTML = html;
-      bandCountEl.textContent = bandNames[0] + ' primary';
-    }
-
-    function noteForBand(band, pct) {
-      if (pct === 100) return 'Primary portable HF pattern in the current committed log.';
-      return pct + '% of committed QSOs in the current log.';
-    }
-
-    function sessionType(session) {
-      return session && session.type ? String(session.type).toUpperCase() : 'General';
-    }
-
-    function joinOrDash(values) {
-      return values && values.length ? values.join('/') : '—';
-    }
-
-    function setText(id, value) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
-
-    function esc(s) {
-      return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-  })();
-  </script>
 
 </body>
 </html>

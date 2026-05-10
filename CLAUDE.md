@@ -130,7 +130,7 @@ decision here with rationale before implementing.
 /blog/             — posts: technical, radio, misc
 /tools/            — browser-based utilities
 /prints/           — 3D print catalog with files
-/radio/            — ham radio resources (band notes, APRS, SDR)
+/radio/            — my station: operator profile, gear, hardware notes, modes, CW progress
 ```
 
 ## File Layout
