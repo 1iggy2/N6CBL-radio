@@ -1,55 +1,111 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 580">
-<rect width="960" height="580" fill="#f5f5f0"/>
-<rect x="5" y="465" width="215" height="113" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/>
-<rect x="230" y="492" width="190" height="86" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/>
-<rect x="834.7" y="133.5" width="30.9" height="21.6" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="850.2" y="144.3" font-family="monospace" font-size="9.9" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">CT</text>
-<rect x="800.5" y="175.0" width="13.0" height="25.3" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="807.1" y="187.6" font-family="monospace" font-size="5.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">DE</text>
-<rect x="608.5" y="333.7" width="123.7" height="119.1" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="670.4" y="393.3" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">FL</text>
-<rect x="545.1" y="126.3" width="65.1" height="101.0" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="577.6" y="176.8" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">IL</text>
-<rect x="576.0" y="187.6" width="125.3" height="46.9" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="638.6" y="211.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">KY</text>
-<rect x="838.0" y="119.1" width="58.6" height="30.7" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="867.3" y="134.4" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">MA</text>
-<rect x="740.3" y="176.8" width="71.6" height="32.5" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="776.1" y="193.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">MD</text>
-<rect x="877.0" y="36.1" width="66.7" height="79.4" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="910.4" y="75.8" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">ME</text>
-<rect x="563.0" y="21.6" width="130.2" height="119.1" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="628.1" y="81.2" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">MI</text>
-<rect x="541.8" y="261.6" width="58.6" height="86.6" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="571.1" y="304.9" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">MS</text>
-<rect x="340.1" y="9.0" width="122.0" height="55.9" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="401.1" y="37.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">ND</text>
-<rect x="340.1" y="117.3" width="143.2" height="54.1" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="411.7" y="144.3" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">NE</text>
-<rect x="852.6" y="75.8" width="30.9" height="46.9" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="868.1" y="99.2" font-family="monospace" font-size="9.9" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">NH</text>
-<rect x="803.8" y="146.1" width="26.0" height="45.1" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="816.8" y="168.7" font-family="monospace" font-size="8.3" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">NJ</text>
-<rect x="81.4" y="135.3" width="97.6" height="126.3" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="130.2" y="198.4" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">NV</text>
-<rect x="735.5" y="81.2" width="128.5" height="81.2" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="799.7" y="121.8" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">NY</text>
-<rect x="724.1" y="129.9" width="94.4" height="46.9" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="771.3" y="153.3" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">PA</text>
-<rect x="864.0" y="135.3" width="13.0" height="16.2" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="870.5" y="143.4" font-family="monospace" font-size="5.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">RI</text>
-<rect x="564.6" y="230.9" width="139.9" height="32.5" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="634.6" y="247.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">TN</text>
-<rect x="839.6" y="81.2" width="30.9" height="41.5" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="855.1" y="101.9" font-family="monospace" font-size="9.9" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">VT</text>
-<rect x="226.2" y="81.2" width="113.9" height="72.2" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="283.1" y="117.3" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">WY</text>
-<rect x="272.8" y="498.8" width="128.2" height="74.7" fill="#e8e8e3" stroke="#ccc" stroke-width="0.5"/><text x="336.9" y="536.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#888" text-anchor="middle" dominant-baseline="central">HI</text>
-<rect x="593.9" y="261.6" width="58.6" height="88.4" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="623.2" y="305.8" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">AL</text>
-<rect x="494.6" y="234.5" width="79.7" height="63.1" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="534.5" y="266.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">AR</text>
-<rect x="166.0" y="225.5" width="94.4" height="102.8" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="213.2" y="276.9" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">AZ</text>
-<rect x="9.8" y="135.3" width="167.6" height="171.4" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="93.6" y="221.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">CA</text>
-<rect x="258.7" y="153.3" width="115.5" height="72.2" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="316.5" y="189.4" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">CO</text>
-<rect x="641.1" y="261.6" width="76.5" height="83.0" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="679.3" y="303.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">GA</text>
-<rect x="462.1" y="108.2" width="105.8" height="55.9" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="515.0" y="136.2" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">IA</text>
-<rect x="126.9" y="9.0" width="100.9" height="128.1" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="177.4" y="73.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">ID</text>
-<rect x="600.4" y="138.9" width="53.7" height="72.2" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="627.3" y="175.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">IN</text>
-<rect x="372.6" y="171.4" width="122.0" height="55.9" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="433.6" y="199.3" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">KS</text>
-<rect x="504.4" y="297.6" width="81.4" height="74.0" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="545.1" y="334.6" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">LA</text>
-<rect x="452.3" y="1.8" width="125.3" height="106.4" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="515.0" y="55.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">MN</text>
-<rect x="475.1" y="160.5" width="109.0" height="84.8" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="529.6" y="202.9" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">MO</text>
-<rect x="146.4" y="9.0" width="195.3" height="83.0" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="244.1" y="50.5" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">MT</text>
-<rect x="662.2" y="232.7" width="143.2" height="50.5" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="733.8" y="258.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">NC</text>
-<rect x="258.7" y="225.5" width="99.3" height="102.8" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="308.3" y="276.9" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">NM</text>
-<rect x="654.1" y="129.9" width="70.0" height="70.4" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="689.1" y="165.1" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">OH</text>
-<rect x="358.0" y="225.5" width="139.9" height="61.3" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="427.9" y="256.2" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">OK</text>
-<rect x="6.5" y="59.5" width="131.8" height="77.6" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="72.4" y="98.3" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">OR</text>
-<rect x="676.9" y="258.0" width="79.7" height="57.7" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="716.7" y="286.8" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">SC</text>
-<rect x="340.1" y="64.9" width="125.3" height="61.3" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="402.7" y="95.6" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">SD</text>
-<rect x="299.4" y="234.5" width="213.2" height="193.0" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="406.0" y="331.0" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">TX</text>
-<rect x="177.4" y="135.3" width="83.0" height="90.2" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="218.8" y="180.4" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">UT</text>
-<rect x="672.0" y="180.4" width="138.3" height="54.1" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="741.2" y="207.5" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">VA</text>
-<rect x="4.9" y="9.0" width="126.9" height="63.1" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="68.3" y="40.6" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">WA</text>
-<rect x="522.3" y="43.3" width="99.3" height="83.0" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="571.9" y="84.8" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">WI</text>
-<rect x="689.9" y="160.5" width="79.7" height="61.3" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="729.8" y="191.2" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">WV</text>
-<rect x="5.0" y="465.7" width="215.0" height="111.7" fill="#2a7a2a" stroke="#1a5c1a" stroke-width="0.5"/><text x="112.5" y="521.5" font-family="monospace" font-size="11.0" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="central">AK</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 585" role="img" aria-labelledby="was-title was-desc">
+<title id="was-title">Worked All States map</title>
+<desc id="was-desc">United States state map with worked states shown in green and unworked states in gray.</desc>
+<rect width="960" height="585" fill="#f5f5f0"/>
+<g fill="none" stroke="#cfcfc8" stroke-width="1">
+<rect x="36" y="456" width="290" height="116"/>
+<rect x="385" y="496" width="180" height="66"/>
+</g>
+<path id="was-AK" d="M 50.5,461.8 L 181.0,467.6 L 246.2,525.6 L 326.0,548.8 L 217.2,560.4 L 108.5,554.6 L 36.0,525.6 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-AL" d="M 593.5,249.7 L 648.3,249.7 L 648.3,315.3 L 607.6,328.4 L 599.8,328.4 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-AR" d="M 498.0,225.1 L 570.0,225.1 L 574.7,282.5 L 507.4,282.5 L 498.0,271.0 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-AZ" d="M 181.7,216.9 L 272.5,216.9 L 272.5,310.3 L 241.2,310.3 L 181.7,290.7 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-CA" d="M 33.0,134.9 L 100.3,134.9 L 191.1,249.7 L 145.7,290.7 L 84.6,259.5 L 40.8,184.1 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-CO" d="M 272.5,151.3 L 382.1,151.3 L 382.1,216.9 L 272.5,216.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-CT" d="M 825.3,133.3 L 855.0,133.3 L 855.0,153.0 L 825.3,153.0 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-DE" d="M 792.4,171.0 L 804.9,172.6 L 804.9,194.0 L 792.4,189.0 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-FL" d="M 607.6,321.8 L 679.6,321.8 L 726.6,410.3 L 707.8,421.8 L 685.9,380.8 L 656.2,348.0 L 607.6,328.4 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-GA" d="M 648.3,249.7 L 692.2,249.7 L 712.5,298.9 L 679.6,321.8 L 648.3,315.3 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-HI" d="M 407.2,500.9 L 429.3,507.6 L 468.1,517.5 L 509.6,530.6 L 537.3,545.5 L 556.7,553.8 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-IA" d="M 468.3,110.4 L 554.4,110.4 L 568.5,151.3 L 554.4,161.2 L 468.3,161.2 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-ID" d="M 147.3,20.2 L 241.2,20.2 L 241.2,94.0 L 194.2,94.0 L 194.2,134.9 L 147.3,134.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-IL" d="M 546.5,126.7 L 609.2,126.7 L 609.2,216.9 L 584.1,216.9 L 568.5,161.2 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-IN" d="M 599.8,138.2 L 651.5,138.2 L 651.5,203.8 L 609.2,203.8 L 609.2,138.2 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-KS" d="M 382.1,167.7 L 498.0,167.7 L 498.0,216.9 L 382.1,216.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-KY" d="M 576.3,203.8 L 695.3,203.8 L 696.9,223.5 L 648.3,223.5 L 584.1,218.5 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-LA" d="M 507.4,282.5 L 574.7,282.5 L 585.7,343.1 L 546.5,348.0 L 510.5,336.6 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MA" d="M 828.4,120.2 L 884.8,125.1 L 873.8,148.1 L 828.4,148.1 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MD" d="M 734.4,172.6 L 803.3,172.6 L 801.8,200.5 L 773.6,200.5 L 742.3,184.1 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-ME" d="M 866.0,44.8 L 930.2,85.8 L 886.3,116.9 L 872.2,118.5 L 859.7,85.8 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MI" d="M 563.8,44.8 L 656.2,44.8 L 656.2,77.6 L 617.0,85.8 L 563.8,69.4 Z M 624.8,85.8 L 689.0,105.4 L 689.0,139.9 L 632.7,139.9 L 617.0,118.5 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MN" d="M 460.4,20.2 L 577.9,20.2 L 577.9,69.4 L 538.7,69.4 L 538.7,110.4 L 468.3,110.4 L 460.4,71.0 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MO" d="M 479.2,161.2 L 554.4,161.2 L 584.1,233.3 L 570.0,234.9 L 498.0,225.1 L 498.0,216.9 L 479.2,216.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MS" d="M 543.4,249.7 L 599.8,249.7 L 599.8,328.4 L 574.7,328.4 L 554.4,315.3 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-MT" d="M 162.9,20.2 L 350.8,20.2 L 350.8,85.8 L 241.2,85.8 L 241.2,94.0 L 162.9,94.0 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NC" d="M 659.3,223.5 L 797.1,223.5 L 792.4,266.1 L 726.6,266.1 L 659.3,246.4 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-ND" d="M 350.8,20.2 L 460.4,20.2 L 460.4,71.0 L 350.8,71.0 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NE" d="M 350.8,126.7 L 487.0,126.7 L 487.0,167.7 L 382.1,167.7 L 350.8,151.3 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NH" d="M 859.7,85.8 L 872.2,118.5 L 866.0,123.5 L 842.5,123.5 L 851.9,85.8 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NJ" d="M 795.5,144.8 L 820.6,151.3 L 815.9,185.8 L 795.5,172.6 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NM" d="M 272.5,216.9 L 366.5,216.9 L 366.5,298.9 L 310.1,302.1 L 272.5,310.3 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NV" d="M 100.3,134.9 L 194.2,134.9 L 194.2,216.9 L 181.7,249.7 L 100.3,184.1 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-NY" d="M 729.7,85.8 L 831.5,85.8 L 853.4,146.4 L 809.6,159.5 L 729.7,134.9 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-OH" d="M 651.5,131.7 L 718.8,131.7 L 718.8,184.1 L 695.3,194.0 L 651.5,182.5 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-OK" d="M 366.5,216.9 L 501.1,216.9 L 501.1,271.0 L 460.4,271.0 L 460.4,249.7 L 366.5,249.7 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-OR" d="M 28.3,75.9 L 40.8,134.9 L 147.3,134.9 L 147.3,75.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-PA" d="M 718.8,130.0 L 809.6,134.9 L 809.6,172.6 L 742.3,172.6 L 718.8,157.9 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-RI" d="M 853.4,134.9 L 866.0,134.9 L 866.0,149.7 L 853.4,149.7 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-SC" d="M 673.4,246.4 L 726.6,266.1 L 750.1,298.9 L 711.0,298.9 L 673.4,279.2 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-SD" d="M 350.8,71.0 L 468.3,71.0 L 468.3,126.7 L 350.8,126.7 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-TN" d="M 565.3,223.5 L 700.0,223.5 L 692.2,249.7 L 570.0,249.7 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-TX" d="M 310.1,298.9 L 366.5,298.9 L 366.5,249.7 L 460.4,249.7 L 460.4,271.0 L 507.4,271.0 L 515.2,331.6 L 460.4,400.5 L 413.5,356.2 L 350.8,334.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-UT" d="M 194.2,134.9 L 272.5,134.9 L 272.5,216.9 L 194.2,216.9 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-VA" d="M 668.7,184.1 L 801.8,184.1 L 797.1,223.5 L 700.0,223.5 L 726.6,213.6 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-VT" d="M 830.0,85.8 L 859.7,85.8 L 859.7,123.5 L 836.2,123.5 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-WA" d="M 26.7,30.0 L 37.7,75.9 L 147.3,75.9 L 147.3,20.2 L 50.2,20.2 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-WI" d="M 524.6,56.3 L 620.1,56.3 L 620.1,118.5 L 568.5,126.7 L 538.7,110.4 L 538.7,69.4 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-WV" d="M 685.9,157.9 L 742.3,157.9 L 762.6,184.1 L 726.6,213.6 L 692.2,203.8 Z" fill="#2f7d32" stroke="#1f5e23" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<path id="was-WY" d="M 241.2,85.8 L 350.8,85.8 L 350.8,151.3 L 241.2,151.3 Z" fill="#e8e8e3" stroke="#c7c7bf" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<text x="173.8" y="518.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">AK</text>
+<text x="621.7" y="285.7" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">AL</text>
+<text x="532.5" y="253.0" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">AR</text>
+<text x="228.7" y="264.4" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">AZ</text>
+<text x="108.1" y="213.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">CA</text>
+<text x="327.3" y="184.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">CO</text>
+<text x="840.9" y="142.3" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">CT</text>
+<text x="799.4" y="182.5" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">DE</text>
+<text x="689.0" y="364.4" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">FL</text>
+<text x="673.4" y="285.7" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">GA</text>
+<text x="481.9" y="525.7" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">HI</text>
+<text x="515.2" y="134.9" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">IA</text>
+<text x="194.2" y="82.5" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">ID</text>
+<text x="581.0" y="167.7" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">IL</text>
+<text x="628.0" y="169.4" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">IN</text>
+<text x="441.6" y="194.0" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">KS</text>
+<text x="645.2" y="213.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">KY</text>
+<text x="543.4" y="318.5" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">LA</text>
+<text x="858.1" y="133.3" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">MA</text>
+<text x="773.6" y="187.4" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">MD</text>
+<text x="891.0" y="80.8" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">ME</text>
+<text x="640.5" y="102.2" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">MI</text>
+<text x="501.1" y="66.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">MN</text>
+<text x="532.5" y="192.3" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">MO</text>
+<text x="574.7" y="284.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">MS</text>
+<text x="253.7" y="53.0" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">MT</text>
+<text x="734.4" y="244.8" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">NC</text>
+<text x="407.2" y="44.8" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">ND</text>
+<text x="418.2" y="144.8" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">NE</text>
+<text x="858.1" y="107.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">NH</text>
+<text x="808.0" y="164.4" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">NJ</text>
+<text x="319.5" y="257.9" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">NM</text>
+<text x="147.3" y="184.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">NV</text>
+<text x="793.9" y="116.9" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">NY</text>
+<text x="684.3" y="161.2" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">OH</text>
+<text x="452.6" y="239.9" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">OK</text>
+<text x="92.5" y="102.2" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">OR</text>
+<text x="762.6" y="154.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">PA</text>
+<text x="859.7" y="143.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">RI</text>
+<text x="712.5" y="271.0" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">SC</text>
+<text x="410.3" y="95.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">SD</text>
+<text x="631.1" y="236.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">TN</text>
+<text x="426.0" y="313.6" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">TX</text>
+<text x="230.3" y="175.9" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">UT</text>
+<text x="750.1" y="207.1" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">VA</text>
+<text x="842.5" y="102.2" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">VT</text>
+<text x="87.8" y="46.4" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">WA</text>
+<text x="576.3" y="94.0" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">WI</text>
+<text x="717.2" y="189.0" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">WV</text>
+<text x="296.0" y="118.5" font-family="Consolas, Menlo, Monaco, monospace" font-size="12" font-weight="700" fill="#777" text-anchor="middle" dominant-baseline="central">WY</text>
+<text x="42" y="449" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" fill="#777">ALASKA INSET</text>
+<text x="391" y="489" font-family="Consolas, Menlo, Monaco, monospace" font-size="10" fill="#777">HAWAII INSET</text>
 </svg>
