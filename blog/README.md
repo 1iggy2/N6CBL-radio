@@ -7,7 +7,8 @@ pattern: newest entry first, dense index table at the top, full post text below.
 ## Normal path: owner web publisher
 
 1. Open `/blog/compose/` after passing the Cloudflare Access policy for the owner
-   email address.
+   email address. The Worker now trusts that Access policy by default, so
+   `ALLOWED_EMAIL` is optional instead of required for the owner-only route.
 2. Fill out the text fields. V1 auto-publishing is text-only; the photo controls are
    retained as staging/preview for the next image-upload iteration.
 3. Click `Submit post to GitHub`.
@@ -20,6 +21,79 @@ pattern: newest entry first, dense index table at the top, full post text below.
 5. The `Build blog` GitHub Action runs `node scripts/build-blog.js`, regenerates the
    static blog/home HTML, and commits the generated output.
 6. Cloudflare deploys the committed static files.
+
+## One-time repository / Cloudflare setup
+
+The browser publisher only works after the repository, Cloudflare Worker,
+Cloudflare Access policy, and GitHub token are wired together. Do this once per
+Cloudflare account or whenever the repository/token changes.
+
+### 1. Protect the publisher routes with Cloudflare Access
+
+Create a Cloudflare Access application/policy that protects both paths:
+
+```text
+/blog/compose/*
+/api/blog/publish
+```
+
+Allow only the owner email address that should be able to publish. The Worker reads
+the Access-authenticated email from the request headers and refuses requests with
+no Access identity.
+
+### 2. Confirm Worker vars in the repo
+
+`wrangler.jsonc` should contain the non-secret target repository binding:
+
+```json
+"vars": {
+  "GITHUB_REPO": "1iggy2/N6CBL-radio"
+}
+```
+
+If the repository moves or is forked, update that value. `GITHUB_BRANCH` is
+optional; the Worker defaults to `main`.
+
+### 3. Add Worker secrets in Cloudflare
+
+Create a GitHub token that can write repository contents for this repo, then store
+it as a Worker secret. Do not commit the token to the repository.
+
+```sh
+npx wrangler secret put GITHUB_TOKEN
+```
+
+Optional: add a second Worker-side email allow-list. This is useful if the
+Cloudflare Access policy is broader than the single publishing identity.
+
+```sh
+npx wrangler secret put ALLOWED_EMAILS
+```
+
+Use a comma-separated value such as `owner@example.com,backup@example.com`. The
+legacy one-address name `ALLOWED_EMAIL` is still accepted.
+
+### 4. Keep GitHub Actions deploy secrets set
+
+The deploy workflow also needs repository-level GitHub Actions secrets so pushes to
+`main` can deploy through Wrangler:
+
+```text
+CLOUDFLARE_API_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+```
+
+These are separate from Worker secrets. GitHub Actions secrets let the workflow
+deploy. Worker secrets let the deployed Worker commit blog source back to GitHub.
+
+### 5. Expected failure messages
+
+| Message | Meaning | Fix |
+|---|---|---|
+| `Cloudflare Access identity is required` | The request did not arrive through the protected Access route. | Protect `/blog/compose/*` and `/api/blog/publish`, then reopen the compose page through Access. |
+| `Cloudflare Access identity is not authorized` | Access authenticated an email outside the optional Worker allow-list. | Update `ALLOWED_EMAILS` / `ALLOWED_EMAIL`, or remove the extra allow-list if Access is already narrow. |
+| `GITHUB_TOKEN and GITHUB_REPO are required` | The Worker is missing the GitHub token secret or repo var. | Run `npx wrangler secret put GITHUB_TOKEN`; confirm `GITHUB_REPO` in `wrangler.jsonc`; redeploy. |
+| `GitHub commit failed` | GitHub rejected the API write. | Confirm the token has contents write permission and can access this repository. |
 
 ## Local/manual fallback
 
@@ -71,8 +145,10 @@ The published pages remain static HTML; Cloudflare serves the committed output.
 ## Publish checklist
 
 - [ ] `/blog/compose/` and `/api/blog/publish` are protected by Cloudflare Access.
-- [ ] Worker secrets are configured: `ALLOWED_EMAIL`, `GITHUB_TOKEN`, and
-      `GITHUB_REPO`.
+- [ ] Worker authentication is configured: Cloudflare Access protects the compose
+      page/API route, optional `ALLOWED_EMAIL` or comma-separated `ALLOWED_EMAILS`
+      narrows the Access identities, `GITHUB_REPO` is set in `wrangler.jsonc`,
+      and the required `GITHUB_TOKEN` secret is configured.
 - [ ] Date is `YYYY-MM-DD`.
 - [ ] Slug is lowercase hyphenated text.
 - [ ] New JSON source file is committed under `/content/blog/`.

@@ -40,11 +40,9 @@ export default {
 };
 
 async function publishBlogPost(request, env) {
-  const identity = getAccessEmail(request);
-  if (!env.ALLOWED_EMAIL) return json({ error: 'ALLOWED_EMAIL is not configured' }, 500);
-  if (!identity || identity.toLowerCase() !== env.ALLOWED_EMAIL.toLowerCase()) {
-    return json({ error: 'Cloudflare Access identity is not authorized' }, 403);
-  }
+  const authProblem = authorizePublisher(request, env);
+  if (authProblem) return json({ error: authProblem }, 403);
+
   if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
     return json({ error: 'GITHUB_TOKEN and GITHUB_REPO are required' }, 500);
   }
@@ -128,10 +126,29 @@ function validatePost(post) {
   return problems;
 }
 
+function authorizePublisher(request, env) {
+  const identity = getAccessEmail(request);
+  if (!identity) return 'Cloudflare Access identity is required';
+
+  const allowedEmails = emailList(env.ALLOWED_EMAILS || env.ALLOWED_EMAIL);
+  if (allowedEmails.length && !allowedEmails.includes(identity.toLowerCase())) {
+    return 'Cloudflare Access identity is not authorized';
+  }
+
+  return '';
+}
+
 function getAccessEmail(request) {
   return request.headers.get('Cf-Access-Authenticated-User-Email')
     || request.headers.get('cf-access-authenticated-user-email')
     || '';
+}
+
+function emailList(value) {
+  return String(value || '')
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
 }
 
 function githubFetch(url, env, init = {}) {
