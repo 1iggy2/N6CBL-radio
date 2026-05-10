@@ -25,11 +25,21 @@ function readPosts() {
       validatePost(post);
       return post;
     })
-    .sort((a, b) => {
-      const dateCompare = b.date.localeCompare(a.date);
-      if (dateCompare) return dateCompare;
-      return a.slug.localeCompare(b.slug);
-    });
+    .sort(comparePosts);
+}
+
+function comparePosts(a, b) {
+  const publishedCompare = comparablePublishedAt(b).localeCompare(comparablePublishedAt(a));
+  if (publishedCompare) return publishedCompare;
+  const dateCompare = b.date.localeCompare(a.date);
+  if (dateCompare) return dateCompare;
+  return a.slug.localeCompare(b.slug);
+}
+
+function comparablePublishedAt(post) {
+  if (!post.publishedAt) return `${post.date}T00:00:00.000Z`;
+  const date = new Date(post.publishedAt);
+  return Number.isNaN(date.getTime()) ? post.publishedAt : date.toISOString();
 }
 
 function validatePost(post) {
@@ -41,6 +51,9 @@ function validatePost(post) {
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(post.date)) {
     throw new Error(`${post.__file} has invalid date: ${post.date}`);
+  }
+  if (post.publishedAt && Number.isNaN(Date.parse(post.publishedAt))) {
+    throw new Error(`${post.__file} has invalid publishedAt: ${post.publishedAt}`);
   }
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug)) {
     throw new Error(`${post.__file} has invalid slug: ${post.slug}`);
@@ -90,7 +103,18 @@ function renderHomeRow(post) {
 function renderArticle(post) {
   const photoHtml = renderPhotoGrid(post.photos);
   const paragraphs = Array.isArray(post.bodyHtml) ? post.bodyHtml.map(renderHtmlParagraph) : post.body.map(renderTextParagraph);
-  return `        <article class="blog-post" id="${postId(post)}">\n          <header class="blog-post-header">\n            <div class="blog-post-date">${escapeHtml(post.date)}</div>\n            <h2>${escapeHtml(post.title)}</h2>\n            <div class="blog-post-meta">\n              <span>TYPE: ${escapeHtml(post.type.toUpperCase())}</span>\n              <span>TAGS: ${escapeHtml(post.tags.join(', ') || 'untagged')}</span>\n              <span>STATUS: LIVE</span>\n            </div>\n          </header>\n${photoHtml ? photoHtml + '\n' : ''}          <div class="blog-prose">\n${paragraphs.join('\n')}\n          </div>\n        </article>`;
+  return `        <article class="blog-post" id="${postId(post)}">\n          <header class="blog-post-header">\n            <div class="blog-post-date">${escapeHtml(post.date)}</div>\n            <h2>${escapeHtml(post.title)}</h2>\n            <div class="blog-post-meta">\n              <span>TYPE: ${escapeHtml(post.type.toUpperCase())}</span>\n              <span>TAGS: ${escapeHtml(post.tags.join(', ') || 'untagged')}</span>\n              <span>STATUS: LIVE</span>${renderPublishedMeta(post)}\n            </div>\n          </header>\n${photoHtml ? photoHtml + '\n' : ''}          <div class="blog-prose">\n${paragraphs.join('\n')}\n          </div>\n        </article>`;
+}
+
+function renderPublishedMeta(post) {
+  if (!post.publishedAt) return '';
+  return `\n              <span>PUBLISHED: ${escapeHtml(formatPublishedAt(post.publishedAt))}</span>`;
+}
+
+function formatPublishedAt(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toISOString().replace(/:\d{2}\.\d{3}Z$/, 'Z');
 }
 
 function renderPhotoGrid(photos) {
