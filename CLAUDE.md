@@ -122,9 +122,12 @@ decision here with rationale before implementing.
 ```
 /index.html              — home page
 /activations/index.html  — POTA log
+/blog/index.html         — field journal running list
+/blog/compose/index.html — browser helper that generates static blog snippets
 /styles.css              — single shared stylesheet for all pages
 /flag-us.svg             — header US flag
 /images/                 — page imagery (field photos, world map)
+/images/blog/            — committed blog photos, grouped by post slug
 /data/                   — committed data (POTA cron output)
 /worker.js               — Cloudflare Worker with assets passthrough
 /wrangler.jsonc          — Workers deploy config
