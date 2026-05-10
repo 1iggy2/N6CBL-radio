@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="N6CBL blog composer — generate static HTML for field reports and photo posts.">
+  <meta name="description" content="N6CBL blog composer — publish structured field reports and photo posts directly to GitHub.">
   <meta name="robots" content="noindex">
   <title>Blog Composer — N6CBL.radio</title>
   <link rel="stylesheet" href="/styles.css">
@@ -148,9 +148,9 @@
       <section class="page-intro blog-intro">
         <h1>Write once. Commit source.</h1>
         <p>
-          This owner-only tool submits structured blog source to GitHub through the
-          Cloudflare Worker. The generated snippets remain visible for inspection,
-          including uploaded image files in the post-owned image folder.
+          This owner-only tool submits structured blog source and staged images to
+          GitHub through the Cloudflare Worker. The build workflow regenerates the
+          public static HTML after the source commit lands.
         </p>
       </section>
 
@@ -245,7 +245,7 @@
 
       <section class="composer-section" aria-labelledby="preview-heading">
         <div class="section-label split">
-          <span id="preview-heading">Preview / generated output / publish</span>
+          <span id="preview-heading">Preview / source / publish</span>
           <span id="composer-status" class="section-tag live">Ready</span>
         </div>
         <div class="composer-output-grid">
@@ -255,19 +255,9 @@
             <div id="photo-preview" class="photo-preview-grid"></div>
           </div>
           <div class="composer-panel">
-            <h2>Index row</h2>
-            <textarea id="index-output" rows="7" readonly></textarea>
-            <button type="button" class="copy-button" data-copy="index-output">Copy index row</button>
-          </div>
-          <div class="composer-panel">
             <h2>Structured source</h2>
             <textarea id="json-output" rows="18" readonly></textarea>
             <button type="button" class="copy-button" data-copy="json-output">Copy JSON source</button>
-          </div>
-          <div class="composer-panel composer-wide">
-            <h2>Article block</h2>
-            <textarea id="article-output" rows="18" readonly></textarea>
-            <button type="button" class="copy-button" data-copy="article-output">Copy article block</button>
           </div>
           <div class="composer-panel composer-wide publish-panel">
             <h2>Publish transaction</h2>
@@ -306,10 +296,6 @@
             and any selected files under <code>/images/blog/YYYY-MM-DD-slug/</code>. The
             blog build workflow regenerates static HTML from that source.
           </li>
-          <li>
-            The copied HTML snippets are inspection tools and emergency fallback, not
-            the normal publishing path.
-          </li>
         </ol>
       </section>
 
@@ -336,8 +322,6 @@
     var bodyEl = document.getElementById('post-body');
     var captionsEl = document.getElementById('post-captions');
     var photosEl = document.getElementById('post-photos');
-    var indexOutput = document.getElementById('index-output');
-    var articleOutput = document.getElementById('article-output');
     var jsonOutput = document.getElementById('json-output');
     var photoTarget = document.getElementById('photo-target');
     var photoPreview = document.getElementById('photo-preview');
@@ -365,7 +349,7 @@
       renderPhotos();
     });
     submitButton.addEventListener('click', submitPost);
-    document.querySelectorAll('.copy-button').forEach(function (button) {
+    document.querySelectorAll('[data-copy]').forEach(function (button) {
       button.addEventListener('click', function () {
         var target = document.getElementById(button.getAttribute('data-copy'));
         if (!target) return;
@@ -375,44 +359,14 @@
         setTimeout(function () { setStatus('Ready', 'live'); }, 1200);
       });
     });
-
     render();
 
     function render() {
       var payload = buildPayload(false);
       var id = 'post-' + payload.date + '-' + payload.slug;
       var folder = '/images/blog/' + payload.date + '-' + payload.slug + '/';
-      var figureHtml = renderFigureHtml(payload.photos);
-      var proseHtml = payload.body.length
-        ? payload.body.map(function (p) { return '            <p>\n              ' + escText(p) + '\n            </p>'; }).join('\n')
-        : '            <p>\n              Draft body goes here.\n            </p>';
-
       urlEl.value = '/blog/#' + id;
       repoFileState.textContent = 'content/blog/' + payload.date + '-' + payload.slug + '.json';
-
-      indexOutput.value = '            <tr>\n'
-        + '              <td class="blog-date">' + escText(payload.date) + '</td>\n'
-        + '              <td class="blog-ref">' + escText(payload.title) + '</td>\n'
-        + '              <td class="blog-context">' + escText(payload.context) + '</td>\n'
-        + '              <td class="blog-cta"><a href="#' + escAttr(id) + '">Read &#8594;</a></td>\n'
-        + '            </tr>';
-
-      articleOutput.value = '        <article class="blog-post" id="' + escAttr(id) + '">\n'
-        + '          <header class="blog-post-header">\n'
-        + '            <div class="blog-post-date">' + escText(payload.date) + '</div>\n'
-        + '            <h2>' + escText(payload.title) + '</h2>\n'
-        + '            <div class="blog-post-meta">\n'
-        + '              <span>TYPE: ' + escText(payload.type) + '</span>\n'
-        + '              <span>TAGS: ' + escText(payload.tags.join(', ') || 'untagged') + '</span>\n'
-        + '              <span>STATUS: LIVE</span>\n'
-        + '            </div>\n'
-        + '          </header>\n'
-        + (figureHtml ? figureHtml + '\n' : '')
-        + '          <div class="blog-prose">\n'
-        + proseHtml + '\n'
-        + '          </div>\n'
-        + '        </article>';
-
       jsonOutput.value = JSON.stringify(payload, null, 2) + '\n';
       photoTarget.textContent = payload.photos.length
         ? 'Image target folder: ' + folder + ' · ' + payload.photos.length + ' selected · ' + Math.round(totalSelectedBytes() / 1024) + ' KB staged'
@@ -615,19 +569,6 @@
         photoPreview.appendChild(item);
       });
       render();
-    }
-
-    function renderFigureHtml(photos) {
-      if (!photos.length) return '';
-      return '          <div class="blog-photo-grid">\n'
-        + photos.map(function (item) {
-          var size = item.width && item.height ? ' width="' + Number(item.width) + '" height="' + Number(item.height) + '"' : '';
-          return '            <figure class="blog-photo">\n'
-            + '              <img src="' + escAttr(item.src) + '" alt="' + escAttr(item.alt) + '"' + size + ' loading="lazy">\n'
-            + '              <figcaption>' + escText(item.caption) + '</figcaption>\n'
-            + '            </figure>';
-        }).join('\n')
-        + '\n          </div>';
     }
 
     function captionForFile(file, index) {
