@@ -1,0 +1,14 @@
+{
+  "date": "2026-05-10",
+  "title": "Direct Blog Posting",
+  "slug": "direct-blog-posting",
+  "type": "FIELD REPORT",
+  "tags": [
+    "infrastructure"
+  ],
+  "context": "Testing a new feature of the site",
+  "body": [
+    "Testing the new infrastructure to post blogs directly from the website with the updated site security to lock down who can access the compose page. Happy Mother's Day!"
+  ],
+  "photos": []
+}
