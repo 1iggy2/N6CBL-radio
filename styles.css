@@ -1515,6 +1515,13 @@ td.bar-cell {
 .publish-status-grid dt:nth-last-child(2),
 .publish-status-grid dd:last-child { border-bottom: none; }
 
+.publish-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+}
+
 .publish-button { font-weight: bold; }
 .copy-button:disabled {
   color: #888;
@@ -1524,8 +1531,14 @@ td.bar-cell {
 
 @media (max-width: 768px) {
   .publish-status-grid { grid-template-columns: 1fr; }
+  .publish-actions { flex-direction: column; align-items: stretch; }
   .publish-status-grid dt { border-right: none; }
   .publish-status-grid dd { border-top: 1px solid var(--rule-2); }
+}
+
+.draft-preview-main {
+  margin: 0;
+  max-width: none;
 }
 
 /* ── RADIO PAGE ─────────────────────────────────────────────────────── */
