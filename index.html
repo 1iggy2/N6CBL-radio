@@ -243,55 +243,72 @@
         </table>
       </section>
 
-      <div class="planned">
-        <div class="section-label">Planned content</div>
-        <table>
+      <section class="roadmap" aria-labelledby="roadmap-heading">
+        <div class="section-label split">
+          <span id="roadmap-heading">Road map</span>
+          <span class="section-tag">stable item numbers</span>
+        </div>
+        <table class="roadmap-table">
           <thead>
             <tr>
-              <th>Path</th>
-              <th>Description</th>
+              <th>Item</th>
+              <th>Feature</th>
+              <th class="col-deliverable">Next deliverable</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="path">/</td>
-              <td class="desc">Home &mdash; index of everything on the site</td>
+              <td class="roadmap-id">1</td>
+              <td class="roadmap-feature"><span class="path">/</span> Home operating dashboard</td>
+              <td class="desc col-deliverable">Make the front page the current operational index: latest activation, map, lookup, field note, and this road map.</td>
               <td class="st st-wip">WIP</td>
             </tr>
             <tr>
-              <td class="path">/log/</td>
-              <td class="desc">QSO log &mdash; all contacts, POTA activations, and field sessions. Callsign search.</td>
+              <td class="roadmap-id">2</td>
+              <td class="roadmap-feature"><span class="path">/log/</span> QSO log workstation</td>
+              <td class="desc col-deliverable">Improve contact/session browsing with stronger filters, import notes, and explicit data freshness metadata.</td>
               <td class="st st-wip">WIP</td>
             </tr>
             <tr>
-              <td class="path">/log/stats/</td>
-              <td class="desc">QSO log analysis &mdash; contact map, WAS progress, bands, modes, activity by hour</td>
+              <td class="roadmap-id">3</td>
+              <td class="roadmap-feature"><span class="path">/log/stats/</span> Analysis ledger</td>
+              <td class="desc col-deliverable">Expand maps, counts, WAS progress, band/mode breakouts, and operating-hour analysis from the committed log data.</td>
               <td class="st st-wip">WIP</td>
             </tr>
             <tr>
-              <td class="path">/station/</td>
-              <td class="desc">My station: operator profile, gear, hardware notes, modes</td>
+              <td class="roadmap-id">4</td>
+              <td class="roadmap-feature"><span class="path">/station/</span> Station dossier</td>
+              <td class="desc col-deliverable">Deepen the station inventory with hardware notes, antenna experiments, battery data, mode plans, and CW progress.</td>
               <td class="st st-live">Live</td>
             </tr>
             <tr>
-              <td class="path">/blog/</td>
-              <td class="desc">Field journal &mdash; activation reports, photos, station notes, and essays</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="path">/tools/</td>
-              <td class="desc">Browser-based utilities &mdash; radio, math, general</td>
+              <td class="roadmap-id">5</td>
+              <td class="roadmap-feature"><span class="path">/tools/</span> Browser utilities workbench</td>
+              <td class="desc col-deliverable">Create small no-build tools for radio math, field planning, reference lookup, and repeatable operating workflows.</td>
               <td class="st st-planned">Planned</td>
             </tr>
             <tr>
-              <td class="path">/prints/</td>
-              <td class="desc">3D print catalog with downloadable files</td>
+              <td class="roadmap-id">6</td>
+              <td class="roadmap-feature"><span class="path">/prints/</span> 3D print catalog</td>
+              <td class="desc col-deliverable">Publish printable radio accessories with file downloads, revision notes, material settings, and field-use photos.</td>
+              <td class="st st-planned">Planned</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">7</td>
+              <td class="roadmap-feature"><span class="path">/blog/</span> Field journal system</td>
+              <td class="desc col-deliverable">Add more activation reports, station essays, post metadata, and a cleaner static publishing workflow.</td>
+              <td class="st st-live">Live</td>
+            </tr>
+            <tr>
+              <td class="roadmap-id">8</td>
+              <td class="roadmap-feature"><span class="path">data feeds</span> Radio telemetry feeds</td>
+              <td class="desc col-deliverable">Expose APRS, POTA, and logbook-derived snapshots as static data blocks that can power pages without heavy JavaScript.</td>
               <td class="st st-planned">Planned</td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
 
     </div><!-- /.main-content -->
 

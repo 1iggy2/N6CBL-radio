@@ -430,7 +430,7 @@ header {
 }
 
 /* ── TABLES (shared) ─────────────────────────────────────────────────────── */
-.planned { border-bottom: 1px solid var(--rule); }
+.roadmap { border-bottom: 1px solid var(--rule); }
 
 table {
   width: 100%;
@@ -476,6 +476,31 @@ td.st {
 }
 
 td.desc { font-family: var(--sans); }
+
+.roadmap-table { table-layout: fixed; }
+.roadmap-table th:first-child { width: 48px; }
+.roadmap-table th:nth-child(2) { width: 28%; }
+.roadmap-table th:last-child { width: 82px; }
+
+.roadmap-id {
+  font-family: var(--mono);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.roadmap-feature {
+  font-family: var(--sans);
+  font-weight: 700;
+}
+
+.roadmap-feature .path {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: normal;
+}
 
 /* ── POTA TABLE (home) ────────────────────────────────────────────────────── */
 .pota-section { border-bottom: 1px solid var(--rule); }
@@ -706,6 +731,12 @@ footer a:hover { text-decoration: underline; }
   .stat:nth-child(2) { border-right: none; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule-2); }
   .stat-value { font-size: 1.7rem; }
+  .roadmap-table th.col-deliverable,
+  .roadmap-table td.col-deliverable { display: none; }
+  .roadmap-table th:first-child { width: 34px; }
+  .roadmap-table th:last-child { width: 66px; }
+  .roadmap-table th,
+  .roadmap-table td { padding: 4px 6px; }
   /* QSO table: keep Date / UTC / Call / Band — drop Mode / Freq / RST */
   .col-mode, .col-freq, .col-rst,
   td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
