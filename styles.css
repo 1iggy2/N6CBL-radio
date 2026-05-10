@@ -1273,8 +1273,6 @@ td.bar-cell {
   white-space: nowrap;
 }
 
-.radio-intro h1 { max-width: 18ch; }
-
 .radio-core-grid {
   grid-template-columns: repeat(4, 1fr);
 }
