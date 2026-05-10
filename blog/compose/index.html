@@ -237,6 +237,7 @@
             <label class="composer-wide">
               <span>Photo captions, one per line</span>
               <textarea id="post-captions" rows="4" placeholder="station.jpg | KX2 on the picnic table, 2026-05-10."></textarea>
+              <span class="composer-help">Selecting images preloads one <code>filename | </code> line per file. Type the caption after the pipe; existing matched captions are preserved.</span>
             </label>
           </div>
         </form>
@@ -359,7 +360,10 @@
       render();
     });
     document.getElementById('composer-form').addEventListener('input', render);
-    photosEl.addEventListener('change', renderPhotos);
+    photosEl.addEventListener('change', function () {
+      prefillCaptionLines();
+      renderPhotos();
+    });
     submitButton.addEventListener('click', submitPost);
     document.querySelectorAll('.copy-button').forEach(function (button) {
       button.addEventListener('click', function () {
@@ -538,6 +542,53 @@
     function setStatus(text, mode) {
       statusEl.textContent = text;
       statusEl.className = 'section-tag ' + (mode || 'live');
+    }
+
+    function prefillCaptionLines() {
+      var existing = parseCaptionLines();
+      var nextLines = Array.prototype.map.call(photosEl.files, function (file) {
+        var safeName = safeFileName(file.name);
+        var caption = existing.byName[file.name.toLowerCase()]
+          || existing.byName[safeName.toLowerCase()]
+          || existing.byIndex[safeName.toLowerCase()]
+          || '';
+        return safeName + ' | ' + caption;
+      });
+      captionsEl.value = nextLines.join('\n');
+      placeCaptionCursor();
+    }
+
+    function placeCaptionCursor() {
+      var lines = captionsEl.value.split('\n');
+      var offset = 0;
+      for (var i = 0; i < lines.length; i += 1) {
+        var pipeIndex = lines[i].indexOf('|');
+        if (pipeIndex !== -1 && !lines[i].slice(pipeIndex + 1).trim()) {
+          var position = offset + pipeIndex + 2;
+          captionsEl.focus();
+          captionsEl.setSelectionRange(position, position);
+          return;
+        }
+        offset += lines[i].length + 1;
+      }
+    }
+
+    function parseCaptionLines() {
+      var byName = {};
+      var byIndex = {};
+      captionsEl.value.split('\n').forEach(function (line) {
+        var trimmed = line.trim();
+        if (!trimmed) return;
+        var parts = trimmed.split('|');
+        if (parts.length > 1) {
+          var name = parts.shift().trim();
+          var caption = parts.join('|').trim();
+          if (name) byName[name.toLowerCase()] = caption;
+        } else {
+          byIndex[safeFileName(trimmed).toLowerCase()] = trimmed;
+        }
+      });
+      return { byName: byName, byIndex: byIndex };
     }
 
     function renderPhotos() {
