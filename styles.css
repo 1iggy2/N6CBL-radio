@@ -172,6 +172,7 @@ header {
 .st-planned { color: #888; }
 .st-wip     { color: var(--accent); font-weight: bold; }
 .st-live    { color: #2a7a2a; font-weight: bold; }
+.st-deferred { color: #666; font-style: italic; }
 
 /* operator card */
 .op-card {
@@ -502,6 +503,78 @@ td.desc { font-family: var(--sans); }
   font-weight: normal;
 }
 
+
+/* ── ROADMAP PAGE ───────────────────────────────────────────────────────────── */
+.roadmap-page section { border-bottom: 1px solid var(--rule); }
+.roadmap-page section:last-child { border-bottom: none; }
+
+.roadmap-control-table,
+.roadmap-route-table,
+.roadmap-project-table,
+.roadmap-protocol-table,
+.roadmap-design-table,
+.roadmap-decision-table {
+  table-layout: fixed;
+}
+
+.roadmap-control-table th {
+  width: 156px;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.roadmap-route-table th:first-child,
+.roadmap-route-table td:first-child { width: 116px; }
+.roadmap-route-table th:nth-child(2),
+.roadmap-route-table td:nth-child(2) { width: 82px; }
+.roadmap-route-table th:nth-child(3),
+.roadmap-route-table td:nth-child(3) { width: 34%; }
+
+.roadmap-project-table th:first-child,
+.roadmap-project-table td:first-child { width: 58px; }
+.roadmap-project-table th:nth-child(2),
+.roadmap-project-table td:nth-child(2) { width: 24%; }
+.roadmap-project-table th:nth-child(3),
+.roadmap-project-table td:nth-child(3) { width: 108px; }
+.roadmap-project-table th:nth-child(4),
+.roadmap-project-table td:nth-child(4) { width: 58px; }
+.roadmap-project-table th:nth-child(5),
+.roadmap-project-table td:nth-child(5) { width: 54px; }
+
+.roadmap-protocol-table th:first-child,
+.roadmap-protocol-table td:first-child { width: 82px; }
+.roadmap-protocol-table th:nth-child(2),
+.roadmap-protocol-table td:nth-child(2) { width: 34%; }
+
+.roadmap-design-table th:first-child,
+.roadmap-design-table td:first-child { width: 28%; }
+.roadmap-design-table th:last-child,
+.roadmap-design-table td:last-child { width: 30%; }
+
+.roadmap-decision-table th:first-child,
+.roadmap-decision-table td:first-child { width: 106px; }
+.roadmap-decision-table th:nth-child(2),
+.roadmap-decision-table td:nth-child(2) { width: 34%; }
+
+.roadmap-page .path,
+.roadmap-area {
+  font-family: var(--mono);
+  overflow-wrap: anywhere;
+}
+
+.roadmap-area {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.roadmap-vote {
+  font-family: var(--mono);
+  font-weight: bold;
+  text-align: right;
+  white-space: nowrap;
+}
+
+
 /* ── POTA TABLE (home) ────────────────────────────────────────────────────── */
 .pota-section { border-bottom: 1px solid var(--rule); }
 
@@ -737,6 +810,28 @@ footer a:hover { text-decoration: underline; }
   .roadmap-table th:last-child { width: 66px; }
   .roadmap-table th,
   .roadmap-table td { padding: 4px 6px; }
+
+  .roadmap-control-table th { width: 96px; }
+  .roadmap-page th,
+  .roadmap-page td { padding: 4px 6px; }
+  .roadmap-route-table th:nth-child(2),
+  .roadmap-route-table td:nth-child(2),
+  .roadmap-project-table th:nth-child(3),
+  .roadmap-project-table td:nth-child(3),
+  .roadmap-project-table th:nth-child(5),
+  .roadmap-project-table td:nth-child(5),
+  .roadmap-design-table th:last-child,
+  .roadmap-design-table td:last-child,
+  .roadmap-wide-col { display: none; }
+  .roadmap-route-table th:first-child,
+  .roadmap-route-table td:first-child { width: 78px; }
+  .roadmap-project-table th:first-child,
+  .roadmap-project-table td:first-child { width: 48px; }
+  .roadmap-project-table th:nth-child(4),
+  .roadmap-project-table td:nth-child(4) { width: 44px; }
+  .roadmap-decision-table th:first-child,
+  .roadmap-decision-table td:first-child { width: 88px; }
+
   /* QSO table: keep Date / UTC / Call / Band — drop Mode / Freq / RST */
   .col-mode, .col-freq, .col-rst,
   td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
