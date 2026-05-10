@@ -297,8 +297,8 @@
           </li>
           <li>
             Image uploads are submitted with the post JSON in one Git commit. Keep total
-            upload size under 10 MB; each image must be JPEG, PNG, WebP, or GIF and
-            under 3 MB.
+            upload size under 75 MB; each image must be JPEG, PNG, WebP, or GIF and
+            under 25 MB.
           </li>
           <li>
             A successful submit creates <code>/content/blog/YYYY-MM-DD-slug.json</code>
@@ -320,8 +320,8 @@
 
   <script>
   (function () {
-    var MAX_IMAGE_BYTES = 3 * 1024 * 1024;
-    var MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+    var MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+    var MAX_UPLOAD_BYTES = 75 * 1024 * 1024;
     var IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     var imageDetails = {};
 
@@ -473,12 +473,12 @@
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(payload.slug)) problems.push('slug must be lowercase hyphenated text');
       if (!payload.context) problems.push('context required');
       if (!payload.body.length) problems.push('body required');
-      if (totalBytes > MAX_UPLOAD_BYTES) problems.push('combined image payload must stay under 10 MB');
+      if (totalBytes > MAX_UPLOAD_BYTES) problems.push('combined image payload must stay under 75 MB');
       var names = {};
       payload.photos.forEach(function (photo, index) {
         var label = 'photo ' + (index + 1);
         if (IMAGE_TYPES.indexOf(photo.mimeType) === -1) problems.push(label + ' must be JPEG, PNG, WebP, or GIF');
-        if (photo.size > MAX_IMAGE_BYTES) problems.push(label + ' must stay under 3 MB');
+        if (photo.size > MAX_IMAGE_BYTES) problems.push(label + ' must stay under 25 MB');
         if (names[photo.fileName]) problems.push(label + ' duplicates image filename ' + photo.fileName);
         names[photo.fileName] = true;
         if (!photo.caption) problems.push(label + ' caption required');

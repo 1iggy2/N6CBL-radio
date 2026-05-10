@@ -125,7 +125,7 @@ New web-submitted posts should use plain `body` paragraphs.
 
 - The web publisher submits image files through the Worker with the structured post
   source in a single Git commit.
-- Keep each image under 3 MB and the combined image upload under 10 MB. This is an
+- Keep each image under 25 MB and the combined image upload under 75 MB. This is an
   owner-publisher convenience, not a bulk media ingestion system.
 - JPEG, PNG, WebP, and GIF are accepted. Prefer WebP. JPEG is acceptable for camera
   originals that have already been resized and compressed.

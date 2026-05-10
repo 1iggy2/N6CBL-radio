@@ -1,7 +1,7 @@
 const MAX_POST_BYTES = 32 * 1024;
-const MAX_PUBLISH_BYTES = 10 * 1024 * 1024;
-const MAX_REQUEST_BYTES = 14 * 1024 * 1024;
-const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
+const MAX_PUBLISH_BYTES = 75 * 1024 * 1024;
+const MAX_REQUEST_BYTES = 100 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
 
 export default {
@@ -165,10 +165,10 @@ function validatePost(post, photoUploads) {
     if (!photo.caption) problems.push(`${label} caption is required`);
     if (!photo.alt) problems.push(`${label} alt text is required`);
     const actualBytes = photo.size || base64Bytes(photo.contentBase64);
-    if (actualBytes > MAX_IMAGE_BYTES) problems.push(`${label} exceeds 3 MB`);
+    if (actualBytes > MAX_IMAGE_BYTES) problems.push(`${label} exceeds 25 MB`);
     imageBytes += actualBytes;
   });
-  if (imageBytes > MAX_PUBLISH_BYTES - MAX_POST_BYTES) problems.push('combined image payload exceeds 10 MB');
+  if (imageBytes > MAX_PUBLISH_BYTES - MAX_POST_BYTES) problems.push('combined image payload exceeds 75 MB');
   return problems;
 }
 
