@@ -440,6 +440,11 @@ table {
   font-size: 0.78rem;
 }
 
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 th {
   text-align: left;
   padding: 4px 12px;
@@ -876,6 +881,18 @@ footer a:hover { text-decoration: underline; }
   .stats-tables-row { grid-template-columns: 1fr; }
   .stats-table-panel { border-right: none; border-bottom: 1px solid var(--rule); }
   .stats-table-panel:last-child { border-bottom: none; }
+
+  .top-contact-table th,
+  .top-contact-table td { padding: 4px 6px; }
+  .top-contact-table th:nth-child(2),
+  .top-contact-table td:nth-child(2) { width: auto; }
+  .top-contact-table .col-top-location { display: none; }
+  .top-contact-table th:first-child,
+  .top-contact-table td:first-child { width: 76px; }
+  .top-contact-table th:nth-child(4),
+  .top-contact-table td:nth-child(4) { width: 80px; }
+  .top-contact-table th:last-child,
+  .top-contact-table td:last-child { width: 38px; }
 }
 
 /* ── STATS PAGE ─────────────────────────────────────────────────────────────────── */
@@ -943,6 +960,17 @@ footer a:hover { text-decoration: underline; }
 
 .stats-table-panel table { border-bottom: none; table-layout: fixed; }
 .hour-section table { table-layout: fixed; }
+
+.top-contact-table { table-layout: fixed; }
+.top-contact-table th:first-child,
+.top-contact-table td:first-child { width: 92px; }
+.top-contact-table th:nth-child(2),
+.top-contact-table td:nth-child(2) { width: 24%; }
+.top-contact-table th:nth-child(4),
+.top-contact-table td:nth-child(4) { width: 112px; }
+.top-contact-table th:last-child,
+.top-contact-table td:last-child { width: 46px; }
+.top-contact-table .qso-ref { overflow-wrap: anywhere; }
 
 /* WAS — Worked All States ledger */
 .was-section { border-bottom: 1px solid var(--rule); }
