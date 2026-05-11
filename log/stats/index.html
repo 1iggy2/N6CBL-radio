@@ -202,6 +202,10 @@
           <span class="stat-label">Sessions</span>
           <span id="stat-sessions" class="stat-value">—</span>
         </div>
+        <div class="stat">
+          <span class="stat-label">QRZ Enriched</span>
+          <span id="stat-qrz" class="stat-value">—</span>
+        </div>
       </div>
 
       <!-- ── BANDS & MODES ───────────────────────────────────────────── -->
@@ -372,6 +376,7 @@
         document.getElementById('stat-grids').textContent    = s.unique_grids  || 0;
         document.getElementById('stat-parks').textContent    = s.pota_parks    || 0;
         document.getElementById('stat-sessions').textContent = s.session_count || 0;
+        document.getElementById('stat-qrz').textContent = s.qrz_enriched_calls || 0;
 
         if (s.date_range) {
           document.getElementById('stats-date-range').textContent = s.date_range;
