@@ -245,17 +245,22 @@
 
       <!-- ── TOP CONTACTS ────────────────────────────────────────────── -->
       <div class="section-label">Top Contacts</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Callsign</th>
-            <th class="num">QSOs</th>
-          </tr>
-        </thead>
-        <tbody id="top-tbody">
-          <tr><td colspan="2" style="color:var(--muted)">Loading&hellip;</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table class="top-contact-table">
+          <thead>
+            <tr>
+              <th>Callsign</th>
+              <th>Name</th>
+              <th class="col-top-location">Location</th>
+              <th class="col-top-parks">POTA Parks</th>
+              <th class="num">QSOs</th>
+            </tr>
+          </thead>
+          <tbody id="top-tbody">
+            <tr><td colspan="5" style="color:var(--muted)">Loading&hellip;</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- ── WORKED ALL STATES ───────────────────────────────────────── -->
       <section class="was-section">
@@ -390,7 +395,7 @@
         renderModesTable(s.modes || {}, s.qso_count || 0);
         renderWAS(usWorked);
         renderHours(qsos);
-        renderTopContacts(qsos);
+        renderTopContacts(qsos, data.sessions || []);
         renderMap(qsos, s.qso_count || 0);
       })
       .catch(function () {
@@ -481,25 +486,82 @@
         html || '<tr><td colspan="3" style="color:var(--muted)">No data</td></tr>';
     }
 
-    function renderTopContacts(qsos) {
-      var counts = {};
-      for (var i = 0; i < qsos.length; i++) {
-        var c = qsos[i].call;
-        if (c) counts[c] = (counts[c] || 0) + 1;
+    function renderTopContacts(qsos, sessions) {
+      var contacts = {};
+      var sessionRefs = {};
+
+      for (var i = 0; i < sessions.length; i++) {
+        var session = sessions[i];
+        if (session && session.id && session.type === 'pota' && session.reference) {
+          sessionRefs[session.id] = session.reference;
+        }
       }
-      var sorted = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
-      var multi  = sorted.filter(function (c) { return counts[c] > 1; });
-      var show   = multi.length ? multi.slice(0, 10) : sorted.slice(0, 10);
-      var html   = '';
-      for (var i = 0; i < show.length; i++) {
-        var c = show[i];
+
+      for (var j = 0; j < qsos.length; j++) {
+        var q = qsos[j];
+        var c = q.call;
+        if (!c) continue;
+
+        if (!contacts[c]) {
+          contacts[c] = {
+            call: c,
+            count: 0,
+            name: '',
+            state: '',
+            country: '',
+            county: '',
+            grid: '',
+            qrz: '',
+            parks: {}
+          };
+        }
+
+        var contact = contacts[c];
+        contact.count++;
+        if (!contact.name && q.name) contact.name = q.name;
+        if (!contact.state && q.state) contact.state = q.state;
+        if (!contact.country && q.country) contact.country = q.country;
+        if (!contact.county && q.county) contact.county = q.county;
+        if (!contact.grid && q.gridsquare) contact.grid = q.gridsquare;
+        if (!contact.qrz && q.qrz_url) contact.qrz = q.qrz_url;
+
+        var ref = sessionRefs[q.session];
+        if (ref) contact.parks[ref] = true;
+      }
+
+      var sorted = Object.keys(contacts).sort(function (a, b) {
+        if (contacts[b].count !== contacts[a].count) return contacts[b].count - contacts[a].count;
+        return a.localeCompare(b);
+      });
+      var multi = sorted.filter(function (c) { return contacts[c].count > 1; });
+      var show = multi.length ? multi.slice(0, 10) : sorted.slice(0, 10);
+      var html = '';
+
+      for (var k = 0; k < show.length; k++) {
+        var item = contacts[show[k]];
+        var parks = Object.keys(item.parks).sort();
+        var qrz = item.qrz || ('https://www.qrz.com/db/' + encodeURIComponent(item.call));
+
         html += '<tr>'
-          + '<td class="qso-call">' + esc(c) + '</td>'
-          + '<td class="hour-count">' + counts[c] + '</td>'
+          + '<td class="qso-call"><a href="' + esc(qrz) + '" target="_blank" rel="noopener">' + esc(item.call) + '</a></td>'
+          + '<td class="qso-name">' + esc(item.name || '—') + '</td>'
+          + '<td class="qso-qth col-top-location">' + esc(formatLocation(item)) + '</td>'
+          + '<td class="qso-ref col-top-parks">' + esc(parks.length ? parks.join(', ') : '—') + '</td>'
+          + '<td class="hour-count">' + item.count + '</td>'
           + '</tr>';
       }
+
       document.getElementById('top-tbody').innerHTML =
-        html || '<tr><td colspan="2" style="color:var(--muted)">No repeats logged yet</td></tr>';
+        html || '<tr><td colspan="5" style="color:var(--muted)">No contacts logged yet</td></tr>';
+    }
+
+    function formatLocation(contact) {
+      var parts = [];
+      if (contact.county) parts.push(contact.county);
+      if (contact.state) parts.push(contact.state);
+      if (contact.country && parts.indexOf(contact.country) === -1) parts.push(contact.country);
+      if (contact.grid) parts.push(contact.grid);
+      return parts.join(' · ') || '—';
     }
 
     /* ── MAP ─────────────────────────────────────────────────────────── */
