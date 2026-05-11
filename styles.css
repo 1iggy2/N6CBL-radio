@@ -623,6 +623,9 @@ td.pota-cta a:hover { text-decoration: underline; }
 .qso-date  { font-family: var(--mono); font-size: 0.8rem; white-space: nowrap; width: 90px; }
 .qso-time  { font-family: var(--mono); font-size: 0.8rem; white-space: nowrap; width: 48px; color: var(--muted); }
 .qso-call  { font-family: var(--mono); font-size: 0.8rem; font-weight: bold; }
+.qso-call a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; }
+.qso-name  { font-size: 0.8rem; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qso-qth   { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
 .qso-band  { font-family: var(--mono); font-size: 0.8rem; width: 42px; }
 .qso-mode  { font-family: var(--mono); font-size: 0.8rem; width: 42px; }
 .qso-freq  { font-family: var(--mono); font-size: 0.8rem; width: 68px; color: var(--muted); }
@@ -847,9 +850,9 @@ footer a:hover { text-decoration: underline; }
   .roadmap-decision-table th:first-child,
   .roadmap-decision-table td:first-child { width: 88px; }
 
-  /* QSO table: keep Date / UTC / Call / Band — drop Mode / Freq / RST */
-  .col-mode, .col-freq, .col-rst,
-  td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
+  /* QSO table: keep Date / UTC / Call / Band — drop enrichment and detail columns. */
+  .col-name, .col-qth, .col-mode, .col-freq, .col-rst,
+  td.qso-name, td.qso-qth, td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
   #qso-table td, #qso-table th { padding: 4px 6px; }
 
   /* Log header: drop date range to prevent wrap on narrow screens */

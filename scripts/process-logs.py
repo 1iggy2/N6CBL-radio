@@ -78,6 +78,43 @@ def fmt_time(raw):
     return raw
 
 
+
+def load_qrz_cache():
+    cache_path = Path('data/qrz-callsign-cache.json')
+    if not cache_path.exists():
+        return {}
+    try:
+        data = json.loads(cache_path.read_text(encoding='utf-8'))
+    except json.JSONDecodeError as exc:
+        print(f"  {cache_path}: invalid QRZ cache JSON ({exc}), skipping")
+        return {}
+    calls = data.get('calls', {})
+    if not isinstance(calls, dict):
+        return {}
+    return {str(call).upper(): record for call, record in calls.items() if isinstance(record, dict)}
+
+
+def first_value(*values):
+    for value in values:
+        if value is None:
+            continue
+        text = str(value).strip()
+        if text:
+            return text
+    return ''
+
+
+def qrz_record_for(qrz_cache, call):
+    record = qrz_cache.get(str(call or '').upper().strip(), {})
+    if record.get('found'):
+        return record
+    return {}
+
+
+def qrz_flag(record, key):
+    value = str(record.get(key, '')).strip().lower()
+    return value in ('1', 'true', 'yes', 'y')
+
 def load_activation_notes():
     notes_dir = Path('content/activations')
     notes = {}
@@ -103,6 +140,7 @@ def main():
     logs_dir = Path('logs')
     out_path = Path('data/qso-log.json')
     activation_notes = load_activation_notes()
+    qrz_cache = load_qrz_cache()
 
     paths = sorted(
         list(logs_dir.glob('*.adi'))
@@ -164,25 +202,39 @@ def main():
         sessions.append(session)
 
         for q in raw_qsos:
-            grid = q.get('GRIDSQUARE', '').upper().strip()
+            call = q.get('CALL', '').upper().strip()
+            qrz = qrz_record_for(qrz_cache, call)
+            grid = first_value(q.get('GRIDSQUARE', ''), qrz.get('grid', '')).upper().strip()
             lat, lon = maidenhead_to_latlon(grid) if grid else (None, None)
+            state = first_value(q.get('STATE', ''), qrz.get('state', '')).upper().strip()
+            country = first_value(q.get('COUNTRY', ''), qrz.get('country', ''), qrz.get('land', ''))
+            name = first_value(q.get('NAME', ''), qrz.get('display_name', ''), qrz.get('name_fmt', ''))
             all_qsos.append({
                 'date':       fmt_date(q.get('QSO_DATE', '')),
                 'time':       fmt_time(q.get('TIME_ON', '')),
-                'call':       q.get('CALL', '').upper().strip(),
+                'call':       call,
                 'band':       q.get('BAND', '').lower(),
                 'freq':       q.get('FREQ', ''),
                 'mode':       q.get('MODE', '').upper(),
                 'rst_sent':   q.get('RST_SENT', ''),
                 'rst_rcvd':   q.get('RST_RCVD', ''),
-                'name':       q.get('NAME', ''),
+                'name':       name,
                 'comment':    q.get('COMMENT', '') or q.get('NOTES', ''),
                 'session':    session_id,
                 'gridsquare': grid,
                 'lat':        lat,
                 'lon':        lon,
-                'state':      q.get('STATE', '').upper().strip(),
-                'dxcc':       q.get('DXCC', '').strip(),
+                'state':      state,
+                'country':    country,
+                'county':     first_value(q.get('CNTY', ''), q.get('COUNTY', ''), qrz.get('county', '')),
+                'dxcc':       first_value(q.get('DXCC', ''), qrz.get('dxcc', '')),
+                'cqzone':     first_value(q.get('CQZ', ''), qrz.get('cqzone', '')),
+                'ituzone':    first_value(q.get('ITUZ', ''), qrz.get('ituzone', '')),
+                'lotw':       qrz_flag(qrz, 'lotw'),
+                'eqsl':       qrz_flag(qrz, 'eqsl'),
+                'mqsl':       qrz_flag(qrz, 'mqsl'),
+                'qrz_url':    first_value(qrz.get('qrz_url', ''), f"https://www.qrz.com/db/{call}" if call else ''),
+                'qrz_enriched': bool(qrz),
             })
 
         print(f"  {path.name}: {len(raw_qsos)} QSOs, type={('pota' if is_pota else 'general')}, ref={park_ref or '—'}")
@@ -196,6 +248,9 @@ def main():
     date_range = f"{min(dates)} — {max(dates)}" if dates else ''
     unique_grids = len(set(q['gridsquare'] for q in all_qsos if q.get('gridsquare')))
     states_worked = sorted(set(q['state'] for q in all_qsos if q.get('state')))
+    countries_worked = sorted(set(q['country'] for q in all_qsos if q.get('country')))
+    dxcc_worked = sorted(set(q['dxcc'] for q in all_qsos if q.get('dxcc')))
+    qrz_enriched = len(set(q['call'] for q in all_qsos if q.get('qrz_enriched') and q.get('call')))
     band_counts = {}
     for q in all_qsos:
         if q['band']:
@@ -215,6 +270,9 @@ def main():
             'date_range':    date_range,
             'unique_grids':  unique_grids,
             'states_worked': states_worked,
+            'countries_worked': countries_worked,
+            'dxcc_worked':   dxcc_worked,
+            'qrz_enriched_calls': qrz_enriched,
             'bands':         band_counts,
             'modes':         mode_counts,
         },

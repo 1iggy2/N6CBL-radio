@@ -15,6 +15,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Refresh QRZ callsign cache
+        env:
+          QRZ_USERNAME: ${{ secrets.QRZ_USERNAME }}
+          QRZ_PASSWORD: ${{ secrets.QRZ_PASSWORD }}
+        run: python3 scripts/enrich-qrz.py
+
       - name: Process ADIF logs
         run: python3 scripts/process-logs.py
 
@@ -23,6 +29,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -- data/qso-log.json
+          if [ -f data/qrz-callsign-cache.json ]; then
+            git add -- data/qrz-callsign-cache.json
+          fi
           if [ -f data/was-map.svg ]; then
             git add -- data/was-map.svg
           fi

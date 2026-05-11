@@ -162,7 +162,7 @@
 
       <div class="log-search-bar">
         <input type="text" id="log-search" class="log-search-input"
-               placeholder="Filter by callsign&hellip;"
+               placeholder="Filter by call, name, QTH, grid&hellip;"
                autocomplete="off" autocapitalize="characters" spellcheck="false"
                maxlength="12">
         <button id="log-search-clear" class="log-search-clear" hidden
@@ -176,6 +176,8 @@
             <th>Date</th>
             <th>UTC</th>
             <th>Call</th>
+            <th class="col-name">Name</th>
+            <th class="col-qth">QTH</th>
             <th>Band</th>
             <th class="col-mode">Mode</th>
             <th class="col-freq">Freq</th>
@@ -298,7 +300,7 @@
         var grp  = groups[g];
         var sess = sessMap[grp.sid] || null;
         var rows = filter
-          ? grp.qsos.filter(function (q) { return q.call && q.call.indexOf(filter) !== -1; })
+          ? grp.qsos.filter(function (q) { return qsoMatches(q, filter); })
           : grp.qsos;
         if (rows.length === 0) continue;
         totalMatch += rows.length;
@@ -332,7 +334,9 @@
           html += '<tr>'
             + '<td class="qso-date">' + esc(q.date     || '—') + '</td>'
             + '<td class="qso-time">' + esc(q.time     || '—') + '</td>'
-            + '<td class="qso-call">' + esc(q.call     || '—') + '</td>'
+            + '<td class="qso-call">' + qrzCallLink(q) + '</td>'
+            + '<td class="qso-name">' + esc(q.name     || '—') + '</td>'
+            + '<td class="qso-qth">' + esc(formatQth(q) || '—') + '</td>'
             + '<td class="qso-band">' + esc(q.band     || '—') + '</td>'
             + '<td class="qso-mode">' + esc(q.mode     || '—') + '</td>'
             + '<td class="qso-freq">' + esc(q.freq     || '—') + '</td>'
@@ -356,6 +360,30 @@
         : qsos.length + ' total';
       qsoStateEl.hidden = true;
       qsoTableEl.hidden = false;
+    }
+
+    function qsoMatches(q, filter) {
+      var haystack = [
+        q.call, q.name, q.gridsquare, q.state, q.country, q.county,
+        q.dxcc, q.cqzone, q.ituzone, q.band, q.mode, q.session
+      ].join(' ').toUpperCase();
+      return haystack.indexOf(filter) !== -1;
+    }
+
+    function formatQth(q) {
+      var parts = [];
+      if (q.state) parts.push(q.state);
+      if (q.country && q.country !== 'United States' && q.country !== 'USA') parts.push(q.country);
+      if (!parts.length && q.country) parts.push(q.country);
+      if (q.gridsquare) parts.push(q.gridsquare);
+      return parts.join(' · ');
+    }
+
+    function qrzCallLink(q) {
+      var call = q.call || '';
+      if (!call) return '—';
+      var url = q.qrz_url || ('https://www.qrz.com/db/' + encodeURIComponent(call));
+      return '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(call) + '</a>';
     }
 
 

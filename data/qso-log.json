@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-11T02:29:01Z",
+  "generated": "2026-05-11T03:07:57Z",
   "stats": {
     "qso_count": 138,
     "session_count": 8,
@@ -42,6 +42,13 @@
       "WI",
       "WV"
     ],
+    "countries_worked": [],
+    "dxcc_worked": [
+      "1",
+      "291",
+      "6"
+    ],
+    "qrz_enriched_calls": 0,
     "bands": {
       "20m": 138
     },
@@ -172,7 +179,16 @@
       "lat": 45.3958,
       "lon": -123.0417,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ7QYK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -190,7 +206,16 @@
       "lat": 49.8125,
       "lon": -97.125,
       "state": "MB",
-      "dxcc": "1"
+      "country": "",
+      "county": "",
+      "dxcc": "1",
+      "cqzone": "4",
+      "ituzone": "3",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/VA4ADM/M",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -208,7 +233,16 @@
       "lat": 47.8958,
       "lon": -121.9583,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC7AVA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -226,7 +260,16 @@
       "lat": 45.2708,
       "lon": -122.2917,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7HAK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -244,7 +287,16 @@
       "lat": 35.1458,
       "lon": -106.2917,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KE5YYC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -262,7 +314,16 @@
       "lat": 47.3958,
       "lon": -122.875,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7YQY",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -280,7 +341,16 @@
       "lat": 40.1042,
       "lon": -91.2917,
       "state": "IL",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/NR9Q",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -298,7 +368,16 @@
       "lat": 34.8542,
       "lon": -111.7917,
       "state": "AZ",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WA8J",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -316,7 +395,16 @@
       "lat": 35.8125,
       "lon": -106.625,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KQ4ZIP",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -334,7 +422,16 @@
       "lat": 45.6042,
       "lon": -121.2083,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KG7LLN",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -352,7 +449,16 @@
       "lat": 47.9792,
       "lon": -122.125,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N6FFA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -370,7 +476,16 @@
       "lat": 49.3125,
       "lon": -123.0417,
       "state": "",
-      "dxcc": "1"
+      "country": "",
+      "county": "",
+      "dxcc": "1",
+      "cqzone": "3",
+      "ituzone": "2",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/VA7DGF",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -388,7 +503,16 @@
       "lat": 47.6458,
       "lon": -117.2917,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N7CRD",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -406,7 +530,16 @@
       "lat": 47.5625,
       "lon": -122.0417,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7MWI",
+      "qrz_enriched": false
     },
     {
       "date": "2026-05-11",
@@ -424,7 +557,16 @@
       "lat": 35.6042,
       "lon": -95.0417,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W5JWZ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -442,7 +584,16 @@
       "lat": 47.2292,
       "lon": -122.7917,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7CSK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -460,7 +611,16 @@
       "lat": 38.8958,
       "lon": -94.7917,
       "state": "KS",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK8C",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -478,7 +638,16 @@
       "lat": 30.1875,
       "lon": -97.7083,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KE5AQD",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -496,7 +665,16 @@
       "lat": 35.0208,
       "lon": -79.5417,
       "state": "NC",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K8OJR",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -514,7 +692,16 @@
       "lat": 30.4375,
       "lon": -91.7083,
       "state": "LA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KI5ZAW",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -532,7 +719,16 @@
       "lat": 40.7292,
       "lon": -85.125,
       "state": "IN",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KB0TTL",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -550,7 +746,16 @@
       "lat": 38.9375,
       "lon": -95.375,
       "state": "KS",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KD0JTR",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -568,7 +773,16 @@
       "lat": 46.3542,
       "lon": -118.9583,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N7EEL",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -586,7 +800,16 @@
       "lat": 30.1458,
       "lon": -91.7917,
       "state": "LA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WD5BPC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-21",
@@ -604,7 +827,16 @@
       "lat": 38.8125,
       "lon": -105.625,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KF0QGT",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -622,7 +854,16 @@
       "lat": 38.6875,
       "lon": -105.9583,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AE0YK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -640,7 +881,16 @@
       "lat": 40.1458,
       "lon": -105.0417,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC0DGR",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -658,7 +908,16 @@
       "lat": 42.6875,
       "lon": -93.125,
       "state": "IA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K0KLB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -676,7 +935,16 @@
       "lat": 39.8125,
       "lon": -111.875,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7OM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -694,7 +962,16 @@
       "lat": 38.7708,
       "lon": -95.125,
       "state": "KS",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KE9BV",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -712,7 +989,16 @@
       "lat": 33.0625,
       "lon": -96.125,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WD5MAT",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -730,7 +1016,16 @@
       "lat": 45.4375,
       "lon": -122.5417,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7RTA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -748,7 +1043,16 @@
       "lat": 43.2292,
       "lon": -88.7083,
       "state": "WI",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N9EAJ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -766,7 +1070,16 @@
       "lat": 35.3125,
       "lon": -106.625,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KE5YYC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -784,7 +1097,16 @@
       "lat": 30.1875,
       "lon": -97.7083,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KE5AQD",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -802,7 +1124,16 @@
       "lat": 40.6042,
       "lon": -83.125,
       "state": "OH",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KF8DYB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -820,7 +1151,16 @@
       "lat": 40.3958,
       "lon": -83.4583,
       "state": "OH",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KF8FGA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-20",
@@ -838,7 +1178,16 @@
       "lat": 39.4792,
       "lon": -105.375,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AE0YK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -856,7 +1205,16 @@
       "lat": 30.1042,
       "lon": -98.4583,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KI5OWP",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -874,7 +1232,16 @@
       "lat": 39.4792,
       "lon": -105.375,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AE0YK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -892,7 +1259,16 @@
       "lat": 40.1458,
       "lon": -111.625,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KF7HSS",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -910,7 +1286,16 @@
       "lat": 40.4792,
       "lon": -122.2917,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KN6KI",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -928,7 +1313,16 @@
       "lat": 43.5208,
       "lon": -116.625,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KI7PXR",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -946,7 +1340,16 @@
       "lat": 43.5625,
       "lon": -116.375,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KD6WXP",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -964,7 +1367,16 @@
       "lat": null,
       "lon": null,
       "state": "SD",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7PGL/P",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -982,7 +1394,16 @@
       "lat": 40.3125,
       "lon": -109.2083,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7HFV",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -1000,7 +1421,16 @@
       "lat": 64.8125,
       "lon": -147.5417,
       "state": "AK",
-      "dxcc": "6"
+      "country": "",
+      "county": "",
+      "dxcc": "6",
+      "cqzone": "1",
+      "ituzone": "1",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/NL7V",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -1018,7 +1448,16 @@
       "lat": 43.6875,
       "lon": -116.375,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WG7MM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-19",
@@ -1036,7 +1475,16 @@
       "lat": 45.2708,
       "lon": -122.875,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N7KPL",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1054,7 +1502,16 @@
       "lat": 44.5208,
       "lon": -79.2083,
       "state": "SK",
-      "dxcc": "1"
+      "country": "",
+      "county": "",
+      "dxcc": "1",
+      "cqzone": "4",
+      "ituzone": "3",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/VA5KDM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1072,7 +1529,16 @@
       "lat": 35.0625,
       "lon": -92.2083,
       "state": "AR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KF5ITM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1090,7 +1556,16 @@
       "lat": 46.2292,
       "lon": -114.125,
       "state": "MT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7SWS",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1108,7 +1583,16 @@
       "lat": 40.5208,
       "lon": -107.5417,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KF0MYC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1126,7 +1610,16 @@
       "lat": 34.6042,
       "lon": -85.0417,
       "state": "GA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AF4DN",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1144,7 +1637,16 @@
       "lat": 35.3542,
       "lon": -97.5417,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WS5ADV",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1162,7 +1664,16 @@
       "lat": 33.1042,
       "lon": -97.625,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WD5EEI",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1180,7 +1691,16 @@
       "lat": 32.1875,
       "lon": -96.9583,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KI5MM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1198,7 +1718,16 @@
       "lat": 33.7708,
       "lon": -80.9583,
       "state": "SC",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N4BQQ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1216,7 +1745,16 @@
       "lat": 45.8542,
       "lon": -122.7917,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N7CHS",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1234,7 +1772,16 @@
       "lat": 48.4792,
       "lon": -122.625,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AC7SV",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1252,7 +1799,16 @@
       "lat": 39.9792,
       "lon": -104.875,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC0ZIC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1270,7 +1826,16 @@
       "lat": 29.1875,
       "lon": -98.875,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N5VYS",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1288,7 +1853,16 @@
       "lat": 43.5208,
       "lon": -116.5417,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AA7BB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1306,7 +1880,16 @@
       "lat": 40.6458,
       "lon": -112.0417,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7ACN",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1324,7 +1907,16 @@
       "lat": 43.6458,
       "lon": -116.7083,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KI7ONQ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1342,7 +1934,16 @@
       "lat": 40.6458,
       "lon": -111.7917,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K0YO",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1360,7 +1961,16 @@
       "lat": 42.6458,
       "lon": -112.2917,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7IMC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1378,7 +1988,16 @@
       "lat": 46.8125,
       "lon": -123.0417,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AI7MO",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1396,7 +2015,16 @@
       "lat": 43.3958,
       "lon": -124.2083,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7YMM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1414,7 +2042,16 @@
       "lat": 38.7292,
       "lon": -77.7083,
       "state": "VA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W4KRN",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1432,7 +2069,16 @@
       "lat": 36.7292,
       "lon": -107.9583,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WD5AFR",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1450,7 +2096,16 @@
       "lat": 38.6875,
       "lon": -105.9583,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AB2SG",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1468,7 +2123,16 @@
       "lat": 42.1875,
       "lon": -112.2083,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ7HJB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1486,7 +2150,16 @@
       "lat": 45.0208,
       "lon": -93.125,
       "state": "MN",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC0KYN",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1504,7 +2177,16 @@
       "lat": 42.6458,
       "lon": -122.7917,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KI7NWC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1522,7 +2204,16 @@
       "lat": 42.3958,
       "lon": -122.9583,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KG7UUJ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1540,7 +2231,16 @@
       "lat": 34.9792,
       "lon": -81.2083,
       "state": "SC",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KO4GSM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1558,7 +2258,16 @@
       "lat": 37.0625,
       "lon": -100.9583,
       "state": "KS",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N0RZ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1576,7 +2285,16 @@
       "lat": 38.3958,
       "lon": -81.625,
       "state": "WV",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K8GQ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1594,7 +2312,16 @@
       "lat": 44.9792,
       "lon": -92.7917,
       "state": "MN",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W0KEG",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1612,7 +2339,16 @@
       "lat": 38.7292,
       "lon": -90.375,
       "state": "MO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WI0M",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1630,7 +2366,16 @@
       "lat": 39.8125,
       "lon": -111.875,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7OM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1648,7 +2393,16 @@
       "lat": 64.8125,
       "lon": -147.4583,
       "state": "AK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AL7KC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1666,7 +2420,16 @@
       "lat": 40.5625,
       "lon": -111.9583,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WB7ULD",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1684,7 +2447,16 @@
       "lat": 33.7292,
       "lon": -83.7917,
       "state": "GA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC4ZUA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1702,7 +2474,16 @@
       "lat": 41.1458,
       "lon": -112.0417,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KB7FMS",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1720,7 +2501,16 @@
       "lat": 36.1875,
       "lon": -96.625,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC5MJE",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1738,7 +2528,16 @@
       "lat": 34.2708,
       "lon": -116.875,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K5WZS",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1756,7 +2555,16 @@
       "lat": 38.4792,
       "lon": -107.2917,
       "state": "CO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KB0PVB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1774,7 +2582,16 @@
       "lat": 48.3125,
       "lon": -116.375,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N7MES",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1792,7 +2609,16 @@
       "lat": 32.6042,
       "lon": -96.9583,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K5MEC",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1810,7 +2636,16 @@
       "lat": 36.5625,
       "lon": -103.2917,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WT0RJ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-17",
@@ -1828,7 +2663,16 @@
       "lat": 47.7708,
       "lon": -117.5417,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/NZ2S",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1846,7 +2690,16 @@
       "lat": 48.3125,
       "lon": -116.375,
       "state": "ID",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7OJK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1864,7 +2717,16 @@
       "lat": 48.4792,
       "lon": -123.0417,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7MGK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1882,7 +2744,16 @@
       "lat": 46.6042,
       "lon": -120.7083,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7JRF",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1900,7 +2771,16 @@
       "lat": 47.5625,
       "lon": -122.2917,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7WA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1918,7 +2798,16 @@
       "lat": 45.5625,
       "lon": -122.625,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K9KDA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1936,7 +2825,16 @@
       "lat": 49.1458,
       "lon": -123.125,
       "state": "BC",
-      "dxcc": "1"
+      "country": "",
+      "county": "",
+      "dxcc": "1",
+      "cqzone": "3",
+      "ituzone": "2",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/VA7LTX",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1954,7 +2852,16 @@
       "lat": 48.1042,
       "lon": -123.2083,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7UIA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1972,7 +2879,16 @@
       "lat": 45.3542,
       "lon": -122.2083,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ7RPL",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -1990,7 +2906,16 @@
       "lat": 51.0208,
       "lon": -114.2083,
       "state": "AB",
-      "dxcc": "1"
+      "country": "",
+      "county": "",
+      "dxcc": "1",
+      "cqzone": "4",
+      "ituzone": "2",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/VA6DM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -2008,7 +2933,16 @@
       "lat": 34.6042,
       "lon": -94.2917,
       "state": "AR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ5JBD",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -2026,7 +2960,16 @@
       "lat": 46.6458,
       "lon": -122.9583,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K6YUQ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -2044,7 +2987,16 @@
       "lat": 45.3958,
       "lon": -123.0417,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KG7MAV",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -2062,7 +3014,16 @@
       "lat": 45.6042,
       "lon": -121.2083,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KG7LLN",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-15",
@@ -2080,7 +3041,16 @@
       "lat": 44.6875,
       "lon": -123.2083,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7OSU",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2098,7 +3068,16 @@
       "lat": 37.2708,
       "lon": -76.7083,
       "state": "VA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K8LF",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2116,7 +3095,16 @@
       "lat": 30.3125,
       "lon": -95.375,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N5HME",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2134,7 +3122,16 @@
       "lat": 35.3542,
       "lon": -97.0417,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ5MPL",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2152,7 +3149,16 @@
       "lat": 39.9792,
       "lon": -95.125,
       "state": "MO",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N0UB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2170,7 +3176,16 @@
       "lat": 35.6042,
       "lon": -97.375,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KM5EM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2188,7 +3203,16 @@
       "lat": 35.6042,
       "lon": -97.375,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ5GVQ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2206,7 +3230,16 @@
       "lat": 35.1875,
       "lon": -98.4583,
       "state": "OK",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WX5SKY",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2224,7 +3257,16 @@
       "lat": 29.0625,
       "lon": -95.2083,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ5NTJ",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2242,7 +3284,16 @@
       "lat": 33.8958,
       "lon": -118.375,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AK6MB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-14",
@@ -2260,7 +3311,16 @@
       "lat": 39.0208,
       "lon": -84.2917,
       "state": "OH",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KE8DIE",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2278,7 +3338,16 @@
       "lat": 47.1042,
       "lon": -122.625,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WL7EA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2296,7 +3365,16 @@
       "lat": 38.1042,
       "lon": -122.875,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W6ECK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2314,7 +3392,16 @@
       "lat": 35.2292,
       "lon": -106.7083,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N3MRA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2332,7 +3419,16 @@
       "lat": 48.4792,
       "lon": -123.0417,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7MGK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2350,7 +3446,16 @@
       "lat": 32.4375,
       "lon": -111.4583,
       "state": "AZ",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7PZE",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2368,7 +3473,16 @@
       "lat": 32.3542,
       "lon": -96.0417,
       "state": "TX",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N5SKT",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2386,7 +3500,16 @@
       "lat": 45.7708,
       "lon": -122.5417,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7DWD",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2404,7 +3527,16 @@
       "lat": 45.3542,
       "lon": -122.875,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7EDY",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2422,7 +3554,16 @@
       "lat": 47.6042,
       "lon": -117.4583,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N7LL",
+      "qrz_enriched": false
     },
     {
       "date": "2026-03-01",
@@ -2440,7 +3581,16 @@
       "lat": 33.8958,
       "lon": -118.375,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AK6MB",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2458,7 +3608,16 @@
       "lat": null,
       "lon": null,
       "state": "OR",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KJ7UPY",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2476,7 +3635,16 @@
       "lat": null,
       "lon": null,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/W7OM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2494,7 +3662,16 @@
       "lat": null,
       "lon": null,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KK7OJK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2512,7 +3689,16 @@
       "lat": null,
       "lon": null,
       "state": "NM",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "7",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/NM5RF",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2530,7 +3716,16 @@
       "lat": null,
       "lon": null,
       "state": "AL",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N4TZR",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2548,7 +3743,16 @@
       "lat": null,
       "lon": null,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/KC8YEK",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2566,7 +3770,16 @@
       "lat": null,
       "lon": null,
       "state": "WV",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WV8SM",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2584,7 +3797,16 @@
       "lat": null,
       "lon": null,
       "state": "CA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/NC6A",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2602,7 +3824,16 @@
       "lat": null,
       "lon": null,
       "state": "WA",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/WL7EA",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2620,7 +3851,16 @@
       "lat": null,
       "lon": null,
       "state": "UT",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K7MJF",
+      "qrz_enriched": false
     },
     {
       "date": "2026-02-28",
@@ -2638,7 +3878,16 @@
       "lat": null,
       "lon": null,
       "state": "",
-      "dxcc": "291"
+      "country": "",
+      "county": "",
+      "dxcc": "291",
+      "cqzone": "3",
+      "ituzone": "6",
+      "lotw": false,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/AG7FU",
+      "qrz_enriched": false
     }
   ]
 }
