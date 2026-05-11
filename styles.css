@@ -1125,14 +1125,32 @@ td.bar-cell {
   left: 0; top: 0;
 }
 
-/* stats-core-grid cascade fix: repeat rule after stats page CSS overrides earlier @media block */
+/* Stats-page mobile cascade fix: keep these after base stats rules. */
 @media (max-width: 768px) {
   .stats-core-grid,
-  .silly-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .silly-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stats-core-grid .stat:nth-child(even),
   .silly-stats-grid .stat:nth-child(even) { border-right: none; }
   .stats-core-grid .stat:nth-child(-n+4),
   .silly-stats-grid .stat:nth-child(-n+4) { border-bottom: 1px solid var(--rule-2); }
+
+  .stats-tables-row { grid-template-columns: 1fr; }
+  .stats-table-panel { border-right: none; border-bottom: 1px solid var(--rule); }
+  .stats-table-panel:last-child { border-bottom: none; }
+
+  .was-ledger { grid-template-columns: 1fr; }
+  .was-panel + .was-panel { border-left: none; border-top: 1px solid var(--rule); }
+
+  .top-contact-table th,
+  .top-contact-table td { padding: 4px 6px; }
+  .top-contact-table th:nth-child(2),
+  .top-contact-table td:nth-child(2) { width: auto; }
+  .top-contact-table th:first-child,
+  .top-contact-table td:first-child { width: 76px; }
+  .top-contact-table th:nth-child(4),
+  .top-contact-table td:nth-child(4) { width: 80px; }
+  .top-contact-table th:last-child,
+  .top-contact-table td:last-child { width: 38px; }
 }
 
 /* Only collapse to single column on truly tiny screens */
