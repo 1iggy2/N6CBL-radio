@@ -447,11 +447,22 @@
       var states = {};
       var parks = {};
       var distances = [];
+      var countedFirstNameCalls = {};
+      var countedLastNameCalls = {};
 
       for (var i = 0; i < qsos.length; i++) {
         var q = qsos[i] || {};
-        countValue(firstNames, cleanNamePart(q.first_name || inferFirstName(q.name)));
-        countValue(lastNames, cleanNamePart(q.last_name || inferLastName(q.name)));
+        var call = String(q.call || '').trim().toUpperCase();
+        var firstName = cleanNamePart(q.first_name || inferFirstName(q.name));
+        var lastName = cleanNamePart(q.last_name || inferLastName(q.name));
+        if (call && firstName && !countedFirstNameCalls[call]) {
+          countValue(firstNames, firstName);
+          countedFirstNameCalls[call] = true;
+        }
+        if (call && lastName && !countedLastNameCalls[call]) {
+          countValue(lastNames, lastName);
+          countedLastNameCalls[call] = true;
+        }
         if (US_STATES.indexOf(q.state) !== -1) countValue(states, q.state);
 
         var refs = Array.isArray(q.pota_refs) ? q.pota_refs : [];
@@ -469,8 +480,8 @@
         }
       }
 
-      renderTopCounter('curio-first-name', 'curio-first-name-sub', firstNames, 'named QSOs');
-      renderTopCounter('curio-last-name', 'curio-last-name-sub', lastNames, 'named QSOs');
+      renderTopCounter('curio-first-name', 'curio-first-name-sub', firstNames, 'unique named calls');
+      renderTopCounter('curio-last-name', 'curio-last-name-sub', lastNames, 'unique named calls');
       renderTopCounter('curio-state', 'curio-state-sub', states, 'QSOs', function (code) {
         return code + ' · ' + (US_STATE_NAMES[code] || code);
       });
