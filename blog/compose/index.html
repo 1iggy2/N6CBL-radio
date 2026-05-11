@@ -212,29 +212,14 @@
               <input id="activation-date" type="date" required>
             </label>
             <label>
-              <span>Title / reference</span>
-              <input id="activation-title" type="text" placeholder="US-3425 evening activation" required>
-            </label>
-            <label>
-              <span>Park / reference</span>
-              <input id="activation-reference" type="text" placeholder="US-3425">
-            </label>
-            <label>
-              <span>Slug</span>
-              <input id="activation-slug" type="text" placeholder="us-3425-evening-activation">
-            </label>
-            <label class="composer-wide">
-              <span>Location / setup line</span>
-              <input id="activation-location" type="text" placeholder="Dockweiler State Beach, KX2, Chameleon SS-17">
+              <span>Slug override</span>
+              <input id="activation-slug" type="text" placeholder="leave blank to use uploaded filename">
+              <span class="composer-help">Optional. The committed path is <code>/logs/YYYY-MM-DD-slug.ext</code>; leave blank and the upload filename supplies the slug.</span>
             </label>
             <label class="composer-wide">
               <span>ADIF / ham log upload</span>
               <input id="activation-log-file" type="file" accept=".adi,.adif,.log,.txt,text/plain,application/octet-stream" required>
-              <span class="composer-help">Commits the raw log under <code>/logs/</code>. The deploy workflow regenerates <code>data/qso-log.json</code>; no blog post is created.</span>
-            </label>
-            <label class="composer-wide">
-              <span>Activation notes / brief report</span>
-              <textarea id="activation-report" rows="5" placeholder="Short operational report: conditions, antenna, bands, what worked, what failed." required></textarea>
+              <span class="composer-help">Commits only the raw log under <code>/logs/</code>. The deploy workflow regenerates <code>data/qso-log.json</code>; notes belong in a separate field-journal post when needed.</span>
             </label>
           </div>
         </form>
@@ -246,7 +231,7 @@
               <dt>Validation</dt>
               <dd id="activation-validation-state">Waiting for log file</dd>
               <dt>Repository files</dt>
-              <dd id="activation-repo-state">logs/YYYY-MM-DD-slug.adi + content/activations/YYYY-MM-DD-slug.json</dd>
+              <dd id="activation-repo-state">logs/YYYY-MM-DD-slug.adi</dd>
               <dt>Commit</dt>
               <dd id="activation-commit-state">Not submitted</dd>
             </dl>
@@ -256,7 +241,7 @@
           </div>
           <div class="composer-panel">
             <h2>Result</h2>
-            <p class="composer-help">Use this when the log needs to update the public QSO tables but the activation does not deserve a field-journal post. The notes are attached to the session header on <code>/log/</code>.</p>
+            <p class="composer-help">Use this when the log needs to update the public QSO tables but the activation does not need a field-journal post. The uploaded file is the source of record; add narrative notes through the blog composer only when a post is warranted.</p>
           </div>
         </div>
       </section>
@@ -375,12 +360,8 @@
     var previewButton = document.getElementById('preview-post');
     var submitButton = document.getElementById('submit-post');
     var activationDateEl = document.getElementById('activation-date');
-    var activationTitleEl = document.getElementById('activation-title');
-    var activationReferenceEl = document.getElementById('activation-reference');
     var activationSlugEl = document.getElementById('activation-slug');
-    var activationLocationEl = document.getElementById('activation-location');
     var activationLogEl = document.getElementById('activation-log-file');
-    var activationReportEl = document.getElementById('activation-report');
     var activationStatusEl = document.getElementById('activation-status');
     var activationValidationState = document.getElementById('activation-validation-state');
     var activationRepoState = document.getElementById('activation-repo-state');
@@ -392,10 +373,6 @@
     dateEl.value = localDateValue(new Date());
     activationDateEl.value = dateEl.value;
 
-    activationTitleEl.addEventListener('input', function () {
-      activationSlugEl.value = slugify(activationTitleEl.value);
-      renderActivation();
-    });
     activationSlugEl.addEventListener('input', function () {
       activationSlugEl.value = slugify(activationSlugEl.value);
       renderActivation();
@@ -486,8 +463,7 @@
     function renderActivation() {
       var payload = buildActivationPayload(false);
       var ext = payload.log.fileName ? payload.log.fileName.split('.').pop().toLowerCase() : 'adi';
-      activationRepoState.textContent = 'logs/' + payload.date + '-' + payload.slug + '.' + ext
-        + ' + content/activations/' + payload.date + '-' + payload.slug + '.json';
+      activationRepoState.textContent = 'logs/' + payload.date + '-' + payload.slug + '.' + ext;
       var problems = validateActivationPayload(payload);
       if (problems.length) {
         activationValidationState.textContent = problems.join('; ');
@@ -501,9 +477,8 @@
     }
 
     function buildActivationPayload(includeUpload) {
-      var title = activationTitleEl.value.trim() || 'Untitled activation';
-      var slug = activationSlugEl.value.trim() || slugify(title);
       var file = activationLogEl.files[0];
+      var slug = activationSlugEl.value.trim() || slugFromLogFile(file ? file.name : 'activation');
       var log = {
         fileName: file ? safeLogFileName(file.name) : '',
         mimeType: file ? file.type : '',
@@ -512,11 +487,7 @@
       if (includeUpload && file) log.file = file;
       return {
         date: activationDateEl.value || localDateValue(new Date()),
-        title: title,
         slug: slug,
-        reference: activationReferenceEl.value.trim(),
-        location: activationLocationEl.value.trim(),
-        report: activationReportEl.value.trim(),
         log: log
       };
     }
@@ -524,9 +495,7 @@
     function validateActivationPayload(payload) {
       var problems = [];
       if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.date)) problems.push('date must be YYYY-MM-DD');
-      if (!payload.title || payload.title === 'Untitled activation') problems.push('title required');
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(payload.slug)) problems.push('slug must be lowercase hyphenated text');
-      if (!payload.report) problems.push('activation report required');
       if (!payload.log.fileName) problems.push('ADIF or ham log file required');
       if (payload.log.fileName && !/\.(?:adi|adif|log|txt)$/i.test(payload.log.fileName)) problems.push('log must be .adi, .adif, .log, or .txt');
       if (payload.log.size > 5 * 1024 * 1024) problems.push('log file must stay under 5 MB');
@@ -561,7 +530,7 @@
           throw new Error(data.error || responseText || ('HTTP ' + response.status + ' ' + response.statusText));
         }
         activationCommitState.innerHTML = '<a href="' + escAttr(data.commitUrl || '#') + '" target="_blank" rel="noopener">' + escText(data.commitSha || 'committed') + ' &#8599;</a>';
-        activationValidationState.textContent = 'Committed log and activation note; deploy workflow will regenerate the public QSO log';
+        activationValidationState.textContent = 'Committed log; deploy workflow will regenerate the public QSO log';
         setActivationStatus('Committed', 'live');
       } catch (err) {
         activationCommitState.textContent = err.message;
@@ -574,6 +543,13 @@
     function setActivationStatus(text, mode) {
       activationStatusEl.textContent = text;
       activationStatusEl.className = 'section-tag ' + (mode || 'live');
+    }
+
+    function slugFromLogFile(name) {
+      var base = String(name || 'activation')
+        .replace(/\.[^.]+$/, '')
+        .replace(/^\d{4}[-_]\d{2}[-_]\d{2}[-_ ]*/, '');
+      return slugify(base) || 'activation';
     }
 
     function safeLogFileName(name) {

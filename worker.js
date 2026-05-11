@@ -149,24 +149,15 @@ async function publishActivationLog(request, env) {
   const extension = logUpload.fileName.split('.').pop().toLowerCase();
   const basename = `${activation.date}-${activation.slug}`;
   const logPath = `logs/${basename}.${extension}`;
-  const notePath = `content/activations/${basename}.json`;
-  const note = {
-    ...activation,
-    logPath,
-    originalFileName: logUpload.fileName,
-  };
 
-  for (const targetPath of [logPath, notePath]) {
-    const exists = await githubFetch(contentsEndpoint(env, targetPath) + `?ref=${encodeURIComponent(branch)}`, env);
-    if (exists.status === 200) return json({ error: `${targetPath} already exists` }, 409);
-    if (exists.status !== 404) {
-      return json({ error: `GitHub lookup failed for ${targetPath} with HTTP ${exists.status}` }, 502);
-    }
+  const exists = await githubFetch(contentsEndpoint(env, logPath) + `?ref=${encodeURIComponent(branch)}`, env);
+  if (exists.status === 200) return json({ error: `${logPath} already exists` }, 409);
+  if (exists.status !== 404) {
+    return json({ error: `GitHub lookup failed for ${logPath} with HTTP ${exists.status}` }, 502);
   }
 
-  const commitResult = await commitFiles(env, branch, `Add ${activation.title} activation log`, [
+  const commitResult = await commitFiles(env, branch, `Add ${activation.date} activation log`, [
     { path: logPath, content: logUpload.contentBase64, encoding: 'base64' },
-    { path: notePath, content: toBase64(JSON.stringify(note, null, 2) + '\n'), encoding: 'base64' },
   ]);
 
   if (commitResult.error) return json({ error: commitResult.error }, commitResult.status || 502);
@@ -174,7 +165,6 @@ async function publishActivationLog(request, env) {
   return json({
     status: 'committed',
     logPath,
-    notePath,
     commitSha: commitResult.sha,
     commitUrl: commitResult.htmlUrl,
     logUrl: `/log/#sid-${basename}`,
@@ -183,8 +173,12 @@ async function publishActivationLog(request, env) {
 
 function normalizeActivation(payload, receivedAtDate) {
   const date = stringValue(payload.date);
+  const logName = payload.log && (payload.log.fileName || payload.log.name);
   const title = stringValue(payload.title || payload.reference || 'Activation log');
-  const slug = slugify(stringValue(payload.slug || title));
+  const slugBase = stringValue(payload.slug || logName || title)
+    .replace(/\.[^.]+$/, '')
+    .replace(/^\d{4}[-_]\d{2}[-_]\d{2}[-_ ]*/, '');
+  const slug = slugify(slugBase);
   return {
     date,
     receivedAt: receivedAtDate.toISOString(),
@@ -209,9 +203,7 @@ function normalizeLogUpload(log) {
 function validateActivation(activation, logUpload) {
   const problems = [];
   if (!/^\d{4}-\d{2}-\d{2}$/.test(activation.date)) problems.push('date must be YYYY-MM-DD');
-  if (!activation.title) problems.push('title is required');
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(activation.slug)) problems.push('slug must be lowercase hyphenated text');
-  if (!activation.report) problems.push('activation report is required');
   if (JSON.stringify(activation).length > MAX_POST_BYTES) problems.push('activation metadata is too large');
   if (!logUpload.fileName) problems.push('log file name is required');
   if (!LOG_FILE_PATTERN.test(logUpload.fileName)) problems.push('log file must be ADIF, ADI, LOG, or TXT with a safe filename');
