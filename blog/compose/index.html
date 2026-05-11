@@ -207,19 +207,10 @@
 
         <form class="composer-form" id="activation-form">
           <div class="composer-grid">
-            <label>
-              <span>Activation date</span>
-              <input id="activation-date" type="date" required>
-            </label>
-            <label>
-              <span>Slug override</span>
-              <input id="activation-slug" type="text" placeholder="leave blank to use uploaded filename">
-              <span class="composer-help">Optional. The committed path is <code>/logs/YYYY-MM-DD-slug.ext</code>; leave blank and the upload filename supplies the slug.</span>
-            </label>
             <label class="composer-wide">
               <span>ADIF / ham log upload</span>
               <input id="activation-log-file" type="file" accept=".adi,.adif,.log,.txt,text/plain,application/octet-stream" required>
-              <span class="composer-help">Commits only the raw log under <code>/logs/</code>. The deploy workflow regenerates <code>data/qso-log.json</code>; notes belong in a separate field-journal post when needed.</span>
+              <span class="composer-help">Commits the selected log file as-is under <code>/logs/</code>. The deploy workflow regenerates <code>data/qso-log.json</code>; notes belong in a separate field-journal post when needed.</span>
             </label>
           </div>
         </form>
@@ -231,7 +222,7 @@
               <dt>Validation</dt>
               <dd id="activation-validation-state">Waiting for log file</dd>
               <dt>Repository files</dt>
-              <dd id="activation-repo-state">logs/YYYY-MM-DD-slug.adi</dd>
+              <dd id="activation-repo-state">logs/selected-file.adi</dd>
               <dt>Commit</dt>
               <dd id="activation-commit-state">Not submitted</dd>
             </dl>
@@ -359,8 +350,6 @@
     var commitState = document.getElementById('commit-state');
     var previewButton = document.getElementById('preview-post');
     var submitButton = document.getElementById('submit-post');
-    var activationDateEl = document.getElementById('activation-date');
-    var activationSlugEl = document.getElementById('activation-slug');
     var activationLogEl = document.getElementById('activation-log-file');
     var activationStatusEl = document.getElementById('activation-status');
     var activationValidationState = document.getElementById('activation-validation-state');
@@ -371,12 +360,6 @@
     var previewObjectUrls = [];
 
     dateEl.value = localDateValue(new Date());
-    activationDateEl.value = dateEl.value;
-
-    activationSlugEl.addEventListener('input', function () {
-      activationSlugEl.value = slugify(activationSlugEl.value);
-      renderActivation();
-    });
     document.getElementById('activation-form').addEventListener('input', renderActivation);
     activationLogEl.addEventListener('change', renderActivation);
     submitActivationButton.addEventListener('click', submitActivationLog);
@@ -462,8 +445,9 @@
 
     function renderActivation() {
       var payload = buildActivationPayload(false);
-      var ext = payload.log.fileName ? payload.log.fileName.split('.').pop().toLowerCase() : 'adi';
-      activationRepoState.textContent = 'logs/' + payload.date + '-' + payload.slug + '.' + ext;
+      activationRepoState.textContent = payload.log.fileName
+        ? 'logs/' + payload.log.fileName
+        : 'logs/selected-file.adi';
       var problems = validateActivationPayload(payload);
       if (problems.length) {
         activationValidationState.textContent = problems.join('; ');
@@ -478,26 +462,21 @@
 
     function buildActivationPayload(includeUpload) {
       var file = activationLogEl.files[0];
-      var slug = activationSlugEl.value.trim() || slugFromLogFile(file ? file.name : 'activation');
       var log = {
-        fileName: file ? safeLogFileName(file.name) : '',
+        fileName: file ? file.name : '',
         mimeType: file ? file.type : '',
         size: file ? file.size : 0
       };
       if (includeUpload && file) log.file = file;
       return {
-        date: activationDateEl.value || localDateValue(new Date()),
-        slug: slug,
         log: log
       };
     }
 
     function validateActivationPayload(payload) {
       var problems = [];
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.date)) problems.push('date must be YYYY-MM-DD');
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(payload.slug)) problems.push('slug must be lowercase hyphenated text');
       if (!payload.log.fileName) problems.push('ADIF or ham log file required');
-      if (payload.log.fileName && !/\.(?:adi|adif|log|txt)$/i.test(payload.log.fileName)) problems.push('log must be .adi, .adif, .log, or .txt');
+      if (payload.log.fileName && !isSafeLogFileName(payload.log.fileName)) problems.push('log filename must be a single .adi, .adif, .log, or .txt file name');
       if (payload.log.size > 5 * 1024 * 1024) problems.push('log file must stay under 5 MB');
       return problems;
     }
@@ -545,20 +524,9 @@
       activationStatusEl.className = 'section-tag ' + (mode || 'live');
     }
 
-    function slugFromLogFile(name) {
-      var base = String(name || 'activation')
-        .replace(/\.[^.]+$/, '')
-        .replace(/^\d{4}[-_]\d{2}[-_]\d{2}[-_ ]*/, '');
-      return slugify(base) || 'activation';
-    }
-
-    function safeLogFileName(name) {
-      return String(name || 'activation.adi')
-        .toLowerCase()
-        .replace(/[^a-z0-9._-]+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '')
-        .replace(/^\.+/, '') || 'activation.adi';
+    function isSafeLogFileName(name) {
+      return /^[^\\/\x00-\x1f]+\.(?:adi|adif|log|txt)$/i.test(String(name || ''))
+        && !/(^|[\s.])\.\.([\s.]|$)/.test(String(name || ''));
     }
 
     function updateValidation(payload) {
