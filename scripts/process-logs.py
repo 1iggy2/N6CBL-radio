@@ -104,6 +104,31 @@ def first_value(*values):
     return ''
 
 
+
+def split_reference_list(raw):
+    refs = []
+    for part in re.split(r'[,;\s]+', str(raw or '').upper().strip()):
+        part = part.strip()
+        if part and part not in refs:
+            refs.append(part)
+    return refs
+
+
+def proper_name(text):
+    text = re.sub(r'\s+', ' ', str(text or '').strip())
+    if not text:
+        return ''
+    if text.isupper() or text.islower():
+        return text.title()
+    return text
+
+
+def first_token(text):
+    text = re.sub(r'"[^"]*"', ' ', str(text or ''))
+    text = re.sub(r'[^A-Za-z\s-]', ' ', text)
+    text = re.sub(r'\s+', ' ', text).strip()
+    return proper_name(text.split(' ')[0]) if text else ''
+
 def qrz_record_for(qrz_cache, call):
     record = qrz_cache.get(str(call or '').upper().strip(), {})
     if record.get('found'):
@@ -209,6 +234,13 @@ def main():
             state = first_value(q.get('STATE', ''), qrz.get('state', '')).upper().strip()
             country = first_value(q.get('COUNTRY', ''), qrz.get('country', ''), qrz.get('land', ''))
             name = first_value(q.get('NAME', ''), qrz.get('display_name', ''), qrz.get('name_fmt', ''))
+            first_name = first_value(qrz.get('nickname', ''), first_token(qrz.get('fname', '')), first_token(name))
+            last_name = first_value(proper_name(qrz.get('name', '')), '')
+            hunted_pota_refs = []
+            if (q.get('SIG', '') or '').upper().strip() == 'POTA':
+                hunted_pota_refs = split_reference_list(q.get('POTA_REF') or q.get('SIG_INFO'))
+            elif q.get('POTA_REF'):
+                hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
             all_qsos.append({
                 'date':       fmt_date(q.get('QSO_DATE', '')),
                 'time':       fmt_time(q.get('TIME_ON', '')),
@@ -219,6 +251,8 @@ def main():
                 'rst_sent':   q.get('RST_SENT', ''),
                 'rst_rcvd':   q.get('RST_RCVD', ''),
                 'name':       name,
+                'first_name': proper_name(first_name),
+                'last_name':  proper_name(last_name),
                 'comment':    q.get('COMMENT', '') or q.get('NOTES', ''),
                 'session':    session_id,
                 'gridsquare': grid,
@@ -227,6 +261,7 @@ def main():
                 'state':      state,
                 'country':    country,
                 'county':     first_value(q.get('CNTY', ''), q.get('COUNTY', ''), qrz.get('county', '')),
+                'pota_refs':  hunted_pota_refs,
                 'dxcc':       first_value(q.get('DXCC', ''), qrz.get('dxcc', '')),
                 'cqzone':     first_value(q.get('CQZ', ''), qrz.get('cqzone', '')),
                 'ituzone':    first_value(q.get('ITUZ', ''), qrz.get('ituzone', '')),

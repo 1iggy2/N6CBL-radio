@@ -208,6 +208,44 @@
         </div>
       </div>
 
+      <!-- ── LOG CURIOSITIES ─────────────────────────────────────────── -->
+      <div class="section-label split">
+        <span>Log Curiosities</span>
+        <span class="log-count">QRZ names · grids · hunted references</span>
+      </div>
+      <div class="silly-stats-grid">
+        <div class="stat stat-curiosity">
+          <span class="stat-label">Most Common First Name</span>
+          <span id="curio-first-name" class="stat-value">—</span>
+          <span id="curio-first-name-sub" class="stat-sub">Waiting for QSOs</span>
+        </div>
+        <div class="stat stat-curiosity">
+          <span class="stat-label">Most Common Surname</span>
+          <span id="curio-last-name" class="stat-value">—</span>
+          <span id="curio-last-name-sub" class="stat-sub">Waiting for QSOs</span>
+        </div>
+        <div class="stat stat-curiosity">
+          <span class="stat-label">Most Contacted US State</span>
+          <span id="curio-state" class="stat-value">—</span>
+          <span id="curio-state-sub" class="stat-sub">Waiting for QSOs</span>
+        </div>
+        <div class="stat stat-curiosity">
+          <span class="stat-label">Most Hunted POTA Park</span>
+          <span id="curio-park" class="stat-value">—</span>
+          <span id="curio-park-sub" class="stat-sub">Waiting for hunted refs</span>
+        </div>
+        <div class="stat stat-curiosity">
+          <span class="stat-label">Longest Contact</span>
+          <span id="curio-longest" class="stat-value">—</span>
+          <span id="curio-longest-sub" class="stat-sub">Waiting for grids</span>
+        </div>
+        <div class="stat stat-curiosity">
+          <span class="stat-label">Shortest Contact</span>
+          <span id="curio-shortest" class="stat-value">—</span>
+          <span id="curio-shortest-sub" class="stat-sub">Waiting for grids</span>
+        </div>
+      </div>
+
       <!-- ── BANDS & MODES ───────────────────────────────────────────── -->
       <div class="section-label">Bands &amp; Modes</div>
       <div class="stats-tables-row">
@@ -396,11 +434,142 @@
         renderWAS(usWorked);
         renderHours(qsos);
         renderTopContacts(qsos, data.sessions || []);
+        renderCuriosities(qsos);
         renderMap(qsos, s.qso_count || 0);
       })
       .catch(function () {
         document.getElementById('stat-qsos').textContent = 'Error';
       });
+
+    function renderCuriosities(qsos) {
+      var firstNames = {};
+      var lastNames = {};
+      var states = {};
+      var parks = {};
+      var distances = [];
+
+      for (var i = 0; i < qsos.length; i++) {
+        var q = qsos[i] || {};
+        countValue(firstNames, cleanNamePart(q.first_name || inferFirstName(q.name)));
+        countValue(lastNames, cleanNamePart(q.last_name || inferLastName(q.name)));
+        if (US_STATES.indexOf(q.state) !== -1) countValue(states, q.state);
+
+        var refs = Array.isArray(q.pota_refs) ? q.pota_refs : [];
+        for (var r = 0; r < refs.length; r++) countValue(parks, refs[r]);
+
+        if (isFiniteNumber(q.lat) && isFiniteNumber(q.lon)) {
+          distances.push({
+            call: q.call || '—',
+            name: q.name || '',
+            grid: q.gridsquare || '',
+            state: q.state || '',
+            country: q.country || '',
+            miles: distanceMiles(HOME_LAT, HOME_LON, q.lat, q.lon)
+          });
+        }
+      }
+
+      renderTopCounter('curio-first-name', 'curio-first-name-sub', firstNames, 'named QSOs');
+      renderTopCounter('curio-last-name', 'curio-last-name-sub', lastNames, 'named QSOs');
+      renderTopCounter('curio-state', 'curio-state-sub', states, 'QSOs', function (code) {
+        return code + ' · ' + (US_STATE_NAMES[code] || code);
+      });
+      renderTopCounter('curio-park', 'curio-park-sub', parks, 'hunter QSOs');
+
+      if (distances.length) {
+        distances.sort(function (a, b) { return b.miles - a.miles; });
+        renderDistanceCuriosity('curio-longest', 'curio-longest-sub', distances[0]);
+        distances.sort(function (a, b) { return a.miles - b.miles; });
+        renderDistanceCuriosity('curio-shortest', 'curio-shortest-sub', distances[0]);
+      }
+    }
+
+    function renderTopCounter(valueId, subId, counts, unit, labelFormatter) {
+      var top = topCount(counts);
+      var value = document.getElementById(valueId);
+      var sub = document.getElementById(subId);
+      if (!top) {
+        value.textContent = '—';
+        sub.textContent = 'No matching data yet';
+        return;
+      }
+      value.textContent = labelFormatter ? labelFormatter(top.key) : top.key;
+      sub.textContent = top.count + ' ' + unit + tieText(top.ties);
+    }
+
+    function renderDistanceCuriosity(valueId, subId, item) {
+      document.getElementById(valueId).textContent = Math.round(item.miles).toLocaleString() + ' mi';
+      document.getElementById(subId).textContent = item.call + formatDistanceLocation(item);
+    }
+
+    function formatDistanceLocation(item) {
+      var parts = [];
+      if (item.state) parts.push(item.state);
+      if (item.country && parts.indexOf(item.country) === -1) parts.push(item.country);
+      if (item.grid) parts.push(item.grid);
+      return parts.length ? ' · ' + parts.join(' · ') : '';
+    }
+
+    function topCount(counts) {
+      var keys = Object.keys(counts).filter(function (key) { return counts[key] > 0; });
+      if (!keys.length) return null;
+      keys.sort(function (a, b) {
+        if (counts[b] !== counts[a]) return counts[b] - counts[a];
+        return a.localeCompare(b);
+      });
+      var top = keys[0];
+      var ties = keys.filter(function (key) { return key !== top && counts[key] === counts[top]; });
+      return { key: top, count: counts[top], ties: ties };
+    }
+
+    function tieText(ties) {
+      if (!ties || !ties.length) return '';
+      return ' · tied with ' + ties.slice(0, 3).join(', ') + (ties.length > 3 ? ', +' + (ties.length - 3) : '');
+    }
+
+    function countValue(counts, value) {
+      value = String(value || '').trim();
+      if (!value || value === '—') return;
+      counts[value] = (counts[value] || 0) + 1;
+    }
+
+    function inferFirstName(name) {
+      name = stripNicknames(name);
+      var parts = name.split(/\s+/).filter(Boolean);
+      return parts.length ? parts[0] : '';
+    }
+
+    function inferLastName(name) {
+      name = stripNicknames(name);
+      var parts = name.split(/\s+/).filter(Boolean);
+      return parts.length > 1 ? parts[parts.length - 1] : '';
+    }
+
+    function stripNicknames(name) {
+      return String(name || '').replace(/"[^"]*"/g, ' ').replace(/[^A-Za-z\s-]/g, ' ').trim();
+    }
+
+    function cleanNamePart(name) {
+      name = String(name || '').replace(/[^A-Za-z\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!name) return '';
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+
+    function isFiniteNumber(value) {
+      return typeof value === 'number' && isFinite(value);
+    }
+
+    function distanceMiles(lat1, lon1, lat2, lon2) {
+      var r = 3958.7613;
+      var dLat = degToRad(lat2 - lat1);
+      var dLon = degToRad(lon2 - lon1);
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+        + Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2))
+        * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function degToRad(deg) { return deg * Math.PI / 180; }
 
     function renderBandsTable(bands, total) {
       var sorted = Object.keys(bands).sort(function (a, b) { return bands[b] - bands[a]; });
