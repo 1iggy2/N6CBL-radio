@@ -5,7 +5,7 @@ const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const MAX_LOG_BYTES = 5 * 1024 * 1024;
 const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif']);
 const IMAGE_FILE_PATTERN = /^[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
-const LOG_FILE_PATTERN = /^[a-z0-9][a-z0-9._-]*\.(?:adi|adif|log|txt)$/i;
+const LOG_FILE_PATTERN = /^[^\\/\x00-\x1f]+\.(?:adi|adif|log|txt)$/i;
 
 export default {
   async fetch(request, env) {
@@ -139,34 +139,21 @@ async function publishActivationLog(request, env) {
     return json({ error: 'invalid JSON payload' }, 400);
   }
 
-  const receivedAt = new Date();
-  const activation = normalizeActivation(payload, receivedAt);
   const logUpload = normalizeLogUpload(payload.log || payload.file || {});
-  const problems = validateActivation(activation, logUpload);
+  const problems = validateLogUpload(logUpload);
   if (problems.length) return json({ error: problems.join('; ') }, 400);
 
   const branch = env.GITHUB_BRANCH || 'main';
-  const extension = logUpload.fileName.split('.').pop().toLowerCase();
-  const basename = `${activation.date}-${activation.slug}`;
-  const logPath = `logs/${basename}.${extension}`;
-  const notePath = `content/activations/${basename}.json`;
-  const note = {
-    ...activation,
-    logPath,
-    originalFileName: logUpload.fileName,
-  };
+  const logPath = `logs/${logUpload.fileName}`;
 
-  for (const targetPath of [logPath, notePath]) {
-    const exists = await githubFetch(contentsEndpoint(env, targetPath) + `?ref=${encodeURIComponent(branch)}`, env);
-    if (exists.status === 200) return json({ error: `${targetPath} already exists` }, 409);
-    if (exists.status !== 404) {
-      return json({ error: `GitHub lookup failed for ${targetPath} with HTTP ${exists.status}` }, 502);
-    }
+  const exists = await githubFetch(contentsEndpoint(env, logPath) + `?ref=${encodeURIComponent(branch)}`, env);
+  if (exists.status === 200) return json({ error: `${logPath} already exists` }, 409);
+  if (exists.status !== 404) {
+    return json({ error: `GitHub lookup failed for ${logPath} with HTTP ${exists.status}` }, 502);
   }
 
-  const commitResult = await commitFiles(env, branch, `Add ${activation.title} activation log`, [
+  const commitResult = await commitFiles(env, branch, `Add ${logUpload.fileName}`, [
     { path: logPath, content: logUpload.contentBase64, encoding: 'base64' },
-    { path: notePath, content: toBase64(JSON.stringify(note, null, 2) + '\n'), encoding: 'base64' },
   ]);
 
   if (commitResult.error) return json({ error: commitResult.error }, commitResult.status || 502);
@@ -174,47 +161,27 @@ async function publishActivationLog(request, env) {
   return json({
     status: 'committed',
     logPath,
-    notePath,
     commitSha: commitResult.sha,
     commitUrl: commitResult.htmlUrl,
-    logUrl: `/log/#sid-${basename}`,
+    logUrl: `/log/#sid-${fileStem(logUpload.fileName)}`,
   }, 201);
-}
-
-function normalizeActivation(payload, receivedAtDate) {
-  const date = stringValue(payload.date);
-  const title = stringValue(payload.title || payload.reference || 'Activation log');
-  const slug = slugify(stringValue(payload.slug || title));
-  return {
-    date,
-    receivedAt: receivedAtDate.toISOString(),
-    title,
-    slug,
-    reference: stringValue(payload.reference).toUpperCase(),
-    location: stringValue(payload.location),
-    report: stringValue(payload.report || payload.notes),
-    tags: Array.isArray(payload.tags) ? payload.tags.map(stringValue).filter(Boolean) : [],
-  };
 }
 
 function normalizeLogUpload(log) {
   return {
-    fileName: fileNameValue(log.fileName || log.name),
+    fileName: logFileNameValue(log.fileName || log.name),
     mimeType: stringValue(log.mimeType || log.type).toLowerCase(),
     size: Number(log.size || 0),
     contentBase64: compactBase64(log.contentBase64 || log.data || ''),
   };
 }
 
-function validateActivation(activation, logUpload) {
+function validateLogUpload(logUpload) {
   const problems = [];
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(activation.date)) problems.push('date must be YYYY-MM-DD');
-  if (!activation.title) problems.push('title is required');
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(activation.slug)) problems.push('slug must be lowercase hyphenated text');
-  if (!activation.report) problems.push('activation report is required');
-  if (JSON.stringify(activation).length > MAX_POST_BYTES) problems.push('activation metadata is too large');
   if (!logUpload.fileName) problems.push('log file name is required');
-  if (!LOG_FILE_PATTERN.test(logUpload.fileName)) problems.push('log file must be ADIF, ADI, LOG, or TXT with a safe filename');
+  if (!LOG_FILE_PATTERN.test(logUpload.fileName) || hasParentDirectorySegment(logUpload.fileName)) {
+    problems.push('log file must be ADIF, ADI, LOG, or TXT with a safe filename');
+  }
   if (!logUpload.contentBase64 || !isBase64(logUpload.contentBase64)) problems.push('log file has invalid data');
   const actualBytes = logUpload.size || base64Bytes(logUpload.contentBase64);
   if (actualBytes > MAX_LOG_BYTES) problems.push('log file exceeds 5 MB');
@@ -434,6 +401,18 @@ function fileNameValue(value) {
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '')
     .replace(/^\.+/, '');
+}
+
+function logFileNameValue(value) {
+  return stringValue(value).replace(/^.*[\\/]/, '');
+}
+
+function fileStem(value) {
+  return stringValue(value).replace(/\.[^.]+$/, '');
+}
+
+function hasParentDirectorySegment(value) {
+  return /(^|[\s.])\.\.([\s.]|$)/.test(stringValue(value));
 }
 
 function compactBase64(value) {
