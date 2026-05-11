@@ -1653,7 +1653,6 @@ td.bar-cell {
 @media (max-width: 768px) {
   .radio-meta span:last-child,
   .radio-note-col,
-  .radio-antennas .radio-role-col,
   .radio-link-table th:nth-child(2),
   .radio-link-table td:nth-child(2),
   .radio-future-table th:nth-child(3),
