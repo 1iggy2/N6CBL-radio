@@ -642,6 +642,21 @@ td.pota-cta a:hover { text-decoration: underline; }
   padding: 5px 10px;
 }
 
+.log-session-notes td {
+  background: var(--white);
+  border-bottom: 1px solid var(--rule-2);
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  padding: 6px 10px;
+}
+
+.log-session-notes strong {
+  color: var(--black);
+  font-family: var(--mono);
+}
+
 /* Log page search bar */
 .log-search-bar {
   display: flex;
