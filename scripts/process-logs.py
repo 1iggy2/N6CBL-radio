@@ -4,6 +4,8 @@ Process ADIF files from logs/ into data/qso-log.json.
 Runs automatically via GitHub Actions on every push to main.
 
 File convention: logs/YYYY-MM-DD[-description].adi
+ADIF content may also arrive from browser uploads with .adif, .log, or .txt
+extensions.
 Park reference and session type are derived from ADIF data, not filename.
 """
 import re
@@ -76,12 +78,37 @@ def fmt_time(raw):
     return raw
 
 
+def load_activation_notes():
+    notes_dir = Path('content/activations')
+    notes = {}
+    if not notes_dir.exists():
+        return notes
+    for path in sorted(notes_dir.glob('*.json')):
+        try:
+            note = json.loads(path.read_text(encoding='utf-8'))
+        except json.JSONDecodeError as exc:
+            print(f"  {path}: invalid activation note JSON ({exc}), skipping")
+            continue
+        keys = {path.stem}
+        if note.get('slug') and note.get('date'):
+            keys.add(f"{note['date']}-{note['slug']}")
+        if note.get('logPath'):
+            keys.add(Path(note['logPath']).stem)
+        for key in keys:
+            notes[str(key)] = note
+    return notes
+
+
 def main():
     logs_dir = Path('logs')
     out_path = Path('data/qso-log.json')
+    activation_notes = load_activation_notes()
 
     paths = sorted(
-        list(logs_dir.glob('*.adi')) + list(logs_dir.glob('*.adif')),
+        list(logs_dir.glob('*.adi'))
+        + list(logs_dir.glob('*.adif'))
+        + list(logs_dir.glob('*.log'))
+        + list(logs_dir.glob('*.txt')),
         key=lambda p: p.stem
     )
 
@@ -120,16 +147,21 @@ def main():
 
         session_bands = sorted(set(q.get('BAND', '').lower() for q in raw_qsos if q.get('BAND')))
         session_modes = sorted(set(q.get('MODE', '').upper() for q in raw_qsos if q.get('MODE')))
+        note = activation_notes.get(session_id, {})
 
-        sessions.append({
+        session = {
             'id': session_id,
             'date': date,
             'type': 'pota' if is_pota else 'general',
-            'reference': park_ref,
+            'reference': note.get('reference') or park_ref,
             'bands': session_bands,
             'modes': session_modes,
             'qso_count': len(raw_qsos),
-        })
+        }
+        for key in ('title', 'location', 'report', 'tags'):
+            if note.get(key):
+                session[key] = note[key]
+        sessions.append(session)
 
         for q in raw_qsos:
             grid = q.get('GRIDSQUARE', '').upper().strip()

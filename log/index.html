@@ -317,6 +317,15 @@
         html += '<tr class="log-session-hdr" id="sid-' + esc(grp.sid) + '">'
           + '<td colspan="99">' + esc(hdr) + '</td>'
           + '</tr>';
+        if (sess && (sess.title || sess.location || sess.report)) {
+          var noteParts = [];
+          if (sess.title) noteParts.push('<strong>' + esc(sess.title) + '</strong>');
+          if (sess.location) noteParts.push(esc(sess.location));
+          if (sess.report) noteParts.push(esc(sess.report));
+          html += '<tr class="log-session-notes"><td colspan="99">'
+            + noteParts.join(' &middot; ')
+            + '</td></tr>';
+        }
 
         for (var qi = 0; qi < rows.length; qi++) {
           var q = rows[qi];
