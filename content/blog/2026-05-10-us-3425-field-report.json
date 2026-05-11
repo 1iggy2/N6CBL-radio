@@ -1,0 +1,35 @@
+{
+  "date": "2026-05-10",
+  "publishedAt": "2026-05-11T02:02:27.396Z",
+  "title": "US-3425 Field Report",
+  "slug": "us-3425-field-report",
+  "type": "FIELD REPORT",
+  "tags": [
+    "Pota",
+    "kx2",
+    "beach"
+  ],
+  "context": "Notes from today's activation",
+  "body": [
+    "First POTA activation in a while. Conditions were slow but got 15 contacts in about an hour. Cloudy day at the beach. There was a ship offshore that was near to watch.",
+    "<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-05-10-us-3425-field-report/img_8751.jpeg\" alt=\"ship off the coast\" loading=\"lazy\">\n  <figcaption>ship off the coast</figcaption>\n</figure>",
+    "Trying my hand at uploading my report and logs before I even leave the field.",
+    "73, Cam"
+  ],
+  "photos": [
+    {
+      "src": "/images/blog/2026-05-10-us-3425-field-report/img_8751.jpeg",
+      "alt": "ship off the coast",
+      "caption": "ship off the coast",
+      "width": 4032,
+      "height": 3024
+    },
+    {
+      "src": "/images/blog/2026-05-10-us-3425-field-report/img_8750.jpeg",
+      "alt": "dockweiler image 2",
+      "caption": "dockweiler image 2",
+      "width": 4032,
+      "height": 3024
+    }
+  ]
+}
