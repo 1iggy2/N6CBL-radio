@@ -36,7 +36,13 @@ Create a Cloudflare Access application/policy that protects both paths:
 ```text
 /blog/compose/*
 /api/blog/publish
+/api/log/publish
 ```
+
+The composer submits standalone activation logs through `/api/blog/publish` so
+existing deployments that already protect the blog publisher also protect the log
+upload path. Protect `/api/log/publish` too if you call that compatibility endpoint
+directly.
 
 Allow only the owner email address that should be able to publish. The Worker reads
 the Access-authenticated email from the request headers and refuses requests with
@@ -103,11 +109,11 @@ deploy. Worker secrets let the deployed Worker commit blog source back to GitHub
 
 | Message | Meaning | Fix |
 |---|---|---|
-| `Cloudflare Access identity is required` | The request did not arrive through the protected Access route. | Protect `/blog/compose/*` and `/api/blog/publish`, then reopen the compose page through Access. |
+| `Cloudflare Access identity is required` | The request did not arrive through the protected Access route. | Protect `/blog/compose/*`, `/api/blog/publish`, and `/api/log/publish` when used directly, then reopen the compose page through Access. |
 | `Cloudflare Access identity is not authorized` | Access authenticated an email outside the optional Worker allow-list. | Update `ALLOWED_EMAILS` / `ALLOWED_EMAIL`, or remove the extra allow-list if Access is already narrow. |
 | `GITHUB_TOKEN and GITHUB_REPO are required` | The Worker is missing the GitHub token secret or repo var. | Run `npx wrangler secret put GITHUB_TOKEN`; confirm `GITHUB_REPO` in `wrangler.jsonc`; redeploy. |
 | `GitHub ... failed (...): Not Found (HTTP 404)` | GitHub rejected a repository, branch, blob, tree, commit, or ref-update request. | Confirm `GITHUB_REPO` points at the repository and the Worker `GITHUB_TOKEN` can access it with contents write permission. |
-| Browser shows a plain `Not Found` or `HTTP 404` submit failure | The request did not reach the Worker JSON error handler, or an upstream returned a non-JSON 404. | Confirm the deployed Worker owns `/api/blog/publish`, then check Cloudflare Worker logs for the failed request. |
+| Browser shows a plain `Not Found` or `HTTP 404` submit failure | The request did not reach the Worker JSON error handler, or an upstream returned a non-JSON 404. | Confirm the deployed Worker owns `/api/blog/publish` and `/api/log/publish`, then check Cloudflare Worker logs for the failed request. |
 
 ## Local/manual fallback
 
@@ -178,7 +184,7 @@ The published pages remain static HTML; Cloudflare serves the committed output.
 
 ## Publish checklist
 
-- [ ] `/blog/compose/` and `/api/blog/publish` are protected by Cloudflare Access.
+- [ ] `/blog/compose/`, `/api/blog/publish`, and direct-use `/api/log/publish` are protected by Cloudflare Access.
 - [ ] Worker authentication is configured: Cloudflare Access protects the compose
       page/API route, optional `ALLOWED_EMAIL` or comma-separated `ALLOWED_EMAILS`
       narrows the Access identities, `GITHUB_REPO` is set in `wrangler.jsonc`,

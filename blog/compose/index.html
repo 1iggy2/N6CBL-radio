@@ -210,7 +210,7 @@
             <label class="composer-wide">
               <span>ADIF / ham log upload</span>
               <input id="activation-log-file" type="file" accept=".adi,.adif,.log,.txt,text/plain,application/octet-stream" required>
-              <span class="composer-help">Commits the selected log file as-is under <code>/logs/</code>. The deploy workflow regenerates <code>data/qso-log.json</code>; notes belong in a separate field-journal post when needed.</span>
+              <span class="composer-help">Commits the selected log file as-is under <code>/logs/</code> through the Access-protected publisher endpoint. The deploy workflow regenerates <code>data/qso-log.json</code>; notes belong in a separate field-journal post when needed.</span>
             </label>
           </div>
         </form>
@@ -489,13 +489,13 @@
         return;
       }
       submitActivationButton.disabled = true;
-      activationCommitState.textContent = 'Encoding log and submitting to /api/log/publish';
+      activationCommitState.textContent = 'Encoding log and submitting to /api/blog/publish';
       setActivationStatus('Submitting', 'todo');
       try {
         var file = payload.log.file;
         delete payload.log.file;
         payload.log.contentBase64 = await readFileBase64(file);
-        var response = await fetch('/api/log/publish', {
+        var response = await fetch('/api/blog/publish', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

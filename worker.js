@@ -19,7 +19,7 @@ export default {
       if (request.method !== 'POST') {
         return json({ error: 'method not allowed' }, 405, { Allow: 'POST' });
       }
-      return publishBlogPost(request, env);
+      return publishOwnerUpload(request, env);
     }
 
     if (url.pathname === '/api/log/publish') {
@@ -53,24 +53,24 @@ export default {
   },
 };
 
+async function publishOwnerUpload(request, env) {
+  const payloadResult = await readPublisherPayload(request, env);
+  if (payloadResult.response) return payloadResult.response;
+
+  if (isLogOnlyPayload(payloadResult.payload)) {
+    return publishActivationLogPayload(payloadResult.payload, env);
+  }
+
+  return publishBlogPostPayload(payloadResult.payload, env);
+}
+
 async function publishBlogPost(request, env) {
-  const authProblem = authorizePublisher(request, env);
-  if (authProblem) return json({ error: authProblem }, 403);
+  const payloadResult = await readPublisherPayload(request, env);
+  if (payloadResult.response) return payloadResult.response;
+  return publishBlogPostPayload(payloadResult.payload, env);
+}
 
-  if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
-    return json({ error: 'GITHUB_TOKEN and GITHUB_REPO are required' }, 500);
-  }
-
-  const length = Number(request.headers.get('content-length') || 0);
-  if (length > MAX_REQUEST_BYTES) return json({ error: 'payload too large' }, 413);
-
-  let payload;
-  try {
-    payload = await request.json();
-  } catch (err) {
-    return json({ error: 'invalid JSON payload' }, 400);
-  }
-
+async function publishBlogPostPayload(payload, env) {
   const photoUploads = normalizePhotoUploads(payload);
   const post = normalizePost(payload, photoUploads, new Date());
   const problems = validatePost(post, photoUploads);
@@ -122,23 +122,12 @@ async function publishBlogPost(request, env) {
 }
 
 async function publishActivationLog(request, env) {
-  const authProblem = authorizePublisher(request, env);
-  if (authProblem) return json({ error: authProblem }, 403);
+  const payloadResult = await readPublisherPayload(request, env);
+  if (payloadResult.response) return payloadResult.response;
+  return publishActivationLogPayload(payloadResult.payload, env);
+}
 
-  if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
-    return json({ error: 'GITHUB_TOKEN and GITHUB_REPO are required' }, 500);
-  }
-
-  const length = Number(request.headers.get('content-length') || 0);
-  if (length > MAX_REQUEST_BYTES) return json({ error: 'payload too large' }, 413);
-
-  let payload;
-  try {
-    payload = await request.json();
-  } catch (err) {
-    return json({ error: 'invalid JSON payload' }, 400);
-  }
-
+async function publishActivationLogPayload(payload, env) {
   const logUpload = normalizeLogUpload(payload.log || payload.file || {});
   const problems = validateLogUpload(logUpload);
   if (problems.length) return json({ error: problems.join('; ') }, 400);
@@ -165,6 +154,30 @@ async function publishActivationLog(request, env) {
     commitUrl: commitResult.htmlUrl,
     logUrl: `/log/#sid-${fileStem(logUpload.fileName)}`,
   }, 201);
+}
+
+async function readPublisherPayload(request, env) {
+  const authProblem = authorizePublisher(request, env);
+  if (authProblem) return { response: json({ error: authProblem }, 403) };
+
+  if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
+    return { response: json({ error: 'GITHUB_TOKEN and GITHUB_REPO are required' }, 500) };
+  }
+
+  const length = Number(request.headers.get('content-length') || 0);
+  if (length > MAX_REQUEST_BYTES) return { response: json({ error: 'payload too large' }, 413) };
+
+  try {
+    return { payload: await request.json() };
+  } catch (err) {
+    return { response: json({ error: 'invalid JSON payload' }, 400) };
+  }
+}
+
+function isLogOnlyPayload(payload) {
+  if (!payload || typeof payload !== 'object') return false;
+  if (!payload.log && !payload.file) return false;
+  return !payload.title && !payload.slug && !payload.body && !payload.photos;
 }
 
 function normalizeLogUpload(log) {
