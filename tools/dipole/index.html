@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Antenna length calculator. Compute resonant wire length for half-wave dipoles, quarter-wave verticals, end-fed half-wave, inverted-V, full-wave loop, folded dipole, and VHF/UHF J-pole from frequency and velocity factor.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/dipole/">
+  <meta property="og:title" content="Antenna Length Calculator &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Resonant wire length for dipoles, verticals, EFHW, inverted-V, loops, folded dipoles, and J-poles &mdash; frequency in, feet and meters out.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Antenna Length Calculator &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/DIPOLE/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/" aria-current="page"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/dipole/ &mdash; antenna length calculator</span>
+        <span>recomputes on every keystroke / vanilla JS</span>
+      </div>
+
+      <section aria-labelledby="dipole-inputs-heading">
+        <div class="section-label split">
+          <span id="dipole-inputs-heading">Inputs</span>
+          <span class="log-count">frequency &middot; velocity factor &middot; wire material</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Frequency (MHz)</span>
+            <input type="number" id="in-freq" value="14.074" min="0.1" max="3000" step="0.001" autocomplete="off">
+          </label>
+          <label>
+            <span>Velocity factor (K)</span>
+            <input type="number" id="in-vf" value="0.95" min="0.5" max="1.0" step="0.001" autocomplete="off">
+          </label>
+          <label>
+            <span>Wire material</span>
+            <select id="in-mat">
+              <option value="0.95" selected>Bare copper (0.95)</option>
+              <option value="0.93">Insulated wire (0.93)</option>
+              <option value="0.95" data-mat="al">Aluminum (0.95)</option>
+            </select>
+          </label>
+          <label>
+            <span>Free-space &lambda;</span>
+            <input type="text" id="in-lambda" value="&mdash;" readonly>
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="dipole-table-heading">
+        <div class="section-label split">
+          <span id="dipole-table-heading">Antenna lengths</span>
+          <span class="log-count">resonant length &middot; ft and m &middot; pruning required</span>
+        </div>
+        <table class="data-table tools-ref-table">
+          <thead>
+            <tr>
+              <th>Antenna</th>
+              <th class="num">Length (ft)</th>
+              <th class="num">Length (m)</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Half-wave dipole</td>
+              <td class="num" id="a-dipole-ft">&mdash;</td>
+              <td class="num" id="a-dipole-m">&mdash;</td>
+              <td>Total wire = &lambda;/2 &times; VF. Each leg <span id="a-dipole-leg">&mdash;</span>.</td>
+            </tr>
+            <tr>
+              <td>Quarter-wave vertical</td>
+              <td class="num" id="a-vert-ft">&mdash;</td>
+              <td class="num" id="a-vert-m">&mdash;</td>
+              <td>Monopole element = &lambda;/4 &times; VF. Radials cut to same length, multiple required.</td>
+            </tr>
+            <tr>
+              <td>End-fed half-wave (EFHW)</td>
+              <td class="num" id="a-efhw-ft">&mdash;</td>
+              <td class="num" id="a-efhw-m">&mdash;</td>
+              <td>Total radiator = &lambda;/2 &times; VF. Fed against a 49:1 / 64:1 unun at one end.</td>
+            </tr>
+            <tr>
+              <td>Inverted-V</td>
+              <td class="num" id="a-vee-ft">&mdash;</td>
+              <td class="num" id="a-vee-m">&mdash;</td>
+              <td>Drooping dipole + ~2% lengthening. Each leg <span id="a-vee-leg">&mdash;</span>.</td>
+            </tr>
+            <tr>
+              <td>Full-wave loop</td>
+              <td class="num" id="a-loop-ft">&mdash;</td>
+              <td class="num" id="a-loop-m">&mdash;</td>
+              <td>Perimeter = &lambda; &times; VF &times; 1.024. Square loop side <span id="a-loop-side">&mdash;</span>.</td>
+            </tr>
+            <tr>
+              <td>Folded dipole</td>
+              <td class="num" id="a-fold-ft">&mdash;</td>
+              <td class="num" id="a-fold-m">&mdash;</td>
+              <td>Total loop length = &lambda;/2 &times; VF. ~300&Omega; feedpoint.</td>
+            </tr>
+            <tr>
+              <td>J-pole radiator (&lambda;/2)</td>
+              <td class="num" id="a-jrad-ft">&mdash;</td>
+              <td class="num" id="a-jrad-m">&mdash;</td>
+              <td>Upper section of a VHF/UHF J-pole.</td>
+            </tr>
+            <tr>
+              <td>J-pole matching stub (&lambda;/4)</td>
+              <td class="num" id="a-jstub-ft">&mdash;</td>
+              <td class="num" id="a-jstub-m">&mdash;</td>
+              <td>Lower parallel stub. Feedpoint ~1/20 of stub from shorted end.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Half-wave dipole &mdash; total length</span>
+            <span class="tools-readout-value mono" id="r-dipole-ft">&mdash;</span>
+            <span class="tools-readout-sub" id="r-dipole-sub">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Quarter-wave vertical</span>
+            <span class="tools-readout-value mono" id="r-vert-ft">&mdash;</span>
+            <span class="tools-readout-sub" id="r-vert-sub">&mdash;</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="dipole-formulas-heading">
+        <div class="section-label split">
+          <span id="dipole-formulas-heading">Quick formulas</span>
+          <span class="log-count">the constants worth memorizing</span>
+        </div>
+        <table class="data-table tools-ref-table">
+          <thead>
+            <tr>
+              <th>Formula</th>
+              <th class="num">Constant</th>
+              <th class="num">Value at f</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Half-wave dipole (ft)</td>
+              <td class="num">468 / f</td>
+              <td class="num" id="f-468">&mdash;</td>
+              <td>Classic K-factor formula. Assumes VF &asymp; 0.95 and accounts for end effect.</td>
+            </tr>
+            <tr>
+              <td>Quarter-wave (ft)</td>
+              <td class="num">234 / f</td>
+              <td class="num" id="f-234">&mdash;</td>
+              <td>Half of 468. Use for verticals and radials.</td>
+            </tr>
+            <tr>
+              <td>Free-space half-wave (m)</td>
+              <td class="num">150 / f</td>
+              <td class="num" id="f-150">&mdash;</td>
+              <td>No end-effect correction. Use as an upper bound.</td>
+            </tr>
+            <tr>
+              <td>Free-space quarter-wave (m)</td>
+              <td class="num">75 / f</td>
+              <td class="num" id="f-75">&mdash;</td>
+              <td>Half of 150. Same caveat.</td>
+            </tr>
+            <tr>
+              <td>Free-space wavelength (m)</td>
+              <td class="num">300 / f</td>
+              <td class="num" id="f-300">&mdash;</td>
+              <td>Strictly c/f with c = 299.792458 m/&micro;s, rounded for headwork.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="dipole-notes-heading">
+        <div class="section-label" id="dipole-notes-heading">Field notes</div>
+        <div class="tools-note">
+          <strong>Velocity factor here is the K-factor</strong> &mdash; the resonance correction for a wire-in-air antenna, not the propagation VF of coax. 0.95 is the workshop default for bare copper wire suspended in clear air; insulated wire drops it to ~0.93 because the dielectric jacket slows the wave along the conductor.
+          <strong>End effect</strong> shortens a real dipole below the free-space half-wavelength by ~5% at HF; that's where 468/f comes from (vs 492/f free-space).
+          <strong>Wire above conductive ground</strong> (rooftop, vehicle, salt water) shortens the resonant length further; expect to trim more than the calculator predicts.
+          <strong>Quarter-wave verticals</strong> are unbalanced &mdash; they need a counterpoise or buried radial system to perform. Without radials the antenna will load but radiate poorly and the apparent resonance will shift.
+          <strong>Loops are tolerant</strong> &mdash; the 1.024 factor is conservative; full-wave loops typically tune over a wider range than dipoles.
+          <strong>Always prune to resonance.</strong> Cut ~3% long, install at final height, sweep with an analyzer, and trim both ends symmetrically until the dip lands in your operating segment.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var C_M_PER_US = 299.792458; // speed of light, m / microsecond -> wavelength (m) = c / f(MHz)
+    var FT_PER_M = 3.28083989501312;
+    var DASH = '—';
+
+    var freqEl = document.getElementById('in-freq');
+    var vfEl = document.getElementById('in-vf');
+    var matEl = document.getElementById('in-mat');
+    var lambdaEl = document.getElementById('in-lambda');
+
+    var userOverrodeVF = false;
+
+    function pad2(n) {
+      var s = String(n);
+      return s.length < 2 ? '0' + s : s;
+    }
+
+    function metersToFeetInches(m) {
+      // returns { ft: number, inches: number, label: 'X ft Y in' }
+      if (!isFinite(m) || m <= 0) {
+        return { ft: NaN, inches: NaN, label: DASH };
+      }
+      var totalFt = m * FT_PER_M;
+      var wholeFt = Math.floor(totalFt);
+      var remFt = totalFt - wholeFt;
+      // round inches to nearest 1/8
+      var inches = remFt * 12;
+      var eighths = Math.round(inches * 8);
+      // carry to feet if eighths == 96 (12 in)
+      if (eighths >= 96) {
+        wholeFt += 1;
+        eighths -= 96;
+      }
+      var whole = Math.floor(eighths / 8);
+      var frac = eighths - whole * 8;
+      var fracStr = '';
+      if (frac !== 0) {
+        // reduce 8ths
+        var num = frac, den = 8;
+        if (num % 4 === 0) { num = num / 4; den = den / 4; }
+        else if (num % 2 === 0) { num = num / 2; den = den / 2; }
+        fracStr = ' ' + num + '/' + den;
+      }
+      var label = wholeFt + ' ft ' + whole + fracStr + ' in';
+      return { ft: totalFt, inches: inches, label: label };
+    }
+
+    function fmtFt(m) {
+      if (!isFinite(m) || m <= 0) return DASH;
+      return (m * FT_PER_M).toFixed(2) + ' ft';
+    }
+
+    function fmtM(m) {
+      if (!isFinite(m) || m <= 0) return DASH;
+      return m.toFixed(3) + ' m';
+    }
+
+    function fmtFtInchSub(m) {
+      var r = metersToFeetInches(m);
+      return r.label;
+    }
+
+    function setText(id, txt) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    }
+
+    function setHtml(id, html) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = html;
+    }
+
+    function readNumber(el) {
+      var v = el.value;
+      if (v === '' || v === null || v === undefined) return NaN;
+      var n = parseFloat(v);
+      return isFinite(n) ? n : NaN;
+    }
+
+    function recompute() {
+      var f = readNumber(freqEl);
+      var vf = readNumber(vfEl);
+
+      // free space wavelength (m)
+      var lambda = isFinite(f) && f > 0 ? (C_M_PER_US / f) : NaN;
+
+      if (isFinite(lambda)) {
+        lambdaEl.value = lambda.toFixed(3) + ' m / ' + (lambda * FT_PER_M).toFixed(2) + ' ft';
+      } else {
+        lambdaEl.value = DASH;
+      }
+
+      var valid = isFinite(lambda) && isFinite(vf) && vf > 0;
+
+      // Antenna lengths (in meters before formatting)
+      var halfWave = valid ? (lambda / 2) * vf : NaN;     // dipole, EFHW, folded
+      var quarter = valid ? (lambda / 4) * vf : NaN;       // vertical, j-pole stub
+      var inv = valid ? halfWave * 1.02 : NaN;             // inverted-V (~2% longer)
+      var loop = valid ? lambda * vf * 1.024 : NaN;        // full-wave loop perimeter
+
+      // Dipole
+      setText('a-dipole-ft', fmtFt(halfWave));
+      setText('a-dipole-m', fmtM(halfWave));
+      setHtml('a-dipole-leg', isFinite(halfWave) ? (fmtFt(halfWave / 2) + ' (' + fmtFtInchSub(halfWave / 2) + ')') : DASH);
+
+      // Vertical
+      setText('a-vert-ft', fmtFt(quarter));
+      setText('a-vert-m', fmtM(quarter));
+
+      // EFHW
+      setText('a-efhw-ft', fmtFt(halfWave));
+      setText('a-efhw-m', fmtM(halfWave));
+
+      // Inverted-V
+      setText('a-vee-ft', fmtFt(inv));
+      setText('a-vee-m', fmtM(inv));
+      setHtml('a-vee-leg', isFinite(inv) ? (fmtFt(inv / 2) + ' (' + fmtFtInchSub(inv / 2) + ')') : DASH);
+
+      // Full-wave loop
+      setText('a-loop-ft', fmtFt(loop));
+      setText('a-loop-m', fmtM(loop));
+      setHtml('a-loop-side', isFinite(loop) ? (fmtFt(loop / 4) + ' per side') : DASH);
+
+      // Folded dipole
+      setText('a-fold-ft', fmtFt(halfWave));
+      setText('a-fold-m', fmtM(halfWave));
+
+      // J-pole radiator (half-wave) and matching stub (quarter-wave)
+      setText('a-jrad-ft', fmtFt(halfWave));
+      setText('a-jrad-m', fmtM(halfWave));
+      setText('a-jstub-ft', fmtFt(quarter));
+      setText('a-jstub-m', fmtFt(quarter) === DASH ? DASH : fmtM(quarter));
+      setText('a-jstub-m', fmtM(quarter));
+
+      // Featured readouts
+      setText('r-dipole-ft', fmtFt(halfWave));
+      setText('r-dipole-sub', isFinite(halfWave) ? (fmtFtInchSub(halfWave) + ' / ' + fmtM(halfWave) + ' / leg ' + fmtFt(halfWave / 2)) : DASH);
+      setText('r-vert-ft', fmtFt(quarter));
+      setText('r-vert-sub', isFinite(quarter) ? (fmtFtInchSub(quarter) + ' / ' + fmtM(quarter)) : DASH);
+
+      // Quick formula values at current f
+      if (isFinite(f) && f > 0) {
+        setText('f-468', (468 / f).toFixed(2) + ' ft');
+        setText('f-234', (234 / f).toFixed(2) + ' ft');
+        setText('f-150', (150 / f).toFixed(3) + ' m');
+        setText('f-75', (75 / f).toFixed(3) + ' m');
+        setText('f-300', (300 / f).toFixed(3) + ' m');
+      } else {
+        setText('f-468', DASH);
+        setText('f-234', DASH);
+        setText('f-150', DASH);
+        setText('f-75', DASH);
+        setText('f-300', DASH);
+      }
+    }
+
+    // Input handlers
+    freqEl.addEventListener('input', recompute);
+
+    vfEl.addEventListener('input', function () {
+      if (vfEl.value === '') {
+        userOverrodeVF = false;
+      } else {
+        userOverrodeVF = true;
+      }
+      recompute();
+    });
+
+    matEl.addEventListener('change', function () {
+      if (!userOverrodeVF) {
+        vfEl.value = matEl.value;
+      }
+      recompute();
+    });
+
+    recompute();
+  }());
+  </script>
+</body>
+</html>

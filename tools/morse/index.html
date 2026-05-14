@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Koch-method Morse code trainer with Farnsworth timing, Web Audio tone generation, session scoring, and a text-to-Morse sender. CW practice for amateur radio.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/morse/">
+  <meta property="og:title" content="Morse / CW Trainer &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Koch-method CW trainer with Farnsworth spacing, configurable tone and speed, session scoring, and a text-to-Morse sender. Web Audio &mdash; no samples loaded.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Morse / CW Trainer &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/MORSE/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/" aria-current="page"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/morse/ &mdash; Koch CW trainer</span>
+        <span>Web Audio &middot; Farnsworth timing &middot; no external samples</span>
+      </div>
+
+      <section aria-labelledby="morse-settings-heading">
+        <div class="section-label split">
+          <span id="morse-settings-heading">Trainer settings</span>
+          <span class="log-count">Koch method &middot; Farnsworth spacing</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Character speed (WPM)</span>
+            <input type="number" id="opt-char-wpm" min="5" max="40" step="1" value="18" autocomplete="off">
+          </label>
+          <label>
+            <span>Effective speed (Farnsworth WPM)</span>
+            <input type="number" id="opt-eff-wpm" min="5" max="40" step="1" value="13" autocomplete="off">
+          </label>
+          <label>
+            <span>Tone frequency (Hz)</span>
+            <input type="number" id="opt-freq" min="400" max="1000" step="10" value="600" autocomplete="off">
+          </label>
+          <label>
+            <span>Koch lesson level (1&ndash;43)</span>
+            <input type="number" id="opt-level" min="1" max="43" step="1" value="2" autocomplete="off">
+          </label>
+          <label>
+            <span>Session length (groups)</span>
+            <input type="number" id="opt-session-len" min="5" max="200" step="1" value="25" autocomplete="off">
+          </label>
+          <label>
+            <span>Group length (characters)</span>
+            <select id="opt-group-len">
+              <option value="1">1</option>
+              <option value="3">3</option>
+              <option value="5" selected>5</option>
+              <option value="7">7</option>
+            </select>
+          </label>
+          <div class="tools-field">
+            <span>Active character set</span>
+            <div id="opt-charset-readout" style="font-family: var(--mono); font-size: 0.85rem; padding: 6px 0; letter-spacing: 0.08em;">K M</div>
+          </div>
+          <div class="tools-field">
+            <span>Dot duration (ms)</span>
+            <div id="opt-dot-readout" style="font-family: var(--mono); font-size: 0.85rem; padding: 6px 0;">66.7</div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="morse-controls-heading">
+        <div class="section-label" id="morse-controls-heading">Trainer controls</div>
+        <div class="tools-controls">
+          <button class="tools-button primary" id="btn-start" type="button">Start session</button>
+          <button class="tools-button" id="btn-stop" type="button" disabled>Stop</button>
+          <button class="tools-button" id="btn-replay" type="button" disabled>Replay</button>
+          <span class="tools-controls-spacer"></span>
+          <span id="session-status" style="font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;">idle</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="morse-practice-heading">
+        <div class="section-label split">
+          <span id="morse-practice-heading">Practice transcript</span>
+          <span class="log-count">sent text revealed on stop / end</span>
+        </div>
+        <div class="tools-morse-display" id="practice-display"><span class="target">Press Start session to begin. Sent text will appear here after Stop or when the session ends.</span></div>
+        <div class="tools-form">
+          <label class="tools-wide">
+            <span>Your copy (type what you hear)</span>
+            <textarea id="copy-input" rows="3" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Type characters as you hear them. Spaces are optional &mdash; we tolerate group separators."></textarea>
+          </label>
+        </div>
+        <div class="tools-result-grid cols-6" id="score-grid" hidden>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Chars sent</span>
+            <span class="tools-readout-value mono" id="score-sent">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Chars typed</span>
+            <span class="tools-readout-value mono" id="score-typed">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Correct</span>
+            <span class="tools-readout-value mono" id="score-correct">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Accuracy</span>
+            <span class="tools-readout-value mono" id="score-acc">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Error rate</span>
+            <span class="tools-readout-value mono" id="score-err">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Effective WPM</span>
+            <span class="tools-readout-value mono" id="score-wpm">&mdash;</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="morse-sender-heading">
+        <div class="section-label split">
+          <span id="morse-sender-heading">Text-to-Morse sender</span>
+          <span class="log-count">live encoding &middot; Web Audio playback</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-wide">
+            <span>Plain text</span>
+            <textarea id="sender-input" rows="2" autocomplete="off" spellcheck="false" placeholder="Type any text. Letters, digits, and common punctuation will be encoded as Morse below.">CQ CQ CQ DE N6CBL</textarea>
+          </label>
+        </div>
+        <div class="tools-controls">
+          <button class="tools-button primary" id="btn-send-play" type="button">Play</button>
+          <button class="tools-button" id="btn-send-stop" type="button" disabled>Stop</button>
+          <span class="tools-controls-spacer"></span>
+          <span id="sender-status" style="font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;">idle</span>
+        </div>
+        <div class="tools-morse-display" id="sender-display"><span class="target">Morse encoding will appear here.</span></div>
+      </section>
+
+      <section aria-labelledby="morse-ref-heading">
+        <div class="section-label split">
+          <span id="morse-ref-heading">Koch character order reference</span>
+          <span class="log-count">levels 1&ndash;43 &middot; current level highlighted</span>
+        </div>
+        <table class="tools-ref-table" id="koch-table">
+          <thead>
+            <tr><th>Level</th><th>Char</th><th>Morse code</th></tr>
+          </thead>
+          <tbody id="koch-tbody"></tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="morse-notes-heading">
+        <div class="section-label" id="morse-notes-heading">Method notes</div>
+        <div class="tools-note">
+          <strong>Koch method.</strong> Introduce one new character at a time at the full target character speed; hold at each level until copy accuracy reaches roughly 90% before adding the next character. The character order above is the standard Koch sequence used by most modern CW courses.
+          <strong>Farnsworth spacing.</strong> Each character is sent at the full character WPM; the gaps between characters and between words are stretched so the overall effective WPM is slower. This trains the ear on real character rhythm from day one, without overwhelming the operator with high overall throughput.
+          <strong>Tone.</strong> 600&nbsp;Hz is the conventional amateur CW sidetone; sit somewhere between 500 and 800&nbsp;Hz depending on what your ear prefers.
+          <strong>Audio.</strong> All tones are synthesized live by the browser via the <code>AudioContext</code> Web Audio API &mdash; no external sound files are downloaded. A short 5&nbsp;ms envelope on each element keeps key-clicks out of the signal.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var MORSE = {
+      'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....',
+      'I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.',
+      'Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-',
+      'Y':'-.--','Z':'--..',
+      '0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....',
+      '6':'-....','7':'--...','8':'---..','9':'----.',
+      '.':'.-.-.-',',':'--..--','?':'..--..','/':'-..-.','=':'-...-','+':'.-.-.',
+      '-':'-....-','(':'-.--.',')':'-.--.-','\'':'.----.','"':'.-..-.',':':'---...',
+      ';':'-.-.-.','!':'-.-.--','@':'.--.-.'
+    };
+
+    // Standard Koch character order (43 characters).
+    var KOCH_ORDER = ['K','M','R','S','U','A','P','T','L','O','W','I','.','N','J','E','F','0','Y',',','V','G','5','/','Q','9','Z','H','3','8','B','?','4','2','7','C','1','D','6','X'];
+    // Spec lists 40; we accept up to 43. Fill any remaining standard letters not yet covered.
+    // The spec lists: K M R S U A P T L O W I . N J E F 0 Y , V G 5 / Q 9 Z H 3 8 B ? 4 2 7 C 1 D 6 X
+    // Count = 40. To get to 43 add common holdouts.
+    (function () {
+      var have = {};
+      var i;
+      for (i = 0; i < KOCH_ORDER.length; i++) have[KOCH_ORDER[i]] = true;
+      var extras = ['='];
+      for (i = 0; i < extras.length; i++) {
+        if (!have[extras[i]]) { KOCH_ORDER.push(extras[i]); have[extras[i]] = true; }
+      }
+      // Fill from remaining alpha to reach 43 if still short.
+      var fillers = ['A','B','C','D','E','F','G','H','I','J','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+      for (i = 0; i < fillers.length && KOCH_ORDER.length < 43; i++) {
+        if (!have[fillers[i]]) { KOCH_ORDER.push(fillers[i]); have[fillers[i]] = true; }
+      }
+    }());
+
+    function $(id) { return document.getElementById(id); }
+
+    function clamp(n, lo, hi) { return n < lo ? lo : (n > hi ? hi : n); }
+
+    function getSettings() {
+      var charWpm = clamp(parseInt($('opt-char-wpm').value, 10) || 18, 5, 40);
+      var effWpm = clamp(parseInt($('opt-eff-wpm').value, 10) || 13, 5, 40);
+      if (effWpm > charWpm) effWpm = charWpm;
+      var freq = clamp(parseInt($('opt-freq').value, 10) || 600, 400, 1000);
+      var level = clamp(parseInt($('opt-level').value, 10) || 2, 1, KOCH_ORDER.length);
+      var sessionLen = clamp(parseInt($('opt-session-len').value, 10) || 25, 5, 200);
+      var groupLen = parseInt($('opt-group-len').value, 10) || 5;
+      return {
+        charWpm: charWpm,
+        effWpm: effWpm,
+        freq: freq,
+        level: level,
+        sessionLen: sessionLen,
+        groupLen: groupLen
+      };
+    }
+
+    function charSet(level) { return KOCH_ORDER.slice(0, level); }
+
+    function dotSeconds(charWpm) { return 1.2 / charWpm; }
+    function farnsworthGapDots(charWpm, effWpm) {
+      // Inter-character gap (in equivalent char-WPM dot units) so overall rate matches effWpm.
+      // Standard PARIS approximation: target = (60 * charWpm / effWpm - 31.25) / 19
+      // Resulting in inter-char = 3*F and inter-word = 7*F where F = charWpm / effWpm.
+      return charWpm / effWpm;
+    }
+
+    function updateReadouts() {
+      var s = getSettings();
+      var set = charSet(s.level).join(' ');
+      $('opt-charset-readout').textContent = set;
+      $('opt-dot-readout').textContent = (dotSeconds(s.charWpm) * 1000).toFixed(1);
+    }
+
+    function buildKochTable() {
+      var tbody = $('koch-tbody');
+      var rows = '';
+      var s = getSettings();
+      for (var i = 0; i < KOCH_ORDER.length; i++) {
+        var ch = KOCH_ORDER[i];
+        var code = MORSE[ch] || '';
+        var lvl = i + 1;
+        var active = lvl <= s.level;
+        var style = active ? '' : ' style="color: var(--muted);"';
+        rows += '<tr' + style + '>' +
+          '<td>' + lvl + (lvl === s.level ? ' &larr;' : '') + '</td>' +
+          '<td style="font-family: var(--mono); font-weight: bold;">' + ch + '</td>' +
+          '<td style="font-family: var(--mono); letter-spacing: 0.15em;">' + code + '</td>' +
+          '</tr>';
+      }
+      tbody.innerHTML = rows;
+    }
+
+    // ── Audio engine ────────────────────────────────────────────────────
+    var audioCtx = null;
+    var masterGain = null;
+    var activeOscillators = [];
+    var scheduleStopAt = 0;
+    var sessionTimer = null;
+    var senderTimer = null;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        audioCtx = new AC();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.25;
+        masterGain.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === 'suspended' && audioCtx.resume) {
+        try { audioCtx.resume(); } catch (e) { /* ignore */ }
+      }
+      return audioCtx;
+    }
+
+    function killAudio() {
+      var i;
+      for (i = 0; i < activeOscillators.length; i++) {
+        try { activeOscillators[i].stop(); } catch (e) { /* ignore */ }
+        try { activeOscillators[i].disconnect(); } catch (e) { /* ignore */ }
+      }
+      activeOscillators = [];
+      if (sessionTimer) { clearTimeout(sessionTimer); sessionTimer = null; }
+      if (senderTimer) { clearTimeout(senderTimer); senderTimer = null; }
+      if (masterGain && audioCtx) {
+        try {
+          masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+          masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+          masterGain.gain.linearRampToValueAtTime(0.25, audioCtx.currentTime + 0.05);
+        } catch (e) { /* ignore */ }
+      }
+    }
+
+    function scheduleElement(startSec, durSec, freq) {
+      if (!audioCtx) return;
+      var osc = audioCtx.createOscillator();
+      var env = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      var t0 = audioCtx.currentTime + startSec;
+      var ramp = 0.005;
+      env.gain.setValueAtTime(0, t0);
+      env.gain.linearRampToValueAtTime(1, t0 + ramp);
+      env.gain.setValueAtTime(1, t0 + durSec - ramp);
+      env.gain.linearRampToValueAtTime(0, t0 + durSec);
+      osc.connect(env);
+      env.connect(masterGain);
+      osc.start(t0);
+      osc.stop(t0 + durSec + 0.01);
+      activeOscillators.push(osc);
+    }
+
+    // Encode a string into a flat schedule of [startSec, durSec] tone bursts
+    // plus an overall total duration. Returns { events: [...], total: sec }.
+    function buildSchedule(text, settings) {
+      var dot = dotSeconds(settings.charWpm);
+      var F = farnsworthGapDots(settings.charWpm, settings.effWpm);
+      var interCharGap = 3 * dot * F;
+      var interWordGap = 7 * dot * F;
+      var t = 0;
+      var events = [];
+      var i, j, ch, code, sym, sym2;
+      var upper = text.toUpperCase();
+      for (i = 0; i < upper.length; i++) {
+        ch = upper.charAt(i);
+        if (ch === ' ' || ch === '\n' || ch === '\t') {
+          t += interWordGap;
+          continue;
+        }
+        code = MORSE[ch];
+        if (!code) {
+          // skip unknown chars but consume a small gap so timing stays musical
+          t += interCharGap;
+          continue;
+        }
+        for (j = 0; j < code.length; j++) {
+          sym = code.charAt(j);
+          var dur = (sym === '-') ? 3 * dot : dot;
+          events.push({ start: t, dur: dur, freq: settings.freq });
+          t += dur;
+          if (j < code.length - 1) t += dot; // intra-character gap
+        }
+        // inter-character gap (only if there's another character ahead that's not a space)
+        // Always add it; spaces add a delta on top for inter-word spacing.
+        if (i < upper.length - 1) {
+          var next = upper.charAt(i + 1);
+          if (next === ' ' || next === '\n' || next === '\t') {
+            // do not add inter-char gap; the space adds inter-word gap.
+          } else {
+            t += interCharGap;
+          }
+        }
+      }
+      return { events: events, total: t };
+    }
+
+    function playSchedule(schedule, onDone) {
+      var i;
+      ensureAudio();
+      if (!audioCtx) return;
+      for (i = 0; i < schedule.events.length; i++) {
+        var ev = schedule.events[i];
+        scheduleElement(ev.start, ev.dur, ev.freq);
+      }
+      scheduleStopAt = schedule.total;
+      if (onDone) {
+        sessionTimer = setTimeout(onDone, Math.ceil(schedule.total * 1000) + 50);
+      }
+    }
+
+    // ── Session ─────────────────────────────────────────────────────────
+    var session = {
+      active: false,
+      text: '',
+      groups: [],
+      settings: null
+    };
+
+    function generateSession(settings) {
+      var set = charSet(settings.level);
+      var groups = [];
+      var i, j;
+      for (i = 0; i < settings.sessionLen; i++) {
+        var g = '';
+        for (j = 0; j < settings.groupLen; j++) {
+          g += set[Math.floor(Math.random() * set.length)];
+        }
+        groups.push(g);
+      }
+      return groups;
+    }
+
+    function setStatus(msg) {
+      $('session-status').textContent = msg;
+    }
+
+    function startSession() {
+      stopSession(true); // clear any in-flight state
+      var settings = getSettings();
+      var groups = generateSession(settings);
+      session.active = true;
+      session.groups = groups;
+      session.text = groups.join(' ');
+      session.settings = settings;
+      $('copy-input').value = '';
+      $('practice-display').innerHTML = '<span class="target">Listening &mdash; type what you hear. Sent text will be revealed at end.</span>';
+      $('score-grid').hidden = true;
+      $('btn-start').disabled = true;
+      $('btn-stop').disabled = false;
+      $('btn-replay').disabled = true;
+      setStatus('playing &middot; ' + groups.length + ' groups');
+      var schedule = buildSchedule(session.text, settings);
+      playSchedule(schedule, function () {
+        if (session.active) finishSession();
+      });
+      $('copy-input').focus();
+    }
+
+    function stopSession(silent) {
+      killAudio();
+      $('btn-start').disabled = false;
+      $('btn-stop').disabled = true;
+      if (session.text) $('btn-replay').disabled = false;
+      if (!silent && session.active) {
+        session.active = false;
+        setStatus('stopped');
+        scoreSession();
+      } else if (silent) {
+        session.active = false;
+      }
+    }
+
+    function finishSession() {
+      session.active = false;
+      $('btn-start').disabled = false;
+      $('btn-stop').disabled = true;
+      $('btn-replay').disabled = false;
+      setStatus('complete');
+      scoreSession();
+    }
+
+    function replaySession() {
+      if (!session.text) return;
+      stopSession(true);
+      session.active = true;
+      $('btn-start').disabled = true;
+      $('btn-stop').disabled = false;
+      $('btn-replay').disabled = true;
+      $('score-grid').hidden = true;
+      $('practice-display').innerHTML = '<span class="target">Replaying &mdash; type what you hear.</span>';
+      setStatus('replay');
+      var schedule = buildSchedule(session.text, session.settings || getSettings());
+      playSchedule(schedule, function () {
+        if (session.active) finishSession();
+      });
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function scoreSession() {
+      var sent = session.text;
+      var typedRaw = $('copy-input').value || '';
+      // Compare case-insensitively, whitespace-tolerant: strip whitespace from both sides.
+      var sentChars = sent.replace(/\s+/g, '').toUpperCase();
+      var typedChars = typedRaw.replace(/\s+/g, '').toUpperCase();
+      var correct = 0;
+      var i;
+      var n = Math.max(sentChars.length, typedChars.length);
+      var html = '';
+      // Display the sent text with per-character coloring vs. typed.
+      // Use the original sent string (with spaces preserved) and a separate typed pointer
+      // over non-whitespace characters.
+      var typedPtr = 0;
+      for (i = 0; i < sent.length; i++) {
+        var sc = sent.charAt(i);
+        if (sc === ' ') { html += ' '; continue; }
+        var tc = typedChars.charAt(typedPtr);
+        typedPtr++;
+        if (!tc) {
+          html += '<span class="target">' + escapeHtml(sc) + '</span>';
+        } else if (tc === sc) {
+          html += '<span class="ok">' + escapeHtml(sc) + '</span>';
+          correct++;
+        } else {
+          html += '<span class="err">' + escapeHtml(sc) + '</span>';
+        }
+      }
+      // Append any extra typed characters in error color.
+      if (typedChars.length > sentChars.length) {
+        html += ' <span class="err">[extra: ' + escapeHtml(typedChars.slice(sentChars.length)) + ']</span>';
+      }
+      $('practice-display').innerHTML = html;
+
+      var acc = sentChars.length ? (correct / sentChars.length) : 0;
+      var err = sentChars.length ? (1 - acc) : 0;
+      $('score-sent').textContent = sentChars.length;
+      $('score-typed').textContent = typedChars.length;
+      $('score-correct').textContent = correct;
+      $('score-acc').textContent = (acc * 100).toFixed(1) + '%';
+      $('score-err').textContent = (err * 100).toFixed(1) + '%';
+      $('score-wpm').textContent = (session.settings ? session.settings.effWpm : getSettings().effWpm) + ' wpm';
+      $('score-grid').hidden = false;
+      n = n; // silence linters
+    }
+
+    // ── Sender ──────────────────────────────────────────────────────────
+    function encodeForDisplay(text) {
+      var upper = text.toUpperCase();
+      var out = [];
+      var i, ch, code;
+      for (i = 0; i < upper.length; i++) {
+        ch = upper.charAt(i);
+        if (ch === ' ' || ch === '\n' || ch === '\t') {
+          out.push('/');
+          continue;
+        }
+        code = MORSE[ch];
+        out.push(code ? code : '?');
+      }
+      return out.join(' ');
+    }
+
+    function updateSenderDisplay() {
+      var txt = $('sender-input').value || '';
+      var encoded = encodeForDisplay(txt);
+      if (!encoded) {
+        $('sender-display').innerHTML = '<span class="target">Morse encoding will appear here.</span>';
+      } else {
+        $('sender-display').textContent = encoded;
+      }
+    }
+
+    function playSender() {
+      var txt = $('sender-input').value || '';
+      if (!txt) return;
+      killAudio();
+      ensureAudio();
+      var settings = getSettings();
+      var schedule = buildSchedule(txt, settings);
+      $('btn-send-play').disabled = true;
+      $('btn-send-stop').disabled = false;
+      $('sender-status').textContent = 'playing &middot; ' + schedule.total.toFixed(1) + 's';
+      playSchedule(schedule, function () {
+        $('btn-send-play').disabled = false;
+        $('btn-send-stop').disabled = true;
+        $('sender-status').textContent = 'done';
+      });
+    }
+
+    function stopSender() {
+      killAudio();
+      $('btn-send-play').disabled = false;
+      $('btn-send-stop').disabled = true;
+      $('sender-status').textContent = 'stopped';
+    }
+
+    // ── Wire-up ─────────────────────────────────────────────────────────
+    function init() {
+      // Settings change handlers
+      var settingIds = ['opt-char-wpm', 'opt-eff-wpm', 'opt-freq', 'opt-level', 'opt-session-len', 'opt-group-len'];
+      var i;
+      for (i = 0; i < settingIds.length; i++) {
+        (function (id) {
+          var el = $(id);
+          if (el) el.addEventListener('input', function () { updateReadouts(); buildKochTable(); });
+          if (el) el.addEventListener('change', function () { updateReadouts(); buildKochTable(); });
+        }(settingIds[i]));
+      }
+
+      $('btn-start').addEventListener('click', startSession);
+      $('btn-stop').addEventListener('click', function () { stopSession(false); });
+      $('btn-replay').addEventListener('click', replaySession);
+
+      $('btn-send-play').addEventListener('click', playSender);
+      $('btn-send-stop').addEventListener('click', stopSender);
+      $('sender-input').addEventListener('input', updateSenderDisplay);
+
+      updateReadouts();
+      buildKochTable();
+      updateSenderDisplay();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  }());
+  </script>
+</body>
+</html>

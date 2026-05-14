@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="L-network impedance matching calculator. Computes series and shunt reactive element values (L and C) for low-pass and high-pass topologies given source impedance, load impedance, and frequency.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/match/">
+  <meta property="og:title" content="L-Network Match &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="L-network impedance matching calculator &mdash; solves low-pass and high-pass topologies for real source and load impedances at any HF frequency.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>L-Network Match &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/MATCH/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/" aria-current="page"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/match/ &mdash; L-network impedance matcher</span>
+        <span>two-element lumped match / lossless</span>
+      </div>
+
+      <section aria-labelledby="match-inputs-heading">
+        <div class="section-label split">
+          <span id="match-inputs-heading">Inputs</span>
+          <span class="log-count">live recalculation on every change</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Source Rs (&Omega;)</span>
+            <input type="number" id="in-rs" value="50" min="0.1" step="any" autocomplete="off">
+          </label>
+          <label>
+            <span>Load Rl (&Omega;)</span>
+            <input type="number" id="in-rl" value="200" min="0.1" step="any" autocomplete="off">
+          </label>
+          <label>
+            <span>Frequency (MHz)</span>
+            <input type="number" id="in-freq" value="14.074" min="0.001" step="any" autocomplete="off">
+          </label>
+          <label>
+            <span>Impedance ratio</span>
+            <input type="text" id="in-ratio" value="&mdash;" readonly>
+          </label>
+        </div>
+        <div class="tools-note">
+          Both impedances are treated as purely real (resistive). For a complex load <strong>Z<sub>L</sub> = R<sub>L</sub> &plusmn; jX<sub>L</sub></strong>, cancel the reactance first &mdash; either subtract it externally, or absorb it into the series element of the matching network by adjusting its reactance to compensate. The L-network is lossless in theory; real-world inductor and capacitor Q sets bandwidth and insertion loss.
+        </div>
+      </section>
+
+      <section aria-labelledby="match-q-heading">
+        <div class="section-label split">
+          <span id="match-q-heading">Q factor &middot; topology direction</span>
+          <span class="log-count">Q = &radic;(R<sub>high</sub> / R<sub>low</sub> &minus; 1)</span>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Loaded Q</span>
+            <span class="tools-readout-value" id="r-q">&mdash;</span>
+            <span class="tools-readout-sub">network Q (dimensionless)</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Shunt side</span>
+            <span class="tools-readout-value" id="r-side">&mdash;</span>
+            <span class="tools-readout-sub" id="r-side-sub">shunt sits on higher-Z side</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">3 dB bandwidth</span>
+            <span class="tools-readout-value mono" id="r-bw">&mdash;</span>
+            <span class="tools-readout-sub">BW &asymp; f / Q (MHz)</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="match-lp-heading">
+        <div class="section-label split">
+          <span id="match-lp-heading">Low-pass topology &mdash; shunt C, series L</span>
+          <span class="log-count">passes DC / attenuates harmonics</span>
+        </div>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Series inductor L</span>
+            <span class="tools-readout-value mono" id="r-lp-l">&mdash;</span>
+            <span class="tools-readout-sub" id="r-lp-l-sub">X<sub>L</sub> = Q &middot; R<sub>low</sub></span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Shunt capacitor C</span>
+            <span class="tools-readout-value mono" id="r-lp-c">&mdash;</span>
+            <span class="tools-readout-sub" id="r-lp-c-sub">X<sub>C</sub> = R<sub>high</sub> / Q</span>
+          </div>
+        </div>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Series X<sub>L</sub> (&Omega;)</span>
+            <span class="tools-readout-value mono" id="r-lp-xl">&mdash;</span>
+            <span class="tools-readout-sub">reactance at f</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Shunt X<sub>C</sub> (&Omega;)</span>
+            <span class="tools-readout-value mono" id="r-lp-xc">&mdash;</span>
+            <span class="tools-readout-sub">reactance at f</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="match-hp-heading">
+        <div class="section-label split">
+          <span id="match-hp-heading">High-pass topology &mdash; shunt L, series C</span>
+          <span class="log-count">blocks DC / attenuates subharmonics</span>
+        </div>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Series capacitor C</span>
+            <span class="tools-readout-value mono" id="r-hp-c">&mdash;</span>
+            <span class="tools-readout-sub" id="r-hp-c-sub">X<sub>C</sub> = Q &middot; R<sub>low</sub></span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Shunt inductor L</span>
+            <span class="tools-readout-value mono" id="r-hp-l">&mdash;</span>
+            <span class="tools-readout-sub" id="r-hp-l-sub">X<sub>L</sub> = R<sub>high</sub> / Q</span>
+          </div>
+        </div>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Series X<sub>C</sub> (&Omega;)</span>
+            <span class="tools-readout-value mono" id="r-hp-xc">&mdash;</span>
+            <span class="tools-readout-sub">reactance at f</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Shunt X<sub>L</sub> (&Omega;)</span>
+            <span class="tools-readout-value mono" id="r-hp-xl">&mdash;</span>
+            <span class="tools-readout-sub">reactance at f</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="match-diagram-heading">
+        <div class="section-label split">
+          <span id="match-diagram-heading">Topology diagrams</span>
+          <span class="log-count" id="diagram-side">shunt orientation depends on which Z is higher</span>
+        </div>
+        <table class="tools-ref-table">
+          <thead>
+            <tr><th>Topology</th><th>Circuit (signal flows Rs &rarr; Rl)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>low-pass</td>
+              <td><pre id="diagram-lp" style="margin:0;font-family:var(--mono);font-size:0.78rem;line-height:1.3;white-space:pre;">&mdash;</pre></td>
+            </tr>
+            <tr>
+              <td>high-pass</td>
+              <td><pre id="diagram-hp" style="margin:0;font-family:var(--mono);font-size:0.78rem;line-height:1.3;white-space:pre;">&mdash;</pre></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="match-notes-heading">
+        <div class="section-label" id="match-notes-heading">Practical implementation</div>
+        <div class="tools-note">
+          <strong>Round to standard values.</strong> The capacitor and inductor values printed above are ideal. Pick the nearest available part (E12 capacitor series, standard inductor windings or a measured air-core coil), re-compute the resulting reactance at the operating frequency, and verify SWR on a vector network analyzer or antenna analyzer.
+          <strong>Complex loads.</strong> This calculator assumes purely real R<sub>s</sub> and R<sub>l</sub>. For a load with reactance jX<sub>L</sub>, either tune jX<sub>L</sub> out first (series capacitor for an inductive load, series inductor for a capacitive load) or absorb the load reactance into the matching network's series element by adjusting its reactance &mdash; subtract jX<sub>L</sub> from the computed X<sub>s</sub>.
+          <strong>Component selection.</strong> At HF, air-wound or T-series powdered-iron toroid inductors are typical; silver-mica, NP0/C0G ceramic, or vacuum variable capacitors handle the RF voltage. Component Q drives bandwidth and insertion loss &mdash; high-Q parts give narrow bandwidth and low loss, low-Q parts give wider bandwidth at the cost of dissipation.
+          <strong>Bandwidth.</strong> The 3 dB bandwidth shown above is the loaded-Q approximation BW &asymp; f / Q; expect a high-ratio match (Q &gt; 5) to be noticeably narrow, often less than a single amateur band wide.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var EM_DASH = '—';
+    var TWO_PI = 2 * Math.PI;
+
+    function $(id) { return document.getElementById(id); }
+
+    function fmt(n, digits) {
+      if (!isFinite(n)) return EM_DASH;
+      return n.toFixed(digits);
+    }
+
+    function fmtCap(farads) {
+      // Show pF normally; switch to nF when >= 1000 pF.
+      if (!isFinite(farads) || farads <= 0) return EM_DASH;
+      var pF = farads * 1e12;
+      if (pF >= 1000) {
+        return (pF / 1000).toFixed(2) + ' nF';
+      }
+      return pF.toFixed(1) + ' pF';
+    }
+
+    function fmtInd(henries) {
+      if (!isFinite(henries) || henries <= 0) return EM_DASH;
+      var uH = henries * 1e6;
+      return uH.toFixed(2) + ' µH';
+    }
+
+    function clearAll() {
+      var ids = [
+        'r-q', 'r-side', 'r-bw',
+        'r-lp-l', 'r-lp-c', 'r-lp-xl', 'r-lp-xc',
+        'r-hp-c', 'r-hp-l', 'r-hp-xc', 'r-hp-xl'
+      ];
+      for (var i = 0; i < ids.length; i++) {
+        $(ids[i]).textContent = EM_DASH;
+      }
+      $('in-ratio').value = EM_DASH;
+      $('r-side-sub').textContent = 'shunt sits on higher-Z side';
+      $('diagram-lp').textContent = EM_DASH;
+      $('diagram-hp').textContent = EM_DASH;
+      $('diagram-side').textContent = 'shunt orientation depends on which Z is higher';
+    }
+
+    function diagramLP(shuntOnSource) {
+      // Low-pass: series L between source and load; shunt C to ground on
+      // the higher-Z side.
+      if (shuntOnSource) {
+        return [
+          '  Rs +--+--L----+ Rl',
+          '       |        ',
+          '       C        ',
+          '       |        ',
+          '      GND       ',
+          '',
+          '(shunt C on Rs side; Rs > Rl)'
+        ].join('\n');
+      }
+      return [
+        '  Rs ----L--+--+ Rl',
+        '            |    ',
+        '            C    ',
+        '            |    ',
+        '           GND   ',
+        '',
+        '(shunt C on Rl side; Rl > Rs)'
+      ].join('\n');
+    }
+
+    function diagramHP(shuntOnSource) {
+      // High-pass: series C between source and load; shunt L to ground on
+      // the higher-Z side.
+      if (shuntOnSource) {
+        return [
+          '  Rs +--+--C----+ Rl',
+          '       |        ',
+          '       L        ',
+          '       |        ',
+          '      GND       ',
+          '',
+          '(shunt L on Rs side; Rs > Rl)'
+        ].join('\n');
+      }
+      return [
+        '  Rs ----C--+--+ Rl',
+        '            |    ',
+        '            L    ',
+        '            |    ',
+        '           GND   ',
+        '',
+        '(shunt L on Rl side; Rl > Rs)'
+      ].join('\n');
+    }
+
+    function recompute() {
+      var rs = parseFloat($('in-rs').value);
+      var rl = parseFloat($('in-rl').value);
+      var fMHz = parseFloat($('in-freq').value);
+
+      if (!isFinite(rs) || rs <= 0 || !isFinite(rl) || rl <= 0 || !isFinite(fMHz) || fMHz <= 0) {
+        clearAll();
+        return;
+      }
+
+      if (rs === rl) {
+        // Degenerate: already matched. Q = 0, no network needed.
+        $('in-ratio').value = '1.00 : 1 (already matched)';
+        $('r-q').textContent = '0.00';
+        $('r-side').textContent = 'n/a';
+        $('r-side-sub').textContent = 'Rs = Rl, no L-network required';
+        $('r-bw').textContent = EM_DASH;
+        var ids2 = ['r-lp-l', 'r-lp-c', 'r-lp-xl', 'r-lp-xc', 'r-hp-c', 'r-hp-l', 'r-hp-xc', 'r-hp-xl'];
+        for (var j = 0; j < ids2.length; j++) $(ids2[j]).textContent = EM_DASH;
+        $('diagram-lp').textContent = '(no network needed: Rs = Rl)';
+        $('diagram-hp').textContent = '(no network needed: Rs = Rl)';
+        $('diagram-side').textContent = 'source = load, network is a pass-through';
+        return;
+      }
+
+      var rHigh = Math.max(rs, rl);
+      var rLow = Math.min(rs, rl);
+      var shuntOnSource = rs > rl;
+
+      var ratio = rHigh / rLow;
+      $('in-ratio').value = ratio.toFixed(2) + ' : 1 (' + (shuntOnSource ? 'step-down' : 'step-up') + ')';
+
+      var q = Math.sqrt(ratio - 1);
+      var f = fMHz * 1e6; // Hz
+      var omega = TWO_PI * f;
+
+      // Series reactance (magnitude) and shunt reactance (magnitude).
+      var Xs = q * rLow;     // series element reactance
+      var Xp = rHigh / q;    // shunt element reactance
+
+      // Low-pass: series L, shunt C
+      var lpL = Xs / omega;          // henries
+      var lpC = 1 / (omega * Xp);    // farads
+
+      // High-pass: series C, shunt L
+      var hpC = 1 / (omega * Xs);    // farads
+      var hpL = Xp / omega;          // henries
+
+      var bw = fMHz / q; // MHz
+
+      $('r-q').textContent = q.toFixed(2);
+      $('r-side').textContent = shuntOnSource ? 'Rs side' : 'Rl side';
+      $('r-side-sub').textContent = shuntOnSource
+        ? 'Rs > Rl, shunt element on source side'
+        : 'Rl > Rs, shunt element on load side';
+      $('r-bw').textContent = bw.toFixed(2) + ' MHz';
+
+      $('r-lp-l').textContent = fmtInd(lpL);
+      $('r-lp-c').textContent = fmtCap(lpC);
+      $('r-lp-xl').textContent = Xs.toFixed(2);
+      $('r-lp-xc').textContent = Xp.toFixed(2);
+
+      $('r-hp-c').textContent = fmtCap(hpC);
+      $('r-hp-l').textContent = fmtInd(hpL);
+      $('r-hp-xc').textContent = Xs.toFixed(2);
+      $('r-hp-xl').textContent = Xp.toFixed(2);
+
+      $('diagram-lp').textContent = diagramLP(shuntOnSource);
+      $('diagram-hp').textContent = diagramHP(shuntOnSource);
+      $('diagram-side').textContent = shuntOnSource
+        ? 'Rs > Rl: shunt element to ground on the Rs side'
+        : 'Rl > Rs: shunt element to ground on the Rl side';
+    }
+
+    var inputs = ['in-rs', 'in-rl', 'in-freq'];
+    for (var i = 0; i < inputs.length; i++) {
+      $(inputs[i]).addEventListener('input', recompute);
+    }
+
+    recompute();
+  }());
+  </script>
+</body>
+</html>

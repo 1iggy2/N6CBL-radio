@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ADIF (.adi) log file parser and viewer. Load an Amateur Data Interchange Format file, summarize it, filter by band / mode / date / callsign, and export filtered subsets as ADIF or CSV. Runs entirely in the browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/adif/">
+  <meta property="og:title" content="ADIF Parser &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Browser-side ADIF log viewer for amateur radio: summary, filters by band / mode / date / callsign, and export filtered subsets back to ADIF or CSV.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>ADIF Parser &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/ADIF/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/" aria-current="page"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/adif/ &mdash; ADIF log parser</span>
+        <span>parses .adi files in your browser</span>
+      </div>
+
+      <section aria-labelledby="adif-input-heading">
+        <div class="section-label split">
+          <span id="adif-input-heading">Input</span>
+          <span class="log-count" id="source-indicator">no log loaded</span>
+        </div>
+        <div class="tools-controls">
+          <label class="tools-button" for="file" style="display: inline-block;">Choose .adi file</label>
+          <input type="file" id="file" accept=".adi,.adif,text/plain" style="display: none;">
+          <span class="tools-controls-spacer"></span>
+          <button type="button" class="tools-button primary" id="btn-parse">Parse pasted text</button>
+          <button type="button" class="tools-button" id="btn-clear">Clear</button>
+        </div>
+        <div class="tools-form">
+          <label class="tools-wide">
+            <span>Or paste ADIF text</span>
+            <textarea id="paste" rows="6" placeholder="&lt;adif_ver:5&gt;3.1.5 &lt;eoh&gt; &lt;call:5&gt;N6CBL &lt;band:3&gt;20m &lt;mode:3&gt;SSB &lt;qso_date:8&gt;20260514 &lt;time_on:4&gt;2330 &lt;eor&gt;" autocomplete="off" spellcheck="false"></textarea>
+          </label>
+        </div>
+        <div class="tools-note">
+          Files are parsed in your browser. Nothing is uploaded. The parser reads only the ADIF body (records between <code>&lt;eoh&gt;</code> and end-of-file); the header is skipped.
+        </div>
+      </section>
+
+      <section aria-labelledby="adif-summary-heading">
+        <div class="section-label" id="adif-summary-heading">Summary</div>
+        <div class="tools-result-grid cols-6">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Total QSOs</span>
+            <span class="tools-readout-value mono" id="sum-total">&mdash;</span>
+            <span class="tools-readout-sub">records parsed</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Unique calls</span>
+            <span class="tools-readout-value mono" id="sum-calls">&mdash;</span>
+            <span class="tools-readout-sub">distinct callsigns</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Date range</span>
+            <span class="tools-readout-value mono" id="sum-range">&mdash;</span>
+            <span class="tools-readout-sub" id="sum-range-sub">earliest &rarr; latest</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Bands</span>
+            <span class="tools-readout-value mono" id="sum-bands">&mdash;</span>
+            <span class="tools-readout-sub" id="sum-bands-sub">distinct bands</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Modes</span>
+            <span class="tools-readout-value mono" id="sum-modes">&mdash;</span>
+            <span class="tools-readout-sub" id="sum-modes-sub">distinct modes</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">DXCC entities</span>
+            <span class="tools-readout-value mono" id="sum-dxcc">&mdash;</span>
+            <span class="tools-readout-sub">from DXCC / COUNTRY</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="adif-filters-heading">
+        <div class="section-label split">
+          <span id="adif-filters-heading">Filters</span>
+          <span class="log-count" id="filter-count">&mdash;</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Band</span>
+            <select id="f-band"><option value="">All</option></select>
+          </label>
+          <label>
+            <span>Mode</span>
+            <select id="f-mode"><option value="">All</option></select>
+          </label>
+          <label>
+            <span>Date from (YYYY-MM-DD)</span>
+            <input type="date" id="f-from" autocomplete="off">
+          </label>
+          <label>
+            <span>Date to (YYYY-MM-DD)</span>
+            <input type="date" id="f-to" autocomplete="off">
+          </label>
+          <label class="tools-half">
+            <span>Callsign contains</span>
+            <input type="text" id="f-call" placeholder="e.g. K6 or VE3" autocomplete="off" spellcheck="false">
+          </label>
+          <div class="tools-field tools-half">
+            <span>Reset</span>
+            <div>
+              <button type="button" class="tools-button" id="btn-reset">Reset filters</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="adif-table-heading">
+        <div class="section-label split">
+          <span id="adif-table-heading">QSO table</span>
+          <span class="log-count" id="table-count">no log loaded</span>
+        </div>
+        <div class="tools-adif-section">
+          <table class="tools-adif-table" id="adif-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time UTC</th>
+                <th>Callsign</th>
+                <th>Band</th>
+                <th>Mode</th>
+                <th class="num">Freq</th>
+                <th>RST sent</th>
+                <th>RST rcvd</th>
+                <th>Name</th>
+                <th>QTH</th>
+                <th>Grid</th>
+                <th>Comment</th>
+              </tr>
+            </thead>
+            <tbody id="adif-tbody">
+              <tr><td colspan="12">No log loaded. Choose a file or paste ADIF text.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="adif-export-heading">
+        <div class="section-label" id="adif-export-heading">Export</div>
+        <div class="tools-controls">
+          <button type="button" class="tools-button" id="btn-export-adi">Export filtered ADIF</button>
+          <button type="button" class="tools-button" id="btn-export-csv">Export filtered CSV</button>
+          <button type="button" class="tools-button" id="btn-copy">Copy to clipboard</button>
+          <span class="tools-controls-spacer"></span>
+          <span class="log-count" id="export-status">&mdash;</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="adif-about-heading">
+        <div class="section-label" id="adif-about-heading">About ADIF</div>
+        <div class="tools-note">
+          <strong>ADIF</strong> (Amateur Data Interchange Format) is the universal logbook exchange format &mdash;
+          essentially every popular logger (N1MM, Log4OM, ACLog, WSJT-X, fldigi, hamlog, QRZ, LoTW upload tools) imports and exports it.
+          Each field is tagged like <code>&lt;call:5&gt;N6CBL</code> where the number is the byte length of the value that follows; records are terminated by <code>&lt;eor&gt;</code>.
+          The optional <strong>header</strong> section before <code>&lt;eoh&gt;</code> carries metadata (program ID, version, character set) that this tool ignores.
+          User-defined fields and any column not in the table above are preserved when round-tripping but hidden from view.
+          <strong>Nothing leaves your browser</strong>: the file is read with the <code>FileReader</code> API and parsed locally; the export buttons trigger a local download.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    // ── ADIF parser ──────────────────────────────────────────────────────
+    // Body fields we surface in the table. Anything else parsed is preserved
+    // on the record object (uppercased keys) so round-trip export keeps it.
+    var VISIBLE_FIELDS = [
+      'QSO_DATE', 'TIME_ON', 'CALL', 'BAND', 'MODE',
+      'FREQ', 'RST_SENT', 'RST_RCVD', 'NAME', 'QTH',
+      'GRIDSQUARE', 'COMMENT'
+    ];
+
+    var records = [];      // all parsed records
+    var filtered = [];     // current filter result
+    var sourceLabel = '';  // text describing where the log came from
+
+    function pad(n, w) {
+      var s = String(n);
+      while (s.length < (w || 2)) s = '0' + s;
+      return s;
+    }
+
+    function normalizeDate(s) {
+      if (!s) return '';
+      var m = String(s).match(/^(\d{4})(\d{2})(\d{2})$/);
+      if (m) return m[1] + '-' + m[2] + '-' + m[3];
+      return String(s);
+    }
+
+    function normalizeTime(s) {
+      if (!s) return '';
+      var t = String(s).replace(/\D/g, '');
+      if (t.length >= 4) return t.slice(0, 2) + ':' + t.slice(2, 4);
+      return String(s);
+    }
+
+    function parseAdif(text) {
+      var out = [];
+      if (!text) return out;
+      // Find end of header (case-insensitive). If absent, body starts at 0.
+      var bodyStart = 0;
+      var eohRe = /<eoh>/i;
+      var eohMatch = text.match(eohRe);
+      if (eohMatch) {
+        bodyStart = eohMatch.index + eohMatch[0].length;
+      }
+
+      var tagRe = /<([a-z0-9_]+)(?::(\d+))?(?::([a-z]))?>/gi;
+      tagRe.lastIndex = bodyStart;
+
+      var current = {};
+      var m;
+      while ((m = tagRe.exec(text)) !== null) {
+        var name = m[1].toUpperCase();
+        var len = m[2] ? parseInt(m[2], 10) : 0;
+
+        if (name === 'EOR') {
+          if (hasKeys(current)) out.push(current);
+          current = {};
+          continue;
+        }
+        if (name === 'EOH') {
+          // Stray header tag mid-body — ignore.
+          continue;
+        }
+
+        var valueStart = tagRe.lastIndex;
+        var value = '';
+        if (len > 0) {
+          value = text.substr(valueStart, len);
+          tagRe.lastIndex = valueStart + len;
+        }
+        current[name] = value;
+      }
+      // If file ended without a trailing <eor> but a record was in progress, keep it.
+      if (hasKeys(current)) out.push(current);
+
+      // Normalize visible fields onto a stable shape.
+      for (var i = 0; i < out.length; i++) {
+        var r = out[i];
+        r._date = normalizeDate(r.QSO_DATE || '');
+        r._time = normalizeTime(r.TIME_ON || '');
+        r._call = (r.CALL || '').toUpperCase();
+        r._band = (r.BAND || '').toLowerCase();
+        r._mode = (r.MODE || '').toUpperCase();
+      }
+      return out;
+    }
+
+    function hasKeys(o) {
+      for (var k in o) { if (o.hasOwnProperty(k)) return true; }
+      return false;
+    }
+
+    // ── Summary + filter options ─────────────────────────────────────────
+    function uniqueSorted(arr) {
+      var seen = {};
+      var out = [];
+      for (var i = 0; i < arr.length; i++) {
+        var v = arr[i];
+        if (v && !seen[v]) { seen[v] = 1; out.push(v); }
+      }
+      out.sort();
+      return out;
+    }
+
+    function pluck(arr, key) {
+      var out = [];
+      for (var i = 0; i < arr.length; i++) out.push(arr[i][key]);
+      return out;
+    }
+
+    function renderSummary() {
+      var total = records.length;
+      document.getElementById('sum-total').textContent = total ? String(total) : '—';
+      var calls = uniqueSorted(pluck(records, '_call'));
+      document.getElementById('sum-calls').textContent = total ? String(calls.length) : '—';
+
+      var dates = uniqueSorted(pluck(records, '_date').filter(function (d) { return !!d; }));
+      var rangeEl = document.getElementById('sum-range');
+      var rangeSub = document.getElementById('sum-range-sub');
+      if (dates.length) {
+        var first = dates[0];
+        var last = dates[dates.length - 1];
+        rangeEl.textContent = first === last ? first : first + ' → ' + last;
+        rangeSub.textContent = dates.length + ' distinct day' + (dates.length === 1 ? '' : 's');
+      } else {
+        rangeEl.textContent = '—';
+        rangeSub.textContent = 'earliest → latest';
+      }
+
+      var bands = uniqueSorted(pluck(records, '_band'));
+      document.getElementById('sum-bands').textContent = total ? String(bands.length) : '—';
+      document.getElementById('sum-bands-sub').textContent = bands.length ? bands.join(' · ') : 'distinct bands';
+
+      var modes = uniqueSorted(pluck(records, '_mode'));
+      document.getElementById('sum-modes').textContent = total ? String(modes.length) : '—';
+      document.getElementById('sum-modes-sub').textContent = modes.length ? modes.join(' · ') : 'distinct modes';
+
+      var dxccSet = {};
+      for (var i = 0; i < records.length; i++) {
+        var r = records[i];
+        var key = r.DXCC || r.COUNTRY;
+        if (key) dxccSet[String(key).toUpperCase()] = 1;
+      }
+      var dxccKeys = [];
+      for (var k in dxccSet) { if (dxccSet.hasOwnProperty(k)) dxccKeys.push(k); }
+      document.getElementById('sum-dxcc').textContent = total ? String(dxccKeys.length) : '—';
+    }
+
+    function rebuildFilterOptions() {
+      var bands = uniqueSorted(pluck(records, '_band'));
+      var modes = uniqueSorted(pluck(records, '_mode'));
+      var bandSel = document.getElementById('f-band');
+      var modeSel = document.getElementById('f-mode');
+      var prevBand = bandSel.value;
+      var prevMode = modeSel.value;
+
+      bandSel.innerHTML = '<option value="">All</option>';
+      for (var i = 0; i < bands.length; i++) {
+        var o = document.createElement('option');
+        o.value = bands[i];
+        o.textContent = bands[i];
+        bandSel.appendChild(o);
+      }
+      modeSel.innerHTML = '<option value="">All</option>';
+      for (var j = 0; j < modes.length; j++) {
+        var o2 = document.createElement('option');
+        o2.value = modes[j];
+        o2.textContent = modes[j];
+        modeSel.appendChild(o2);
+      }
+      // Preserve prior choice if still available, else fall back to All.
+      bandSel.value = bands.indexOf(prevBand) >= 0 ? prevBand : '';
+      modeSel.value = modes.indexOf(prevMode) >= 0 ? prevMode : '';
+    }
+
+    // ── Filtering + table render ─────────────────────────────────────────
+    function applyFilters() {
+      var band = document.getElementById('f-band').value;
+      var mode = document.getElementById('f-mode').value;
+      var from = document.getElementById('f-from').value; // YYYY-MM-DD
+      var to = document.getElementById('f-to').value;
+      var callQ = document.getElementById('f-call').value.trim().toUpperCase();
+
+      filtered = [];
+      for (var i = 0; i < records.length; i++) {
+        var r = records[i];
+        if (band && r._band !== band) continue;
+        if (mode && r._mode !== mode) continue;
+        if (from && r._date && r._date < from) continue;
+        if (to && r._date && r._date > to) continue;
+        if (callQ && r._call.indexOf(callQ) < 0) continue;
+        filtered.push(r);
+      }
+      renderTable();
+      var fc = document.getElementById('filter-count');
+      var tc = document.getElementById('table-count');
+      if (records.length === 0) {
+        fc.textContent = '—';
+        tc.textContent = 'no log loaded';
+      } else {
+        var msg = filtered.length + ' / ' + records.length + ' QSOs';
+        fc.textContent = msg;
+        tc.textContent = msg;
+      }
+    }
+
+    function renderTable() {
+      var tbody = document.getElementById('adif-tbody');
+      tbody.innerHTML = '';
+      if (records.length === 0) {
+        var tr0 = document.createElement('tr');
+        var td0 = document.createElement('td');
+        td0.colSpan = 12;
+        td0.textContent = 'No log loaded. Choose a file or paste ADIF text.';
+        tr0.appendChild(td0);
+        tbody.appendChild(tr0);
+        return;
+      }
+      if (filtered.length === 0) {
+        var trE = document.createElement('tr');
+        var tdE = document.createElement('td');
+        tdE.colSpan = 12;
+        tdE.textContent = 'No QSOs match the current filters.';
+        trE.appendChild(tdE);
+        tbody.appendChild(trE);
+        return;
+      }
+
+      // Sort by date+time descending — most recent at the top.
+      var rows = filtered.slice().sort(function (a, b) {
+        var ka = (a._date || '') + ' ' + (a._time || '');
+        var kb = (b._date || '') + ' ' + (b._time || '');
+        if (ka < kb) return 1;
+        if (ka > kb) return -1;
+        return 0;
+      });
+
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        var tr = document.createElement('tr');
+        addCell(tr, r._date, 'mono');
+        addCell(tr, r._time, 'mono');
+        addCell(tr, r._call, 'mono');
+        addCell(tr, r._band, 'mono');
+        addCell(tr, r._mode, 'mono');
+        addCell(tr, r.FREQ || '', 'num');
+        addCell(tr, r.RST_SENT || '', 'mono');
+        addCell(tr, r.RST_RCVD || '', 'mono');
+        addCell(tr, r.NAME || '', '');
+        addCell(tr, r.QTH || '', '');
+        addCell(tr, r.GRIDSQUARE || '', 'mono');
+        addCell(tr, r.COMMENT || '', '');
+        frag.appendChild(tr);
+      }
+      tbody.appendChild(frag);
+    }
+
+    function addCell(tr, text, cls) {
+      var td = document.createElement('td');
+      if (cls) td.className = cls;
+      td.textContent = text || '';
+      tr.appendChild(td);
+    }
+
+    // ── Load / clear ─────────────────────────────────────────────────────
+    function loadFromText(text, label) {
+      records = parseAdif(text || '');
+      sourceLabel = label || '';
+      document.getElementById('source-indicator').textContent = sourceLabel
+        ? sourceLabel + ' · ' + records.length + ' QSOs'
+        : (records.length + ' QSOs');
+      rebuildFilterOptions();
+      renderSummary();
+      applyFilters();
+    }
+
+    function clearAll() {
+      records = [];
+      filtered = [];
+      sourceLabel = '';
+      document.getElementById('paste').value = '';
+      document.getElementById('file').value = '';
+      document.getElementById('source-indicator').textContent = 'no log loaded';
+      rebuildFilterOptions();
+      renderSummary();
+      document.getElementById('f-from').value = '';
+      document.getElementById('f-to').value = '';
+      document.getElementById('f-call').value = '';
+      applyFilters();
+      document.getElementById('export-status').textContent = '—';
+    }
+
+    function resetFilters() {
+      document.getElementById('f-band').value = '';
+      document.getElementById('f-mode').value = '';
+      document.getElementById('f-from').value = '';
+      document.getElementById('f-to').value = '';
+      document.getElementById('f-call').value = '';
+      applyFilters();
+    }
+
+    // ── Export helpers ───────────────────────────────────────────────────
+    function buildAdif(rows) {
+      var now = new Date();
+      var stamp = now.getUTCFullYear() + pad(now.getUTCMonth() + 1) + pad(now.getUTCDate())
+        + ' ' + pad(now.getUTCHours()) + pad(now.getUTCMinutes()) + pad(now.getUTCSeconds());
+      var lines = [];
+      lines.push('N6CBL.radio ADIF export · ' + stamp + ' UTC');
+      lines.push('<adif_ver:5>3.1.5 <programid:13>N6CBL.radio <eoh>');
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        var parts = [];
+        // Emit all stored fields (case-uppercased, internal keys with `_` prefix skipped).
+        for (var k in r) {
+          if (!r.hasOwnProperty(k)) continue;
+          if (k.charAt(0) === '_') continue;
+          var v = r[k] == null ? '' : String(r[k]);
+          parts.push('<' + k.toLowerCase() + ':' + utf8ByteLength(v) + '>' + v);
+        }
+        parts.push('<eor>');
+        lines.push(parts.join(' '));
+      }
+      return lines.join('\n') + '\n';
+    }
+
+    function utf8ByteLength(s) {
+      // ADIF length is in bytes, not characters; honor that for non-ASCII fields.
+      if (typeof TextEncoder !== 'undefined') {
+        try { return new TextEncoder().encode(s).length; } catch (e) { /* fall through */ }
+      }
+      // Fallback: approximate by counting UTF-8 byte length manually.
+      var n = 0;
+      for (var i = 0; i < s.length; i++) {
+        var c = s.charCodeAt(i);
+        if (c < 0x80) n += 1;
+        else if (c < 0x800) n += 2;
+        else if (c >= 0xd800 && c <= 0xdbff) { n += 4; i++; }
+        else n += 3;
+      }
+      return n;
+    }
+
+    function csvEscape(v) {
+      var s = v == null ? '' : String(v);
+      if (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0) {
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
+      return s;
+    }
+
+    function buildCsv(rows) {
+      var headers = [
+        'Date', 'Time UTC', 'Callsign', 'Band', 'Mode',
+        'Freq', 'RST sent', 'RST rcvd', 'Name', 'QTH',
+        'Grid', 'Comment'
+      ];
+      var lines = [headers.join(',')];
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        var row = [
+          r._date || '',
+          r._time || '',
+          r._call || '',
+          r._band || '',
+          r._mode || '',
+          r.FREQ || '',
+          r.RST_SENT || '',
+          r.RST_RCVD || '',
+          r.NAME || '',
+          r.QTH || '',
+          r.GRIDSQUARE || '',
+          r.COMMENT || ''
+        ];
+        var esc = [];
+        for (var j = 0; j < row.length; j++) esc.push(csvEscape(row[j]));
+        lines.push(esc.join(','));
+      }
+      return lines.join('\r\n') + '\r\n';
+    }
+
+    function download(text, filename, mime) {
+      var blob = new Blob([text], { type: mime || 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+    }
+
+    function copyText(text, statusEl) {
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        statusEl.textContent = ok ? 'copied to clipboard' : 'copy failed';
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          statusEl.textContent = 'copied to clipboard';
+        }, function () { fallback(); });
+      } else {
+        fallback();
+      }
+    }
+
+    // ── Wiring ───────────────────────────────────────────────────────────
+    document.getElementById('file').addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById('paste').value = String(reader.result || '');
+        loadFromText(String(reader.result || ''), f.name);
+      };
+      reader.onerror = function () {
+        document.getElementById('source-indicator').textContent = 'read error: ' + (reader.error && reader.error.message || 'unknown');
+      };
+      reader.readAsText(f);
+    });
+
+    document.getElementById('btn-parse').addEventListener('click', function () {
+      var text = document.getElementById('paste').value;
+      if (!text.trim()) {
+        document.getElementById('source-indicator').textContent = 'paste area is empty';
+        return;
+      }
+      loadFromText(text, 'pasted text');
+    });
+
+    document.getElementById('btn-clear').addEventListener('click', clearAll);
+    document.getElementById('btn-reset').addEventListener('click', resetFilters);
+
+    var filterIds = ['f-band', 'f-mode', 'f-from', 'f-to', 'f-call'];
+    for (var i = 0; i < filterIds.length; i++) {
+      var el = document.getElementById(filterIds[i]);
+      el.addEventListener('input', applyFilters);
+      el.addEventListener('change', applyFilters);
+    }
+
+    document.getElementById('btn-export-adi').addEventListener('click', function () {
+      var status = document.getElementById('export-status');
+      if (filtered.length === 0) { status.textContent = 'nothing to export'; return; }
+      download(buildAdif(filtered), 'n6cbl-export.adi', 'text/plain;charset=utf-8');
+      status.textContent = 'downloaded ' + filtered.length + ' QSOs as ADIF';
+    });
+
+    document.getElementById('btn-export-csv').addEventListener('click', function () {
+      var status = document.getElementById('export-status');
+      if (filtered.length === 0) { status.textContent = 'nothing to export'; return; }
+      download(buildCsv(filtered), 'n6cbl-export.csv', 'text/csv;charset=utf-8');
+      status.textContent = 'downloaded ' + filtered.length + ' QSOs as CSV';
+    });
+
+    document.getElementById('btn-copy').addEventListener('click', function () {
+      var status = document.getElementById('export-status');
+      if (filtered.length === 0) { status.textContent = 'nothing to copy'; return; }
+      copyText(buildAdif(filtered), status);
+    });
+
+    // Initial render — empty state.
+    rebuildFilterOptions();
+    renderSummary();
+    applyFilters();
+  }());
+  </script>
+</body>
+</html>

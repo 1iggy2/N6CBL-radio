@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Toroid balun and UNUN turns calculator. Compute required turns from target inductance or choking impedance, with AL values for common FT- and T- cores and standard balun winding presets.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/balun/">
+  <meta property="og:title" content="Toroid Balun / UNUN Calculator &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Compute turns for ferrite and iron-powder toroids: target inductance or choking impedance, AL values for FT-43/61/77/31 and T-2 cores, and reference windings for 1:1, 4:1, 9:1, and 49:1 baluns.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Toroid Balun / UNUN Calculator &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/BALUN/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/" aria-current="page"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/balun/ &mdash; toroid turns calculator</span>
+        <span>L = AL &middot; N&sup2; / 1000 (L in &mu;H, AL in nH/turn&sup2;)</span>
+      </div>
+
+      <section aria-labelledby="balun-inputs-heading">
+        <div class="section-label split">
+          <span id="balun-inputs-heading">Inputs</span>
+          <span class="log-count">enter target inductance, or Z and f to derive it</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Target L (&mu;H)</span>
+            <input type="number" id="in-l" min="0" step="0.1" placeholder="auto from Z, f" autocomplete="off">
+          </label>
+          <label>
+            <span>Target Xl (&Omega;)</span>
+            <input type="number" id="in-z" min="0" step="1" value="1000" autocomplete="off">
+          </label>
+          <label>
+            <span>Frequency (MHz)</span>
+            <input type="number" id="in-f" min="0" step="0.001" value="7" autocomplete="off">
+          </label>
+          <label>
+            <span>Core</span>
+            <select id="in-core"></select>
+          </label>
+          <label class="tools-half">
+            <span>Turns N (override, optional)</span>
+            <input type="number" id="in-n" min="1" step="1" placeholder="auto from target L" autocomplete="off">
+          </label>
+          <label class="tools-half">
+            <span>Wire diameter (in, optional)</span>
+            <input type="number" id="in-wire" min="0" step="0.001" placeholder="for window-fit estimate" autocomplete="off">
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="balun-result-heading">
+        <div class="section-label" id="balun-result-heading">Result</div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Turns required (N)</span>
+            <span class="tools-readout-value" id="r-n">&mdash;</span>
+            <span class="tools-readout-sub" id="r-n-sub">rounded up for at-least target L</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Resulting inductance</span>
+            <span class="tools-readout-value mono" id="r-l">&mdash;</span>
+            <span class="tools-readout-sub">L = AL &middot; N&sup2; / 1000</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Choking Xl at f</span>
+            <span class="tools-readout-value mono" id="r-x">&mdash;</span>
+            <span class="tools-readout-sub" id="r-x-sub">Xl = 2&pi; &middot; f &middot; L</span>
+          </div>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Core</span>
+            <span class="tools-readout-value mono" id="r-core">&mdash;</span>
+            <span class="tools-readout-sub" id="r-core-sub">mix &middot; OD</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">AL value</span>
+            <span class="tools-readout-value mono" id="r-al">&mdash;</span>
+            <span class="tools-readout-sub">nH per turn&sup2; (&plusmn;20&ndash;30%)</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Window utilization</span>
+            <span class="tools-readout-value mono" id="r-win">&mdash;</span>
+            <span class="tools-readout-sub" id="r-win-sub">enter wire diameter for fit check</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="balun-cores-heading">
+        <div class="section-label split">
+          <span id="balun-cores-heading">Core reference</span>
+          <span class="log-count">Amidon FT- ferrite &middot; T- iron powder</span>
+        </div>
+        <table class="data-table tools-ref-table">
+          <thead>
+            <tr>
+              <th>Core</th>
+              <th>Mix</th>
+              <th class="num">AL (nH/turn&sup2;)</th>
+              <th class="num">OD (in)</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="cores-tbody"></tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="balun-presets-heading">
+        <div class="section-label split">
+          <span id="balun-presets-heading">Common balun winding presets</span>
+          <span class="log-count">starting points &mdash; verify on a VNA</span>
+        </div>
+        <table class="data-table tools-ref-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Core</th>
+              <th>Turns</th>
+              <th>Ratio</th>
+              <th>Range</th>
+              <th>Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1:1 choke</td>
+              <td>FT-240-31</td>
+              <td>14 turns</td>
+              <td>1:1 (Z)</td>
+              <td>1&ndash;30 MHz</td>
+              <td>Common-mode choke, RG-58 or RG-400 through core; current balun for coax-fed dipole</td>
+            </tr>
+            <tr>
+              <td>4:1 current</td>
+              <td>FT-240-43</td>
+              <td>~11 trifilar</td>
+              <td>4:1 (Z)</td>
+              <td>1.8&ndash;30 MHz</td>
+              <td>Guanella current balun for OCF dipoles and folded-dipole feedpoints (200&Omega; to 50&Omega;)</td>
+            </tr>
+            <tr>
+              <td>9:1 unun</td>
+              <td>FT-240-43</td>
+              <td>7 + 21 (1:3 turns)</td>
+              <td>9:1 (Z)</td>
+              <td>3.5&ndash;30 MHz</td>
+              <td>Autotransformer for random-wire / end-fed long-wire antennas (~450&Omega; to 50&Omega;)</td>
+            </tr>
+            <tr>
+              <td>49:1 unun</td>
+              <td>FT-240-43</td>
+              <td>2 + 14 (1:7 turns)</td>
+              <td>49:1 (Z)</td>
+              <td>3.5&ndash;30 MHz</td>
+              <td>End-fed half-wave (EFHW) matching transformer (~2450&Omega; to 50&Omega;)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="balun-notes-heading">
+        <div class="section-label" id="balun-notes-heading">Notes</div>
+        <div class="tools-note">
+          <strong>AL tolerance.</strong> Published AL values are nominal; real cores vary &plusmn;20&ndash;30% batch to batch, and AL drops with flux density and temperature. Treat the calculator output as a starting point and confirm with a VNA or LCR meter before potting the build.
+          <strong>Mix selection.</strong> <code>Type 43</code> is the workhorse ferrite for HF baluns and ununs 1&ndash;50 MHz. <code>Type 31</code> has higher loss and is preferred for broadband common-mode chokes 1&ndash;30 MHz. <code>Type 77</code> favors the low bands (1&ndash;10 MHz). <code>Type 61</code> extends to VHF with lower &mu; and lower loss.
+          <strong>Iron powder.</strong> <code>T-</code> cores (mix 2, 6, 10, etc.) are tuned-circuit and high-Q transmitting cores; they are <em>not</em> appropriate for broadband baluns or common-mode chokes &mdash; their &mu; is too low and their saturation behavior is wrong for that job.
+          <strong>Thermal limits.</strong> For high-power baluns, inductance is only half the design: core area, mix loss tangent, and ventilation determine the real power rating. A balun that meets the choking-impedance target can still cook on a long contest run if undersized.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var CORES = [
+      { id: 'FT-50-43',  mix: '43', al: 523,  od: 0.500, id_in: 0.281, h: 0.188, note: 'Small bench balun, low power' },
+      { id: 'FT-82-43',  mix: '43', al: 557,  od: 0.825, id_in: 0.520, h: 0.250, note: 'QRP baluns 80&ndash;10 m' },
+      { id: 'FT-114-43', mix: '43', al: 603,  od: 1.142, id_in: 0.748, h: 0.295, note: 'Common QRP / 100 W choice 1&ndash;30 MHz' },
+      { id: 'FT-114-77', mix: '77', al: 1716, od: 1.142, id_in: 0.748, h: 0.295, note: 'Low-band choke, 1&ndash;10 MHz (higher &mu;)' },
+      { id: 'FT-140-43', mix: '43', al: 952,  od: 1.400, id_in: 0.900, h: 0.500, note: '100 W balun 1&ndash;30 MHz' },
+      { id: 'FT-140-77', mix: '77', al: 2940, od: 1.400, id_in: 0.900, h: 0.500, note: 'Low-band common-mode choke' },
+      { id: 'FT-240-43', mix: '43', al: 1075, od: 2.400, id_in: 1.400, h: 0.500, note: 'Full-legal-limit balun 1&ndash;30 MHz' },
+      { id: 'FT-240-31', mix: '31', al: 1778, od: 2.400, id_in: 1.400, h: 0.500, note: 'Common-mode choke, broadband 1&ndash;30 MHz' },
+      { id: 'FT-240-61', mix: '61', al: 173,  od: 2.400, id_in: 1.400, h: 0.500, note: 'VHF balun, 2&ndash;30 MHz, lower &mu;' },
+      { id: 'T-50-2',    mix: '2',  al: 49,   od: 0.500, id_in: 0.300, h: 0.190, note: 'HF tuned circuits' },
+      { id: 'T-130-2',   mix: '2',  al: 110,  od: 1.300, id_in: 0.780, h: 0.437, note: 'HF power tuned circuits' },
+      { id: 'T-200-2',   mix: '2',  al: 120,  od: 2.000, id_in: 1.250, h: 0.550, note: 'High-power HF tuned circuits' }
+    ];
+
+    var DEFAULT_CORE = 'FT-240-43';
+    var TWO_PI = 2 * Math.PI;
+
+    var inL = document.getElementById('in-l');
+    var inZ = document.getElementById('in-z');
+    var inF = document.getElementById('in-f');
+    var inN = document.getElementById('in-n');
+    var inCore = document.getElementById('in-core');
+    var inWire = document.getElementById('in-wire');
+
+    var rN = document.getElementById('r-n');
+    var rNsub = document.getElementById('r-n-sub');
+    var rLel = document.getElementById('r-l');
+    var rX = document.getElementById('r-x');
+    var rXsub = document.getElementById('r-x-sub');
+    var rCore = document.getElementById('r-core');
+    var rCoreSub = document.getElementById('r-core-sub');
+    var rAl = document.getElementById('r-al');
+    var rWin = document.getElementById('r-win');
+    var rWinSub = document.getElementById('r-win-sub');
+
+    function buildCoreSelect() {
+      var html = '';
+      var i;
+      for (i = 0; i < CORES.length; i++) {
+        var c = CORES[i];
+        var sel = (c.id === DEFAULT_CORE) ? ' selected' : '';
+        html += '<option value="' + c.id + '"' + sel + '>' + c.id + ' (mix ' + c.mix + ', AL ' + c.al + ')</option>';
+      }
+      inCore.innerHTML = html;
+    }
+
+    function buildCoreTable() {
+      var tbody = document.getElementById('cores-tbody');
+      var html = '';
+      var i;
+      for (i = 0; i < CORES.length; i++) {
+        var c = CORES[i];
+        html += '<tr>'
+          + '<td>' + c.id + '</td>'
+          + '<td>' + c.mix + '</td>'
+          + '<td class="num">' + c.al + '</td>'
+          + '<td class="num">' + c.od.toFixed(3) + '</td>'
+          + '<td>' + c.note + '</td>'
+          + '</tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    function findCore(id) {
+      var i;
+      for (i = 0; i < CORES.length; i++) {
+        if (CORES[i].id === id) return CORES[i];
+      }
+      return null;
+    }
+
+    function num(v) {
+      if (v === '' || v === null || v === undefined) return NaN;
+      var n = parseFloat(v);
+      return isNaN(n) ? NaN : n;
+    }
+
+    function fmtL(uH) {
+      if (!isFinite(uH)) return '—';
+      return uH.toFixed(1) + ' μH';
+    }
+
+    function fmtX(ohm) {
+      if (!isFinite(ohm)) return '—';
+      return Math.round(ohm) + ' Ω';
+    }
+
+    function compute() {
+      var core = findCore(inCore.value) || findCore(DEFAULT_CORE);
+      var lUser = num(inL.value);
+      var zUser = num(inZ.value);
+      var fUser = num(inF.value);
+      var nUser = num(inN.value);
+      var wire = num(inWire.value);
+
+      rCore.innerHTML = core.id;
+      rCoreSub.innerHTML = 'mix ' + core.mix + ' &middot; OD ' + core.od.toFixed(3) + ' in';
+      rAl.textContent = core.al;
+
+      // Determine target inductance.
+      var targetL = NaN; // microhenries
+      var lSource = '';
+      if (isFinite(lUser) && lUser > 0) {
+        targetL = lUser;
+        lSource = 'from target L input';
+      } else if (isFinite(zUser) && zUser > 0 && isFinite(fUser) && fUser > 0) {
+        // Xl = 2 pi f L  =>  L (H) = Z / (2 pi f Hz)
+        // f in MHz, L in uH: L_uH = Z / (2 pi f_MHz)
+        targetL = zUser / (TWO_PI * fUser);
+        lSource = 'from ' + Math.round(zUser) + ' Ω at ' + fUser + ' MHz';
+      }
+
+      // Determine N: if user override, use it; else compute from targetL.
+      var N = NaN;
+      var nSource = '';
+      if (isFinite(nUser) && nUser > 0) {
+        N = Math.round(nUser);
+        nSource = 'override (user-supplied)';
+      } else if (isFinite(targetL) && targetL > 0) {
+        var raw = Math.sqrt(1000 * targetL / core.al);
+        N = Math.ceil(raw);
+        nSource = 'rounded up from ' + raw.toFixed(2) + ' for at-least target L';
+      }
+
+      if (!isFinite(N) || N <= 0) {
+        rN.textContent = '—';
+        rNsub.textContent = 'enter target L or Z + f';
+        rLel.textContent = '—';
+        rX.textContent = '—';
+        rXsub.textContent = 'Xl = 2π · f · L';
+        rWin.textContent = '—';
+        rWinSub.textContent = 'enter wire diameter for fit check';
+        return;
+      }
+
+      var resultL = core.al * N * N / 1000; // microhenries
+      rN.textContent = N;
+      rNsub.textContent = nSource + (lSource ? ' · ' + lSource : '');
+      rLel.textContent = fmtL(resultL);
+
+      if (isFinite(fUser) && fUser > 0) {
+        var xl = TWO_PI * fUser * resultL; // f MHz * L uH = MHz*uH = ohms
+        rX.textContent = fmtX(xl);
+        rXsub.textContent = 'at ' + fUser + ' MHz';
+      } else {
+        rX.textContent = '—';
+        rXsub.textContent = 'enter frequency to evaluate Xl';
+      }
+
+      // Window utilization.
+      // Inner circumference of toroid available for wire = pi * ID.
+      // Each turn consumes one wire diameter of inner circumference (single layer).
+      if (core.id_in > 0) {
+        var innerCirc = Math.PI * core.id_in; // inches
+        if (isFinite(wire) && wire > 0) {
+          var usedFraction = (N * wire) / innerCirc;
+          rWin.textContent = Math.round(usedFraction * 100) + '%';
+          var fitNote;
+          if (usedFraction <= 0.65) fitNote = 'fits easily, single layer';
+          else if (usedFraction <= 0.85) fitNote = 'tight but workable, single layer';
+          else if (usedFraction <= 1.0) fitNote = 'very tight, may need thinner wire';
+          else fitNote = 'will not fit single layer';
+          rWinSub.textContent = fitNote + ' (ID ' + core.id_in.toFixed(3) + ' in, inner circ ' + innerCirc.toFixed(2) + ' in)';
+        } else {
+          // Estimate max turns at common wire gauges so the user has a feel.
+          // #14 AWG ~ 0.064 in, #18 AWG ~ 0.040 in.
+          var max14 = Math.floor(innerCirc / 0.064);
+          var max18 = Math.floor(innerCirc / 0.040);
+          rWin.textContent = N + ' / ' + max14;
+          rWinSub.textContent = 'N vs. max #14 AWG; #18 AWG fits up to ' + max18 + ' turns (ID ' + core.id_in.toFixed(3) + ' in)';
+        }
+      } else {
+        rWin.textContent = '—';
+        rWinSub.textContent = 'core dimensions not available';
+      }
+    }
+
+    function attach() {
+      var els = [inL, inZ, inF, inN, inWire];
+      var i;
+      for (i = 0; i < els.length; i++) {
+        els[i].addEventListener('input', compute);
+      }
+      inCore.addEventListener('change', compute);
+    }
+
+    buildCoreSelect();
+    buildCoreTable();
+    attach();
+    compute();
+  }());
+  </script>
+</body>
+</html>

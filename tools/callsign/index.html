@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DXCC callsign prefix lookup. Enter any amateur callsign to identify country, DXCC entity code, continent, ITU zone, CQ zone, and US call district.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/callsign/">
+  <meta property="og:title" content="DXCC Callsign Lookup &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Resolve any amateur callsign to its DXCC entity, continent, ITU zone, and CQ zone &mdash; first-pass reference for log entry and contest scoring.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>DXCC Callsign Lookup &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/CALLSIGN/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/" aria-current="page"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/callsign/ &mdash; DXCC prefix lookup</span>
+        <span>longest-prefix match &middot; ~180 entities</span>
+      </div>
+
+      <section aria-labelledby="cs-lookup-heading">
+        <div class="section-label split">
+          <span id="cs-lookup-heading">Callsign lookup</span>
+          <span class="log-count">live parse on every keystroke</span>
+        </div>
+        <div class="lookup-bar">
+          <label for="cs-input" style="display:block; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Callsign (e.g. N6CBL, G3SDC, JA1ABC)</label>
+          <input type="search" id="cs-input" class="lookup-input" placeholder="Enter callsign" autocomplete="off" spellcheck="false" autocapitalize="characters">
+        </div>
+      </section>
+
+      <section aria-labelledby="cs-result-heading">
+        <div class="section-label" id="cs-result-heading">Result</div>
+        <div class="tools-callsign-result">
+          <div class="cs-call" id="cs-call">&mdash;</div>
+          <dl class="cs-meta" id="cs-meta">
+            <dt>Status</dt><dd id="cs-status">Enter a callsign above.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section aria-labelledby="cs-ref-heading">
+        <div class="section-label split">
+          <span id="cs-ref-heading">DXCC entity reference</span>
+          <span class="log-count" id="cs-ref-count">&mdash;</span>
+        </div>
+        <div class="lookup-bar">
+          <label for="cs-filter" style="display:block; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Filter table (prefix or country)</label>
+          <input type="search" id="cs-filter" class="log-search-input" placeholder="Filter prefix or country" autocomplete="off" spellcheck="false">
+        </div>
+        <table class="data-table tools-ref-table">
+          <thead>
+            <tr>
+              <th scope="col">Prefix</th>
+              <th scope="col">Country</th>
+              <th scope="col">Continent</th>
+              <th scope="col" class="num">ITU</th>
+              <th scope="col" class="num">CQ</th>
+              <th scope="col" class="num">DXCC</th>
+            </tr>
+          </thead>
+          <tbody id="cs-ref-body">
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="cs-notes-heading">
+        <div class="section-label" id="cs-notes-heading">About this lookup</div>
+        <div class="tools-note">
+          <strong>DXCC</strong> is the ARRL-maintained list of &ldquo;entities&rdquo; recognized for the DX Century Club award &mdash; roughly 340 distinct political and geographic units. Each entity has a numeric code, an assigned continent, and falls in a specific ITU and CQ zone.
+          <strong>Prefix matching here is heuristic</strong>: this tool walks a hand-curated list of ~180 common prefixes (longest match wins) and will not catch every special-event call, IOTA island designator, or rare entity. Portable suffixes (<code>/MM</code> maritime mobile, <code>/AM</code> aeronautical mobile, <code>/P</code> portable, <code>/M</code> mobile) are stripped before lookup, so a <code>/P</code> doesn&rsquo;t change the home country.
+          <strong>CQ and ITU zones</strong> are used for the major contests &mdash; CQ WW and CQ WPX score by CQ zone; ARRL DX and IARU use ITU. Zone numbers shown here are the home-entity defaults; large countries (US, Russia, China, Brazil, Australia) span multiple zones and the call-area digit refines the actual zone.
+          <strong>For authoritative lookup</strong> use <a href="https://www.qrz.com/" target="_blank" rel="noopener">QRZ.com</a>, the ARRL Country File, or Club Log. This page is a fast first-pass reference for live logging and band-spotting &mdash; not a substitute for a real callsign database.
+          <strong>US license class hint</strong> is inferred from the callsign format alone (<code>1&times;2</code> Extra, <code>2&times;3</code> Tech/General, etc.) and the AA&ndash;AG / AI / AK Extra-only block. It is a rough guess: the FCC reassigns vanity calls across classes, so format is suggestive, not authoritative.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var DXCC = [
+      // North America
+      { prefix: 'K',    country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'W',    country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'N',    country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AA',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AB',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AC',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AD',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AE',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AF',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AG',   country: 'United States',     code: 291, continent: 'NA', itu: 8,  cq: 5 },
+      { prefix: 'AH6',  country: 'Hawaii',            code: 110, continent: 'OC', itu: 61, cq: 31 },
+      { prefix: 'KH6',  country: 'Hawaii',            code: 110, continent: 'OC', itu: 61, cq: 31 },
+      { prefix: 'NH6',  country: 'Hawaii',            code: 110, continent: 'OC', itu: 61, cq: 31 },
+      { prefix: 'WH6',  country: 'Hawaii',            code: 110, continent: 'OC', itu: 61, cq: 31 },
+      { prefix: 'KL7',  country: 'Alaska',            code: 6,   continent: 'NA', itu: 1,  cq: 1 },
+      { prefix: 'AL',   country: 'Alaska',            code: 6,   continent: 'NA', itu: 1,  cq: 1 },
+      { prefix: 'NL',   country: 'Alaska',            code: 6,   continent: 'NA', itu: 1,  cq: 1 },
+      { prefix: 'WL',   country: 'Alaska',            code: 6,   continent: 'NA', itu: 1,  cq: 1 },
+      { prefix: 'KP4',  country: 'Puerto Rico',       code: 202, continent: 'NA', itu: 11, cq: 8 },
+      { prefix: 'NP4',  country: 'Puerto Rico',       code: 202, continent: 'NA', itu: 11, cq: 8 },
+      { prefix: 'WP4',  country: 'Puerto Rico',       code: 202, continent: 'NA', itu: 11, cq: 8 },
+      { prefix: 'VE',   country: 'Canada',            code: 1,   continent: 'NA', itu: 9,  cq: 5 },
+      { prefix: 'VA',   country: 'Canada',            code: 1,   continent: 'NA', itu: 9,  cq: 5 },
+      { prefix: 'VO',   country: 'Newfoundland/Labrador', code: 1, continent: 'NA', itu: 9, cq: 5 },
+      { prefix: 'VY',   country: 'Canada (territories)', code: 1, continent: 'NA', itu: 9, cq: 5 },
+      { prefix: 'XE',   country: 'Mexico',            code: 50,  continent: 'NA', itu: 10, cq: 6 },
+      { prefix: 'XF4',  country: 'Revillagigedo',     code: 24,  continent: 'NA', itu: 10, cq: 6 },
+      { prefix: 'CO',   country: 'Cuba',              code: 70,  continent: 'NA', itu: 11, cq: 8 },
+      { prefix: 'HI',   country: 'Dominican Republic', code: 72, continent: 'NA', itu: 11, cq: 8 },
+      { prefix: 'HH',   country: 'Haiti',             code: 78,  continent: 'NA', itu: 11, cq: 8 },
+      { prefix: 'V3',   country: 'Belize',            code: 66,  continent: 'NA', itu: 11, cq: 7 },
+      { prefix: 'TI',   country: 'Costa Rica',        code: 308, continent: 'NA', itu: 11, cq: 7 },
+      { prefix: 'YN',   country: 'Nicaragua',         code: 86,  continent: 'NA', itu: 11, cq: 7 },
+      { prefix: 'HR',   country: 'Honduras',          code: 80,  continent: 'NA', itu: 11, cq: 7 },
+      { prefix: 'YS',   country: 'El Salvador',       code: 74,  continent: 'NA', itu: 11, cq: 7 },
+      { prefix: 'TG',   country: 'Guatemala',         code: 76,  continent: 'NA', itu: 12, cq: 7 },
+      { prefix: 'HP',   country: 'Panama',            code: 88,  continent: 'NA', itu: 11, cq: 7 },
+
+      // South America
+      { prefix: 'PY',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'PP',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'PR',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'PS',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'PT',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'PU',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'PW',   country: 'Brazil',            code: 108, continent: 'SA', itu: 13, cq: 11 },
+      { prefix: 'ZP',   country: 'Paraguay',          code: 132, continent: 'SA', itu: 14, cq: 11 },
+      { prefix: 'CX',   country: 'Uruguay',           code: 144, continent: 'SA', itu: 14, cq: 13 },
+      { prefix: 'LU',   country: 'Argentina',         code: 100, continent: 'SA', itu: 14, cq: 13 },
+      { prefix: 'CE',   country: 'Chile',             code: 112, continent: 'SA', itu: 14, cq: 12 },
+      { prefix: 'OA',   country: 'Peru',              code: 136, continent: 'SA', itu: 12, cq: 10 },
+      { prefix: 'HC',   country: 'Ecuador',           code: 120, continent: 'SA', itu: 12, cq: 10 },
+      { prefix: 'HK',   country: 'Colombia',          code: 116, continent: 'SA', itu: 12, cq: 9 },
+      { prefix: 'YV',   country: 'Venezuela',         code: 148, continent: 'SA', itu: 12, cq: 9 },
+      { prefix: 'CP',   country: 'Bolivia',           code: 104, continent: 'SA', itu: 14, cq: 10 },
+
+      // Europe
+      { prefix: 'G',    country: 'England',           code: 223, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'M',    country: 'England',           code: 223, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: '2E',   country: 'England',           code: 223, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'GM',   country: 'Scotland',          code: 279, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'GW',   country: 'Wales',             code: 294, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'GI',   country: 'Northern Ireland',  code: 265, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'GD',   country: 'Isle of Man',       code: 114, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'GJ',   country: 'Jersey',            code: 122, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'GU',   country: 'Guernsey',          code: 106, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'EI',   country: 'Ireland',           code: 245, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'F',    country: 'France',            code: 227, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'TM',   country: 'France (special)',  code: 227, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'DL',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DA',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DB',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DC',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DD',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DF',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DG',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DH',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DJ',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DK',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DM',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'DO',   country: 'Germany',           code: 230, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'I',    country: 'Italy',             code: 248, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'IS0',  country: 'Sardinia',          code: 225, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'IT9',  country: 'Sicily',            code: 248, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'EA',   country: 'Spain',             code: 281, continent: 'EU', itu: 37, cq: 14 },
+      { prefix: 'EA6',  country: 'Balearic Islands',  code: 21,  continent: 'EU', itu: 37, cq: 14 },
+      { prefix: 'EA8',  country: 'Canary Islands',    code: 29,  continent: 'AF', itu: 36, cq: 33 },
+      { prefix: 'EA9',  country: 'Ceuta &amp; Melilla', code: 32, continent: 'AF', itu: 37, cq: 33 },
+      { prefix: 'CT',   country: 'Portugal',          code: 272, continent: 'EU', itu: 37, cq: 14 },
+      { prefix: 'CT3',  country: 'Madeira',           code: 256, continent: 'AF', itu: 36, cq: 33 },
+      { prefix: 'CU',   country: 'Azores',            code: 149, continent: 'EU', itu: 36, cq: 14 },
+      { prefix: 'PA',   country: 'Netherlands',       code: 263, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'PB',   country: 'Netherlands',       code: 263, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'PD',   country: 'Netherlands',       code: 263, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'PE',   country: 'Netherlands',       code: 263, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'PI',   country: 'Netherlands',       code: 263, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'ON',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'OO',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'OP',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'OQ',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'OR',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'OS',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'OT',   country: 'Belgium',           code: 209, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'LX',   country: 'Luxembourg',        code: 254, continent: 'EU', itu: 27, cq: 14 },
+      { prefix: 'HB',   country: 'Switzerland',       code: 287, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'HB0',  country: 'Liechtenstein',     code: 251, continent: 'EU', itu: 28, cq: 14 },
+      { prefix: 'OE',   country: 'Austria',           code: 206, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'OK',   country: 'Czech Republic',    code: 503, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'OM',   country: 'Slovak Republic',   code: 504, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'HA',   country: 'Hungary',           code: 239, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'HG',   country: 'Hungary',           code: 239, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'SP',   country: 'Poland',            code: 269, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'SQ',   country: 'Poland',            code: 269, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'YL',   country: 'Latvia',            code: 145, continent: 'EU', itu: 29, cq: 15 },
+      { prefix: 'LY',   country: 'Lithuania',         code: 146, continent: 'EU', itu: 29, cq: 15 },
+      { prefix: 'ES',   country: 'Estonia',           code: 52,  continent: 'EU', itu: 29, cq: 15 },
+      { prefix: 'OH',   country: 'Finland',           code: 224, continent: 'EU', itu: 18, cq: 15 },
+      { prefix: 'OH0',  country: 'Aland Islands',     code: 5,   continent: 'EU', itu: 18, cq: 15 },
+      { prefix: 'SM',   country: 'Sweden',            code: 284, continent: 'EU', itu: 18, cq: 14 },
+      { prefix: 'SA',   country: 'Sweden',            code: 284, continent: 'EU', itu: 18, cq: 14 },
+      { prefix: 'LA',   country: 'Norway',            code: 266, continent: 'EU', itu: 18, cq: 14 },
+      { prefix: 'OZ',   country: 'Denmark',           code: 221, continent: 'EU', itu: 18, cq: 14 },
+      { prefix: 'TF',   country: 'Iceland',           code: 242, continent: 'EU', itu: 17, cq: 40 },
+      { prefix: 'YO',   country: 'Romania',           code: 275, continent: 'EU', itu: 28, cq: 20 },
+      { prefix: 'LZ',   country: 'Bulgaria',          code: 212, continent: 'EU', itu: 28, cq: 20 },
+      { prefix: 'YU',   country: 'Serbia',            code: 296, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'YT',   country: 'Serbia',            code: 296, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: '9A',   country: 'Croatia',           code: 497, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'S5',   country: 'Slovenia',          code: 499, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'T9',   country: 'Bosnia-Herzegovina', code: 501, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'Z3',   country: 'North Macedonia',   code: 502, continent: 'EU', itu: 28, cq: 15 },
+      { prefix: 'SV',   country: 'Greece',            code: 236, continent: 'EU', itu: 28, cq: 20 },
+      { prefix: 'TA',   country: 'Turkey',            code: 390, continent: 'AS', itu: 39, cq: 20 },
+      { prefix: 'UA',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'UA9',  country: 'Asiatic Russia',    code: 15,  continent: 'AS', itu: 31, cq: 19 },
+      { prefix: 'UA0',  country: 'Asiatic Russia',    code: 15,  continent: 'AS', itu: 32, cq: 19 },
+      { prefix: 'RA',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'RK',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'RN',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'RV',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'RW',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'RZ',   country: 'European Russia',   code: 54,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'UR',   country: 'Ukraine',           code: 288, continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'UT',   country: 'Ukraine',           code: 288, continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'UY',   country: 'Ukraine',           code: 288, continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'EU',   country: 'Belarus',           code: 27,  continent: 'EU', itu: 29, cq: 16 },
+      { prefix: 'EW',   country: 'Belarus',           code: 27,  continent: 'EU', itu: 29, cq: 16 },
+
+      // Asia
+      { prefix: 'JA',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JE',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JF',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JG',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JH',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JI',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JJ',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JK',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JL',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JN',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JO',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JP',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JQ',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JR',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'JS',   country: 'Japan',             code: 339, continent: 'AS', itu: 45, cq: 25 },
+      { prefix: 'HL',   country: 'South Korea',       code: 137, continent: 'AS', itu: 44, cq: 25 },
+      { prefix: 'DS',   country: 'South Korea',       code: 137, continent: 'AS', itu: 44, cq: 25 },
+      { prefix: 'BV',   country: 'Taiwan',            code: 386, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'BY',   country: 'China',             code: 318, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'BA',   country: 'China',             code: 318, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'BD',   country: 'China',             code: 318, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'BG',   country: 'China',             code: 318, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'BH',   country: 'China',             code: 318, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'VR',   country: 'Hong Kong',         code: 321, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: 'XX9',  country: 'Macao',             code: 152, continent: 'AS', itu: 44, cq: 24 },
+      { prefix: '9V',   country: 'Singapore',         code: 381, continent: 'AS', itu: 54, cq: 28 },
+      { prefix: '9M2',  country: 'West Malaysia',     code: 299, continent: 'AS', itu: 54, cq: 28 },
+      { prefix: '9M6',  country: 'East Malaysia',     code: 46,  continent: 'OC', itu: 54, cq: 28 },
+      { prefix: 'HS',   country: 'Thailand',          code: 387, continent: 'AS', itu: 49, cq: 26 },
+      { prefix: 'XV',   country: 'Vietnam',           code: 293, continent: 'AS', itu: 49, cq: 26 },
+      { prefix: 'XU',   country: 'Cambodia',          code: 312, continent: 'AS', itu: 49, cq: 26 },
+      { prefix: 'YB',   country: 'Indonesia',         code: 327, continent: 'OC', itu: 51, cq: 28 },
+      { prefix: 'DU',   country: 'Philippines',       code: 375, continent: 'OC', itu: 50, cq: 27 },
+      { prefix: 'VU',   country: 'India',             code: 324, continent: 'AS', itu: 41, cq: 22 },
+      { prefix: 'AP',   country: 'Pakistan',          code: 372, continent: 'AS', itu: 41, cq: 21 },
+      { prefix: 'S2',   country: 'Bangladesh',        code: 305, continent: 'AS', itu: 41, cq: 22 },
+      { prefix: '9N',   country: 'Nepal',             code: 369, continent: 'AS', itu: 42, cq: 22 },
+      { prefix: '4S',   country: 'Sri Lanka',         code: 315, continent: 'AS', itu: 41, cq: 22 },
+      { prefix: '4X',   country: 'Israel',            code: 336, continent: 'AS', itu: 39, cq: 20 },
+      { prefix: '4Z',   country: 'Israel',            code: 336, continent: 'AS', itu: 39, cq: 20 },
+      { prefix: 'JY',   country: 'Jordan',            code: 342, continent: 'AS', itu: 39, cq: 20 },
+      { prefix: 'OD',   country: 'Lebanon',           code: 354, continent: 'AS', itu: 39, cq: 20 },
+      { prefix: 'YK',   country: 'Syria',             code: 384, continent: 'AS', itu: 39, cq: 20 },
+      { prefix: 'YI',   country: 'Iraq',              code: 333, continent: 'AS', itu: 39, cq: 21 },
+      { prefix: 'EP',   country: 'Iran',              code: 330, continent: 'AS', itu: 40, cq: 21 },
+      { prefix: 'A4',   country: 'Oman',              code: 370, continent: 'AS', itu: 39, cq: 21 },
+      { prefix: 'A6',   country: 'UAE',               code: 391, continent: 'AS', itu: 39, cq: 21 },
+      { prefix: 'A7',   country: 'Qatar',             code: 376, continent: 'AS', itu: 39, cq: 21 },
+      { prefix: 'A9',   country: 'Bahrain',           code: 304, continent: 'AS', itu: 39, cq: 21 },
+      { prefix: 'HZ',   country: 'Saudi Arabia',      code: 378, continent: 'AS', itu: 39, cq: 21 },
+      { prefix: '9K',   country: 'Kuwait',            code: 348, continent: 'AS', itu: 39, cq: 21 },
+
+      // Africa
+      { prefix: 'CN',   country: 'Morocco',           code: 446, continent: 'AF', itu: 37, cq: 33 },
+      { prefix: '7X',   country: 'Algeria',           code: 400, continent: 'AF', itu: 37, cq: 33 },
+      { prefix: '3V',   country: 'Tunisia',           code: 474, continent: 'AF', itu: 37, cq: 33 },
+      { prefix: '5A',   country: 'Libya',             code: 436, continent: 'AF', itu: 38, cq: 34 },
+      { prefix: 'SU',   country: 'Egypt',             code: 478, continent: 'AF', itu: 38, cq: 34 },
+      { prefix: 'ST',   country: 'Sudan',             code: 466, continent: 'AF', itu: 48, cq: 34 },
+      { prefix: 'ET',   country: 'Ethiopia',          code: 53,  continent: 'AF', itu: 48, cq: 37 },
+      { prefix: '5Z',   country: 'Kenya',             code: 430, continent: 'AF', itu: 48, cq: 37 },
+      { prefix: '5H',   country: 'Tanzania',          code: 470, continent: 'AF', itu: 53, cq: 37 },
+      { prefix: '5X',   country: 'Uganda',            code: 286, continent: 'AF', itu: 48, cq: 37 },
+      { prefix: '9X',   country: 'Rwanda',            code: 454, continent: 'AF', itu: 52, cq: 36 },
+      { prefix: 'ZS',   country: 'South Africa',      code: 462, continent: 'AF', itu: 57, cq: 38 },
+      { prefix: 'V5',   country: 'Namibia',           code: 464, continent: 'AF', itu: 57, cq: 38 },
+      { prefix: '7P',   country: 'Lesotho',           code: 432, continent: 'AF', itu: 57, cq: 38 },
+      { prefix: 'A2',   country: 'Botswana',          code: 402, continent: 'AF', itu: 57, cq: 38 },
+      { prefix: 'Z2',   country: 'Zimbabwe',          code: 452, continent: 'AF', itu: 53, cq: 38 },
+      { prefix: '7Q',   country: 'Malawi',            code: 440, continent: 'AF', itu: 53, cq: 37 },
+      { prefix: 'C9',   country: 'Mozambique',        code: 181, continent: 'AF', itu: 53, cq: 37 },
+      { prefix: '5N',   country: 'Nigeria',           code: 450, continent: 'AF', itu: 46, cq: 35 },
+      { prefix: '9G',   country: 'Ghana',             code: 424, continent: 'AF', itu: 46, cq: 35 },
+      { prefix: '6W',   country: 'Senegal',           code: 456, continent: 'AF', itu: 46, cq: 35 },
+      { prefix: 'TR',   country: 'Gabon',             code: 420, continent: 'AF', itu: 52, cq: 36 },
+      { prefix: 'TY',   country: 'Benin',             code: 416, continent: 'AF', itu: 46, cq: 35 },
+      { prefix: 'TT',   country: 'Chad',              code: 410, continent: 'AF', itu: 47, cq: 36 },
+      { prefix: 'TJ',   country: 'Cameroon',          code: 406, continent: 'AF', itu: 47, cq: 36 },
+      { prefix: 'D2',   country: 'Angola',            code: 401, continent: 'AF', itu: 52, cq: 36 },
+      { prefix: '3B8',  country: 'Mauritius',         code: 165, continent: 'AF', itu: 53, cq: 39 },
+      { prefix: '3B9',  country: 'Rodrigues Island',  code: 207, continent: 'AF', itu: 53, cq: 39 },
+      { prefix: 'FR',   country: 'Reunion',           code: 453, continent: 'AF', itu: 53, cq: 39 },
+      { prefix: '5R',   country: 'Madagascar',        code: 438, continent: 'AF', itu: 53, cq: 39 },
+
+      // Oceania
+      { prefix: 'VK',   country: 'Australia',         code: 150, continent: 'OC', itu: 55, cq: 30 },
+      { prefix: 'VK9',  country: 'Australia (ext)',   code: 150, continent: 'OC', itu: 55, cq: 30 },
+      { prefix: 'ZL',   country: 'New Zealand',       code: 170, continent: 'OC', itu: 60, cq: 32 },
+      { prefix: 'P2',   country: 'Papua New Guinea',  code: 163, continent: 'OC', itu: 51, cq: 28 },
+      { prefix: 'YJ',   country: 'Vanuatu',           code: 158, continent: 'OC', itu: 56, cq: 32 },
+      { prefix: 'KH8',  country: 'American Samoa',    code: 9,   continent: 'OC', itu: 62, cq: 32 },
+      { prefix: 'KH2',  country: 'Guam',              code: 103, continent: 'OC', itu: 64, cq: 27 },
+      { prefix: 'V7',   country: 'Marshall Islands',  code: 168, continent: 'OC', itu: 65, cq: 31 },
+      { prefix: 'V6',   country: 'Micronesia',        code: 173, continent: 'OC', itu: 65, cq: 27 },
+      { prefix: 'T8',   country: 'Palau',             code: 22,  continent: 'OC', itu: 64, cq: 27 },
+      { prefix: 'FK',   country: 'New Caledonia',     code: 162, continent: 'OC', itu: 56, cq: 32 },
+      { prefix: 'FO',   country: 'French Polynesia',  code: 175, continent: 'OC', itu: 63, cq: 32 },
+      { prefix: 'A3',   country: 'Tonga',             code: 160, continent: 'OC', itu: 62, cq: 32 },
+      { prefix: '5W',   country: 'Samoa',             code: 190, continent: 'OC', itu: 62, cq: 32 },
+      { prefix: '3D2',  country: 'Fiji',              code: 176, continent: 'OC', itu: 56, cq: 32 },
+
+      // Antarctica / special
+      { prefix: 'KC4',  country: 'Antarctica',        code: 13,  continent: 'AN', itu: 73, cq: 38 },
+      { prefix: 'CE9',  country: 'Antarctica (Chilean)', code: 13, continent: 'AN', itu: 73, cq: 12 },
+
+      // Maritime / aero mobile
+      { prefix: 'NM',   country: 'Maritime Mobile',   code: 0,   continent: '—', itu: 0,  cq: 0 }
+    ];
+
+    // Sort by prefix length descending so longest match wins.
+    DXCC.sort(function (a, b) {
+      if (b.prefix.length !== a.prefix.length) return b.prefix.length - a.prefix.length;
+      return a.prefix < b.prefix ? -1 : (a.prefix > b.prefix ? 1 : 0);
+    });
+
+    // US-entity DXCC codes that should trigger call-district + license hints.
+    var US_ENTITY_CODES = { 291: true, 6: true, 110: true, 202: true, 9: true, 103: true, 13: true };
+
+    function normalize(raw) {
+      if (!raw) return '';
+      var s = String(raw).toUpperCase().replace(/\s+/g, '');
+      // Strip a trailing portable suffix: /MM, /AM, /P, /M, /QRP, or any /XX[X]
+      // Match the LAST slash and anything after to handle stacked suffixes like W6/N6CBL/P.
+      // But if the slash precedes a longer "real" prefix (e.g. KH6/N6CBL), the prefix
+      // BEFORE the slash is the operational prefix; strip everything AFTER the slash too.
+      // For our heuristic: if there's exactly one slash, prefer the LEFT side when it looks
+      // like a prefix (ends with a digit), else strip the right side.
+      var slashIdx = s.indexOf('/');
+      if (slashIdx >= 0) {
+        var left = s.substring(0, slashIdx);
+        var right = s.substring(slashIdx + 1);
+        // Common portable suffixes are short; if right is 1-3 chars and matches a portable,
+        // drop it. Otherwise if left looks like a callsign-prefix (ends in digit), use right
+        // (e.g. KH6/N6CBL means operating from KH6 — but call sign is still N6CBL).
+        var portable = /^(MM|AM|P|M|QRP|R|A)$/.test(right);
+        if (portable) {
+          s = left;
+        } else if (/\d$/.test(left) && left.length <= 4) {
+          // Left side is a location prefix like KH6, the right side is the real callsign.
+          // Use the left as the operational prefix override.
+          s = left;
+        } else {
+          // Otherwise default to the longer side (the actual callsign).
+          s = left.length >= right.length ? left : right;
+        }
+      }
+      // Final cleanup: keep only A-Z, 0-9
+      s = s.replace(/[^A-Z0-9]/g, '');
+      return s;
+    }
+
+    function matchPrefix(callsign) {
+      for (var i = 0; i < DXCC.length; i++) {
+        if (callsign.indexOf(DXCC[i].prefix) === 0) {
+          return DXCC[i];
+        }
+      }
+      return null;
+    }
+
+    function isValidCall(s) {
+      // A real amateur callsign has at least one letter, at least one digit,
+      // and is at least 3 characters. Very loose check.
+      if (s.length < 3) return false;
+      if (!/[A-Z]/.test(s)) return false;
+      if (!/\d/.test(s)) return false;
+      // Standard amateur pattern: 1-2 letters, 1 digit, 1-4 letters.
+      return /^[A-Z0-9]{1,3}\d[A-Z0-9]{0,4}$/.test(s);
+    }
+
+    function callDistrict(callsign, entry) {
+      if (!entry || !US_ENTITY_CODES[entry.code]) return null;
+      // Find the first digit in the callsign.
+      var m = callsign.match(/\d/);
+      return m ? m[0] : null;
+    }
+
+    function licenseHint(callsign, entry) {
+      if (!entry || entry.code !== 291) return null; // mainland US only
+      // Determine prefix-letter count and suffix-letter count around the first digit.
+      var m = callsign.match(/^([A-Z]+)(\d)([A-Z]+)$/);
+      if (!m) return 'Format unrecognized';
+      var pre = m[1];
+      var suf = m[3];
+      // Extra-only prefix block: AA-AG, AI, AK, AL (no AH single-letter), N, K, W are open;
+      // AA-AG (2-letter prefixes starting with A and second letter A-G) are Extra blocks.
+      if (pre.length === 2 && pre.charAt(0) === 'A' && /[A-G]/.test(pre.charAt(1))) {
+        return 'Extra (AA-AG block)';
+      }
+      // 1x2 format (e.g. K1AB, W1AB, N1AB)
+      if (pre.length === 1 && suf.length === 2) return '1×2 — Extra';
+      // 2x1 (e.g. KA1A, NA1A)
+      if (pre.length === 2 && suf.length === 1) return '2×1 — Extra';
+      // 2x2 (e.g. KA1AB)
+      if (pre.length === 2 && suf.length === 2) return '2×2 — Advanced/Extra';
+      // 1x3 (e.g. K1ABC, W1ABC, N1ABC)
+      if (pre.length === 1 && suf.length === 3) return '1×3 — General/Advanced/Tech';
+      // 2x3 (e.g. KA1ABC, KB1ABC)
+      if (pre.length === 2 && suf.length === 3) return '2×3 — Tech/General';
+      return 'Format — ' + pre.length + '×' + suf.length;
+    }
+
+    var EL = {
+      input: document.getElementById('cs-input'),
+      filter: document.getElementById('cs-filter'),
+      call: document.getElementById('cs-call'),
+      meta: document.getElementById('cs-meta'),
+      refBody: document.getElementById('cs-ref-body'),
+      refCount: document.getElementById('cs-ref-count')
+    };
+
+    function setMeta(rows) {
+      // rows is an array of [dt, dd] pairs.
+      var html = '';
+      for (var i = 0; i < rows.length; i++) {
+        html += '<dt>' + rows[i][0] + '</dt><dd>' + rows[i][1] + '</dd>';
+      }
+      EL.meta.innerHTML = html;
+    }
+
+    function renderEmpty() {
+      EL.call.innerHTML = '&mdash;';
+      setMeta([['Status', 'Enter a callsign above.']]);
+    }
+
+    function renderInvalid(raw) {
+      EL.call.textContent = raw || '—';
+      setMeta([['Status', 'Enter a valid amateur callsign.']]);
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function render(raw) {
+      var clean = normalize(raw);
+      if (!clean) {
+        renderEmpty();
+        return;
+      }
+      if (!isValidCall(clean)) {
+        renderInvalid(clean);
+        return;
+      }
+      var entry = matchPrefix(clean);
+      if (!entry) {
+        EL.call.textContent = clean;
+        setMeta([
+          ['Status', 'No matching prefix in local table.'],
+          ['Suggestion', 'Try QRZ.com for authoritative lookup.']
+        ]);
+        return;
+      }
+
+      EL.call.textContent = clean;
+
+      var rows = [];
+      rows.push(['Country', entry.country]);
+      rows.push(['DXCC code', entry.code === 0 ? '—' : String(entry.code)]);
+      rows.push(['Continent', entry.continent]);
+      rows.push(['ITU zone', entry.itu === 0 ? '—' : String(entry.itu)]);
+      rows.push(['CQ zone', entry.cq === 0 ? '—' : String(entry.cq)]);
+
+      var district = callDistrict(clean, entry);
+      if (district !== null) {
+        rows.push(['Call district', district]);
+      }
+      var license = licenseHint(clean, entry);
+      if (license) {
+        rows.push(['License hint', license + ' (format only)']);
+      } else if (US_ENTITY_CODES[entry.code]) {
+        rows.push(['License hint', '—']);
+      }
+      rows.push(['Prefix matched', entry.prefix]);
+      setMeta(rows);
+    }
+
+    function renderRefTable(filterStr) {
+      var f = (filterStr || '').toUpperCase().trim();
+      var html = '';
+      var count = 0;
+      // Render in a stable order: alphabetical by prefix for readability.
+      var sorted = DXCC.slice().sort(function (a, b) {
+        return a.prefix < b.prefix ? -1 : (a.prefix > b.prefix ? 1 : 0);
+      });
+      for (var i = 0; i < sorted.length; i++) {
+        var r = sorted[i];
+        if (f) {
+          var hay = (r.prefix + ' ' + r.country).toUpperCase();
+          if (hay.indexOf(f) === -1) continue;
+        }
+        count++;
+        html += '<tr>'
+          + '<td>' + escapeHtml(r.prefix) + '</td>'
+          + '<td>' + r.country + '</td>'
+          + '<td>' + escapeHtml(r.continent) + '</td>'
+          + '<td class="num">' + (r.itu === 0 ? '—' : r.itu) + '</td>'
+          + '<td class="num">' + (r.cq === 0 ? '—' : r.cq) + '</td>'
+          + '<td class="num">' + (r.code === 0 ? '—' : r.code) + '</td>'
+          + '</tr>';
+      }
+      if (count === 0) {
+        html = '<tr><td colspan="6" style="padding:8px 12px; color:var(--muted); font-style:italic;">No prefixes match the filter.</td></tr>';
+      }
+      EL.refBody.innerHTML = html;
+      EL.refCount.textContent = count + ' / ' + DXCC.length + ' prefixes';
+    }
+
+    EL.input.addEventListener('input', function () {
+      render(EL.input.value);
+    });
+    EL.filter.addEventListener('input', function () {
+      renderRefTable(EL.filter.value);
+    });
+
+    // Initial render.
+    renderEmpty();
+    renderRefTable('');
+  }());
+  </script>
+</body>
+</html>

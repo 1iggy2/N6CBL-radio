@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ADIF to Cabrillo v3 contest log converter. Paste or upload an ADIF file, fill the Cabrillo header fields, and download a submission-ready .cbr log file.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/cabrillo/">
+  <meta property="og:title" content="Cabrillo Log Builder &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Convert ADIF QSO logs to Cabrillo v3 for contest submission. Fill the header, preview the output, copy or download.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Cabrillo Log Builder &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/CABRILLO/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/" aria-current="page"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/cabrillo/ &mdash; contest log builder</span>
+        <span>ADIF in &middot; Cabrillo v3 out</span>
+      </div>
+
+      <section aria-labelledby="cab-input-heading">
+        <div class="section-label split">
+          <span id="cab-input-heading">ADIF input</span>
+          <span class="log-count" id="cab-source-indicator">no input yet</span>
+        </div>
+        <div class="tools-controls">
+          <label class="tools-button" for="adif-file">Choose .adi / .adif file</label>
+          <input type="file" id="adif-file" accept=".adi,.adif,text/plain" style="display:none;">
+          <button type="button" class="tools-button" id="adif-clear">Clear input</button>
+          <button type="button" class="tools-button" id="adif-sample">Load sample</button>
+          <span class="tools-controls-spacer"></span>
+          <span class="log-count" id="adif-qso-count">0 QSO parsed</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-wide">
+            <span>Or paste ADIF text</span>
+            <textarea id="adif-text" rows="6" placeholder="&lt;CALL:5&gt;W1AW &lt;QSO_DATE:8&gt;20241130 &lt;TIME_ON:4&gt;0000 &lt;BAND:3&gt;20m &lt;MODE:2&gt;CW &lt;RST_SENT:3&gt;599 &lt;RST_RCVD:3&gt;599 &lt;EOR&gt;"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="cab-header-heading">
+        <div class="section-label split">
+          <span id="cab-header-heading">Cabrillo header fields</span>
+          <span class="log-count">v3.0 required &amp; common tags</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>CONTEST</span>
+            <select id="f-contest">
+              <option value="ARRL-DX-CW">ARRL-DX-CW</option>
+              <option value="ARRL-DX-SSB">ARRL-DX-SSB</option>
+              <option value="ARRL-10">ARRL-10</option>
+              <option value="ARRL-160">ARRL-160</option>
+              <option value="ARRL-RTTY">ARRL-RTTY</option>
+              <option value="ARRL-VHF-JAN">ARRL-VHF-JAN</option>
+              <option value="ARRL-VHF-JUN">ARRL-VHF-JUN</option>
+              <option value="ARRL-VHF-SEP">ARRL-VHF-SEP</option>
+              <option value="CQ-160-CW">CQ-160-CW</option>
+              <option value="CQ-160-SSB">CQ-160-SSB</option>
+              <option value="CQ-WPX-CW">CQ-WPX-CW</option>
+              <option value="CQ-WPX-RTTY">CQ-WPX-RTTY</option>
+              <option value="CQ-WPX-SSB">CQ-WPX-SSB</option>
+              <option value="CQ-WW-CW" selected>CQ-WW-CW</option>
+              <option value="CQ-WW-RTTY">CQ-WW-RTTY</option>
+              <option value="CQ-WW-SSB">CQ-WW-SSB</option>
+              <option value="IARU-HF">IARU-HF</option>
+              <option value="NAQP-CW">NAQP-CW</option>
+              <option value="NAQP-RTTY">NAQP-RTTY</option>
+              <option value="NAQP-SSB">NAQP-SSB</option>
+              <option value="RTTY-RU">RTTY-RU</option>
+              <option value="RTTY-WPX">RTTY-WPX</option>
+              <option value="SS-CW">SS-CW</option>
+              <option value="SS-SSB">SS-SSB</option>
+              <option value="OTHER">OTHER (type below)</option>
+            </select>
+          </label>
+          <label>
+            <span>CONTEST (custom)</span>
+            <input type="text" id="f-contest-custom" placeholder="used when CONTEST=OTHER" autocomplete="off">
+          </label>
+          <label>
+            <span>CALLSIGN</span>
+            <input type="text" id="f-callsign" value="N6CBL" autocomplete="off">
+          </label>
+          <label>
+            <span>NAME</span>
+            <input type="text" id="f-name" value="Cameron Gable" autocomplete="off">
+          </label>
+
+          <label>
+            <span>CATEGORY-OPERATOR</span>
+            <select id="f-cat-operator">
+              <option value="SINGLE-OP" selected>SINGLE-OP</option>
+              <option value="MULTI-OP">MULTI-OP</option>
+              <option value="CHECKLOG">CHECKLOG</option>
+            </select>
+          </label>
+          <label>
+            <span>CATEGORY-ASSISTED</span>
+            <select id="f-cat-assisted">
+              <option value="NON-ASSISTED" selected>NON-ASSISTED</option>
+              <option value="ASSISTED">ASSISTED</option>
+            </select>
+          </label>
+          <label>
+            <span>CATEGORY-BAND</span>
+            <select id="f-cat-band">
+              <option value="ALL" selected>ALL</option>
+              <option value="160M">160M</option>
+              <option value="80M">80M</option>
+              <option value="40M">40M</option>
+              <option value="20M">20M</option>
+              <option value="15M">15M</option>
+              <option value="10M">10M</option>
+              <option value="6M">6M</option>
+              <option value="2M">2M</option>
+              <option value="222">222</option>
+              <option value="432">432</option>
+              <option value="902">902</option>
+              <option value="1.2G">1.2G</option>
+            </select>
+          </label>
+          <label>
+            <span>CATEGORY-MODE</span>
+            <select id="f-cat-mode">
+              <option value="CW" selected>CW</option>
+              <option value="SSB">SSB</option>
+              <option value="FM">FM</option>
+              <option value="RTTY">RTTY</option>
+              <option value="DIGI">DIGI</option>
+              <option value="MIXED">MIXED</option>
+            </select>
+          </label>
+
+          <label>
+            <span>CATEGORY-POWER</span>
+            <select id="f-cat-power">
+              <option value="QRP" selected>QRP</option>
+              <option value="LOW">LOW</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+          </label>
+          <label>
+            <span>CATEGORY-STATION</span>
+            <select id="f-cat-station">
+              <option value="FIXED">FIXED</option>
+              <option value="MOBILE">MOBILE</option>
+              <option value="PORTABLE" selected>PORTABLE</option>
+              <option value="ROVER">ROVER</option>
+              <option value="EXPEDITION">EXPEDITION</option>
+            </select>
+          </label>
+          <label>
+            <span>CATEGORY-TRANSMITTER</span>
+            <select id="f-cat-tx">
+              <option value="ONE" selected>ONE</option>
+              <option value="TWO">TWO</option>
+              <option value="LIMITED">LIMITED</option>
+              <option value="UNLIMITED">UNLIMITED</option>
+              <option value="SWL">SWL</option>
+            </select>
+          </label>
+          <label>
+            <span>CATEGORY-OVERLAY</span>
+            <input type="text" id="f-cat-overlay" placeholder="e.g. ROOKIE, CLASSIC (often blank)" autocomplete="off">
+          </label>
+
+          <label>
+            <span>CLAIMED-SCORE</span>
+            <input type="number" id="f-claimed" value="0" min="0" step="1">
+          </label>
+          <label>
+            <span>CLUB</span>
+            <input type="text" id="f-club" placeholder="club name (optional)" autocomplete="off">
+          </label>
+          <label>
+            <span>LOCATION</span>
+            <input type="text" id="f-location" value="CA" autocomplete="off">
+          </label>
+          <label>
+            <span>OPERATORS</span>
+            <input type="text" id="f-operators" value="N6CBL" autocomplete="off">
+          </label>
+
+          <label class="tools-wide">
+            <span>ADDRESS (multi-line allowed)</span>
+            <textarea id="f-address" rows="2" placeholder="street / city / state / zip / country"></textarea>
+          </label>
+
+          <label class="tools-half">
+            <span>SENT EXCHANGE (used when ADIF has no STX)</span>
+            <input type="text" id="f-sent-exchange" value="599 03" autocomplete="off">
+          </label>
+          <label class="tools-half">
+            <span>RCVD EXCHANGE fallback</span>
+            <input type="text" id="f-rcvd-exchange" value="599" autocomplete="off">
+          </label>
+
+          <label class="tools-wide">
+            <span>SOAPBOX</span>
+            <textarea id="f-soapbox" rows="3" placeholder="comments to the contest sponsor (one paragraph per SOAPBOX: line on output)"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="cab-preview-heading">
+        <div class="section-label split">
+          <span id="cab-preview-heading">Cabrillo preview</span>
+          <span class="log-count" id="cab-line-count">0 lines</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-wide">
+            <span>generated .cbr / .log output</span>
+            <textarea id="cab-output" rows="18" readonly></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="cab-output-heading">
+        <div class="section-label" id="cab-output-heading">Output</div>
+        <div class="tools-controls">
+          <button type="button" class="tools-button primary" id="btn-copy">Copy to clipboard</button>
+          <button type="button" class="tools-button primary" id="btn-download">Download .cbr</button>
+          <button type="button" class="tools-button" id="btn-download-log">Download .log</button>
+          <span class="tools-controls-spacer"></span>
+          <span class="log-count" id="copy-status">&mdash;</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="cab-qso-heading">
+        <div class="section-label split">
+          <span id="cab-qso-heading">QSO preview table</span>
+          <span class="log-count" id="cab-qso-summary">0 QSO &middot; from ADIF</span>
+        </div>
+        <div class="tools-adif-section">
+          <table class="data-table tools-adif-table" id="cab-qso-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Freq (kHz)</th>
+                <th>Mode</th>
+                <th>My call</th>
+                <th>My RST</th>
+                <th>My exch</th>
+                <th>His call</th>
+                <th>His RST</th>
+                <th>His exch</th>
+              </tr>
+            </thead>
+            <tbody id="cab-qso-tbody">
+              <tr><td colspan="11" class="muted">No QSO records parsed yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="cab-notes-heading">
+        <div class="section-label" id="cab-notes-heading">Notes on Cabrillo v3</div>
+        <div class="tools-note">
+          <strong>Cabrillo v3</strong> is the contest log submission format used by virtually every major contest sponsor (CQ, ARRL, WPX, NAQP, RTTY-RU, IARU). The header carries the entry's class and operator metadata; the body is one <code>QSO:</code> line per contact.
+          <strong>QSO line format varies by contest</strong> &mdash; modes have different exchanges (RST + serial, RST + state/section, RST + zone, RST + grid, etc.). This tool emits the generic &ldquo;<code>RST + serial/exchange</code>&rdquo; layout: <code>QSO: freq mode date time mycall myrst myexch hiscall hisrst hisexch</code>.
+          <strong>Verify with the contest sponsor</strong> before submitting &mdash; some events (Sweepstakes, Field Day, VHF) use longer exchanges that you may need to edit by hand.
+          For complex exchanges, edit the <code>SENT EXCHANGE</code> field (and the per-QSO STX_STRING in your ADIF source) and add explanatory text to <code>SOAPBOX</code> before submitting.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+
+    var BAND_KHZ = {
+      '2190m': 137, '630m': 472, '560m': 501,
+      '160m': 1800, '80m': 3500, '60m': 5330, '40m': 7000,
+      '30m': 10100, '20m': 14000, '17m': 18068, '15m': 21000,
+      '12m': 24890, '10m': 28000, '6m': 50000, '4m': 70000,
+      '2m': 144000, '1.25m': 222000, '70cm': 432000, '33cm': 902000,
+      '23cm': 1240000
+    };
+
+    function pad(n, w) {
+      var s = String(n);
+      while (s.length < (w || 2)) s = '0' + s;
+      return s;
+    }
+
+    function trim(s) {
+      return s == null ? '' : String(s).replace(/^\s+|\s+$/g, '');
+    }
+
+    function upper(s) {
+      return trim(s).toUpperCase();
+    }
+
+    // ADIF parser. Reads <FIELD:LEN[:TYPE]>VALUE pairs. Records end on <EOR>.
+    function parseAdif(text) {
+      if (!text) return [];
+      // Strip header (everything before <EOH>). If no <EOH>, parse as records.
+      var eohIdx = text.search(/<eoh>/i);
+      var body = eohIdx >= 0 ? text.substring(eohIdx + 5) : text;
+      var records = [];
+      var current = {};
+      var i = 0;
+      var len = body.length;
+      while (i < len) {
+        // Find next '<'
+        var lt = body.indexOf('<', i);
+        if (lt < 0) break;
+        var gt = body.indexOf('>', lt);
+        if (gt < 0) break;
+        var tag = body.substring(lt + 1, gt);
+        i = gt + 1;
+        var parts = tag.split(':');
+        var name = parts[0].toUpperCase();
+        if (name === 'EOR') {
+          if (Object.keys(current).length) records.push(current);
+          current = {};
+          continue;
+        }
+        if (name === 'EOH') {
+          current = {};
+          continue;
+        }
+        var fieldLen = parts.length > 1 ? parseInt(parts[1], 10) : 0;
+        if (isNaN(fieldLen)) fieldLen = 0;
+        var value = '';
+        if (fieldLen > 0) {
+          value = body.substr(i, fieldLen);
+          i += fieldLen;
+        }
+        current[name] = value;
+      }
+      if (Object.keys(current).length) records.push(current);
+      return records;
+    }
+
+    function adifModeToCabrillo(mode) {
+      var m = upper(mode);
+      if (!m) return 'CW';
+      if (m === 'CW' || m === 'CWR') return 'CW';
+      if (m === 'SSB' || m === 'LSB' || m === 'USB' || m === 'AM' || m === 'FM' || m === 'PH') return 'PH';
+      if (m === 'RTTY') return 'RY';
+      if (m === 'FT8' || m === 'FT4' || m === 'JT65' || m === 'JT9' || m === 'MFSK' ||
+          m === 'PSK' || m === 'PSK31' || m === 'PSK63' || m === 'OLIVIA' || m === 'JS8' ||
+          m === 'Q65' || m === 'FST4' || m === 'WSPR' || m === 'DIGI' || m === 'DATA') return 'DG';
+      return m;
+    }
+
+    function freqKhzFromRecord(rec) {
+      if (rec.FREQ) {
+        var mhz = parseFloat(rec.FREQ);
+        if (!isNaN(mhz) && mhz > 0) return Math.round(mhz * 1000);
+      }
+      if (rec.BAND) {
+        var b = rec.BAND.toLowerCase();
+        if (BAND_KHZ[b] != null) return BAND_KHZ[b];
+      }
+      return 0;
+    }
+
+    function dateOut(yyyymmdd) {
+      var s = trim(yyyymmdd);
+      if (/^\d{8}$/.test(s)) {
+        return s.substring(0, 4) + '-' + s.substring(4, 6) + '-' + s.substring(6, 8);
+      }
+      return '0000-00-00';
+    }
+
+    function timeOut(t) {
+      var s = trim(t);
+      if (/^\d{6}$/.test(s)) return s.substring(0, 4);
+      if (/^\d{4}$/.test(s)) return s;
+      if (/^\d{1,3}$/.test(s)) return pad(s, 4);
+      return '0000';
+    }
+
+    function buildQsoLine(rec, defaults, myCall) {
+      var freq = freqKhzFromRecord(rec);
+      var mode = adifModeToCabrillo(rec.MODE);
+      var date = dateOut(rec.QSO_DATE);
+      var time = timeOut(rec.TIME_ON);
+      var hisCall = upper(rec.CALL) || '?';
+      var myRst = trim(rec.RST_SENT) || '599';
+      var hisRst = trim(rec.RST_RCVD) || '599';
+      var myExch = trim(rec.STX_STRING) || trim(rec.STX) || defaults.sentExchange || '';
+      var hisExch = trim(rec.SRX_STRING) || trim(rec.SRX) || defaults.rcvdExchange || '';
+
+      // Cabrillo expects RST as part of exchange already, but most sponsors accept
+      // explicit RST plus exchange. Strip leading RST from exchange tokens if user
+      // already supplied a separate RST_SENT/RST_RCVD to avoid doubling.
+      myExch = stripLeadingRst(myExch, myRst);
+      hisExch = stripLeadingRst(hisExch, hisRst);
+
+      // Field widths chosen to align typical CW/SSB lines.
+      var fields = [
+        padRight(String(freq), 5),
+        padRight(mode, 2),
+        date,
+        time,
+        padRight(myCall, 13),
+        padRight(myRst, 3),
+        padRight(myExch, 6),
+        padRight(hisCall, 13),
+        padRight(hisRst, 3),
+        padRight(hisExch, 6)
+      ];
+      return 'QSO: ' + fields.join(' ');
+    }
+
+    function stripLeadingRst(exch, rst) {
+      if (!exch || !rst) return exch;
+      var tokens = exch.split(/\s+/);
+      if (tokens.length > 1 && tokens[0] === rst) {
+        return tokens.slice(1).join(' ');
+      }
+      return exch;
+    }
+
+    function padRight(s, n) {
+      s = String(s == null ? '' : s);
+      while (s.length < n) s = s + ' ';
+      return s;
+    }
+
+    function val(id) {
+      var el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function setText(id, v) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = v;
+    }
+
+    function getContestName() {
+      var c = val('f-contest');
+      if (c === 'OTHER') {
+        return upper(val('f-contest-custom')) || 'OTHER';
+      }
+      return c;
+    }
+
+    function buildHeader() {
+      var lines = [];
+      lines.push('START-OF-LOG: 3.0');
+      lines.push('CONTEST: ' + getContestName());
+      lines.push('CALLSIGN: ' + upper(val('f-callsign')));
+      lines.push('CATEGORY-OPERATOR: ' + val('f-cat-operator'));
+      lines.push('CATEGORY-ASSISTED: ' + val('f-cat-assisted'));
+      lines.push('CATEGORY-BAND: ' + val('f-cat-band'));
+      lines.push('CATEGORY-MODE: ' + val('f-cat-mode'));
+      lines.push('CATEGORY-POWER: ' + val('f-cat-power'));
+      lines.push('CATEGORY-STATION: ' + val('f-cat-station'));
+      lines.push('CATEGORY-TRANSMITTER: ' + val('f-cat-tx'));
+      var overlay = trim(val('f-cat-overlay'));
+      if (overlay) lines.push('CATEGORY-OVERLAY: ' + overlay.toUpperCase());
+      var claimed = trim(val('f-claimed'));
+      lines.push('CLAIMED-SCORE: ' + (claimed === '' ? '0' : claimed));
+      lines.push('CLUB: ' + trim(val('f-club')));
+      lines.push('LOCATION: ' + trim(val('f-location')));
+      lines.push('NAME: ' + trim(val('f-name')));
+
+      // ADDRESS may be multi-line. Emit one ADDRESS: line per non-empty line.
+      var addr = trim(val('f-address'));
+      if (addr) {
+        var addrLines = addr.split(/\r?\n/);
+        for (var i = 0; i < addrLines.length; i++) {
+          var a = trim(addrLines[i]);
+          if (a) lines.push('ADDRESS: ' + a);
+        }
+      } else {
+        lines.push('ADDRESS: ');
+      }
+
+      lines.push('OPERATORS: ' + upper(val('f-operators')));
+
+      var soapbox = trim(val('f-soapbox'));
+      if (soapbox) {
+        var sbLines = soapbox.split(/\r?\n/);
+        for (var j = 0; j < sbLines.length; j++) {
+          var s = trim(sbLines[j]);
+          if (s) lines.push('SOAPBOX: ' + s);
+        }
+      }
+      return lines;
+    }
+
+    function buildCabrillo(records) {
+      var headerLines = buildHeader();
+      var myCall = upper(val('f-callsign')) || 'N6CBL';
+      var defaults = {
+        sentExchange: trim(val('f-sent-exchange')),
+        rcvdExchange: trim(val('f-rcvd-exchange'))
+      };
+      var qsoLines = [];
+      for (var i = 0; i < records.length; i++) {
+        qsoLines.push(buildQsoLine(records[i], defaults, myCall));
+      }
+      var all = headerLines.concat(qsoLines);
+      all.push('END-OF-LOG:');
+      return all.join('\n') + '\n';
+    }
+
+    function renderQsoTable(records) {
+      var tbody = document.getElementById('cab-qso-tbody');
+      if (!tbody) return;
+      if (!records.length) {
+        tbody.innerHTML = '<tr><td colspan="11" class="muted">No QSO records parsed yet.</td></tr>';
+        return;
+      }
+      var myCall = upper(val('f-callsign')) || 'N6CBL';
+      var defaults = {
+        sentExchange: trim(val('f-sent-exchange')),
+        rcvdExchange: trim(val('f-rcvd-exchange'))
+      };
+      var rows = [];
+      for (var i = 0; i < records.length; i++) {
+        var rec = records[i];
+        var freq = freqKhzFromRecord(rec);
+        var mode = adifModeToCabrillo(rec.MODE);
+        var date = dateOut(rec.QSO_DATE);
+        var time = timeOut(rec.TIME_ON);
+        var hisCall = upper(rec.CALL) || '?';
+        var myRst = trim(rec.RST_SENT) || '599';
+        var hisRst = trim(rec.RST_RCVD) || '599';
+        var myExch = trim(rec.STX_STRING) || trim(rec.STX) || defaults.sentExchange || '';
+        var hisExch = trim(rec.SRX_STRING) || trim(rec.SRX) || defaults.rcvdExchange || '';
+        myExch = stripLeadingRst(myExch, myRst);
+        hisExch = stripLeadingRst(hisExch, hisRst);
+        rows.push(
+          '<tr>' +
+            '<td class="num">' + (i + 1) + '</td>' +
+            '<td>' + escapeHtml(date) + '</td>' +
+            '<td>' + escapeHtml(time) + '</td>' +
+            '<td class="num">' + (freq || '&mdash;') + '</td>' +
+            '<td>' + escapeHtml(mode) + '</td>' +
+            '<td>' + escapeHtml(myCall) + '</td>' +
+            '<td>' + escapeHtml(myRst) + '</td>' +
+            '<td>' + escapeHtml(myExch) + '</td>' +
+            '<td>' + escapeHtml(hisCall) + '</td>' +
+            '<td>' + escapeHtml(hisRst) + '</td>' +
+            '<td>' + escapeHtml(hisExch) + '</td>' +
+          '</tr>'
+        );
+      }
+      tbody.innerHTML = rows.join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    var state = {
+      records: [],
+      sourceLabel: 'no input yet'
+    };
+
+    function regenerate() {
+      var output = buildCabrillo(state.records);
+      var outEl = document.getElementById('cab-output');
+      if (outEl) outEl.value = output;
+      var lineCount = output.split('\n').length - 1;
+      setText('cab-line-count', lineCount + ' lines');
+      setText('adif-qso-count', state.records.length + ' QSO parsed');
+      setText('cab-qso-summary', state.records.length + ' QSO &middot; ' + state.sourceLabel);
+      var sumEl = document.getElementById('cab-qso-summary');
+      if (sumEl) sumEl.innerHTML = state.records.length + ' QSO &middot; ' + state.sourceLabel;
+      setText('cab-source-indicator', state.sourceLabel);
+      renderQsoTable(state.records);
+    }
+
+    function ingestAdif(text, label) {
+      state.records = parseAdif(text);
+      state.sourceLabel = label;
+      regenerate();
+    }
+
+    // Bind header field changes
+    var headerFieldIds = [
+      'f-contest', 'f-contest-custom', 'f-callsign', 'f-name',
+      'f-cat-operator', 'f-cat-assisted', 'f-cat-band', 'f-cat-mode',
+      'f-cat-power', 'f-cat-station', 'f-cat-tx', 'f-cat-overlay',
+      'f-claimed', 'f-club', 'f-location', 'f-operators',
+      'f-address', 'f-sent-exchange', 'f-rcvd-exchange', 'f-soapbox'
+    ];
+    for (var i = 0; i < headerFieldIds.length; i++) {
+      var el = document.getElementById(headerFieldIds[i]);
+      if (el) {
+        el.addEventListener('input', regenerate);
+        el.addEventListener('change', regenerate);
+      }
+    }
+
+    // ADIF text paste
+    var adifText = document.getElementById('adif-text');
+    if (adifText) {
+      adifText.addEventListener('input', function () {
+        if (trim(adifText.value)) {
+          ingestAdif(adifText.value, 'pasted ADIF');
+        } else {
+          state.records = [];
+          state.sourceLabel = 'no input yet';
+          regenerate();
+        }
+      });
+    }
+
+    // File input
+    var fileInput = document.getElementById('adif-file');
+    if (fileInput) {
+      fileInput.addEventListener('change', function () {
+        var f = fileInput.files && fileInput.files[0];
+        if (!f) return;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var content = e.target.result;
+          if (adifText) adifText.value = content;
+          ingestAdif(content, 'file: ' + f.name);
+        };
+        reader.readAsText(f);
+      });
+    }
+
+    // Clear
+    var clearBtn = document.getElementById('adif-clear');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (adifText) adifText.value = '';
+        if (fileInput) fileInput.value = '';
+        state.records = [];
+        state.sourceLabel = 'no input yet';
+        regenerate();
+      });
+    }
+
+    // Sample
+    var sampleBtn = document.getElementById('adif-sample');
+    if (sampleBtn) {
+      sampleBtn.addEventListener('click', function () {
+        var sample =
+          'ADIF sample for /tools/cabrillo/\n' +
+          '<ADIF_VER:5>3.1.4\n' +
+          '<PROGRAMID:8>N6CBL.RADIO\n' +
+          '<EOH>\n' +
+          '<CALL:4>W1AW <QSO_DATE:8>20241130 <TIME_ON:4>0000 <BAND:3>20m <MODE:2>CW ' +
+          '<FREQ:6>14.025 <RST_SENT:3>599 <STX_STRING:2>03 <RST_RCVD:3>599 <SRX_STRING:2>05 <EOR>\n' +
+          '<CALL:4>K3LR <QSO_DATE:8>20241130 <TIME_ON:4>0001 <BAND:3>20m <MODE:2>CW ' +
+          '<FREQ:6>14.028 <RST_SENT:3>599 <STX_STRING:2>03 <RST_RCVD:3>599 <SRX_STRING:2>05 <EOR>\n' +
+          '<CALL:4>VE3X <QSO_DATE:8>20241130 <TIME_ON:4>0017 <BAND:3>40m <MODE:2>CW ' +
+          '<FREQ:5>7.015 <RST_SENT:3>599 <STX_STRING:2>03 <RST_RCVD:3>599 <SRX_STRING:2>04 <EOR>\n' +
+          '<CALL:4>JA1A <QSO_DATE:8>20241130 <TIME_ON:4>0612 <BAND:3>15m <MODE:2>CW ' +
+          '<FREQ:6>21.030 <RST_SENT:3>599 <STX_STRING:2>03 <RST_RCVD:3>599 <SRX_STRING:2>25 <EOR>\n';
+        if (adifText) adifText.value = sample;
+        ingestAdif(sample, 'sample data');
+      });
+    }
+
+    // Copy
+    var copyBtn = document.getElementById('btn-copy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        var outEl = document.getElementById('cab-output');
+        if (!outEl) return;
+        var text = outEl.value;
+        var done = function (ok) {
+          setText('copy-status', ok ? 'copied ' + text.length + ' chars' : 'copy failed');
+          setTimeout(function () { setText('copy-status', '—'); }, 3000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+        } else {
+          try {
+            outEl.removeAttribute('readonly');
+            outEl.select();
+            document.execCommand('copy');
+            outEl.setAttribute('readonly', 'readonly');
+            done(true);
+          } catch (e) {
+            done(false);
+          }
+        }
+      });
+    }
+
+    function download(ext) {
+      var outEl = document.getElementById('cab-output');
+      if (!outEl) return;
+      var blob = new Blob([outEl.value], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var callsign = upper(val('f-callsign')) || 'LOG';
+      var contest = getContestName().replace(/[^A-Za-z0-9_-]/g, '_');
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = callsign + '_' + contest + '.' + ext;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+    }
+
+    var dlBtn = document.getElementById('btn-download');
+    if (dlBtn) dlBtn.addEventListener('click', function () { download('cbr'); });
+    var dlLog = document.getElementById('btn-download-log');
+    if (dlLog) dlLog.addEventListener('click', function () { download('log'); });
+
+    // Initial render
+    regenerate();
+  }());
+  </script>
+</body>
+</html>
