@@ -7,12 +7,28 @@ file, then passes that path through QSO_LOG_ADIF_PATH. A legacy logs/ fallback i
 kept for local one-off parsing, but committed log uploads are no longer the source
 of truth. Park reference and session type are derived from ADIF data, not filename.
 """
-import re
+import html
 import json
 import os
+import re
 import sys
+import urllib.parse
 from pathlib import Path
 from datetime import datetime, timezone
+
+
+def normalize_adif_text(content):
+    text = str(content or '').lstrip('\ufeff')
+    for _ in range(3):
+        next_text = text
+        if '<' not in next_text and '%' in next_text:
+            next_text = urllib.parse.unquote_plus(next_text)
+        if '<' not in next_text and re.search(r'&lt;', next_text, re.IGNORECASE):
+            next_text = html.unescape(next_text)
+        if next_text == text:
+            break
+        text = next_text
+    return text
 
 
 def parse_adif_fields(text):
@@ -29,7 +45,7 @@ def parse_adif_fields(text):
 
 
 def parse_adif_file(path):
-    content = Path(path).read_text(encoding='utf-8', errors='replace')
+    content = normalize_adif_text(Path(path).read_text(encoding='utf-8', errors='replace'))
     eoh = re.search(r'<EOH>', content, re.IGNORECASE)
     records_text = content[eoh.end():] if eoh else content
     qsos = []
