@@ -1945,12 +1945,16 @@ td.prop-state {
 }
 
 @media (max-width: 560px) {
-  .propagation-route .layout-body { grid-template-columns: 1fr; }
+  /* Keep the propagation console visible beside the permanent navigation rail.
+     Stacking the full navigator above this live dashboard buries the actual
+     propagation readout on phones. */
+  .propagation-route .layout-body { grid-template-columns: 112px minmax(0, 1fr); }
   .propagation-route .sidenav {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 2px solid var(--rule);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    border-right: 2px solid var(--rule);
+    border-bottom: none;
   }
 
   .propagation-page .section-label.split {
