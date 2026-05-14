@@ -260,6 +260,27 @@
       "state": "TX",
       "updated": "2026-05-11T03:25:46Z"
     },
+    "K6CVH": {
+      "call": "K6CVH",
+      "country": "United States",
+      "county": "Placer",
+      "display_name": "Timothy K Crossland",
+      "dxcc": "291",
+      "eqsl": "1",
+      "fname": "Timothy K",
+      "found": true,
+      "grid": "CM98jw",
+      "image": "https://cdn-xml.qrz.com/h/k6cvh/20231025_172237.jpg",
+      "land": "United States",
+      "lotw": "1",
+      "moddate": "2025-11-11 16:50:16",
+      "mqsl": "1",
+      "name": "Crossland",
+      "name_fmt": "Timothy K Crossland",
+      "qrz_url": "https://www.qrz.com/db/K6CVH",
+      "state": "CA",
+      "updated": "2026-05-14T08:07:47Z"
+    },
     "K6YUQ": {
       "call": "K6YUQ",
       "country": "United States",
@@ -276,6 +297,25 @@
       "qrz_url": "https://www.qrz.com/db/K6YUQ",
       "state": "WA",
       "updated": "2026-05-11T03:25:46Z"
+    },
+    "K6ZI": {
+      "call": "K6ZI",
+      "country": "United States",
+      "county": "Los Angeles",
+      "display_name": "Benjamin \"Ben\" Haro",
+      "dxcc": "291",
+      "fname": "Benjamin",
+      "found": true,
+      "grid": "DM04sf",
+      "image": "https://cdn-xml.qrz.com/i/k6zi/IMG_0395.png",
+      "land": "United States",
+      "moddate": "2024-10-28 02:52:27",
+      "name": "Haro",
+      "name_fmt": "Benjamin \"Ben\" Haro",
+      "nickname": "Ben",
+      "qrz_url": "https://www.qrz.com/db/K6ZI",
+      "state": "CA",
+      "updated": "2026-05-14T08:07:47Z"
     },
     "K7ACN": {
       "call": "K7ACN",
@@ -2551,7 +2591,7 @@
       "updated": "2026-05-11T03:25:46Z"
     }
   },
-  "generated": "2026-05-11T03:25:46Z",
+  "generated": "2026-05-14T08:07:47Z",
   "policy": {
     "lookup_limit": 250,
     "max_age_days": 90,
