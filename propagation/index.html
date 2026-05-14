@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL propagation command station — live NOAA SWPC solar and geomagnetic indices, HF band outlook from DM03tu, 24 h activation window, and Hermosa Beach operating weather.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/propagation/">
+  <meta property="og:title" content="Propagation — N6CBL.radio">
+  <meta property="og:description" content="Live HF propagation dashboard for N6CBL: NOAA SWPC indices, band-by-band reach from DM03tu, 24 h activation window, and Hermosa Beach weather.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Propagation &mdash; N6CBL.radio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /PROPAGATION/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/roadmap/">
+              <span class="nav-path">/roadmap/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/stats/">
+              <span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/station/">
+              <span class="nav-path">/station/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/propagation/" aria-current="page">
+              <span class="nav-path">/propagation/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item-unimplemented">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item-unimplemented">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; 20m</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content propagation-page">
+
+      <section class="propagation-dossier" aria-labelledby="propagation-dossier-heading">
+        <div class="section-label split">
+          <span id="propagation-dossier-heading">Propagation control</span>
+          <span class="section-tag live">field decision surface</span>
+        </div>
+        <table class="propagation-control-table">
+          <tbody>
+            <tr>
+              <th scope="row">Purpose</th>
+              <td>Pre-flight check before driving to a POTA park. Cross-checks live solar, geomagnetic, alert, and surface-weather data into one go / marginal / hold call from the home QTH.</td>
+            </tr>
+            <tr>
+              <th scope="row">Station model</th>
+              <td>Elecraft KX2 &middot; Chameleon SS-17 vertical &middot; 5&ndash;10 W SSB / FT8 &middot; primary bands 40 / 30 / 20 / 17 / 15 m &middot; DM03tu (33.85&deg;N 118.38&deg;W).</td>
+            </tr>
+            <tr>
+              <th scope="row">Decision rule</th>
+              <td>Effective SFI = observed SFI minus Kp-derived geomagnetic penalty. Bands open when effective SFI clears the band's MUF threshold for the path day / night state. Storm-class Kp (&ge; 5) holds the activation regardless of SFI.</td>
+            </tr>
+            <tr>
+              <th scope="row">Refresh</th>
+              <td>Indices pulled on page load. SWPC publishes 10 cm flux and Kp on roughly 3-hour cadence; alerts and solar wind update faster. Reload before leaving the driveway.</td>
+            </tr>
+            <tr>
+              <th scope="row">Data sources</th>
+              <td>NOAA SWPC <span class="path">products/</span> JSON feeds for SFI, Kp, A, solar wind, IMF B<sub>z</sub>, and alerts &middot; Open-Meteo forecast API for Hermosa Beach surface weather and station sunrise / sunset.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="propagation-decision" aria-labelledby="propagation-decision-heading">
+        <div class="section-label split">
+          <span id="propagation-decision-heading">Field decision</span>
+          <span id="prop-decision-stamp" class="log-count">computing&hellip;</span>
+        </div>
+        <div class="stats-grid propagation-decision-grid">
+          <div class="stat">
+            <span class="stat-label">Outlook</span>
+            <span id="prop-outlook" class="stat-value">&mdash;</span>
+            <span id="prop-outlook-sub" class="stat-sub">Awaiting solar &amp; Kp data</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Recommended bands</span>
+            <span id="prop-bands-now" class="stat-value">&mdash;</span>
+            <span id="prop-bands-now-sub" class="stat-sub">Day / night call from DM03tu</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Best UTC window</span>
+            <span id="prop-window" class="stat-value">&mdash;</span>
+            <span id="prop-window-sub" class="stat-sub">Next 24 h, local PT shown below</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Surface weather</span>
+            <span id="prop-weather-summary" class="stat-value">&mdash;</span>
+            <span id="prop-weather-summary-sub" class="stat-sub">Hermosa Beach, CA</span>
+          </div>
+        </div>
+        <table class="propagation-blocker-table">
+          <thead>
+            <tr>
+              <th>Concern</th>
+              <th>State</th>
+              <th>Impact on activation</th>
+            </tr>
+          </thead>
+          <tbody id="prop-blocker-tbody">
+            <tr class="propagation-loading-row">
+              <td colspan="3">Loading SWPC alerts and weather&hellip;</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="propagation-indices" aria-labelledby="propagation-indices-heading">
+        <div class="section-label split">
+          <span id="propagation-indices-heading">Solar &amp; geomagnetic state</span>
+          <span id="prop-indices-stamp" class="log-count">awaiting NOAA SWPC&hellip;</span>
+        </div>
+        <div class="stats-grid propagation-index-grid">
+          <div class="stat">
+            <span class="stat-label">SFI &middot; 10.7 cm flux</span>
+            <span id="prop-sfi" class="stat-value">&mdash;</span>
+            <span id="prop-sfi-sub" class="stat-sub">solar flux index</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Kp &middot; planetary, 3 h</span>
+            <span id="prop-kp" class="stat-value">&mdash;</span>
+            <span id="prop-kp-sub" class="stat-sub">geomagnetic activity</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">A &middot; running 24 h</span>
+            <span id="prop-a" class="stat-value">&mdash;</span>
+            <span id="prop-a-sub" class="stat-sub">linearized Kp average</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">SFI<sub>eff</sub> &middot; Kp-adjusted</span>
+            <span id="prop-effective" class="stat-value">&mdash;</span>
+            <span id="prop-effective-sub" class="stat-sub">SFI minus storm penalty</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Solar wind &middot; km/s</span>
+            <span id="prop-wind" class="stat-value">&mdash;</span>
+            <span id="prop-wind-sub" class="stat-sub">ACE / DSCOVR L1</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">IMF B<sub>z</sub> &middot; nT</span>
+            <span id="prop-bz" class="stat-value">&mdash;</span>
+            <span id="prop-bz-sub" class="stat-sub">negative = coupled, storm risk</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="propagation-bands" aria-labelledby="propagation-bands-heading">
+        <div class="section-label split">
+          <span id="propagation-bands-heading">HF band outlook &middot; from DM03tu</span>
+          <span id="prop-bands-stamp" class="log-count">QRP 5&ndash;10 W &middot; vertical &middot; SSB / CW</span>
+        </div>
+        <table class="propagation-band-table">
+          <thead>
+            <tr>
+              <th>Band</th>
+              <th>Day</th>
+              <th>Night</th>
+              <th>Now</th>
+              <th class="propagation-reach-col">Expected reach</th>
+              <th class="propagation-wide-col">Operator note</th>
+            </tr>
+          </thead>
+          <tbody id="prop-band-tbody">
+            <tr class="propagation-loading-row">
+              <td colspan="6">Loading solar indices to compute band states&hellip;</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="propagation-activation" aria-labelledby="propagation-activation-heading">
+        <div class="section-label split">
+          <span id="propagation-activation-heading">Activation window &middot; next 24 h</span>
+          <span id="prop-activation-stamp" class="log-count">sunrise / sunset from Open-Meteo</span>
+        </div>
+        <table class="propagation-activation-table">
+          <thead>
+            <tr>
+              <th>UTC</th>
+              <th>Local PT</th>
+              <th>Sun</th>
+              <th>Best bands</th>
+              <th>Outlook</th>
+              <th class="propagation-wide-col">Notes</th>
+            </tr>
+          </thead>
+          <tbody id="prop-activation-tbody">
+            <tr class="propagation-loading-row">
+              <td colspan="6">Loading sun times and computing per-hour band states&hellip;</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="propagation-alerts" aria-labelledby="propagation-alerts-heading">
+        <div class="section-label split">
+          <span id="propagation-alerts-heading">Space weather alerts</span>
+          <span id="prop-alerts-stamp" class="log-count">SWPC products/alerts.json</span>
+        </div>
+        <table class="propagation-alert-table">
+          <thead>
+            <tr>
+              <th>Issued UTC</th>
+              <th>Type</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="prop-alert-tbody">
+            <tr class="propagation-loading-row">
+              <td colspan="3">Loading SWPC alert feed&hellip;</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="propagation-weather" aria-labelledby="propagation-weather-heading">
+        <div class="section-label split">
+          <span id="propagation-weather-heading">Hermosa Beach surface weather</span>
+          <span id="prop-weather-stamp" class="log-count">Open-Meteo &middot; 33.86&deg;N 118.40&deg;W</span>
+        </div>
+        <div class="stats-grid propagation-weather-grid">
+          <div class="stat">
+            <span class="stat-label">Temp &middot; &deg;F</span>
+            <span id="prop-temp" class="stat-value">&mdash;</span>
+            <span id="prop-temp-sub" class="stat-sub">2 m air temperature</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Wind &middot; mph</span>
+            <span id="prop-w-wind" class="stat-value">&mdash;</span>
+            <span id="prop-w-wind-sub" class="stat-sub">surface wind / gust</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Cloud cover</span>
+            <span id="prop-cloud" class="stat-value">&mdash;</span>
+            <span id="prop-cloud-sub" class="stat-sub">% sky</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Precip &middot; in</span>
+            <span id="prop-precip" class="stat-value">&mdash;</span>
+            <span id="prop-precip-sub" class="stat-sub">current hour total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Sunrise PT</span>
+            <span id="prop-sunrise" class="stat-value">&mdash;</span>
+            <span id="prop-sunrise-sub" class="stat-sub">station local</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Sunset PT</span>
+            <span id="prop-sunset" class="stat-value">&mdash;</span>
+            <span id="prop-sunset-sub" class="stat-sub">station local</span>
+          </div>
+        </div>
+        <table class="propagation-hour-table">
+          <thead>
+            <tr>
+              <th>Local PT</th>
+              <th>Temp</th>
+              <th>Wind / gust</th>
+              <th>Cloud</th>
+              <th>Precip</th>
+              <th class="propagation-wide-col">Sky</th>
+            </tr>
+          </thead>
+          <tbody id="prop-weather-tbody">
+            <tr class="propagation-loading-row">
+              <td colspan="6">Loading hourly forecast&hellip;</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
+      </svg>
+      <span>Vibe coded with <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a> and <a href="https://openai.com/codex/" target="_blank" rel="noopener">Codex</a></span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+
+  <script>
+  /* ── Propagation command station ──────────────────────────────────────
+     Live HF propagation dashboard. Pulls NOAA SWPC indices and Open-Meteo
+     surface weather, derives a per-band day / night reach forecast for
+     the home QTH (DM03tu), and produces a single go / marginal / hold
+     call before driving out for POTA.
+  ──────────────────────────────────────────────────────────────────────*/
+  (function () {
+    var STATION = { lat: 33.8542, lon: -118.375, grid: 'DM03tu' };
+    var HERMOSA = { lat: 33.8622, lon: -118.3995 };
+
+    var SWPC_FLUX  = 'https://services.swpc.noaa.gov/products/summary/10cm-flux.json';
+    var SWPC_KP    = 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json';
+    var SWPC_WIND  = 'https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json';
+    var SWPC_MAG   = 'https://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json';
+    var SWPC_ALERT = 'https://services.swpc.noaa.gov/products/alerts.json';
+    var OPEN_METEO = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=' + HERMOSA.lat
+      + '&longitude=' + HERMOSA.lon
+      + '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover,precipitation,weather_code'
+      + '&hourly=temperature_2m,precipitation_probability,precipitation,wind_speed_10m,wind_gusts_10m,cloud_cover,weather_code'
+      + '&daily=sunrise,sunset'
+      + '&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch'
+      + '&timezone=America%2FLos_Angeles&forecast_days=2';
+
+    /* Band model. Day / night thresholds are effective-SFI numbers above
+       which the band is reliably workable from a QRP vertical at DM03tu.
+       "Open" requires +30 over the threshold. "Marginal" sits at the
+       threshold. Below the threshold the band is considered closed for
+       this station class. 80/40/30 m are floor-thresholded since they
+       are always at least locally usable.                            */
+    var BANDS = [
+      { name: '80m', dayT: 0,   nightT: 0,   dayReach: 'Local NVIS &middot; <500 km',  nightReach: 'Regional / DX &middot; <3000 km', note: 'NVIS by day, regional / DX after dark. Antenna is short on 80 &mdash; expect low efficiency from the SS-17.' },
+      { name: '40m', dayT: 0,   nightT: 0,   dayReach: 'Regional &middot; 500&ndash;1500 km', nightReach: 'DX &middot; 1500&ndash;10000 km', note: 'Workhorse band day and night. Common POTA hunter band on the West Coast.' },
+      { name: '30m', dayT: 0,   nightT: 0,   dayReach: 'Regional &middot; DX', nightReach: 'DX', note: 'CW / digital only. Quiet, reliable, low-power friendly.' },
+      { name: '20m', dayT: 75,  nightT: 90,  dayReach: 'DX &middot; coast-to-coast and Pacific', nightReach: 'DX until ~2 h after sunset', note: 'Primary daytime activation band. SFI &lt; 75 starts to thin the European path.' },
+      { name: '17m', dayT: 85,  nightT: 120, dayReach: 'DX &middot; long path possible', nightReach: 'Fades fast after sunset', note: 'Useful when 20 m is crowded and SFI is healthy. Watch for short skip.' },
+      { name: '15m', dayT: 100, nightT: 999, dayReach: 'DX &middot; Asia / Oceania midday', nightReach: 'Closed', note: 'Daytime DX band. Strong correlation to F2 MUF; opens with SFI above 100.' },
+      { name: '12m', dayT: 120, nightT: 999, dayReach: 'DX &middot; high-SFI only', nightReach: 'Closed', note: 'Marginal at QRP. Needs solid SFI and quiet geomagnetic field.' },
+      { name: '10m', dayT: 140, nightT: 999, dayReach: 'DX &middot; F2 / sporadic E', nightReach: 'Closed (sporadic E exception)', note: 'Best band at solar max. From QRP, plan around sporadic E openings in summer.' }
+    ];
+
+    function kpPenalty(kp) {
+      if (kp == null || isNaN(kp)) return 0;
+      if (kp <= 2) return 0;
+      if (kp < 4) return 10;
+      if (kp < 5) return 25;
+      if (kp < 6) return 45;
+      if (kp < 7) return 65;
+      return 90;
+    }
+
+    function kpDescriptor(kp) {
+      if (kp == null) return '';
+      if (kp <= 2) return 'Quiet';
+      if (kp < 4) return 'Unsettled';
+      if (kp < 5) return 'Active';
+      if (kp < 6) return 'Minor storm (G1)';
+      if (kp < 7) return 'Moderate storm (G2)';
+      if (kp < 8) return 'Strong storm (G3)';
+      if (kp < 9) return 'Severe storm (G4)';
+      return 'Extreme storm (G5)';
+    }
+
+    function sfiDescriptor(sfi) {
+      if (sfi == null) return '';
+      if (sfi < 70)  return 'Very low &middot; high bands shut';
+      if (sfi < 90)  return 'Low &middot; 20 m workable';
+      if (sfi < 120) return 'Moderate &middot; through 17 m';
+      if (sfi < 160) return 'Good &middot; through 15 m';
+      if (sfi < 200) return 'High &middot; 10 m alive';
+      return 'Very high &middot; full HF spectrum';
+    }
+
+    function bandState(band, effective, isDay) {
+      var threshold = isDay ? band.dayT : band.nightT;
+      if (threshold >= 999) {
+        return { state: 'poor', label: 'Closed' };
+      }
+      if (effective >= threshold + 30) return { state: 'good', label: 'Open' };
+      if (effective >= threshold)      return { state: 'fair', label: 'Marginal' };
+      return { state: 'poor', label: 'Closed' };
+    }
+
+    function fetchJson(url) {
+      return fetch(url, { cache: 'no-store' }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function fmtNum(v, digits) {
+      if (v == null || isNaN(v)) return '—';
+      return Number(v).toFixed(digits == null ? 0 : digits);
+    }
+
+    function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+    function fmtUtcHour(d) { return pad2(d.getUTCHours()) + 'Z'; }
+
+    /* Format any absolute Date as a wall-clock hour or h:mm at the
+       station's local timezone (PT), independent of where the page is
+       viewed from. Falls back to a manual offset if Intl is unavailable. */
+    var PT_TZ = 'America/Los_Angeles';
+    var ptHourFmt = null, ptHmFmt = null;
+    try {
+      ptHourFmt = new Intl.DateTimeFormat('en-US', { timeZone: PT_TZ, hour: 'numeric', hour12: true });
+      ptHmFmt   = new Intl.DateTimeFormat('en-US', { timeZone: PT_TZ, hour: 'numeric', minute: '2-digit', hour12: true });
+    } catch (e) {
+      ptHourFmt = null; ptHmFmt = null;
+    }
+
+    function fmtPtHour(d) {
+      if (!d) return '—';
+      if (ptHourFmt) return ptHourFmt.format(d).replace(/\s+/g, '').toLowerCase();
+      var h = d.getHours();
+      var ampm = h >= 12 ? 'pm' : 'am';
+      var h12 = h % 12; if (h12 === 0) h12 = 12;
+      return h12 + ampm;
+    }
+
+    function fmtPtHm(d) {
+      if (!d) return '—';
+      if (ptHmFmt) return ptHmFmt.format(d).replace(/\s+/g, '').toLowerCase();
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var ampm = h >= 12 ? 'pm' : 'am';
+      var h12 = h % 12; if (h12 === 0) h12 = 12;
+      return h12 + ':' + pad2(m) + ampm;
+    }
+
+    function fmtIsoUtcDate(iso) {
+      if (!iso) return '—';
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return esc(iso);
+      return d.getUTCFullYear() + '-' + pad2(d.getUTCMonth() + 1) + '-' + pad2(d.getUTCDate())
+        + ' ' + pad2(d.getUTCHours()) + ':' + pad2(d.getUTCMinutes()) + 'Z';
+    }
+
+    /* ── Parse SWPC payloads ───────────────────────────────────────── */
+    function extractFlux(data) {
+      if (!data || data.Flux == null) return null;
+      var v = Number(data.Flux);
+      return isNaN(v) ? null : { value: v, time: data.TimeStamp || null };
+    }
+
+    function extractKp(data) {
+      if (!Array.isArray(data) || data.length < 2) return null;
+      var header = data[0];
+      var last = data[data.length - 1];
+      if (!Array.isArray(last)) return null;
+      var kpIdx = header.indexOf('Kp');
+      var aIdx  = header.indexOf('a_running');
+      var tIdx  = header.indexOf('time_tag');
+      var kp = Number(last[kpIdx >= 0 ? kpIdx : 1]);
+      var a  = Number(last[aIdx  >= 0 ? aIdx  : 2]);
+      return {
+        kp: isNaN(kp) ? null : kp,
+        a:  isNaN(a)  ? null : a,
+        time: tIdx >= 0 ? last[tIdx] : null
+      };
+    }
+
+    function extractWind(data) {
+      if (!data || data.WindSpeed == null) return null;
+      var v = Number(data.WindSpeed);
+      return isNaN(v) ? null : { value: v, time: data.TimeStamp || null };
+    }
+
+    function extractMag(data) {
+      if (!data) return null;
+      var bz = data.Bz != null ? Number(data.Bz) : null;
+      var bt = data.Bt != null ? Number(data.Bt) : null;
+      return {
+        bz: bz != null && !isNaN(bz) ? bz : null,
+        bt: bt != null && !isNaN(bt) ? bt : null,
+        time: data.TimeStamp || null
+      };
+    }
+
+    function extractAlerts(data) {
+      if (!Array.isArray(data)) return [];
+      return data.slice(0, 6).map(function (a) {
+        var msg = String(a.message || '').replace(/\r\n/g, '\n').trim();
+        var firstLine = msg.split('\n').find(function (line) {
+          return /SUMMARY|ALERT|WARNING|WATCH|EVENT|FORECAST/i.test(line);
+        }) || msg.split('\n')[0] || '';
+        firstLine = firstLine.replace(/^(?:SUMMARY|ALERT|WARNING|WATCH|EVENT|FORECAST)\s*:\s*/i, '').trim();
+        return {
+          issued: a.issue_datetime || a.issued || '',
+          serial: a.serial_number || a.product_id || '',
+          type:   a.space_weather_message_code || a.message_type || a.product || 'Alert',
+          summary: firstLine || msg.slice(0, 220)
+        };
+      });
+    }
+
+    /* ── Render helpers ────────────────────────────────────────────── */
+    function setText(id, text) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    function setHtml(id, html) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = html;
+    }
+
+    /* ── Indices block ─────────────────────────────────────────────── */
+    function renderIndices(state) {
+      var sfi = state.flux ? state.flux.value : null;
+      var kp  = state.kp ? state.kp.kp : null;
+      var a   = state.kp ? state.kp.a : null;
+      var pen = kpPenalty(kp);
+      var eff = sfi != null ? sfi - pen : null;
+
+      setText('prop-sfi', sfi != null ? fmtNum(sfi, 0) : '—');
+      setHtml('prop-sfi-sub', sfi != null ? sfiDescriptor(sfi) : 'no data');
+
+      setText('prop-kp', kp != null ? fmtNum(kp, 1) : '—');
+      setHtml('prop-kp-sub', kp != null ? esc(kpDescriptor(kp)) : 'no data');
+
+      setText('prop-a', a != null ? fmtNum(a, 0) : '—');
+      setText('prop-a-sub', a != null ? (a < 8 ? 'Quiet field' : a < 16 ? 'Unsettled field' : a < 30 ? 'Active field' : 'Storm field') : 'no data');
+
+      setText('prop-effective', eff != null ? fmtNum(eff, 0) : '—');
+      setText('prop-effective-sub', pen ? 'penalty −' + pen + ' from Kp ' + fmtNum(kp, 1) : (sfi != null ? 'no Kp penalty applied' : 'no data'));
+
+      setText('prop-wind', state.wind ? fmtNum(state.wind.value, 0) : '—');
+      setText('prop-wind-sub', state.wind ? (state.wind.value < 400 ? 'Slow stream' : state.wind.value < 550 ? 'Moderate stream' : state.wind.value < 700 ? 'Fast stream' : 'CME / coronal hole') : 'no data');
+
+      var bz = state.mag ? state.mag.bz : null;
+      setText('prop-bz', bz != null ? (bz > 0 ? '+' : '') + fmtNum(bz, 1) : '—');
+      setText('prop-bz-sub', bz != null ? (bz <= -10 ? 'Strong southward — storm risk' : bz < 0 ? 'Southward — coupled' : 'Northward — decoupled') : 'no data');
+
+      var stamps = [];
+      if (state.flux && state.flux.time) stamps.push('SFI ' + esc(state.flux.time));
+      if (state.kp && state.kp.time)     stamps.push('Kp '  + esc(state.kp.time));
+      setHtml('prop-indices-stamp', stamps.length ? stamps.join(' &middot; ') : 'NOAA SWPC unreachable');
+    }
+
+    /* ── Band table ────────────────────────────────────────────────── */
+    function renderBands(state, isDay) {
+      var sfi = state.flux ? state.flux.value : null;
+      var kp  = state.kp ? state.kp.kp : null;
+      var eff = sfi != null ? sfi - kpPenalty(kp) : null;
+
+      var rows = '';
+      var openBands = [];
+      var marginalBands = [];
+
+      for (var i = 0; i < BANDS.length; i++) {
+        var band = BANDS[i];
+        var day   = eff != null ? bandState(band, eff, true)  : { state: 'unknown', label: '—' };
+        var night = eff != null ? bandState(band, eff, false) : { state: 'unknown', label: '—' };
+        var now   = isDay ? day : night;
+        var reach = (isDay ? band.dayReach : band.nightReach);
+        if (now.state === 'good') openBands.push(band.name);
+        else if (now.state === 'fair') marginalBands.push(band.name);
+
+        rows += '<tr>'
+          + '<td class="path">' + band.name + '</td>'
+          + '<td class="prop-state prop-' + day.state + '">' + day.label + '</td>'
+          + '<td class="prop-state prop-' + night.state + '">' + night.label + '</td>'
+          + '<td class="prop-state prop-' + now.state + '">' + now.label + '</td>'
+          + '<td class="desc propagation-reach-col">' + reach + '</td>'
+          + '<td class="desc propagation-wide-col">' + band.note + '</td>'
+          + '</tr>';
+      }
+
+      setHtml('prop-band-tbody', rows);
+      return { open: openBands, marginal: marginalBands, isDay: isDay, eff: eff };
+    }
+
+    /* ── Sun times for the station ─────────────────────────────────── */
+    /* Open-Meteo returns ISO strings without timezone designator when a
+       timezone parameter is supplied (e.g. "2026-05-14T05:48" meaning
+       05:48 PT). Convert each to an absolute UTC instant using the
+       offset the API reports so comparisons are valid for any viewer. */
+    function parsePtIso(iso, offsetSec) {
+      if (!iso) return null;
+      var m = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+      if (!m) {
+        var d = new Date(iso);
+        return isNaN(d.getTime()) ? null : d;
+      }
+      var ms = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], 0);
+      var offset = typeof offsetSec === 'number' ? offsetSec : -7 * 3600;
+      return new Date(ms - offset * 1000);
+    }
+
+    function isDayAtInstant(d, sunTimes) {
+      if (!d || !sunTimes || !sunTimes.length) return null;
+      var ms = d.getTime();
+      for (var i = 0; i < sunTimes.length; i++) {
+        var s = sunTimes[i];
+        if (!s.sunrise || !s.sunset) continue;
+        if (ms >= s.sunrise.getTime() && ms < s.sunset.getTime()) return true;
+      }
+      /* Outside any sunrise→sunset window in the returned days → night. */
+      return false;
+    }
+
+    function extractSunTimes(weather) {
+      if (!weather || !weather.daily) return [];
+      var offsetSec = typeof weather.utc_offset_seconds === 'number' ? weather.utc_offset_seconds : -7 * 3600;
+      var sr = weather.daily.sunrise || [];
+      var ss = weather.daily.sunset || [];
+      var times = weather.daily.time || [];
+      var out = [];
+      for (var i = 0; i < times.length; i++) {
+        out.push({
+          dateStr: times[i],
+          sunrise: parsePtIso(sr[i], offsetSec),
+          sunset:  parsePtIso(ss[i], offsetSec)
+        });
+      }
+      return out;
+    }
+
+    /* ── 24 h activation matrix ────────────────────────────────────── */
+    function bestBandsAt(eff, isDay) {
+      if (eff == null) return { open: [], marginal: [] };
+      var open = [], marg = [];
+      for (var i = 0; i < BANDS.length; i++) {
+        var s = bandState(BANDS[i], eff, isDay);
+        if (s.state === 'good') open.push(BANDS[i].name);
+        else if (s.state === 'fair') marg.push(BANDS[i].name);
+      }
+      return { open: open, marginal: marg };
+    }
+
+    function hourOutlookTag(openCount, marginalCount, kp) {
+      if (kp != null && kp >= 5) return { state: 'poor', label: 'Storm hold' };
+      if (openCount >= 3) return { state: 'good', label: 'Activate' };
+      if (openCount >= 1) return { state: 'good', label: 'Go' };
+      if (marginalCount >= 2) return { state: 'fair', label: 'Marginal' };
+      if (marginalCount >= 1) return { state: 'fair', label: 'Try' };
+      return { state: 'poor', label: 'Hold' };
+    }
+
+    function renderActivation(state, sunTimes) {
+      var sfi = state.flux ? state.flux.value : null;
+      var kp  = state.kp ? state.kp.kp : null;
+      var eff = sfi != null ? sfi - kpPenalty(kp) : null;
+      if (eff == null) {
+        setHtml('prop-activation-tbody',
+          '<tr class="propagation-empty-row"><td colspan="6">Solar data unavailable. Cannot compute 24 h activation window.</td></tr>');
+        return null;
+      }
+
+      var rows = '';
+      var bestHour = null;
+      var bestScore = -1;
+      var now = new Date();
+      var startUtcHour = now.getUTCHours();
+
+      for (var h = 0; h < 24; h += 2) {
+        var utcDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), startUtcHour + h, 0, 0));
+        var isDay = isDayAtInstant(utcDate, sunTimes);
+        if (isDay == null) {
+          /* Fallback: 13Z–02Z is day in California (PDT/PST cover both). */
+          var u = utcDate.getUTCHours();
+          isDay = (u >= 13 || u < 3);
+        }
+        var bands = bestBandsAt(eff, isDay);
+        var tag = hourOutlookTag(bands.open.length, bands.marginal.length, kp);
+        var sun = isDay ? 'Day' : 'Night';
+        var pickList = bands.open.length ? bands.open.slice(0, 3).join(' ') :
+                       bands.marginal.length ? bands.marginal.slice(0, 3).join(' ') :
+                       '—';
+
+        var score = bands.open.length * 2 + bands.marginal.length;
+        if (kp != null && kp >= 5) score = 0;
+        if (score > bestScore) { bestScore = score; bestHour = { utc: utcDate, bands: bands, isDay: isDay }; }
+
+        rows += '<tr>'
+          + '<td class="path">' + fmtUtcHour(utcDate) + '</td>'
+          + '<td class="path">' + fmtPtHour(utcDate) + '</td>'
+          + '<td class="desc">' + sun + '</td>'
+          + '<td class="path">' + esc(pickList) + '</td>'
+          + '<td class="prop-state prop-' + tag.state + '">' + tag.label + '</td>'
+          + '<td class="desc propagation-wide-col">'
+            + (bands.open.length ? bands.open.length + ' open' : (bands.marginal.length ? bands.marginal.length + ' marginal' : 'all bands closed at QRP'))
+            + (kp != null && kp >= 5 ? ' &middot; geomagnetic storm in effect' : '')
+          + '</td>'
+          + '</tr>';
+      }
+
+      setHtml('prop-activation-tbody', rows);
+      return bestHour;
+    }
+
+    /* ── Alerts ────────────────────────────────────────────────────── */
+    function renderAlerts(state) {
+      var alerts = state.alerts || [];
+      if (!alerts.length) {
+        setHtml('prop-alert-tbody',
+          '<tr class="propagation-empty-row"><td colspan="3">No recent SWPC alerts retrieved.</td></tr>');
+        setText('prop-alerts-stamp', 'SWPC products/alerts.json · unavailable');
+        return alerts;
+      }
+      var rows = alerts.map(function (a) {
+        return '<tr>'
+          + '<td class="path">' + esc(fmtIsoUtcDate(a.issued)) + '</td>'
+          + '<td class="radio-value">' + esc(a.type) + '</td>'
+          + '<td class="desc">' + esc(a.summary) + '</td>'
+          + '</tr>';
+      }).join('');
+      setHtml('prop-alert-tbody', rows);
+      setText('prop-alerts-stamp', alerts.length + ' alert' + (alerts.length === 1 ? '' : 's') + ' · most recent first');
+      return alerts;
+    }
+
+    /* ── Weather ───────────────────────────────────────────────────── */
+    var WMO_CODES = {
+      0: 'Clear',
+      1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+      45: 'Fog', 48: 'Rime fog',
+      51: 'Light drizzle', 53: 'Drizzle', 55: 'Dense drizzle',
+      56: 'Freezing drizzle', 57: 'Heavy freezing drizzle',
+      61: 'Light rain', 63: 'Rain', 65: 'Heavy rain',
+      66: 'Freezing rain', 67: 'Heavy freezing rain',
+      71: 'Light snow', 73: 'Snow', 75: 'Heavy snow',
+      77: 'Snow grains',
+      80: 'Rain showers', 81: 'Heavy showers', 82: 'Violent showers',
+      85: 'Snow showers', 86: 'Heavy snow showers',
+      95: 'Thunderstorm', 96: 'Storm w/ hail', 99: 'Storm w/ heavy hail'
+    };
+
+    function describeWeather(code) {
+      return WMO_CODES[code] || ('WMO ' + code);
+    }
+
+    function renderWeather(state, sunTimes) {
+      var w = state.weather;
+      if (!w || !w.current) {
+        setText('prop-temp', '—');
+        setText('prop-w-wind', '—');
+        setText('prop-cloud', '—');
+        setText('prop-precip', '—');
+        setText('prop-sunrise', '—');
+        setText('prop-sunset', '—');
+        setHtml('prop-weather-tbody',
+          '<tr class="propagation-empty-row"><td colspan="6">Open-Meteo unreachable. Surface weather unavailable.</td></tr>');
+        setText('prop-weather-stamp', 'Open-Meteo · unavailable');
+        return { code: null, summary: 'unavailable', windMph: null, precipIn: null };
+      }
+
+      var cur = w.current;
+      setText('prop-temp',   fmtNum(cur.temperature_2m, 0));
+      setText('prop-temp-sub', describeWeather(cur.weather_code) + ' · RH ' + fmtNum(cur.relative_humidity_2m, 0) + '%');
+      setText('prop-w-wind', fmtNum(cur.wind_speed_10m, 0));
+      setText('prop-w-wind-sub', 'gust ' + fmtNum(cur.wind_gusts_10m, 0) + ' mph · ' + windDirText(cur.wind_direction_10m));
+      setText('prop-cloud',  fmtNum(cur.cloud_cover, 0) + '%');
+      setText('prop-cloud-sub', cur.cloud_cover < 20 ? 'Clear sky' : cur.cloud_cover < 60 ? 'Partly cloudy' : 'Overcast');
+      setText('prop-precip', fmtNum(cur.precipitation, 2));
+      setText('prop-precip-sub', cur.precipitation > 0 ? 'Wet now' : 'Dry');
+
+      if (sunTimes && sunTimes.length) {
+        var today = sunTimes[0];
+        setText('prop-sunrise', today.sunrise ? fmtPtHm(today.sunrise) : '—');
+        setText('prop-sunrise-sub', today.dateStr || 'today');
+        setText('prop-sunset',  today.sunset  ? fmtPtHm(today.sunset)  : '—');
+        setText('prop-sunset-sub', today.dateStr || 'today');
+      }
+
+      var offsetSec = typeof w.utc_offset_seconds === 'number' ? w.utc_offset_seconds : -7 * 3600;
+
+      /* Hourly outlook: pick rows starting from the current hour, every 2 hours, 12 hours forward. */
+      var hourly = w.hourly || {};
+      var times = hourly.time || [];
+      var nowMs = Date.now();
+      var startIdx = -1;
+      for (var i = 0; i < times.length; i++) {
+        var t = parsePtIso(times[i], offsetSec);
+        if (t && t.getTime() >= nowMs - 30 * 60 * 1000) { startIdx = i; break; }
+      }
+      if (startIdx < 0) startIdx = 0;
+
+      var rows = '';
+      for (var step = 0; step < 6; step++) {
+        var idx = startIdx + step * 2;
+        if (idx >= times.length) break;
+        var lt = parsePtIso(times[idx], offsetSec);
+        rows += '<tr>'
+          + '<td class="path">' + (lt ? fmtPtHour(lt) : esc(times[idx])) + '</td>'
+          + '<td class="path">' + fmtNum(hourly.temperature_2m && hourly.temperature_2m[idx], 0) + '°</td>'
+          + '<td class="path">' + fmtNum(hourly.wind_speed_10m && hourly.wind_speed_10m[idx], 0) + ' / ' + fmtNum(hourly.wind_gusts_10m && hourly.wind_gusts_10m[idx], 0) + '</td>'
+          + '<td class="desc">' + fmtNum(hourly.cloud_cover && hourly.cloud_cover[idx], 0) + '%</td>'
+          + '<td class="desc">' + fmtNum(hourly.precipitation_probability && hourly.precipitation_probability[idx], 0) + '%</td>'
+          + '<td class="desc propagation-wide-col">' + esc(describeWeather(hourly.weather_code && hourly.weather_code[idx])) + '</td>'
+          + '</tr>';
+      }
+      setHtml('prop-weather-tbody', rows || '<tr class="propagation-empty-row"><td colspan="6">No hourly forecast rows.</td></tr>');
+      setText('prop-weather-stamp', 'Open-Meteo · ' + (w.timezone_abbreviation || 'PT') + ' · ' + (cur.time || ''));
+
+      return {
+        code: cur.weather_code,
+        summary: describeWeather(cur.weather_code),
+        windMph: cur.wind_speed_10m,
+        gustMph: cur.wind_gusts_10m,
+        precipIn: cur.precipitation,
+        cloudPct: cur.cloud_cover,
+        tempF: cur.temperature_2m
+      };
+    }
+
+    function windDirText(deg) {
+      if (deg == null || isNaN(deg)) return '';
+      var dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+      return dirs[Math.round(deg / 22.5) % 16];
+    }
+
+    /* ── Top decision tile + blocker table ────────────────────────── */
+    function renderDecision(state, bandSummary, bestHour, weatherSummary, alerts) {
+      var kp = state.kp ? state.kp.kp : null;
+      var sfi = state.flux ? state.flux.value : null;
+
+      var outlookState = 'unknown', outlookLabel = '—', outlookSub = 'Awaiting SWPC';
+      if (sfi == null && kp == null) {
+        outlookState = 'unknown'; outlookLabel = 'No data';
+        outlookSub = 'NOAA SWPC unreachable from this client';
+      } else if (kp != null && kp >= 5) {
+        outlookState = 'poor'; outlookLabel = 'Hold';
+        outlookSub = 'Geomagnetic storm (Kp ' + fmtNum(kp, 1) + ') — defer activation';
+      } else if (bandSummary && bandSummary.open.length >= 2) {
+        outlookState = 'good'; outlookLabel = 'Go';
+        outlookSub = bandSummary.open.length + ' bands open ' + (bandSummary.isDay ? 'now (day)' : 'now (night)');
+      } else if (bandSummary && bandSummary.open.length === 1) {
+        outlookState = 'good'; outlookLabel = 'Go';
+        outlookSub = bandSummary.open[0] + ' is the workable band right now';
+      } else if (bandSummary && bandSummary.marginal.length) {
+        outlookState = 'fair'; outlookLabel = 'Marginal';
+        outlookSub = bandSummary.marginal.length + ' bands marginal — try, expect short paths';
+      } else {
+        outlookState = 'poor'; outlookLabel = 'Hold';
+        outlookSub = 'No bands open at QRP — wait for SFI or band-edge transition';
+      }
+
+      var outlookEl = document.getElementById('prop-outlook');
+      if (outlookEl) {
+        outlookEl.className = 'stat-value prop-state-value prop-' + outlookState;
+        outlookEl.textContent = outlookLabel;
+      }
+      setText('prop-outlook-sub', outlookSub);
+
+      var picks = bandSummary
+        ? (bandSummary.open.length ? bandSummary.open.slice(0, 4).join(' / ') :
+           bandSummary.marginal.length ? bandSummary.marginal.slice(0, 4).join(' / ') : '—')
+        : '—';
+      setText('prop-bands-now', picks);
+      setText('prop-bands-now-sub', bandSummary
+        ? (bandSummary.isDay ? 'Day path · ' : 'Night path · ') + 'SFI<sub>eff</sub> ' + fmtNum(bandSummary.eff, 0)
+        : 'Awaiting solar indices');
+      var bnSub = document.getElementById('prop-bands-now-sub');
+      if (bnSub && bandSummary) {
+        bnSub.innerHTML = (bandSummary.isDay ? 'Day path &middot; ' : 'Night path &middot; ') + 'SFI<sub>eff</sub> ' + fmtNum(bandSummary.eff, 0);
+      }
+
+      if (bestHour) {
+        setText('prop-window', fmtUtcHour(bestHour.utc) + ' / ' + fmtPtHour(bestHour.utc));
+        var picks2 = bestHour.bands.open.length ? bestHour.bands.open.slice(0, 3).join(' ') :
+                     bestHour.bands.marginal.length ? bestHour.bands.marginal.slice(0, 3).join(' ') : '—';
+        setText('prop-window-sub', picks2 + ' · ' + (bestHour.isDay ? 'day path' : 'night path'));
+      } else {
+        setText('prop-window', '—');
+        setText('prop-window-sub', 'No favourable hour in next 24 h');
+      }
+
+      if (weatherSummary && weatherSummary.summary && weatherSummary.summary !== 'unavailable') {
+        setText('prop-weather-summary', weatherSummary.summary);
+        var bits = [];
+        if (weatherSummary.tempF != null)   bits.push(fmtNum(weatherSummary.tempF, 0) + '°F');
+        if (weatherSummary.windMph != null) bits.push(fmtNum(weatherSummary.windMph, 0) + ' mph');
+        if (weatherSummary.precipIn != null && weatherSummary.precipIn > 0) bits.push(fmtNum(weatherSummary.precipIn, 2) + ' in');
+        setText('prop-weather-summary-sub', bits.join(' · ') || 'Hermosa Beach');
+      } else {
+        setText('prop-weather-summary', '—');
+        setText('prop-weather-summary-sub', 'Hermosa Beach — weather feed unavailable');
+      }
+
+      /* Blocker table */
+      var blockers = [];
+      if (kp != null && kp >= 5) {
+        blockers.push({ concern: 'Geomagnetic storm', state: 'poor', label: 'Kp ' + fmtNum(kp, 1),
+          impact: 'Storm-level Kp absorbs and refracts HF, especially on polar paths. SWPC reports ' + kpDescriptor(kp).toLowerCase() + '.' });
+      } else if (kp != null && kp >= 4) {
+        blockers.push({ concern: 'Active geomagnetic field', state: 'fair', label: 'Kp ' + fmtNum(kp, 1),
+          impact: 'Active field — northern paths degraded. Stay on workhorse 40 / 20 m.' });
+      } else if (kp != null) {
+        blockers.push({ concern: 'Geomagnetic field', state: 'good', label: 'Kp ' + fmtNum(kp, 1),
+          impact: 'Quiet field — no penalty applied.' });
+      }
+
+      if (sfi != null) {
+        if (sfi < 80) {
+          blockers.push({ concern: 'Solar flux', state: 'fair', label: 'SFI ' + fmtNum(sfi, 0),
+            impact: 'Low flux — high bands (17 / 15 / 12 / 10 m) likely closed. Plan on 40 / 30 / 20 m.' });
+        } else if (sfi < 120) {
+          blockers.push({ concern: 'Solar flux', state: 'good', label: 'SFI ' + fmtNum(sfi, 0),
+            impact: 'Moderate flux — 20 / 17 m solid daytime DX, occasional 15 m.' });
+        } else {
+          blockers.push({ concern: 'Solar flux', state: 'good', label: 'SFI ' + fmtNum(sfi, 0),
+            impact: 'Strong flux — high HF bands productive into Asia / Pacific midday.' });
+        }
+      }
+
+      if (state.mag && state.mag.bz != null && state.mag.bz <= -8) {
+        blockers.push({ concern: 'IMF B<sub>z</sub>', state: 'fair', label: fmtNum(state.mag.bz, 1) + ' nT',
+          impact: 'Strongly southward IMF — sustained negative B<sub>z</sub> can push Kp up within the next 1–3 hours.' });
+      }
+
+      if (weatherSummary && weatherSummary.summary !== 'unavailable') {
+        if (weatherSummary.precipIn != null && weatherSummary.precipIn > 0) {
+          blockers.push({ concern: 'Precipitation', state: 'poor', label: fmtNum(weatherSummary.precipIn, 2) + ' in',
+            impact: 'Active rain at Hermosa Beach — protect gear or pick an inland alternate.' });
+        } else if (weatherSummary.gustMph != null && weatherSummary.gustMph >= 25) {
+          blockers.push({ concern: 'Wind gusts', state: 'fair', label: fmtNum(weatherSummary.gustMph, 0) + ' mph',
+            impact: 'Gusts above 25 mph — vertical may need extra guying or weight on the SS-17 base.' });
+        } else {
+          blockers.push({ concern: 'Surface weather', state: 'good', label: weatherSummary.summary,
+            impact: fmtNum(weatherSummary.tempF, 0) + '°F, wind ' + fmtNum(weatherSummary.windMph, 0) + ' mph — comfortable operating.' });
+        }
+      }
+
+      if ((alerts || []).some(function (a) { return /WARNING|ALERT/i.test(a.type || ''); })) {
+        var hit = alerts.find(function (a) { return /WARNING|ALERT/i.test(a.type || ''); });
+        blockers.push({ concern: 'SWPC alert', state: 'fair', label: hit.type,
+          impact: hit.summary });
+      }
+
+      if (!blockers.length) {
+        setHtml('prop-blocker-tbody',
+          '<tr class="propagation-empty-row"><td colspan="3">No live data retrieved — open SWPC and Open-Meteo manually before deciding.</td></tr>');
+      } else {
+        setHtml('prop-blocker-tbody', blockers.map(function (b) {
+          return '<tr>'
+            + '<td class="path">' + b.concern + '</td>'
+            + '<td class="prop-state prop-' + b.state + '">' + b.label + '</td>'
+            + '<td class="desc">' + b.impact + '</td>'
+            + '</tr>';
+        }).join(''));
+      }
+
+      var stamp = 'computed ' + (new Date().toUTCString().replace('GMT', 'UTC'));
+      setText('prop-decision-stamp', stamp);
+    }
+
+    /* ── Boot ──────────────────────────────────────────────────────── */
+    function init() {
+      Promise.all([
+        fetchJson(SWPC_FLUX).catch(function () { return null; }),
+        fetchJson(SWPC_KP).catch(function () { return null; }),
+        fetchJson(SWPC_WIND).catch(function () { return null; }),
+        fetchJson(SWPC_MAG).catch(function () { return null; }),
+        fetchJson(SWPC_ALERT).catch(function () { return null; }),
+        fetchJson(OPEN_METEO).catch(function () { return null; })
+      ]).then(function (results) {
+        var state = {
+          flux:    extractFlux(results[0]),
+          kp:      extractKp(results[1]),
+          wind:    extractWind(results[2]),
+          mag:     extractMag(results[3]),
+          alerts:  extractAlerts(results[4]),
+          weather: results[5]
+        };
+        var sunTimes = extractSunTimes(state.weather);
+
+        var isDayNow = isDayAtInstant(new Date(), sunTimes);
+        if (isDayNow == null) {
+          var u = new Date().getUTCHours();
+          isDayNow = (u >= 13 || u < 3);
+        }
+
+        renderIndices(state);
+        var bandSummary = renderBands(state, isDayNow);
+        var bestHour = renderActivation(state, sunTimes);
+        var alerts = renderAlerts(state);
+        var weatherSummary = renderWeather(state, sunTimes);
+        renderDecision(state, bandSummary, bestHour, weatherSummary, alerts);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+
+</body>
+</html>
