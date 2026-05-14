@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live UTC clock with local time, Julian Date, day-of-year, Unix time, and Greenwich Mean Sidereal Time. Tool for amateur radio logging and scheduling.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/utc/">
+  <meta property="og:title" content="UTC Clock &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Live UTC, local time, Julian Date, day-of-year, Unix time, and GMST &mdash; one dense readout for amateur radio logging and scheduling.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>UTC Clock &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/UTC/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/" aria-current="page"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/utc/ &mdash; clocks</span>
+        <span>updates every second / browser clock</span>
+      </div>
+
+      <section aria-labelledby="utc-clock-heading">
+        <div class="section-label" id="utc-clock-heading">Live clock</div>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">UTC date / time</span>
+            <span class="tools-readout-value mono" id="r-utc">&mdash;</span>
+            <span class="tools-readout-sub" id="r-utc-iso">ISO 8601</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Local date / time</span>
+            <span class="tools-readout-value mono" id="r-local">&mdash;</span>
+            <span class="tools-readout-sub" id="r-local-tz">browser timezone</span>
+          </div>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Day of year</span>
+            <span class="tools-readout-value" id="r-doy">&mdash;</span>
+            <span class="tools-readout-sub">1&ndash;366 (UTC)</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Week (ISO)</span>
+            <span class="tools-readout-value" id="r-week">&mdash;</span>
+            <span class="tools-readout-sub">ISO 8601 week-year</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Unix time</span>
+            <span class="tools-readout-value mono" id="r-unix">&mdash;</span>
+            <span class="tools-readout-sub">seconds since 1970-01-01</span>
+          </div>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Julian Date</span>
+            <span class="tools-readout-value mono" id="r-jd">&mdash;</span>
+            <span class="tools-readout-sub">days since 4713-01-01 BC noon</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Modified JD</span>
+            <span class="tools-readout-value mono" id="r-mjd">&mdash;</span>
+            <span class="tools-readout-sub">JD &minus; 2400000.5</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">GMST</span>
+            <span class="tools-readout-value mono" id="r-gmst">&mdash;</span>
+            <span class="tools-readout-sub">Greenwich Mean Sidereal Time</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="utc-converter-heading">
+        <div class="section-label split">
+          <span id="utc-converter-heading">UTC / local converter</span>
+          <span class="log-count">paste a UTC time or pick a local one</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>UTC input (ISO or HHMM)</span>
+            <input type="text" id="conv-utc-in" placeholder="2026-05-14 23:30 or 2330Z" autocomplete="off">
+          </label>
+          <label class="tools-half">
+            <span>Local input</span>
+            <input type="datetime-local" id="conv-local-in" step="60">
+          </label>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">UTC (from input)</span>
+            <span class="tools-readout-value mono" id="c-utc">&mdash;</span>
+            <span class="tools-readout-sub" id="c-utc-iso">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Local (from input)</span>
+            <span class="tools-readout-value mono" id="c-local">&mdash;</span>
+            <span class="tools-readout-sub" id="c-local-tz">&mdash;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Unix (from input)</span>
+            <span class="tools-readout-value mono" id="c-unix">&mdash;</span>
+            <span class="tools-readout-sub">seconds since epoch</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="utc-formats-heading">
+        <div class="section-label" id="utc-formats-heading">Why these formats</div>
+        <div class="tools-note">
+          <strong>UTC</strong> is the universal coordinator for every QSO log entry &mdash; logging in local time creates ambiguity around contests, DX windows, and transcontinental contacts.
+          <strong>Julian Date</strong> is the standard astronomical day count (no leap years, no months, no calendars); useful for FT8 sequence reconstruction and astronomical observation logs.
+          <strong>GMST</strong> aligns the sky with Greenwich; convert any GMST to local sidereal time by adding your longitude (in hours).
+          <strong>Day-of-year</strong> is the contest scorer's friend; <strong>Unix time</strong> is the programmer's.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var pad = function (n, w) { var s = String(n); while (s.length < (w || 2)) s = '0' + s; return s; };
+
+    function julianDate(d) {
+      // d is JS Date in UTC. Returns full Julian Date.
+      return d.getTime() / 86400000 + 2440587.5;
+    }
+
+    function gmstHours(d) {
+      // IAU 1982 GMST formula, sufficient for amateur use.
+      var jd = julianDate(d);
+      var T = (jd - 2451545.0) / 36525;
+      var gmst = 280.46061837 + 360.98564736629 * (jd - 2451545.0) + T * T * 0.000387933 - T * T * T / 38710000;
+      gmst = ((gmst % 360) + 360) % 360;
+      return gmst / 15; // degrees -> hours
+    }
+
+    function dayOfYear(d) {
+      var start = Date.UTC(d.getUTCFullYear(), 0, 0);
+      var diff = d.getTime() - start;
+      return Math.floor(diff / 86400000);
+    }
+
+    function isoWeek(d) {
+      var t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+      var dayNum = t.getUTCDay() || 7;
+      t.setUTCDate(t.getUTCDate() + 4 - dayNum);
+      var yearStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+      var weekNum = Math.ceil(((t - yearStart) / 86400000 + 1) / 7);
+      return t.getUTCFullYear() + '-W' + pad(weekNum);
+    }
+
+    function formatUtc(d) {
+      return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate())
+        + ' ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + 'Z';
+    }
+
+    function formatLocal(d) {
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
+        + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    }
+
+    function isoUtc(d) {
+      return d.toISOString().replace(/\.\d{3}Z$/, 'Z');
+    }
+
+    function tzLabel() {
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var off = -new Date().getTimezoneOffset();
+        var sign = off >= 0 ? '+' : '-';
+        var abs = Math.abs(off);
+        return tz + ' (UTC' + sign + pad(Math.floor(abs / 60)) + ':' + pad(abs % 60) + ')';
+      } catch (e) {
+        return 'browser timezone';
+      }
+    }
+
+    function hoursToHms(h) {
+      var total = ((h % 24) + 24) % 24;
+      var hh = Math.floor(total);
+      var rest = (total - hh) * 60;
+      var mm = Math.floor(rest);
+      var ss = ((rest - mm) * 60).toFixed(1);
+      return pad(hh) + ':' + pad(mm) + ':' + (parseFloat(ss) < 10 ? '0' : '') + ss;
+    }
+
+    function tick() {
+      var now = new Date();
+      document.getElementById('r-utc').textContent = formatUtc(now);
+      document.getElementById('r-utc-iso').textContent = isoUtc(now);
+      document.getElementById('r-local').textContent = formatLocal(now);
+      document.getElementById('r-local-tz').textContent = tzLabel();
+      document.getElementById('r-doy').textContent = dayOfYear(now);
+      document.getElementById('r-week').textContent = isoWeek(now);
+      document.getElementById('r-unix').textContent = Math.floor(now.getTime() / 1000);
+      var jd = julianDate(now);
+      document.getElementById('r-jd').textContent = jd.toFixed(5);
+      document.getElementById('r-mjd').textContent = (jd - 2400000.5).toFixed(5);
+      document.getElementById('r-gmst').textContent = hoursToHms(gmstHours(now));
+    }
+
+    function parseUtcInput(s) {
+      if (!s) return null;
+      s = s.trim();
+      // HHMMZ form
+      var m = s.match(/^(\d{2})(\d{2})Z?$/i);
+      if (m) {
+        var n = new Date();
+        n.setUTCHours(parseInt(m[1], 10), parseInt(m[2], 10), 0, 0);
+        return n;
+      }
+      // Try a few patterns: YYYY-MM-DD HH:MM, with optional Z
+      m = s.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?Z?$/);
+      if (m) {
+        return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0)));
+      }
+      // Fallback to Date parsing as UTC by appending Z
+      var d = new Date(s.replace(' ', 'T') + (/[zZ]$/.test(s) ? '' : 'Z'));
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    function renderConv(d) {
+      var nodes = ['c-utc', 'c-utc-iso', 'c-local', 'c-local-tz', 'c-unix'].map(function (id) {
+        return document.getElementById(id);
+      });
+      if (!d) {
+        nodes[0].textContent = '—';
+        nodes[1].textContent = '—';
+        nodes[2].textContent = '—';
+        nodes[3].textContent = '—';
+        nodes[4].textContent = '—';
+        return;
+      }
+      nodes[0].textContent = formatUtc(d);
+      nodes[1].textContent = isoUtc(d);
+      nodes[2].textContent = formatLocal(d);
+      nodes[3].textContent = tzLabel();
+      nodes[4].textContent = Math.floor(d.getTime() / 1000);
+    }
+
+    var utcInput = document.getElementById('conv-utc-in');
+    var localInput = document.getElementById('conv-local-in');
+
+    utcInput.addEventListener('input', function () {
+      renderConv(parseUtcInput(utcInput.value));
+    });
+    localInput.addEventListener('input', function () {
+      var v = localInput.value;
+      if (!v) { renderConv(null); return; }
+      renderConv(new Date(v));
+    });
+
+    tick();
+    setInterval(tick, 1000);
+  })();
+  </script>
+</body>
+</html>

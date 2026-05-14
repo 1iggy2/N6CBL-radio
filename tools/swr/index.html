@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SWR, return loss, reflection coefficient, and mismatch loss converter for amateur radio. Live two-way conversion between SWR, RL (dB), |&Gamma;|, and ML (dB), with power-flow readout and a reference table.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/swr/">
+  <meta property="og:title" content="SWR / Return Loss / &Gamma; / Mismatch Loss Converter &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Live two-way converter between SWR, return loss, reflection coefficient, and mismatch loss &mdash; with reflected/forward power and percent-delivered readout.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>SWR / Return Loss / &Gamma; / Mismatch Loss Converter &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/SWR/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/" aria-current="page"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/swr/ &mdash; SWR / return loss / &Gamma; / mismatch loss</span>
+        <span>two-way converter / live recompute</span>
+      </div>
+
+      <section aria-labelledby="swr-input-heading">
+        <div class="section-label split">
+          <span id="swr-input-heading">Mismatch input</span>
+          <span class="log-count">edit any field &mdash; the other three follow</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>SWR (s : 1)</span>
+            <input type="number" id="in-swr" step="0.01" min="1" value="1.50" autocomplete="off" inputmode="decimal">
+          </label>
+          <label>
+            <span>Return loss (dB)</span>
+            <input type="number" id="in-rl" step="0.1" min="0" autocomplete="off" inputmode="decimal">
+          </label>
+          <label>
+            <span>Reflection coeff. |&Gamma;|</span>
+            <input type="number" id="in-gamma" step="0.001" min="0" max="1" autocomplete="off" inputmode="decimal">
+          </label>
+          <label>
+            <span>Mismatch loss (dB)</span>
+            <input type="number" id="in-ml" step="0.01" min="0" autocomplete="off" inputmode="decimal">
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="swr-power-heading">
+        <div class="section-label split">
+          <span id="swr-power-heading">Power flow</span>
+          <span class="log-count">assumes a lossless feedline</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-wide">
+            <span>Forward power into the mismatch (W)</span>
+            <input type="number" id="in-pfwd" step="1" min="0" value="100" autocomplete="off" inputmode="decimal">
+          </label>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Reflected power</span>
+            <span class="tools-readout-value mono" id="r-pref">&mdash;</span>
+            <span class="tools-readout-sub">P<sub>fwd</sub> &middot; |&Gamma;|<sup>2</sup></span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Delivered to load</span>
+            <span class="tools-readout-value mono" id="r-pdel">&mdash;</span>
+            <span class="tools-readout-sub">P<sub>fwd</sub> &minus; P<sub>refl</sub></span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Mismatch loss</span>
+            <span class="tools-readout-value mono" id="r-ml">&mdash;</span>
+            <span class="tools-readout-sub">&minus;10 &middot; log<sub>10</sub>(1 &minus; |&Gamma;|<sup>2</sup>)</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Return loss</span>
+            <span class="tools-readout-value mono" id="r-rl">&mdash;</span>
+            <span class="tools-readout-sub">&minus;20 &middot; log<sub>10</sub>(|&Gamma;|)</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">|&Gamma;|</span>
+            <span class="tools-readout-value mono" id="r-gamma">&mdash;</span>
+            <span class="tools-readout-sub">magnitude at the load</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">% power delivered</span>
+            <span class="tools-readout-value mono" id="r-pct">&mdash;</span>
+            <span class="tools-readout-sub">(1 &minus; |&Gamma;|<sup>2</sup>) &middot; 100</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="swr-ref-heading">
+        <div class="section-label split">
+          <span id="swr-ref-heading">Reference table</span>
+          <span class="log-count">common SWR values vs. loss / power</span>
+        </div>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr>
+                <th>SWR</th>
+                <th class="num">Return loss (dB)</th>
+                <th class="num">|&Gamma;|</th>
+                <th class="num">Mismatch loss (dB)</th>
+                <th class="num">% power delivered</th>
+              </tr>
+            </thead>
+            <tbody id="ref-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="swr-note-heading">
+        <div class="section-label" id="swr-note-heading">What these numbers mean</div>
+        <div class="tools-note">
+          <strong>SWR</strong> (voltage standing wave ratio) is the ratio of peak to trough of the standing wave the mismatch sets up on the feedline; 1.0 : 1 means no reflection, &infin; means a short or open circuit at the load.
+          <strong>Return loss</strong> is the same information expressed in dB &mdash; it is the ratio of forward to reflected power at the load, so larger numbers are better.
+          <strong>|&Gamma;|</strong> is the magnitude of the complex reflection coefficient at the load; SWR, return loss, and |&Gamma;| are three views of one underlying quantity.
+          <strong>Mismatch loss</strong> is the dB of forward power that physically cannot couple into the load because some of it returns to the source &mdash; this is <em>not</em> the same as feedline loss, and it does <em>not</em> include the additional round-trip attenuation a real, lossy coax adds to the reflected wave. With a real tuner at the rig end, most of that reflected power is re-reflected back toward the antenna, so the radiated total is generally higher than mismatch loss alone implies; the figure here is the strict load-side coupling deficit at 50 &Omega;.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var DASH = '—';
+    var INF = '∞';
+
+    // --- math helpers -----------------------------------------------------
+    function gammaFromSwr(s) {
+      if (!isFinite(s)) return 1;
+      if (s < 1) return NaN;
+      return (s - 1) / (s + 1);
+    }
+    function swrFromGamma(g) {
+      if (!(g >= 0 && g <= 1)) return NaN;
+      if (g >= 1) return Infinity;
+      return (1 + g) / (1 - g);
+    }
+    function gammaFromRl(rl) {
+      if (!(rl >= 0)) return NaN;
+      return Math.pow(10, -rl / 20);
+    }
+    function rlFromGamma(g) {
+      if (!(g > 0)) return Infinity; // perfect match -> RL = infinity
+      if (g >= 1) return 0;
+      return -20 * Math.log10(g);
+    }
+    function gammaFromMl(ml) {
+      if (!(ml >= 0)) return NaN;
+      var v = 1 - Math.pow(10, -ml / 10);
+      if (v < 0) v = 0;
+      if (v > 1) v = 1;
+      return Math.sqrt(v);
+    }
+    function mlFromGamma(g) {
+      if (!(g >= 0)) return NaN;
+      if (g >= 1) return Infinity;
+      return -10 * Math.log10(1 - g * g);
+    }
+
+    // --- formatting -------------------------------------------------------
+    function fmtSwr(s) {
+      if (s === Infinity) return INF;
+      if (!isFinite(s) || isNaN(s) || s < 1) return DASH;
+      if (s > 9999) return INF;
+      return s.toFixed(2);
+    }
+    function fmtRl(rl) {
+      if (rl === Infinity) return INF;
+      if (!isFinite(rl) || isNaN(rl) || rl < 0) return DASH;
+      return rl.toFixed(1);
+    }
+    function fmtGamma(g) {
+      if (isNaN(g) || g < 0 || g > 1) return DASH;
+      return g.toFixed(3);
+    }
+    function fmtMl(ml) {
+      if (ml === Infinity) return INF;
+      if (!isFinite(ml) || isNaN(ml) || ml < 0) return DASH;
+      return ml.toFixed(2);
+    }
+    function fmtWatts(w) {
+      if (!isFinite(w) || isNaN(w) || w < 0) return DASH;
+      if (w >= 1) return String(Math.round(w));
+      return w.toFixed(2);
+    }
+    function fmtPct(p) {
+      if (!isFinite(p) || isNaN(p) || p < 0) return DASH;
+      if (p >= 100) return '100.0';
+      if (p < 0.01 && p > 0) return p.toExponential(2);
+      return p.toFixed(2);
+    }
+
+    // --- DOM refs ---------------------------------------------------------
+    var inSwr   = document.getElementById('in-swr');
+    var inRl    = document.getElementById('in-rl');
+    var inGamma = document.getElementById('in-gamma');
+    var inMl    = document.getElementById('in-ml');
+    var inPfwd  = document.getElementById('in-pfwd');
+
+    var rPref  = document.getElementById('r-pref');
+    var rPdel  = document.getElementById('r-pdel');
+    var rMl    = document.getElementById('r-ml');
+    var rRl    = document.getElementById('r-rl');
+    var rGamma = document.getElementById('r-gamma');
+    var rPct   = document.getElementById('r-pct');
+
+    // current state — single source of truth is |Gamma|
+    var gamma = NaN;
+
+    function setFieldIfNot(input, value, skipField) {
+      if (input === skipField) return;
+      input.value = value;
+    }
+
+    function renderFields(skip) {
+      // mirror state back into the three input fields the user didn't just type in
+      if (isNaN(gamma) || gamma < 0 || gamma > 1) {
+        setFieldIfNot(inSwr,   '', skip);
+        setFieldIfNot(inRl,    '', skip);
+        setFieldIfNot(inGamma, '', skip);
+        setFieldIfNot(inMl,    '', skip);
+        return;
+      }
+      var s  = swrFromGamma(gamma);
+      var rl = rlFromGamma(gamma);
+      var ml = mlFromGamma(gamma);
+
+      if (skip !== inSwr)   inSwr.value   = (s === Infinity)  ? '' : s.toFixed(2);
+      if (skip !== inRl)    inRl.value    = (rl === Infinity) ? '' : rl.toFixed(1);
+      if (skip !== inGamma) inGamma.value = gamma.toFixed(3);
+      if (skip !== inMl)    inMl.value    = (ml === Infinity) ? '' : ml.toFixed(2);
+    }
+
+    function renderReadouts() {
+      if (isNaN(gamma) || gamma < 0 || gamma > 1) {
+        rPref.textContent  = DASH;
+        rPdel.textContent  = DASH;
+        rMl.textContent    = DASH;
+        rRl.textContent    = DASH;
+        rGamma.textContent = DASH;
+        rPct.textContent   = DASH;
+        return;
+      }
+      var pfwd = parseFloat(inPfwd.value);
+      if (!isFinite(pfwd) || pfwd < 0) pfwd = NaN;
+
+      var g2  = gamma * gamma;
+      var pct = (1 - g2) * 100;
+      var ml  = mlFromGamma(gamma);
+      var rl  = rlFromGamma(gamma);
+
+      var pref = isNaN(pfwd) ? NaN : pfwd * g2;
+      var pdel = isNaN(pfwd) ? NaN : pfwd - pref;
+
+      rPref.textContent  = fmtWatts(pref) + (isNaN(pref) ? '' : ' W');
+      rPdel.textContent  = fmtWatts(pdel) + (isNaN(pdel) ? '' : ' W');
+      rMl.textContent    = fmtMl(ml)    + (ml === Infinity || isNaN(ml) ? '' : ' dB');
+      rRl.textContent    = fmtRl(rl)    + (rl === Infinity || isNaN(rl) ? '' : ' dB');
+      rGamma.textContent = fmtGamma(gamma);
+      rPct.textContent   = fmtPct(pct)  + (isNaN(pct) || pct < 0 ? '' : ' %');
+    }
+
+    function recompute(skip) {
+      renderFields(skip);
+      renderReadouts();
+    }
+
+    // --- input handlers ---------------------------------------------------
+    function clampGamma(g) {
+      if (isNaN(g)) return NaN;
+      if (g < 0) return 0;
+      if (g > 1) return 1;
+      return g;
+    }
+
+    inSwr.addEventListener('input', function () {
+      var raw = inSwr.value.trim();
+      if (raw === '') { gamma = NaN; recompute(inSwr); return; }
+      var s = parseFloat(raw);
+      if (!isFinite(s) || s < 1) { gamma = NaN; recompute(inSwr); return; }
+      gamma = clampGamma(gammaFromSwr(s));
+      recompute(inSwr);
+    });
+
+    inRl.addEventListener('input', function () {
+      var raw = inRl.value.trim();
+      if (raw === '') { gamma = NaN; recompute(inRl); return; }
+      var rl = parseFloat(raw);
+      if (!isFinite(rl) || rl < 0) { gamma = NaN; recompute(inRl); return; }
+      gamma = clampGamma(gammaFromRl(rl));
+      recompute(inRl);
+    });
+
+    inGamma.addEventListener('input', function () {
+      var raw = inGamma.value.trim();
+      if (raw === '') { gamma = NaN; recompute(inGamma); return; }
+      var g = parseFloat(raw);
+      if (!isFinite(g) || g < 0 || g > 1) { gamma = NaN; recompute(inGamma); return; }
+      gamma = clampGamma(g);
+      recompute(inGamma);
+    });
+
+    inMl.addEventListener('input', function () {
+      var raw = inMl.value.trim();
+      if (raw === '') { gamma = NaN; recompute(inMl); return; }
+      var ml = parseFloat(raw);
+      if (!isFinite(ml) || ml < 0) { gamma = NaN; recompute(inMl); return; }
+      gamma = clampGamma(gammaFromMl(ml));
+      recompute(inMl);
+    });
+
+    inPfwd.addEventListener('input', function () {
+      renderReadouts();
+    });
+
+    // --- reference table --------------------------------------------------
+    function buildReferenceTable() {
+      var rows = [1.0, 1.1, 1.2, 1.3, 1.5, 1.7, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, Infinity];
+      var body = document.getElementById('ref-body');
+      var html = '';
+      for (var i = 0; i < rows.length; i++) {
+        var s = rows[i];
+        var g, rl, ml, pct, swrTxt;
+        if (s === Infinity) {
+          g = 1;
+          rl = 0;
+          ml = Infinity;
+          pct = 0;
+          swrTxt = INF;
+        } else {
+          g = gammaFromSwr(s);
+          rl = rlFromGamma(g);
+          ml = mlFromGamma(g);
+          pct = (1 - g * g) * 100;
+          swrTxt = s.toFixed(2);
+        }
+        html += '<tr>'
+          + '<td>' + swrTxt + ' : 1</td>'
+          + '<td class="num">' + (rl === Infinity ? INF : rl.toFixed(1)) + '</td>'
+          + '<td class="num">' + g.toFixed(3) + '</td>'
+          + '<td class="num">' + (ml === Infinity ? INF : ml.toFixed(2)) + '</td>'
+          + '<td class="num">' + (pct < 0.01 && pct > 0 ? pct.toExponential(2) : pct.toFixed(2)) + '</td>'
+          + '</tr>';
+      }
+      body.innerHTML = html;
+    }
+
+    // --- init -------------------------------------------------------------
+    buildReferenceTable();
+    // seed from default SWR field value
+    var seed = parseFloat(inSwr.value);
+    if (isFinite(seed) && seed >= 1) {
+      gamma = clampGamma(gammaFromSwr(seed));
+    }
+    recompute(inSwr);
+  }());
+  </script>
+</body>
+</html>

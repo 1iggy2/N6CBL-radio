@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Coax loss calculator: estimate cable loss in dB per 100 ft, total feedline loss, and power delivered to the antenna for common 50&Omega; cables across HF, VHF, and UHF.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/coax/">
+  <meta property="og:title" content="Coax Loss Calculator &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Estimate feedline loss in dB and delivered RF power for RG-58, RG-8X, RG-213, LMR-240/400/600, Heliax LDF4/LDF5, and more &mdash; HF through UHF.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Coax Loss Calculator &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/COAX/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/" aria-current="page"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/coax/ &mdash; feedline loss</span>
+        <span>recomputes on every input change / client-side</span>
+      </div>
+
+      <section aria-labelledby="coax-inputs-heading">
+        <div class="section-label split">
+          <span id="coax-inputs-heading">Inputs</span>
+          <span class="log-count">frequency &middot; length &middot; cable &middot; power</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Frequency (MHz)</span>
+            <input type="number" id="in-freq" min="0.1" max="3000" step="0.001" value="14.074" autocomplete="off">
+          </label>
+          <label>
+            <span>Length</span>
+            <input type="number" id="in-length" min="0" step="0.1" value="50" autocomplete="off">
+          </label>
+          <label>
+            <span>Length unit</span>
+            <select id="in-unit">
+              <option value="ft" selected>ft</option>
+              <option value="m">m</option>
+            </select>
+          </label>
+          <label>
+            <span>Cable type</span>
+            <select id="in-cable">
+              <option value="RG-58">RG-58 (small flex)</option>
+              <option value="RG-8X">RG-8X (mini-8)</option>
+              <option value="RG-213">RG-213 (medium)</option>
+              <option value="RG-8U">RG-8U (medium)</option>
+              <option value="LMR-240">LMR-240</option>
+              <option value="LMR-400">LMR-400</option>
+              <option value="LMR-600">LMR-600</option>
+              <option value="LDF4-50A">Heliax LDF4-50A (1/2&quot;)</option>
+              <option value="LDF5-50A">Heliax LDF5-50A (7/8&quot;)</option>
+            </select>
+          </label>
+          <label>
+            <span>Forward power (W)</span>
+            <input type="number" id="in-power" min="0" step="0.1" value="100" autocomplete="off">
+          </label>
+          <div class="tools-field">
+            <span>Length (ft, computed)</span>
+            <input type="text" id="in-length-ft" readonly>
+          </div>
+          <div class="tools-field">
+            <span>Impedance</span>
+            <input type="text" id="in-z" readonly value="50 &Omega;">
+          </div>
+          <div class="tools-field">
+            <span>Model</span>
+            <input type="text" id="in-model" readonly value="k1&middot;&radic;f + k2&middot;f">
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="coax-result-heading">
+        <div class="section-label" id="coax-result-heading">Loss result</div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Loss per 100 ft at f</span>
+            <span class="tools-readout-value mono" id="r-loss100">&mdash;</span>
+            <span class="tools-readout-sub" id="r-loss100-sub">dB / 100 ft</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Total loss for length</span>
+            <span class="tools-readout-value mono" id="r-total">&mdash;</span>
+            <span class="tools-readout-sub" id="r-total-sub">dB across full run</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Power delivered</span>
+            <span class="tools-readout-value mono" id="r-delivered">&mdash;</span>
+            <span class="tools-readout-sub" id="r-delivered-sub">W at antenna feed</span>
+          </div>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Power lost as heat</span>
+            <span class="tools-readout-value mono" id="r-lost">&mdash;</span>
+            <span class="tools-readout-sub">W dissipated in the cable</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">% power delivered</span>
+            <span class="tools-readout-value mono" id="r-pct">&mdash;</span>
+            <span class="tools-readout-sub">fraction of forward power</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Cable selected</span>
+            <span class="tools-readout-value mono" id="r-cable">&mdash;</span>
+            <span class="tools-readout-sub" id="r-cable-coef">k1, k2 coefficients</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="coax-ref-heading">
+        <div class="section-label split">
+          <span id="coax-ref-heading">Reference: loss per 100 ft at common frequencies</span>
+          <span class="log-count">dB / 100 ft &middot; approximate</span>
+        </div>
+        <table class="tools-ref-table">
+          <thead>
+            <tr>
+              <th scope="col">Cable</th>
+              <th scope="col" class="num">1 MHz</th>
+              <th scope="col" class="num">10 MHz</th>
+              <th scope="col" class="num">100 MHz</th>
+              <th scope="col" class="num">144 MHz</th>
+              <th scope="col" class="num">450 MHz</th>
+              <th scope="col" class="num">1296 MHz</th>
+              <th scope="col" class="num">2400 MHz</th>
+            </tr>
+          </thead>
+          <tbody id="ref-body"></tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="coax-notes-heading">
+        <div class="section-label" id="coax-notes-heading">Notes &amp; caveats</div>
+        <div class="tools-note">
+          <strong>Approximation.</strong> Loss is modeled as <code>dB/100 ft = k1 &middot; &radic;f<sub>MHz</sub> + k2 &middot; f<sub>MHz</sub></code>, where <code>k1</code> captures conductor (skin-effect) loss and <code>k2</code> captures dielectric loss. Coefficients are derived from manufacturer datasheets and published reference tables; they are typical values, not guarantees. Real-world attenuation depends on temperature, water ingress, connector quality, cable age, and bend radius.
+          <strong>SWR is not modeled.</strong> A mismatch at the antenna raises the matched-line loss above what this calculator reports &mdash; the higher the SWR, the larger the additional loss. Add a separate SWR-loss term if your VSWR is well above 1.5:1.
+          <strong>Rule of thumb.</strong> At HF, almost any 50-ft RG-58 run is acceptable. At VHF/UHF, every connector and every meter of cheap coax matters &mdash; switch to LMR-400 or Heliax once you climb past 144 MHz, especially for satellite, repeater, or weak-signal work.
+          <strong>Units.</strong> Frequency in MHz; length accepts feet or meters and is converted internally to feet for the dB/100 ft formula. 1 m = 3.28084 ft.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var CABLES = [
+      { id: 'RG-58',    k1: 0.36,  k2: 0.0010, z: 50, label: 'RG-58 (small flex)' },
+      { id: 'RG-8X',    k1: 0.29,  k2: 0.0009, z: 50, label: 'RG-8X (mini-8)' },
+      { id: 'RG-213',   k1: 0.18,  k2: 0.0009, z: 50, label: 'RG-213 (medium)' },
+      { id: 'RG-8U',    k1: 0.20,  k2: 0.0010, z: 50, label: 'RG-8U (medium)' },
+      { id: 'LMR-240',  k1: 0.21,  k2: 0.0009, z: 50, label: 'LMR-240' },
+      { id: 'LMR-400',  k1: 0.12,  k2: 0.0008, z: 50, label: 'LMR-400' },
+      { id: 'LMR-600',  k1: 0.075, k2: 0.0006, z: 50, label: 'LMR-600' },
+      { id: 'LDF4-50A', k1: 0.064, k2: 0.0004, z: 50, label: 'Heliax LDF4-50A (1/2")' },
+      { id: 'LDF5-50A', k1: 0.040, k2: 0.0003, z: 50, label: 'Heliax LDF5-50A (7/8")' }
+    ];
+
+    var REF_FREQS = [1, 10, 100, 144, 450, 1296, 2400];
+    var FT_PER_M = 3.28084;
+
+    function getCable(id) {
+      for (var i = 0; i < CABLES.length; i++) {
+        if (CABLES[i].id === id) return CABLES[i];
+      }
+      return null;
+    }
+
+    function lossPer100Ft(cable, fMHz) {
+      return cable.k1 * Math.sqrt(fMHz) + cable.k2 * fMHz;
+    }
+
+    function fmt(n, decimals) {
+      if (!isFinite(n)) return '—';
+      return n.toFixed(decimals);
+    }
+
+    function setText(id, value) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function setHtml(id, value) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = value;
+    }
+
+    function buildRefTable() {
+      var body = document.getElementById('ref-body');
+      if (!body) return;
+      var html = '';
+      for (var i = 0; i < CABLES.length; i++) {
+        var c = CABLES[i];
+        html += '<tr><td>' + c.id + '</td>';
+        for (var j = 0; j < REF_FREQS.length; j++) {
+          html += '<td class="num">' + lossPer100Ft(c, REF_FREQS[j]).toFixed(2) + '</td>';
+        }
+        html += '</tr>';
+      }
+      body.innerHTML = html;
+    }
+
+    function clearResults() {
+      setText('r-loss100', '—');
+      setText('r-total', '—');
+      setText('r-delivered', '—');
+      setText('r-lost', '—');
+      setText('r-pct', '—');
+      setText('r-loss100-sub', 'dB / 100 ft');
+      setText('r-total-sub', 'dB across full run');
+      setText('r-delivered-sub', 'W at antenna feed');
+      var lenFtEl = document.getElementById('in-length-ft');
+      if (lenFtEl) lenFtEl.value = '—';
+    }
+
+    function recompute() {
+      var freqEl = document.getElementById('in-freq');
+      var lenEl = document.getElementById('in-length');
+      var unitEl = document.getElementById('in-unit');
+      var cableEl = document.getElementById('in-cable');
+      var powerEl = document.getElementById('in-power');
+
+      var fMHz = parseFloat(freqEl.value);
+      var lenRaw = parseFloat(lenEl.value);
+      var unit = unitEl.value;
+      var cable = getCable(cableEl.value);
+      var pFwd = parseFloat(powerEl.value);
+
+      // Cable label and coefficients always reflect the current selection.
+      if (cable) {
+        setText('r-cable', cable.id);
+        setText('r-cable-coef', 'k1 = ' + cable.k1.toFixed(3) + ', k2 = ' + cable.k2.toFixed(4));
+      } else {
+        setText('r-cable', '—');
+        setText('r-cable-coef', 'k1, k2 coefficients');
+      }
+
+      if (!cable || !isFinite(fMHz) || fMHz <= 0 || !isFinite(lenRaw) || lenRaw < 0 || !isFinite(pFwd) || pFwd < 0) {
+        clearResults();
+        return;
+      }
+
+      var lenFt = unit === 'm' ? lenRaw * FT_PER_M : lenRaw;
+      var lenFtEl = document.getElementById('in-length-ft');
+      if (lenFtEl) lenFtEl.value = lenFt.toFixed(2) + ' ft';
+
+      var loss100 = lossPer100Ft(cable, fMHz);
+      var totalDb = loss100 * (lenFt / 100);
+      var ratio = Math.pow(10, -totalDb / 10);
+      var pDel = pFwd * ratio;
+      var pLost = pFwd - pDel;
+      var pct = ratio * 100;
+
+      setText('r-loss100', fmt(loss100, 2) + ' dB');
+      setText('r-loss100-sub', 'at ' + fMHz.toFixed(3) + ' MHz');
+      setText('r-total', fmt(totalDb, 2) + ' dB');
+      setText('r-total-sub', 'over ' + lenFt.toFixed(2) + ' ft');
+      setText('r-delivered', fmt(pDel, 2) + ' W');
+      setText('r-delivered-sub', 'from ' + pFwd.toFixed(2) + ' W forward');
+      setText('r-lost', fmt(pLost, 2) + ' W');
+      setText('r-pct', fmt(pct, 1) + ' %');
+    }
+
+    var inputs = ['in-freq', 'in-length', 'in-unit', 'in-cable', 'in-power'];
+    for (var i = 0; i < inputs.length; i++) {
+      var el = document.getElementById(inputs[i]);
+      if (!el) continue;
+      el.addEventListener('input', recompute);
+      el.addEventListener('change', recompute);
+    }
+
+    buildRefTable();
+    recompute();
+  }());
+  </script>
+</body>
+</html>

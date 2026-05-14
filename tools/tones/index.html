@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CTCSS (PL) tone chart, DCS code chart, and US repeater offset calculator. Reference tool for amateur radio operators programming VHF/UHF repeaters.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/tones/">
+  <meta property="og:title" content="CTCSS / DCS Tones &amp; Repeater Offsets &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Full CTCSS (PL) tone list, standard DCS codes, and a band-aware US repeater offset calculator &mdash; dense reference for programming VHF/UHF radios.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>CTCSS / DCS Tones &amp; Repeater Offsets &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/TONES/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/" aria-current="page"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/tones/ &mdash; CTCSS, DCS, repeater offsets</span>
+        <span>standard US conventions &middot; client-side</span>
+      </div>
+
+      <section aria-labelledby="offset-heading">
+        <div class="section-label split">
+          <span id="offset-heading">Repeater offset calculator</span>
+          <span class="log-count">enter the repeater output frequency in MHz</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>Repeater output (MHz)</span>
+            <input type="number" id="freq-in" value="146.520" step="0.005" min="0" autocomplete="off">
+          </label>
+          <label class="tools-half">
+            <span>Offset override (optional, MHz)</span>
+            <input type="text" id="offset-override" placeholder="e.g. -0.6 or +5" autocomplete="off">
+          </label>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Band detected</span>
+            <span class="tools-readout-value" id="r-band">&mdash;</span>
+            <span class="tools-readout-sub" id="r-band-sub">amateur allocation</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Standard offset</span>
+            <span class="tools-readout-value mono" id="r-offset">&mdash;</span>
+            <span class="tools-readout-sub" id="r-offset-sub">US convention</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Transmit (input) freq</span>
+            <span class="tools-readout-value mono" id="r-tx">&mdash;</span>
+            <span class="tools-readout-sub">output &plusmn; offset</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="tones-heading">
+        <div class="section-label split">
+          <span id="tones-heading">CTCSS tones (PL) &middot; DCS codes</span>
+          <span class="log-count" id="match-count">&mdash;</span>
+        </div>
+        <div class="tools-controls">
+          <input type="search" id="tone-search" class="log-search-input" placeholder="filter by tone or code (e.g. 100, 88.5, 023)" autocomplete="off">
+          <span class="tools-controls-spacer"></span>
+          <span class="radio-meta" id="tone-stats">CTCSS 51 &middot; DCS 83</span>
+        </div>
+
+        <div class="section-label split">
+          <span>CTCSS (PL) &mdash; sub-audible tone, Hz</span>
+          <span class="log-count">EIA standard, 51 tones</span>
+        </div>
+        <div class="tools-grid-list" id="ctcss-grid" aria-label="CTCSS tone list"></div>
+
+        <div class="section-label split">
+          <span>DCS &mdash; digital code squelch, octal</span>
+          <span class="log-count">83-code set</span>
+        </div>
+        <div class="tools-grid-list" id="dcs-grid" aria-label="DCS code list"></div>
+      </section>
+
+      <section aria-labelledby="band-ref-heading">
+        <div class="section-label" id="band-ref-heading">US standard repeater offsets &mdash; reference</div>
+        <table class="tools-ref-table">
+          <thead>
+            <tr><th>Band</th><th>Range (MHz)</th><th>Standard offset</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>6 m</td><td class="num">50.000 &ndash; 54.000</td><td class="num">&minus;1 MHz</td><td>Typical; some regions use &minus;0.5 MHz or &plusmn;1.7 MHz.</td></tr>
+            <tr><td>2 m</td><td class="num">144.000 &ndash; 148.000</td><td class="num">&minus;600 kHz / +600 kHz</td><td>Negative below 147.000 MHz output, positive above.</td></tr>
+            <tr><td>1.25 m</td><td class="num">222.000 &ndash; 225.000</td><td class="num">&minus;1.6 MHz</td><td>Uniform across the band.</td></tr>
+            <tr><td>70 cm</td><td class="num">420.000 &ndash; 450.000</td><td class="num">&plusmn;5 MHz</td><td>Direction varies by coordinator; +5 MHz common below 445, &minus;5 MHz above.</td></tr>
+            <tr><td>33 cm</td><td class="num">902.000 &ndash; 928.000</td><td class="num">&minus;25 MHz</td><td>Uniform; uncommon outside the US.</td></tr>
+            <tr><td>23 cm</td><td class="num">1240.000 &ndash; 1300.000</td><td class="num">&minus;12 MHz</td><td>Uniform; coordinator-defined sub-bands.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="tones-note-heading">
+        <div class="section-label" id="tones-note-heading">What these tones do</div>
+        <div class="tools-note">
+          <strong>CTCSS</strong> (Continuous Tone-Coded Squelch System, marketed by Motorola as <strong>PL</strong> &mdash; "Private Line") opens a repeater by transmitting a continuous sub-audible tone (67.0&ndash;254.1 Hz) underneath the voice audio. The repeater listens for the correct tone and only keys up when it matches.
+          <strong>DCS</strong> (Digital Code Squelch) does the same job with a slow continuous digital pattern (octal code) instead of an analog tone &mdash; better at rejecting interference, but the radio and repeater must agree on the code.
+          The tone or code is sent on <strong>transmit</strong>; some repeaters also send the tone back on the downlink so receivers can run "tone squelch" and stay silent unless the matching tone is present.
+          <strong>Band offsets</strong> shown here are common US conventions, not law &mdash; always confirm with the local repeater directory or coordinator before programming a memory channel.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var CTCSS = [
+      67.0, 69.3, 71.9, 74.4, 77.0, 79.7, 82.5, 85.4, 88.5, 91.5, 94.8, 97.4,
+      100.0, 103.5, 107.2, 110.9, 114.8, 118.8, 123.0, 127.3, 131.8, 136.5, 141.3, 146.2,
+      151.4, 156.7, 159.8, 162.2, 165.5, 167.9, 171.3, 173.8, 177.3, 179.9, 183.5, 186.2,
+      189.9, 192.8, 196.6, 199.5, 203.5, 206.5, 210.7, 218.1, 225.7, 229.1, 233.6, 241.8,
+      250.3, 254.1
+    ];
+
+    var DCS = [
+      '023', '025', '026', '031', '032', '036', '043', '047', '051', '053', '054', '065',
+      '071', '072', '073', '074', '114', '115', '116', '122', '125', '131', '132', '134',
+      '143', '145', '152', '155', '156', '162', '165', '172', '174', '205', '212', '223',
+      '225', '226', '243', '244', '245', '246', '251', '252', '255', '261', '263', '265',
+      '266', '271', '274', '306', '311', '315', '325', '331', '332', '343', '346', '351',
+      '356', '364', '365', '371', '411', '412', '413', '423', '431', '432', '445', '446',
+      '452', '454', '455', '462', '464', '465', '466', '503', '506', '516', '523', '526',
+      '532', '546', '565', '606', '612', '624', '627', '631', '632', '654', '662', '664',
+      '703', '712', '723', '731', '732', '734', '743', '754'
+    ];
+
+    function formatTone(t) {
+      // Always one decimal, e.g. 67.0
+      return t.toFixed(1);
+    }
+
+    function buildGrids() {
+      var ctcss = document.getElementById('ctcss-grid');
+      var dcs = document.getElementById('dcs-grid');
+      var i, cell, label;
+
+      for (i = 0; i < CTCSS.length; i++) {
+        cell = document.createElement('div');
+        cell.className = 'tools-grid-cell';
+        cell.setAttribute('data-search', formatTone(CTCSS[i]) + ' hz ctcss pl');
+        label = document.createElement('span');
+        label.className = 'num';
+        label.textContent = formatTone(CTCSS[i]) + ' Hz';
+        cell.appendChild(label);
+        var sub = document.createElement('span');
+        sub.className = 'desc';
+        sub.textContent = 'CTCSS #' + (i + 1);
+        cell.appendChild(sub);
+        ctcss.appendChild(cell);
+      }
+
+      for (i = 0; i < DCS.length; i++) {
+        cell = document.createElement('div');
+        cell.className = 'tools-grid-cell';
+        cell.setAttribute('data-search', 'D' + DCS[i] + ' ' + DCS[i] + ' dcs');
+        label = document.createElement('span');
+        label.className = 'num';
+        label.textContent = 'D' + DCS[i];
+        cell.appendChild(label);
+        var sub2 = document.createElement('span');
+        sub2.className = 'desc';
+        sub2.textContent = 'DCS octal';
+        cell.appendChild(sub2);
+        dcs.appendChild(cell);
+      }
+    }
+
+    function applyFilter() {
+      var input = document.getElementById('tone-search');
+      var q = (input.value || '').trim().toLowerCase();
+      var grids = [document.getElementById('ctcss-grid'), document.getElementById('dcs-grid')];
+      var shown = 0;
+      var total = 0;
+      var i, j, cells, cell, hay;
+      for (i = 0; i < grids.length; i++) {
+        cells = grids[i].getElementsByClassName('tools-grid-cell');
+        for (j = 0; j < cells.length; j++) {
+          cell = cells[j];
+          total++;
+          hay = (cell.getAttribute('data-search') || cell.textContent).toLowerCase();
+          if (!q || hay.indexOf(q) !== -1) {
+            cell.style.display = '';
+            shown++;
+          } else {
+            cell.style.display = 'none';
+          }
+        }
+      }
+      var counter = document.getElementById('match-count');
+      if (counter) {
+        if (q) {
+          counter.textContent = shown + ' / ' + total + ' match';
+        } else {
+          counter.textContent = total + ' total';
+        }
+      }
+    }
+
+    // ── Offset calculator ────────────────────────────────────────────────
+    function bandFor(mhz) {
+      if (mhz >= 50 && mhz <= 54) return { band: '6 m', offset: -1, note: 'typical US' };
+      if (mhz >= 144 && mhz <= 148) {
+        if (mhz < 147.0) return { band: '2 m', offset: -0.6, note: 'below 147.0 crossover' };
+        return { band: '2 m', offset: 0.6, note: 'at or above 147.0 crossover' };
+      }
+      if (mhz >= 222 && mhz <= 225) return { band: '1.25 m', offset: -1.6, note: 'uniform' };
+      if (mhz >= 420 && mhz <= 450) {
+        if (mhz < 445) return { band: '70 cm', offset: 5, note: 'below 445 MHz' };
+        return { band: '70 cm', offset: -5, note: 'at or above 445 MHz' };
+      }
+      if (mhz >= 902 && mhz <= 928) return { band: '33 cm', offset: -25, note: 'uniform' };
+      if (mhz >= 1240 && mhz <= 1300) return { band: '23 cm', offset: -12, note: 'uniform' };
+      return null;
+    }
+
+    function formatOffset(mhz) {
+      var sign = mhz >= 0 ? '+' : '−';
+      var abs = Math.abs(mhz);
+      if (abs < 1) return sign + (abs * 1000).toFixed(0) + ' kHz';
+      // Use up to 3 decimals, trim trailing zeros
+      var s = abs.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+      return sign + s + ' MHz';
+    }
+
+    function formatMhz(mhz) {
+      return mhz.toFixed(5) + ' MHz';
+    }
+
+    function parseOverride(v) {
+      if (!v) return null;
+      var n = parseFloat(v);
+      if (isNaN(n)) return null;
+      return n;
+    }
+
+    function recompute() {
+      var freqInput = document.getElementById('freq-in');
+      var overrideInput = document.getElementById('offset-override');
+      var rxRaw = parseFloat(freqInput.value);
+      var bandEl = document.getElementById('r-band');
+      var bandSub = document.getElementById('r-band-sub');
+      var offEl = document.getElementById('r-offset');
+      var offSub = document.getElementById('r-offset-sub');
+      var txEl = document.getElementById('r-tx');
+
+      if (isNaN(rxRaw) || rxRaw <= 0) {
+        bandEl.textContent = '—';
+        bandSub.textContent = 'enter a frequency';
+        offEl.textContent = '—';
+        offSub.textContent = 'US convention';
+        txEl.textContent = '—';
+        return;
+      }
+
+      var info = bandFor(rxRaw);
+      var override = parseOverride(overrideInput.value);
+      var offsetMhz;
+      var source;
+
+      if (override !== null) {
+        offsetMhz = override;
+        source = 'manual override';
+      } else if (info) {
+        offsetMhz = info.offset;
+        source = info.note;
+      } else {
+        offsetMhz = null;
+        source = 'no standard offset';
+      }
+
+      if (info) {
+        bandEl.textContent = info.band;
+        bandSub.textContent = info.note;
+      } else {
+        bandEl.textContent = 'out of band';
+        bandSub.textContent = 'not a US amateur repeater allocation';
+      }
+
+      if (offsetMhz === null) {
+        offEl.textContent = '—';
+        offSub.textContent = source;
+        txEl.textContent = '—';
+        return;
+      }
+
+      offEl.textContent = formatOffset(offsetMhz);
+      offSub.textContent = source;
+      var tx = rxRaw + offsetMhz;
+      txEl.textContent = formatMhz(tx);
+    }
+
+    function init() {
+      buildGrids();
+      applyFilter();
+
+      var search = document.getElementById('tone-search');
+      search.addEventListener('input', applyFilter);
+
+      var freqInput = document.getElementById('freq-in');
+      var overrideInput = document.getElementById('offset-override');
+      freqInput.addEventListener('input', recompute);
+      overrideInput.addEventListener('input', recompute);
+      recompute();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  }());
+  </script>
+</body>
+</html>

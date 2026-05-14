@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FCC amateur radio license exam practice tool. Random drill or mock exam mode for Technician, General, and Extra elements, using NCVEC public-domain question pool samples.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/exam/">
+  <meta property="og:title" content="FCC Exam Practice &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Practice Technician, General, and Extra FCC amateur radio license exam questions from the NCVEC public-domain pools &mdash; random drill or full mock exam.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>FCC Exam Practice &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/EXAM/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/" aria-current="page"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/exam/ &mdash; FCC license practice</span>
+        <span>NCVEC public-domain pools / sample subset</span>
+      </div>
+
+      <section aria-labelledby="exam-settings-heading">
+        <div class="section-label" id="exam-settings-heading">Settings</div>
+        <div class="tools-form">
+          <label>
+            <span>Element</span>
+            <select id="opt-element">
+              <option value="tech">Technician (2022-2026)</option>
+              <option value="general">General (2023-2027)</option>
+              <option value="extra">Extra (2024-2028)</option>
+            </select>
+          </label>
+          <label>
+            <span>Mode</span>
+            <select id="opt-mode">
+              <option value="random">Random practice (infinite)</option>
+              <option value="mock">Mock exam (full length)</option>
+            </select>
+          </label>
+          <label>
+            <span>Show answer immediately</span>
+            <select id="opt-immediate">
+              <option value="yes">Yes &mdash; reveal on click</option>
+              <option value="no">No &mdash; grade at end</option>
+            </select>
+          </label>
+          <label>
+            <span>Session</span>
+            <span class="mono" id="opt-pool-size" style="font-family: var(--mono); font-size: 0.85rem; padding-top: 4px;">&mdash;</span>
+          </label>
+        </div>
+        <div class="tools-controls">
+          <button class="tools-button primary" id="btn-start">Start session &rarr;</button>
+          <button class="tools-button" id="btn-reset-stats">Reset cumulative stats</button>
+          <span class="tools-controls-spacer"></span>
+          <span class="mono" id="cum-stats" style="font-family: var(--mono); font-size: 0.72rem; color: var(--muted);">&mdash;</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="exam-runtime-heading">
+        <div class="section-label split">
+          <span id="exam-runtime-heading">Question</span>
+          <span class="log-count" id="rt-summary">no session active</span>
+        </div>
+        <div class="tools-q-status" id="q-status" aria-live="polite">
+          <span id="q-status-progress">Question &mdash; / &mdash;</span>
+          <span id="q-status-score">Score &mdash;</span>
+          <span id="q-status-timer">&mdash;</span>
+        </div>
+        <div class="tools-question" id="q-panel" aria-live="polite">
+          <div class="q-meta" id="q-meta">&mdash;</div>
+          <div class="q-text" id="q-text">Pick an element and a mode above, then press Start session.</div>
+          <ul class="q-choices" id="q-choices"></ul>
+        </div>
+        <div class="tools-controls">
+          <button class="tools-button primary" id="btn-next" disabled>Next question &rarr;</button>
+          <button class="tools-button" id="btn-restart" disabled>Restart</button>
+          <button class="tools-button" id="btn-finish" disabled>Finish exam</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="exam-result-heading" id="result-section" hidden>
+        <div class="section-label split">
+          <span id="exam-result-heading">Mock exam result</span>
+          <span class="log-count" id="result-headline">&mdash;</span>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">Score</span>
+            <span class="tools-readout-value mono" id="r-score">&mdash;</span>
+            <span class="tools-readout-sub" id="r-score-sub">correct of total</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Percent</span>
+            <span class="tools-readout-value mono" id="r-pct">&mdash;</span>
+            <span class="tools-readout-sub">passing is 74%</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Verdict</span>
+            <span class="tools-readout-value" id="r-verdict">&mdash;</span>
+            <span class="tools-readout-sub" id="r-verdict-sub">&mdash;</span>
+          </div>
+        </div>
+        <table class="data-table tools-ref-table">
+          <thead>
+            <tr><th>Sub-element</th><th>Correct</th><th>Asked</th><th class="num">%</th></tr>
+          </thead>
+          <tbody id="r-breakdown"></tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="exam-notes-heading">
+        <div class="section-label" id="exam-notes-heading">About the question pool</div>
+        <div class="tools-note">
+          <strong>Source.</strong> Questions come from the <strong>NCVEC</strong> (National Conference of Volunteer Examiner Coordinators) public-domain question pools. NCVEC writes and maintains the official pools that every FCC amateur radio examination is drawn from; the full pools are released as plain text and may be downloaded from <strong>ncvec.org</strong>.
+          <strong>Sample only.</strong> This page ships a representative subset of each pool inline so the tool stays single-file, no-build, and instantly loadable. For comprehensive study you should work through the complete pool (Tech ~ 411 questions, General ~ 432, Extra ~ 622) using the canonical NCVEC release.
+          <strong>Pool cycles.</strong> Pools rotate on a four-year cycle: <code>Technician 2022-2026</code>, <code>General 2023-2027</code>, <code>Extra 2024-2028</code>. Watch the NCVEC release calendar before exam day; an outdated pool will not match the version your VE team is using.
+          <strong>The actual exam.</strong> The FCC exam draws <strong>35</strong> random questions for Technician and General and <strong>50</strong> for Extra, one from each sub-element group. Passing score is <strong>74%</strong>: 26 of 35 for Tech and General, 37 of 50 for Extra.
+          <strong>Choice order.</strong> In the NCVEC source files the correct answer is always listed first (choice A). This tool shuffles the four choices on every question so position memorisation cannot substitute for knowing the material.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+
+    // ── Question pools (NCVEC public-domain). Correct answer is index into choices.
+    var POOLS = {
+      tech: [
+        { id: 'T1A01', sub: 'T1A', ref: '97.1', text: 'For whom is the Amateur Radio Service intended?', choices: ['Persons who have an interest in radio technique solely with a personal aim and without pecuniary interest', 'Persons who pass an amateur service examination', 'Persons over the age of 18 with a valid Social Security number', 'Persons holding an FCC-issued radiotelephone license'], answer: 0 },
+        { id: 'T1A02', sub: 'T1A', ref: '97.1', text: 'What agency regulates and enforces the rules for the Amateur Radio Service in the United States?', choices: ['FEMA', 'The FCC', 'Homeland Security', 'All these choices are correct'], answer: 1 },
+        { id: 'T1A03', sub: 'T1A', ref: '97.119(b)(2)', text: 'What are the FCC rules regarding the use of a phonetic alphabet for station identification in the Amateur Radio Service?', choices: ['Phonetics are required when transmitting digital signals', 'Phonetics are encouraged for the proper pronunciation of call signs', 'Phonetics are required when transmitting between an amateur station and an unlicensed station', 'Use of any phonetics is prohibited'], answer: 1 },
+        { id: 'T1A04', sub: 'T1A', ref: '97.5(b)', text: 'How many operator/primary station license grants may be held by any one person?', choices: ['One', 'No more than two', 'One for each band on which the person plans to operate', 'One for each permanent station location from which the person plans to operate'], answer: 0 },
+        { id: 'T1B02', sub: 'T1B', ref: '97.3', text: 'What frequency range is referred to as VHF?', choices: ['30 to 300 MHz', '300 to 3000 MHz', '3 to 30 MHz', '300 to 3000 kHz'], answer: 0 },
+        { id: 'T1B03', sub: 'T1B', ref: '97.3', text: 'What frequency range is referred to as UHF?', choices: ['30 to 300 kHz', '3 to 30 MHz', '30 to 300 MHz', '300 to 3000 MHz'], answer: 3 },
+        { id: 'T2A01', sub: 'T2A', ref: '97.3', text: 'What is a common repeater frequency offset in the 2-meter band?', choices: ['Plus or minus 5 MHz', 'Plus or minus 600 kHz', 'Plus or minus 500 kHz', 'Plus or minus 1 MHz'], answer: 1 },
+        { id: 'T2A02', sub: 'T2A', ref: '97.3', text: 'What is the national calling frequency for FM simplex operations in the 2-meter band?', choices: ['146.520 MHz', '145.000 MHz', '432.100 MHz', '146.420 MHz'], answer: 0 },
+        { id: 'T3A01', sub: 'T3A', ref: '97.3', text: 'Why might the range of VHF and UHF signals be greater in the summer?', choices: ['There is less ionospheric absorption', 'The earth is closer to the sun', 'Tropospheric ducting often occurs', 'There is more ionization'], answer: 2 },
+        { id: 'T3B01', sub: 'T3B', ref: '97.3', text: 'What is the relationship between the frequency of a radio wave and its wavelength?', choices: ['They are directly proportional', 'They are inversely proportional', 'There is no relationship', 'The frequency is the square of the wavelength'], answer: 1 },
+        { id: 'T4A01', sub: 'T4A', ref: '97.3', text: 'Which of the following is true concerning the microphone connectors on amateur transceivers?', choices: ['All microphone connectors are universally standardized', 'Their connection schemes vary from manufacturer to manufacturer', 'Microphone connectors follow the international DIN standard', 'All amateur transceivers use the same microphone connector type'], answer: 1 },
+        { id: 'T5A02', sub: 'T5A', ref: '97.3', text: 'Electrical current is measured in which of the following units?', choices: ['Volts', 'Watts', 'Ohms', 'Amperes'], answer: 3 },
+        { id: 'T5A03', sub: 'T5A', ref: '97.3', text: 'Electrical power is measured in which of the following units?', choices: ['Volts', 'Watts', 'Ohms', 'Hertz'], answer: 1 },
+        { id: 'T5C01', sub: 'T5C', ref: '97.3', text: 'What is the abbreviation for kilohertz?', choices: ['KHZ', 'kc', 'kHz', 'KX'], answer: 2 },
+        { id: 'T5C03', sub: 'T5C', ref: '97.3', text: 'How many microfarads is 1,000,000 picofarads?', choices: ['0.001 microfarads', '1 microfarad', '1,000 microfarads', '1,000,000,000 microfarads'], answer: 1 },
+        { id: 'T6A01', sub: 'T6A', ref: '97.3', text: 'What electrical component opposes the flow of current in a DC circuit?', choices: ['Inductor', 'Resistor', 'Voltmeter', 'Transformer'], answer: 1 },
+        { id: 'T6A02', sub: 'T6A', ref: '97.3', text: 'What type of component stores energy in an electric field?', choices: ['Resistor', 'Capacitor', 'Inductor', 'Diode'], answer: 1 },
+        { id: 'T7A01', sub: 'T7A', ref: '97.3', text: 'Which of the following is used to convert a radio signal from one frequency to another?', choices: ['Phase splitter', 'Mixer', 'Inverter', 'Amplifier'], answer: 1 },
+        { id: 'T7C01', sub: 'T7C', ref: '97.3', text: 'What might cause stray signals to be heard on a receiver?', choices: ['A poor solder joint in the headphone wires', 'An over-tightened antenna mounting bolt', 'Strong signals from a transmitter very close in frequency', 'A receiver that is operating too cold'], answer: 2 },
+        { id: 'T8A01', sub: 'T8A', ref: '97.3', text: 'Which of the following is a form of amplitude modulation?', choices: ['Spread spectrum', 'Packet radio', 'Single sideband', 'Phase shift keying'], answer: 2 },
+        { id: 'T9A01', sub: 'T9A', ref: '97.3', text: 'What is a vertical antenna?', choices: ['A vertically oriented dipole antenna fed with a coaxial line', 'An antenna whose elements are oriented up and down', 'An antenna fed at the bottom that is no more than 1/4 wavelength tall', 'An antenna that has a single radiating element fed at the bottom that is oriented straight up'], answer: 3 },
+        { id: 'T9B01', sub: 'T9B', ref: '97.3', text: 'Why is it important to have a low SWR when using coaxial cable feed line?', choices: ['To reduce television interference', 'To allow the efficient transfer of power and reduce losses', 'To prolong antenna life', 'To allow the use of an external antenna tuner'], answer: 1 },
+        { id: 'T0A01', sub: 'T0A', ref: '97.13', text: 'What health hazard is presented by electrical current flowing through the body?', choices: ['It may cause injury by heating tissue', 'It may disrupt the electrical functions of cells', 'It may cause involuntary muscle contractions', 'All these choices are correct'], answer: 3 }
+      ],
+      general: [
+        { id: 'G1A01', sub: 'G1A', ref: '97.301', text: 'On which HF/MF amateur bands are there portions where General class licensees cannot transmit?', choices: ['160, 80, 40, 20, 15, 10 meters', '30, 17, 12, 10 meters', '160, 60, 30, 17, 12, 10 meters', '80, 40, 20, 15 meters'], answer: 3 },
+        { id: 'G1B02', sub: 'G1B', ref: '97.303', text: 'Which of the following frequencies is in the 60-meter band?', choices: ['5.5215 MHz', '5.3325 MHz', '5.4035 MHz', '5.4625 MHz'], answer: 1 },
+        { id: 'G2A01', sub: 'G2A', ref: '97.305', text: 'Which mode is most commonly used for voice communications on the 17- and 12-meter bands?', choices: ['Upper sideband', 'Lower sideband', 'Vestigial sideband', 'Double sideband'], answer: 0 },
+        { id: 'G2B02', sub: 'G2B', ref: '97.119', text: 'Which of the following complies with good amateur practice?', choices: ['Identify your station by your call sign once near the beginning and end of each transmission', 'Conduct one-way transmissions to test propagation', 'Use minimum necessary power', 'Both A and C'], answer: 3 },
+        { id: 'G3A01', sub: 'G3A', ref: '97.3', text: 'Which of the following effects can long-duration high-K-index readings have on radio communications?', choices: ['Aurora that can reflect VHF signals', 'Higher signal strength for HF signals passing through the polar regions', 'Improved HF long-path propagation', 'All these choices are correct'], answer: 0 },
+        { id: 'G4A01', sub: 'G4A', ref: '97.3', text: 'What is the purpose of the squelch control on a transceiver?', choices: ['To eliminate receiver noise when no signal is being received', 'To eliminate selective fading', 'To reduce receiver gain', 'To reduce transmitter audio gain'], answer: 0 },
+        { id: 'G5A01', sub: 'G5A', ref: '97.3', text: 'What causes a voltage to appear across the secondary winding of a transformer when an AC voltage source is connected across its primary winding?', choices: ['Capacitive coupling', 'Displacement current coupling', 'Mutual inductance', 'Mutual capacitance'], answer: 2 },
+        { id: 'G5B02', sub: 'G5B', ref: '97.3', text: 'How many watts of electrical power are used by a 12 VDC light bulb that draws 0.2 amperes?', choices: ['2.4 watts', '6 watts', '30 watts', '60 watts'], answer: 0 },
+        { id: 'G6A01', sub: 'G6A', ref: '97.3', text: 'Which of the following is an advantage of low-voltage, high-current capacitors over conventional electrolytics?', choices: ['They have low equivalent series resistance', 'They are physically smaller', 'They can be used in DC circuits only', 'They store no charge'], answer: 0 },
+        { id: 'G7A01', sub: 'G7A', ref: '97.3', text: 'What is the function of a power-supply bleeder resistor?', choices: ['To improve voltage regulation', 'To discharge the filter capacitors', 'To smooth the AC ripple', 'To increase the load current'], answer: 1 },
+        { id: 'G8A01', sub: 'G8A', ref: '97.3', text: 'How is an FSK signal generated?', choices: ['By keying an FM transmitter with a sub-audible tone', 'By shifting the frequency of an oscillator between two values usually less than 1000 Hz', 'By varying the amplitude of an oscillator', 'By keying a continuous-wave transmitter'], answer: 1 },
+        { id: 'G9A01', sub: 'G9A', ref: '97.3', text: 'Which of the following factors most affects the feed point impedance of a half-wave dipole?', choices: ['Antenna height above ground', 'Conductor diameter', 'Operating frequency', 'Length of the transmission line'], answer: 0 },
+        { id: 'G9B01', sub: 'G9B', ref: '97.3', text: 'How does an electrically short ground-plane vertical antenna compare to a quarter-wavelength ground-plane vertical antenna?', choices: ['It has a higher feed point impedance', 'It has a lower feed point impedance', 'It has gain over a longer antenna', 'It has the same feed point impedance'], answer: 1 },
+        { id: 'G0A01', sub: 'G0A', ref: '97.13', text: 'What is one way that RF energy can affect human body tissue?', choices: ['It heats body tissue', 'It causes radiation poisoning', 'It causes the blood to coagulate', 'It causes the bones to weaken'], answer: 0 }
+      ],
+      extra: [
+        { id: 'E1A01', sub: 'E1A', ref: '97.301', text: 'When using a transceiver that displays the carrier frequency of phone signals, which of the following displayed frequencies represents the highest frequency at which a properly adjusted USB emission will be totally within the band?', choices: ['The exact upper band edge', '300 Hz below the upper band edge', '1 kHz below the upper band edge', '3 kHz below the upper band edge'], answer: 3 },
+        { id: 'E1B01', sub: 'E1B', ref: '97.3', text: 'Which of the following constitutes a spurious emission?', choices: ['An amateur station transmission made without the proper call sign identification', 'A signal transmitted to prevent its detection by any station other than the intended recipient', 'Any transmitted signal that unintentionally interferes with another licensed radio station', 'An emission outside the necessary bandwidth of a transmission whose level may be reduced without affecting the information being transmitted'], answer: 3 },
+        { id: 'E2A01', sub: 'E2A', ref: '97.3', text: 'What is meant by deviation ratio?', choices: ['The ratio of the audio modulating frequency to the center carrier frequency', 'The ratio of the maximum carrier frequency deviation to the highest audio modulating frequency', 'The ratio of the carrier center frequency to the audio modulating frequency', 'The ratio of the highest audio modulating frequency to the average audio modulating frequency'], answer: 1 },
+        { id: 'E3A01', sub: 'E3A', ref: '97.3', text: 'What is the approximate maximum separation measured along the surface of the Earth between two stations communicating by Moon bounce?', choices: ['500 miles, if the Moon is at perigee', '2000 miles, if the Moon is at apogee', '5000 miles, if the Moon is at perigee', '12,000 miles, as long as both can see the Moon'], answer: 3 },
+        { id: 'E4A01', sub: 'E4A', ref: '97.3', text: 'Which of the following is included in the calibration of a frequency counter?', choices: ['Comparison to an external time base', 'A constant temperature', 'Adjusting an external pre-scaler', 'Direct reading of frequency'], answer: 0 },
+        { id: 'E5A01', sub: 'E5A', ref: '97.3', text: 'What can cause the voltage across reactances in series to be larger than the voltage applied to them?', choices: ['Resonance', 'Capacitance', 'Conductance', 'Resistance'], answer: 0 },
+        { id: 'E6A01', sub: 'E6A', ref: '97.3', text: 'In what application is gallium arsenide used as a semiconductor material in preference to germanium or silicon?', choices: ['In high-current rectifier circuits', 'In high-power audio circuits', 'At microwave frequencies', 'At very low frequency RF and AF circuits'], answer: 2 },
+        { id: 'E7A01', sub: 'E7A', ref: '97.3', text: 'Which logic state describes an open switch with a pull-up resistor at the input of a TTL gate?', choices: ['Logic 0', 'Logic 1', 'Either Logic 1 or Logic 0', 'Logic 3'], answer: 1 },
+        { id: 'E8A01', sub: 'E8A', ref: '97.3', text: 'What is the name of the process that shows that a square wave is made up of a sine wave plus all of its odd harmonics?', choices: ['Fourier analysis', 'Vector analysis', 'Numerical analysis', 'Differential analysis'], answer: 0 },
+        { id: 'E9A01', sub: 'E9A', ref: '97.3', text: 'What describes an isotropic antenna?', choices: ['A grounded antenna used to measure earth conductivity', 'A horizontally polarized antenna used to compare Yagi antennas', 'A theoretical antenna used as a reference for antenna gain', 'A spacecraft antenna used to direct signals toward Earth'], answer: 2 },
+        { id: 'E0A01', sub: 'E0A', ref: '97.13', text: 'Which of the following injuries can result from using high-power UHF or microwave transmitters?', choices: ['Hearing loss caused by high voltage corona discharge', 'Blood clotting from the intense magnetic field', 'Localized heating of the body from RF exposure in excess of the MPE limits', 'Ingestion of ozone gas from the cooling system'], answer: 2 }
+      ]
+    };
+
+    // ── Element configuration: full-exam length and passing score.
+    var ELEMENTS = {
+      tech:    { label: 'Technician', length: 35, pass: 26 },
+      general: { label: 'General',    length: 35, pass: 26 },
+      extra:   { label: 'Extra',      length: 50, pass: 37 }
+    };
+
+    // ── Persistent cumulative stats (per element).
+    var STATS_KEY = 'n6cbl-exam-stats-v1';
+
+    function loadStats() {
+      try {
+        var raw = localStorage.getItem(STATS_KEY);
+        if (!raw) return defaultStats();
+        var obj = JSON.parse(raw);
+        if (!obj || typeof obj !== 'object') return defaultStats();
+        return {
+          tech:    obj.tech    || { correct: 0, asked: 0 },
+          general: obj.general || { correct: 0, asked: 0 },
+          extra:   obj.extra   || { correct: 0, asked: 0 }
+        };
+      } catch (e) {
+        return defaultStats();
+      }
+    }
+
+    function defaultStats() {
+      return {
+        tech:    { correct: 0, asked: 0 },
+        general: { correct: 0, asked: 0 },
+        extra:   { correct: 0, asked: 0 }
+      };
+    }
+
+    function saveStats(s) {
+      try { localStorage.setItem(STATS_KEY, JSON.stringify(s)); } catch (e) {}
+    }
+
+    function renderCumStats() {
+      var s = loadStats();
+      var parts = [];
+      var keys = ['tech', 'general', 'extra'];
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var entry = s[k];
+        var pct = entry.asked > 0 ? Math.round((entry.correct / entry.asked) * 100) : 0;
+        parts.push(ELEMENTS[k].label.toUpperCase() + ' ' + entry.correct + '/' + entry.asked + ' (' + pct + '%)');
+      }
+      document.getElementById('cum-stats').textContent = 'CUMULATIVE: ' + parts.join('  ·  ');
+    }
+
+    // ── Session state.
+    var session = null;
+    var timerHandle = null;
+
+    function pad2(n) { var s = String(n); return s.length < 2 ? '0' + s : s; }
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function pickQuestions(elementKey, count) {
+      var pool = POOLS[elementKey];
+      if (count >= pool.length) {
+        // Mock exam length exceeds available sample — return shuffled pool, optionally
+        // repeating to reach length (sample is small; allow repeats only if necessary).
+        var out = shuffle(pool);
+        while (out.length < count) {
+          out = out.concat(shuffle(pool));
+        }
+        return out.slice(0, count);
+      }
+      return shuffle(pool).slice(0, count);
+    }
+
+    function buildRenderedQuestion(q) {
+      // Produce an order array of original indices; q.answer (original) maps to
+      // its new position after shuffle.
+      var idxs = shuffle([0, 1, 2, 3]);
+      var newAnswer = 0;
+      for (var i = 0; i < idxs.length; i++) {
+        if (idxs[i] === q.answer) { newAnswer = i; break; }
+      }
+      var orderedChoices = [];
+      for (var k = 0; k < idxs.length; k++) {
+        orderedChoices.push(q.choices[idxs[k]]);
+      }
+      return { id: q.id, sub: q.sub, ref: q.ref, text: q.text, choices: orderedChoices, answer: newAnswer };
+    }
+
+    function startSession() {
+      var el = document.getElementById('opt-element').value;
+      var mode = document.getElementById('opt-mode').value;
+      var immediate = document.getElementById('opt-immediate').value === 'yes';
+      var cfg = ELEMENTS[el];
+
+      var count;
+      if (mode === 'mock') {
+        count = cfg.length;
+      } else {
+        // Random practice — "infinite" implemented as a generous queue we top up.
+        count = Math.min(POOLS[el].length, 25);
+      }
+
+      var picks = pickQuestions(el, count);
+      var prepared = [];
+      for (var i = 0; i < picks.length; i++) {
+        prepared.push(buildRenderedQuestion(picks[i]));
+      }
+
+      session = {
+        element: el,
+        mode: mode,
+        immediate: immediate,
+        questions: prepared,
+        responses: [],     // index into rendered.choices, or null if unanswered
+        revealed: [],      // boolean per question
+        cursor: 0,
+        score: 0,
+        startedAt: Date.now(),
+        finished: false
+      };
+
+      document.getElementById('result-section').hidden = true;
+      document.getElementById('btn-next').disabled = false;
+      document.getElementById('btn-restart').disabled = false;
+      document.getElementById('btn-finish').disabled = (mode !== 'mock');
+      document.getElementById('btn-start').textContent = 'Restart session →';
+
+      document.getElementById('rt-summary').textContent =
+        cfg.label + ' · ' + (mode === 'mock' ? 'mock exam' : 'random practice') +
+        ' · ' + (immediate ? 'instant reveal' : 'grade at end');
+
+      if (mode === 'mock') {
+        if (timerHandle) clearInterval(timerHandle);
+        timerHandle = setInterval(updateTimer, 1000);
+      } else {
+        if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
+        document.getElementById('q-status-timer').textContent = '';
+      }
+
+      renderQuestion();
+    }
+
+    function updateTimer() {
+      if (!session) return;
+      var elapsed = Math.floor((Date.now() - session.startedAt) / 1000);
+      var hh = Math.floor(elapsed / 3600);
+      var mm = Math.floor((elapsed % 3600) / 60);
+      var ss = elapsed % 60;
+      var s = (hh > 0 ? pad2(hh) + ':' : '') + pad2(mm) + ':' + pad2(ss);
+      document.getElementById('q-status-timer').textContent = 'ELAPSED ' + s;
+    }
+
+    function renderQuestion() {
+      if (!session) return;
+      var q = session.questions[session.cursor];
+      var meta = document.getElementById('q-meta');
+      var text = document.getElementById('q-text');
+      var list = document.getElementById('q-choices');
+
+      meta.textContent = q.id + ' · ' + q.sub + ' · [' + q.ref + ']';
+      text.textContent = q.text;
+
+      // Build choices
+      list.innerHTML = '';
+      var letters = ['A', 'B', 'C', 'D'];
+      for (var i = 0; i < q.choices.length; i++) {
+        var li = document.createElement('li');
+        var letterSpan = document.createElement('span');
+        letterSpan.className = 'q-letter';
+        letterSpan.textContent = letters[i];
+        li.appendChild(letterSpan);
+        li.appendChild(document.createTextNode(q.choices[i]));
+        li.setAttribute('data-idx', String(i));
+        li.addEventListener('click', onChoiceClick);
+        list.appendChild(li);
+      }
+
+      // If already answered (and immediate mode revealed), render that state.
+      var picked = session.responses[session.cursor];
+      var alreadyRevealed = session.revealed[session.cursor];
+      if (alreadyRevealed) {
+        applyReveal(list, q, picked);
+      } else if (typeof picked === 'number' && !session.immediate) {
+        // In end-grade mode, show user's pick highlighted (not graded yet).
+        var node = list.children[picked];
+        if (node) node.style.background = 'var(--tint)';
+      }
+
+      updateStatus();
+    }
+
+    function applyReveal(list, q, picked) {
+      for (var i = 0; i < list.children.length; i++) {
+        var li = list.children[i];
+        li.classList.add('disabled');
+        li.removeEventListener('click', onChoiceClick);
+        if (i === q.answer) li.classList.add('correct');
+        if (typeof picked === 'number' && picked === i && picked !== q.answer) li.classList.add('wrong');
+      }
+    }
+
+    function onChoiceClick(ev) {
+      if (!session) return;
+      var li = ev.currentTarget;
+      var idx = parseInt(li.getAttribute('data-idx'), 10);
+      var q = session.questions[session.cursor];
+
+      // Block re-answer.
+      if (session.responses[session.cursor] != null) return;
+
+      session.responses[session.cursor] = idx;
+
+      var isCorrect = (idx === q.answer);
+      if (isCorrect) session.score += 1;
+
+      // Update cumulative stats (every answered question counts, both modes).
+      var stats = loadStats();
+      stats[session.element].asked += 1;
+      if (isCorrect) stats[session.element].correct += 1;
+      saveStats(stats);
+      renderCumStats();
+
+      if (session.immediate) {
+        session.revealed[session.cursor] = true;
+        applyReveal(li.parentNode, q, idx);
+      } else {
+        // mark user's pick visually without revealing correctness
+        for (var i = 0; i < li.parentNode.children.length; i++) {
+          li.parentNode.children[i].style.background = '';
+        }
+        li.style.background = 'var(--tint)';
+      }
+
+      updateStatus();
+    }
+
+    function updateStatus() {
+      if (!session) {
+        document.getElementById('q-status-progress').textContent = 'Question — / —';
+        document.getElementById('q-status-score').textContent = 'Score —';
+        return;
+      }
+      var total = session.questions.length;
+      var n = session.cursor + 1;
+      document.getElementById('q-status-progress').textContent =
+        'QUESTION ' + n + ' / ' + total + ' · ' + ELEMENTS[session.element].label.toUpperCase();
+      var answered = 0;
+      for (var i = 0; i < session.responses.length; i++) {
+        if (session.responses[i] != null) answered += 1;
+      }
+      document.getElementById('q-status-score').textContent =
+        'SCORE ' + session.score + ' / ' + answered + ' answered';
+    }
+
+    function nextQuestion() {
+      if (!session) return;
+
+      // Random-practice mode: top up queue so it never runs out.
+      if (session.mode === 'random' && session.cursor >= session.questions.length - 2) {
+        var more = pickQuestions(session.element, 10);
+        for (var i = 0; i < more.length; i++) {
+          session.questions.push(buildRenderedQuestion(more[i]));
+        }
+      }
+
+      if (session.cursor < session.questions.length - 1) {
+        session.cursor += 1;
+        renderQuestion();
+      } else if (session.mode === 'mock') {
+        finishMock();
+      } else {
+        renderQuestion();
+      }
+    }
+
+    function finishMock() {
+      if (!session) return;
+      session.finished = true;
+      if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
+
+      var cfg = ELEMENTS[session.element];
+      var total = session.questions.length;
+      var score = 0;
+      var bySub = {};
+      for (var i = 0; i < session.questions.length; i++) {
+        var q = session.questions[i];
+        var picked = session.responses[i];
+        var ok = (picked === q.answer);
+        if (ok) score += 1;
+        if (!bySub[q.sub]) bySub[q.sub] = { correct: 0, asked: 0 };
+        bySub[q.sub].asked += 1;
+        if (ok) bySub[q.sub].correct += 1;
+      }
+      session.score = score;
+
+      // Reveal every question now (in end-grade mode they were ungraded).
+      for (var j = 0; j < session.questions.length; j++) {
+        session.revealed[j] = true;
+      }
+      renderQuestion();
+      updateStatus();
+
+      // Result panel.
+      document.getElementById('result-section').hidden = false;
+      document.getElementById('r-score').textContent = score + ' / ' + total;
+      document.getElementById('r-score-sub').textContent = 'pass = ' + cfg.pass + ' correct';
+      var pct = Math.round((score / total) * 1000) / 10;
+      document.getElementById('r-pct').textContent = pct + '%';
+      var passed = score >= cfg.pass;
+      document.getElementById('r-verdict').textContent = passed ? 'PASS' : 'FAIL';
+      document.getElementById('r-verdict-sub').textContent = passed
+        ? cfg.label + ' element &mdash; FCC threshold met'
+        : cfg.label + ' element &mdash; short of FCC threshold';
+      document.getElementById('result-headline').textContent =
+        cfg.label + ' · ' + total + ' questions · ' + (passed ? 'pass' : 'fail');
+
+      var tbody = document.getElementById('r-breakdown');
+      tbody.innerHTML = '';
+      var subKeys = [];
+      for (var k in bySub) { if (bySub.hasOwnProperty(k)) subKeys.push(k); }
+      subKeys.sort();
+      for (var m = 0; m < subKeys.length; m++) {
+        var sk = subKeys[m];
+        var e = bySub[sk];
+        var spct = Math.round((e.correct / e.asked) * 100);
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td'); td1.textContent = sk;
+        var td2 = document.createElement('td'); td2.textContent = String(e.correct);
+        var td3 = document.createElement('td'); td3.textContent = String(e.asked);
+        var td4 = document.createElement('td'); td4.className = 'num'; td4.textContent = spct + '%';
+        tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4);
+        tbody.appendChild(tr);
+      }
+
+      document.getElementById('btn-finish').disabled = true;
+      document.getElementById('btn-next').disabled = true;
+    }
+
+    function restartSession() {
+      if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
+      session = null;
+      document.getElementById('result-section').hidden = true;
+      document.getElementById('btn-next').disabled = true;
+      document.getElementById('btn-restart').disabled = true;
+      document.getElementById('btn-finish').disabled = true;
+      document.getElementById('btn-start').textContent = 'Start session →';
+      document.getElementById('q-meta').textContent = '—';
+      document.getElementById('q-text').textContent = 'Pick an element and a mode above, then press Start session.';
+      document.getElementById('q-choices').innerHTML = '';
+      document.getElementById('q-status-progress').textContent = 'Question — / —';
+      document.getElementById('q-status-score').textContent = 'Score —';
+      document.getElementById('q-status-timer').textContent = '—';
+      document.getElementById('rt-summary').textContent = 'no session active';
+      updatePoolReadout();
+    }
+
+    function updatePoolReadout() {
+      var el = document.getElementById('opt-element').value;
+      var mode = document.getElementById('opt-mode').value;
+      var cfg = ELEMENTS[el];
+      var poolSize = POOLS[el].length;
+      var n = (mode === 'mock') ? cfg.length : Math.min(poolSize, 25);
+      var label = (mode === 'mock')
+        ? n + ' questions / pass ' + cfg.pass + ' (sample ' + poolSize + ')'
+        : 'random drill / sample ' + poolSize;
+      document.getElementById('opt-pool-size').textContent = label;
+    }
+
+    // ── Wire up event handlers.
+    document.getElementById('btn-start').addEventListener('click', startSession);
+    document.getElementById('btn-next').addEventListener('click', nextQuestion);
+    document.getElementById('btn-restart').addEventListener('click', restartSession);
+    document.getElementById('btn-finish').addEventListener('click', function () {
+      if (session && session.mode === 'mock') finishMock();
+    });
+    document.getElementById('btn-reset-stats').addEventListener('click', function () {
+      saveStats(defaultStats());
+      renderCumStats();
+    });
+    document.getElementById('opt-element').addEventListener('change', updatePoolReadout);
+    document.getElementById('opt-mode').addEventListener('change', updatePoolReadout);
+
+    // Initial render.
+    updatePoolReadout();
+    renderCumStats();
+    updateStatus();
+
+  }());
+  </script>
+</body>
+</html>

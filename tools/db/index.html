@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Two-way dB / power / voltage / S-unit converter for amateur radio. Convert between watts, milliwatts, dBm, dBW, V and &mu;V into 50 ohms, plus HF and VHF/UHF S-units and free-space path loss.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/db/">
+  <meta property="og:title" content="dB / Power / S-unit Converter &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Two-way converter between watts, dBm, dBW, V and &mu;V into 50 &Omega;, plus HF and VHF/UHF S-unit scales and free-space path loss.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>dB / Power / S-unit Converter &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/DB/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
+          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
+          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
+          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
+          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
+          <li class="nav-item"><a href="/tools/db/" aria-current="page"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
+          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
+          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
+          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
+          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
+          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
+          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
+          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
+          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
+          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
+          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
+          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/db/ &mdash; dB / power / S-unit converter</span>
+        <span>two-way binding &middot; 50 &Omega; reference</span>
+      </div>
+
+      <section aria-labelledby="db-power-heading">
+        <div class="section-label split">
+          <span id="db-power-heading">Power converter</span>
+          <span class="log-count">edit any field &mdash; others update live</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>Power value</span>
+            <input type="number" id="p-value" value="100" step="any" autocomplete="off" inputmode="decimal">
+          </label>
+          <label class="tools-half">
+            <span>Power unit</span>
+            <select id="p-unit">
+              <option value="W" selected>W (watts)</option>
+              <option value="mW">mW (milliwatts)</option>
+              <option value="dBm">dBm</option>
+              <option value="dBW">dBW</option>
+            </select>
+          </label>
+          <label class="tools-half">
+            <span>Voltage value (into 50 &Omega;)</span>
+            <input type="number" id="v-value" step="any" autocomplete="off" inputmode="decimal">
+          </label>
+          <label class="tools-half">
+            <span>Voltage unit</span>
+            <select id="v-unit">
+              <option value="V" selected>V (rms)</option>
+              <option value="mV">mV (rms)</option>
+              <option value="uV">&mu;V (rms)</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section aria-labelledby="db-conv-heading">
+        <div class="section-label" id="db-conv-heading">Conversions</div>
+        <div class="tools-result-grid cols-6">
+          <div class="tools-readout">
+            <span class="tools-readout-label">dBm</span>
+            <span class="tools-readout-value mono" id="r-dbm">&mdash;</span>
+            <span class="tools-readout-sub">dB ref 1 mW</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">dBW</span>
+            <span class="tools-readout-value mono" id="r-dbw">&mdash;</span>
+            <span class="tools-readout-sub">dB ref 1 W</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Watts</span>
+            <span class="tools-readout-value mono" id="r-w">&mdash;</span>
+            <span class="tools-readout-sub">W</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Milliwatts</span>
+            <span class="tools-readout-value mono" id="r-mw">&mdash;</span>
+            <span class="tools-readout-sub">mW</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">V (rms)</span>
+            <span class="tools-readout-value mono" id="r-v">&mdash;</span>
+            <span class="tools-readout-sub">into 50 &Omega;</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">&mu;V (rms)</span>
+            <span class="tools-readout-value mono" id="r-uv">&mdash;</span>
+            <span class="tools-readout-sub">into 50 &Omega;</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="db-sunit-heading">
+        <div class="section-label split">
+          <span id="db-sunit-heading">S-unit reference</span>
+          <span class="log-count">enter a received signal level</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>Signal level value</span>
+            <input type="number" id="s-value" value="50" step="any" autocomplete="off" inputmode="decimal">
+          </label>
+          <label class="tools-half">
+            <span>Signal level unit</span>
+            <select id="s-unit">
+              <option value="uV" selected>&mu;V (rms into 50 &Omega;)</option>
+              <option value="dBm">dBm</option>
+            </select>
+          </label>
+        </div>
+        <div class="tools-result-grid cols-2">
+          <div class="tools-readout">
+            <span class="tools-readout-label">HF S-unit (S9 = -73 dBm)</span>
+            <span class="tools-readout-value mono" id="r-s-hf">&mdash;</span>
+            <span class="tools-readout-sub" id="r-s-hf-sub">S9 = 50 &mu;V into 50 &Omega; &middot; 6 dB / S-unit</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">VHF / UHF S-unit (S9 = -93 dBm)</span>
+            <span class="tools-readout-value mono" id="r-s-vu">&mdash;</span>
+            <span class="tools-readout-sub" id="r-s-vu-sub">S9 = 5 &mu;V into 50 &Omega; &middot; 6 dB / S-unit</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="db-stable-heading">
+        <div class="section-label" id="db-stable-heading">S-unit reference table (HF)</div>
+        <table class="tools-ref-table">
+          <thead>
+            <tr>
+              <th>S-meter</th>
+              <th class="num">HF dBm into 50 &Omega;</th>
+              <th class="num">HF &mu;V (rms)</th>
+            </tr>
+          </thead>
+          <tbody id="s-table-body"></tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="db-fspl-heading">
+        <div class="section-label split">
+          <span id="db-fspl-heading">Free-space path loss</span>
+          <span class="log-count">theoretical line-of-sight only</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>Frequency (MHz)</span>
+            <input type="number" id="fspl-f" value="14.074" step="any" autocomplete="off" inputmode="decimal">
+          </label>
+          <label class="tools-half">
+            <span>Distance (km)</span>
+            <input type="number" id="fspl-d" value="1000" step="any" autocomplete="off" inputmode="decimal">
+          </label>
+        </div>
+        <div class="tools-result-grid cols-3">
+          <div class="tools-readout">
+            <span class="tools-readout-label">FSPL</span>
+            <span class="tools-readout-value mono" id="r-fspl">&mdash;</span>
+            <span class="tools-readout-sub">dB</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Wavelength &lambda;</span>
+            <span class="tools-readout-value mono" id="r-wavelen">&mdash;</span>
+            <span class="tools-readout-sub">c / f</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Formula</span>
+            <span class="tools-readout-value mono" style="font-size:0.9rem">20&middot;log&#8321;&#8320;(d) + 20&middot;log&#8321;&#8320;(f) + 32.45</span>
+            <span class="tools-readout-sub">d in km &middot; f in MHz</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="db-notes-heading">
+        <div class="section-label" id="db-notes-heading">Notes</div>
+        <div class="tools-note">
+          <strong>dBm</strong> is dB referenced to 1 mW; <strong>dBW</strong> is dB referenced to 1 W; the two differ by exactly 30 dB.
+          <strong>V</strong> and <strong>&mu;V</strong> values assume a 50 &Omega; system impedance, which is the amateur radio standard at every IF, receiver input, transmitter output, and instrument port &mdash; the conversion P = V&sup2; / Z only holds at that reference.
+          <strong>S-units</strong> originated as a perceptual scale and the IARU recommendation is 6 dB per S-unit, but real receiver S-meters vary widely and are rarely calibrated; treat all readings as relative.
+          The <strong>HF baseline</strong> places S9 at -73 dBm (50 &mu;V into 50 &Omega;) and the <strong>VHF/UHF baseline</strong> places S9 at -93 dBm (5 &mu;V into 50 &Omega;) &mdash; both are long-standing convention rather than physical constants.
+          <strong>Free-space path loss</strong> is theoretical line-of-sight only; it ignores ground losses, atmospheric absorption, ionospheric refraction, polarization mismatch, multipath, and obstruction &mdash; useful as a floor, not a prediction.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="mailto:cam@n6cbl.radio">CONTACT</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    var Z = 50; // amateur reference impedance
+    var DASH = '—';
+
+    // ── Numeric helpers ──────────────────────────────────────────────
+    function isFiniteNum(x) {
+      return typeof x === 'number' && isFinite(x) && !isNaN(x);
+    }
+
+    function parseNum(s) {
+      if (s === null || s === undefined) return NaN;
+      var t = String(s).trim();
+      if (t === '') return NaN;
+      var n = Number(t);
+      return isFinite(n) ? n : NaN;
+    }
+
+    function sigFig(x, n) {
+      if (!isFiniteNum(x)) return DASH;
+      if (x === 0) return '0';
+      var abs = Math.abs(x);
+      // Use scientific notation for very small or very large numbers
+      if (abs < 1e-3 || abs >= 1e6) {
+        return x.toExponential(n - 1);
+      }
+      // toPrecision keeps n significant figures
+      var s = x.toPrecision(n);
+      // Strip trailing zeros after a decimal point but keep significant ones
+      if (s.indexOf('.') !== -1 && s.indexOf('e') === -1) {
+        // Don't strip if it would lose sig figs; toPrecision already produced the right count
+      }
+      return s;
+    }
+
+    function fixed(x, n) {
+      if (!isFiniteNum(x)) return DASH;
+      return x.toFixed(n);
+    }
+
+    // ── Power / voltage conversions ──────────────────────────────────
+    // Canonical power state is in watts.
+    function powerToDbm(pW) {
+      if (!isFiniteNum(pW) || pW <= 0) return NaN;
+      return 10 * Math.log10(pW * 1000);
+    }
+    function powerToDbw(pW) {
+      if (!isFiniteNum(pW) || pW <= 0) return NaN;
+      return 10 * Math.log10(pW);
+    }
+    function dbmToPower(dBm) {
+      if (!isFiniteNum(dBm)) return NaN;
+      return Math.pow(10, dBm / 10) / 1000;
+    }
+    function dbwToPower(dBW) {
+      if (!isFiniteNum(dBW)) return NaN;
+      return Math.pow(10, dBW / 10);
+    }
+    function powerToVrms(pW) {
+      if (!isFiniteNum(pW) || pW < 0) return NaN;
+      return Math.sqrt(pW * Z);
+    }
+    function vrmsToPower(v) {
+      if (!isFiniteNum(v) || v < 0) return NaN;
+      return (v * v) / Z;
+    }
+
+    function powerFromUnit(value, unit) {
+      if (!isFiniteNum(value)) return NaN;
+      if (unit === 'W') return value;
+      if (unit === 'mW') return value / 1000;
+      if (unit === 'dBm') return dbmToPower(value);
+      if (unit === 'dBW') return dbwToPower(value);
+      return NaN;
+    }
+
+    function voltageFromUnit(value, unit) {
+      if (!isFiniteNum(value)) return NaN;
+      if (unit === 'V') return value;
+      if (unit === 'mV') return value / 1000;
+      if (unit === 'uV') return value / 1e6;
+      return NaN;
+    }
+
+    function voltageToUnit(vRms, unit) {
+      if (!isFiniteNum(vRms)) return NaN;
+      if (unit === 'V') return vRms;
+      if (unit === 'mV') return vRms * 1000;
+      if (unit === 'uV') return vRms * 1e6;
+      return NaN;
+    }
+
+    function powerToUnit(pW, unit) {
+      if (!isFiniteNum(pW)) return NaN;
+      if (unit === 'W') return pW;
+      if (unit === 'mW') return pW * 1000;
+      if (unit === 'dBm') return powerToDbm(pW);
+      if (unit === 'dBW') return powerToDbw(pW);
+      return NaN;
+    }
+
+    // ── DOM refs ─────────────────────────────────────────────────────
+    var pValue = document.getElementById('p-value');
+    var pUnit  = document.getElementById('p-unit');
+    var vValue = document.getElementById('v-value');
+    var vUnit  = document.getElementById('v-unit');
+
+    var rDbm = document.getElementById('r-dbm');
+    var rDbw = document.getElementById('r-dbw');
+    var rW   = document.getElementById('r-w');
+    var rMw  = document.getElementById('r-mw');
+    var rV   = document.getElementById('r-v');
+    var rUv  = document.getElementById('r-uv');
+
+    // Guard: which field is the user currently editing? Don't rewrite it.
+    var editing = null;
+
+    function setReadouts(pW) {
+      if (!isFiniteNum(pW) || pW <= 0) {
+        rDbm.textContent = DASH;
+        rDbw.textContent = DASH;
+        rW.textContent   = DASH;
+        rMw.textContent  = DASH;
+        rV.textContent   = DASH;
+        rUv.textContent  = DASH;
+        return;
+      }
+      rDbm.textContent = fixed(powerToDbm(pW), 1);
+      rDbw.textContent = fixed(powerToDbw(pW), 1);
+      rW.textContent   = sigFig(pW, 3);
+      rMw.textContent  = sigFig(pW * 1000, 3);
+      var vrms = powerToVrms(pW);
+      rV.textContent   = sigFig(vrms, 3);
+      rUv.textContent  = sigFig(vrms * 1e6, 3);
+    }
+
+    function writeField(input, value, unit) {
+      if (!isFiniteNum(value)) {
+        input.value = '';
+        return;
+      }
+      // Use a sensible precision in form fields; 6 sig figs avoids ugly
+      // floating point noise but preserves all useful resolution.
+      var abs = Math.abs(value);
+      var s;
+      if (unit === 'dBm' || unit === 'dBW') {
+        s = value.toFixed(2);
+      } else if (abs !== 0 && (abs < 1e-3 || abs >= 1e6)) {
+        s = value.toExponential(4);
+      } else {
+        s = Number(value.toPrecision(6)).toString();
+      }
+      input.value = s;
+    }
+
+    function syncFromPower(pW) {
+      // Update voltage input if user is not editing it.
+      if (editing !== 'v') {
+        var vUnitVal = vUnit.value;
+        var vrms = powerToVrms(pW);
+        var disp = voltageToUnit(vrms, vUnitVal);
+        writeField(vValue, disp, vUnitVal);
+      }
+      // Update power input if user is not editing it (e.g. unit change).
+      if (editing !== 'p') {
+        var pUnitVal = pUnit.value;
+        writeField(pValue, powerToUnit(pW, pUnitVal), pUnitVal);
+      }
+      setReadouts(pW);
+      updateSUnit();
+    }
+
+    function syncFromVoltage(vRms) {
+      var pW = vrmsToPower(vRms);
+      if (editing !== 'p') {
+        writeField(pValue, powerToUnit(pW, pUnit.value), pUnit.value);
+      }
+      if (editing !== 'v') {
+        writeField(vValue, voltageToUnit(vRms, vUnit.value), vUnit.value);
+      }
+      setReadouts(pW);
+      updateSUnit();
+    }
+
+    function handlePowerInput() {
+      editing = 'p';
+      var raw = parseNum(pValue.value);
+      var pW = powerFromUnit(raw, pUnit.value);
+      syncFromPower(pW);
+    }
+
+    function handleVoltageInput() {
+      editing = 'v';
+      var raw = parseNum(vValue.value);
+      var vRms = voltageFromUnit(raw, vUnit.value);
+      syncFromVoltage(vRms);
+    }
+
+    function handlePowerUnitChange() {
+      // Unit changed -- recompute the field display from the current canonical
+      // power. Pull canonical from voltage field if power field is empty, else
+      // from power field using the *previous* unit. Simplest: reread the
+      // current visible number under the new unit by first interpreting it
+      // under the *new* unit. But that changes meaning. Better: keep the
+      // displayed numeric value as the canonical input under the new unit so
+      // the user sees the same number but with a new label, which matches a
+      // unit-change UX. Actually we want: the radio's *power* stays the same,
+      // and the value field updates to reflect the same power in the new unit.
+      // Therefore: derive canonical pW from the OLD unit before we get here is
+      // tricky without state. Instead: store previous unit on the element.
+      var prevUnit = pUnit.getAttribute('data-prev') || 'W';
+      var raw = parseNum(pValue.value);
+      var pW = powerFromUnit(raw, prevUnit);
+      pUnit.setAttribute('data-prev', pUnit.value);
+      editing = null;
+      // Now repopulate display under new unit
+      writeField(pValue, powerToUnit(pW, pUnit.value), pUnit.value);
+      syncFromPower(pW);
+    }
+
+    function handleVoltageUnitChange() {
+      var prevUnit = vUnit.getAttribute('data-prev') || 'V';
+      var raw = parseNum(vValue.value);
+      var vRms = voltageFromUnit(raw, prevUnit);
+      vUnit.setAttribute('data-prev', vUnit.value);
+      editing = null;
+      writeField(vValue, voltageToUnit(vRms, vUnit.value), vUnit.value);
+      syncFromVoltage(vRms);
+    }
+
+    pUnit.setAttribute('data-prev', pUnit.value);
+    vUnit.setAttribute('data-prev', vUnit.value);
+
+    pValue.addEventListener('input', handlePowerInput);
+    vValue.addEventListener('input', handleVoltageInput);
+    pUnit.addEventListener('change', handlePowerUnitChange);
+    vUnit.addEventListener('change', handleVoltageUnitChange);
+
+    // ── S-unit ───────────────────────────────────────────────────────
+    var sValue = document.getElementById('s-value');
+    var sUnit  = document.getElementById('s-unit');
+    var rSHf   = document.getElementById('r-s-hf');
+    var rSVu   = document.getElementById('r-s-vu');
+    var rSHfSub = document.getElementById('r-s-hf-sub');
+    var rSVuSub = document.getElementById('r-s-vu-sub');
+
+    // HF: S9 = -73 dBm, 6 dB / S-unit. Below S9, S = 9 - (-73 - dBm)/6.
+    // Above S9, signal expressed as S9+N dB where N = dBm - (-73).
+    function sUnitLabel(dBm, s9dBm) {
+      if (!isFiniteNum(dBm)) return DASH;
+      var delta = dBm - s9dBm;
+      if (delta >= 0) {
+        // Round to nearest 10 dB above S9 if close, else show signed dB.
+        var roundedTen = Math.round(delta / 10) * 10;
+        if (Math.abs(delta - roundedTen) < 0.5 && roundedTen >= 10) {
+          return 'S9+' + roundedTen + ' dB';
+        }
+        if (delta < 0.5) return 'S9';
+        return 'S9+' + delta.toFixed(1) + ' dB';
+      }
+      // Below S9: each 6 dB = 1 S-unit
+      var s = 9 + (delta / 6);
+      if (s <= 0) return '< S1';
+      // Round to nearest 0.1 for display, but show integer S labels when close
+      var nearest = Math.round(s);
+      if (Math.abs(s - nearest) < 0.05 && nearest >= 1 && nearest <= 9) {
+        return 'S' + nearest;
+      }
+      return 'S' + s.toFixed(1);
+    }
+
+    function signalToDbm(value, unit) {
+      if (!isFiniteNum(value)) return NaN;
+      if (unit === 'dBm') return value;
+      if (unit === 'uV') {
+        if (value <= 0) return NaN;
+        var v = value / 1e6;
+        var pW = (v * v) / Z;
+        return powerToDbm(pW);
+      }
+      return NaN;
+    }
+
+    function dbmToUv(dBm) {
+      if (!isFiniteNum(dBm)) return NaN;
+      var pW = dbmToPower(dBm);
+      var v = Math.sqrt(pW * Z);
+      return v * 1e6;
+    }
+
+    function updateSUnit() {
+      var raw = parseNum(sValue.value);
+      var dBm = signalToDbm(raw, sUnit.value);
+      if (!isFiniteNum(dBm)) {
+        rSHf.textContent = DASH;
+        rSVu.textContent = DASH;
+        rSHfSub.textContent = 'S9 = 50 μV into 50 Ω · 6 dB / S-unit';
+        rSVuSub.textContent = 'S9 = 5 μV into 50 Ω · 6 dB / S-unit';
+        return;
+      }
+      rSHf.textContent = sUnitLabel(dBm, -73);
+      rSVu.textContent = sUnitLabel(dBm, -93);
+      rSHfSub.textContent = fixed(dBm, 1) + ' dBm · ' + sigFig(dbmToUv(dBm), 3) + ' μV';
+      rSVuSub.textContent = fixed(dBm, 1) + ' dBm · ' + sigFig(dbmToUv(dBm), 3) + ' μV';
+    }
+
+    sValue.addEventListener('input', updateSUnit);
+    sUnit.addEventListener('change', function () {
+      // When the unit changes, reinterpret the displayed value under the new
+      // unit so the user sees what they expect; no conversion of the field
+      // value itself, matching the power form's "instant new meaning" pattern
+      // would be confusing here, so instead recompute the readout only.
+      updateSUnit();
+    });
+
+    // ── S-unit reference table ───────────────────────────────────────
+    function buildSTable() {
+      var rows = [
+        ['S1', -73 - 8 * 6],
+        ['S2', -73 - 7 * 6],
+        ['S3', -73 - 6 * 6],
+        ['S4', -73 - 5 * 6],
+        ['S5', -73 - 4 * 6],
+        ['S6', -73 - 3 * 6],
+        ['S7', -73 - 2 * 6],
+        ['S8', -73 - 1 * 6],
+        ['S9', -73],
+        ['S9+10 dB', -63],
+        ['S9+20 dB', -53],
+        ['S9+30 dB', -43],
+        ['S9+40 dB', -33],
+        ['S9+50 dB', -23],
+        ['S9+60 dB', -13]
+      ];
+      var tbody = document.getElementById('s-table-body');
+      var html = '';
+      var i;
+      for (i = 0; i < rows.length; i++) {
+        var name = rows[i][0];
+        var dBm = rows[i][1];
+        var uv = dbmToUv(dBm);
+        html += '<tr><td>' + name + '</td><td class="num">' + dBm.toFixed(0) + '</td><td class="num">' + sigFig(uv, 3) + '</td></tr>';
+      }
+      tbody.innerHTML = html;
+    }
+    buildSTable();
+
+    // ── Free-space path loss ─────────────────────────────────────────
+    var fsplF = document.getElementById('fspl-f');
+    var fsplD = document.getElementById('fspl-d');
+    var rFspl = document.getElementById('r-fspl');
+    var rWavelen = document.getElementById('r-wavelen');
+
+    function updateFspl() {
+      var f = parseNum(fsplF.value);
+      var d = parseNum(fsplD.value);
+      if (!isFiniteNum(f) || !isFiniteNum(d) || f <= 0 || d <= 0) {
+        rFspl.textContent = DASH;
+        rWavelen.textContent = DASH;
+        return;
+      }
+      var fspl = 20 * Math.log10(d) + 20 * Math.log10(f) + 32.45;
+      rFspl.textContent = fixed(fspl, 1);
+      // wavelength in metres: c / f, with f in Hz -> 299792458 / (f*1e6)
+      var lambdaM = 299.792458 / f;
+      if (lambdaM >= 1) {
+        rWavelen.textContent = sigFig(lambdaM, 3) + ' m';
+      } else {
+        rWavelen.textContent = sigFig(lambdaM * 100, 3) + ' cm';
+      }
+    }
+    fsplF.addEventListener('input', updateFspl);
+    fsplD.addEventListener('input', updateFspl);
+
+    // ── Initial render ──────────────────────────────────────────────
+    handlePowerInput();
+    editing = null;
+    updateFspl();
+  }());
+  </script>
+</body>
+</html>
