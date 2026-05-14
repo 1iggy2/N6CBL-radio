@@ -1741,6 +1741,31 @@ td.bar-cell {
 .propagation-page section { border-bottom: 1px solid var(--rule); }
 .propagation-page section:last-child { border-bottom: none; }
 
+.propagation-page {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.propagation-page .section-label.split {
+  align-items: baseline;
+  gap: 8px;
+}
+
+.propagation-page .section-label.split > span {
+  min-width: 0;
+}
+
+.propagation-blocker-table td.path {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding-right: 8px;
+}
+
+.propagation-blocker-table td.prop-state {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .propagation-control-table,
 .propagation-blocker-table,
 .propagation-band-table,
@@ -1917,6 +1942,31 @@ td.prop-state {
   .propagation-hour-table td:nth-child(3) { width: 72px; }
   .propagation-hour-table th:nth-child(5),
   .propagation-hour-table td:nth-child(5) { width: 52px; }
+}
+
+@media (max-width: 560px) {
+  .propagation-route .layout-body { grid-template-columns: 1fr; }
+  .propagation-route .sidenav {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .propagation-page .section-label.split {
+    flex-wrap: wrap;
+    line-height: 1.2;
+  }
+
+  .propagation-control-table th { width: 84px; }
+
+  .propagation-blocker-table th:first-child,
+  .propagation-blocker-table td:first-child { width: 34%; }
+  .propagation-blocker-table th:nth-child(2),
+  .propagation-blocker-table td:nth-child(2) { width: 24%; }
+
+  .propagation-page .stat-value { font-size: 1.35rem; }
+  .propagation-page .stat-label { letter-spacing: 0.1em; }
 }
 
 /* ── TOOLS PAGES ─────────────────────────────────────────────────────────
