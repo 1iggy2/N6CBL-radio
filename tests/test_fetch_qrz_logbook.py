@@ -31,6 +31,23 @@ class FetchQrzLogbookTests(unittest.TestCase):
         self.assertEqual(fields['COUNT'], '1')
         self.assertIn('<CALL:4>W1AW', fields['ADIF'])
 
+    def test_parse_response_decodes_double_encoded_adif(self):
+        encoded = '%253CEOH%253E%250A%253CCALL%253A4%253EW1AW%253CEOR%253E'
+        body = f'RESULT=OK&COUNT=1&ADIF={encoded}'.encode()
+
+        fields, _ = fetch_qrz_logbook.parse_response(body)
+
+        self.assertIn('<CALL:4>W1AW', fields['ADIF'])
+        self.assertEqual(fetch_qrz_logbook.fetched_qso_count(fields['ADIF']), 1)
+
+    def test_parse_response_decodes_html_escaped_adif(self):
+        body = b'RESULT=OK&COUNT=1&ADIF=&lt;EOH&gt;%0A&lt;CALL:4&gt;W1AW&lt;EOR&gt;'
+
+        fields, _ = fetch_qrz_logbook.parse_response(body)
+
+        self.assertIn('<CALL:4>W1AW', fields['ADIF'])
+        self.assertEqual(fetch_qrz_logbook.fetched_qso_count(fields['ADIF']), 1)
+
     def test_default_fetch_option_uses_all_export(self):
         self.assertEqual(fetch_qrz_logbook.DEFAULT_FETCH_OPTION, 'ALL')
         self.assertEqual(fetch_qrz_logbook.adif_fetch_option(''), 'ALL,TYPE:ADIF')
