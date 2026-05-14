@@ -84,7 +84,7 @@ Optional environment controls:
 | Variable | Default | Purpose |
 |---|---:|---|
 | `QRZ_LOGBOOK_ADIF_PATH` | `.cache/qrz-logbook.adi` | Ignored working-file path for fetched ADIF. |
-| `QRZ_LOGBOOK_FETCH_OPTION` | `ALL` | QRZ Logbook `FETCH` option, such as `ALL` or `MODSINCE:YYYY-MM-DD`. |
+| `QRZ_LOGBOOK_FETCH_OPTION` | `TYPE:ADIF,MAX:250,AFTERLOGID:0` | QRZ Logbook `FETCH` option. The default pages ADIF exports by QRZ logid; use options such as `MODSINCE:YYYY-MM-DD,TYPE:ADIF,MAX:250,AFTERLOGID:0` for narrower refreshes. |
 | `QRZ_CACHE_MAX_AGE_DAYS` | `90` | Refresh cached calls older than this many days. |
 | `QRZ_LOOKUP_LIMIT` | `250` | Maximum QRZ XML callsign lookups per run. |
 | `QRZ_LOOKUP_SLEEP_SECONDS` | `0.2` | Delay between QRZ XML lookup requests. |
