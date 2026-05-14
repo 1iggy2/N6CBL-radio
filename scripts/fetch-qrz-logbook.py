@@ -24,12 +24,20 @@ def parse_response(body):
     return {key.upper(): values[-1] if values else '' for key, values in parsed.items()}, text
 
 
+def adif_fetch_option(option):
+    parts = [part.strip() for part in option.split(',') if part.strip()]
+    if not parts:
+        parts = ['ALL']
+    if not any(part.upper().startswith('TYPE:') for part in parts):
+        parts.append('TYPE:ADIF')
+    return ','.join(parts)
+
+
 def post_qrz_logbook(key, option):
     data = urllib.parse.urlencode({
         'KEY': key,
         'ACTION': 'FETCH',
-        'OPTION': option,
-        'TYPE': 'ADIF',
+        'OPTION': adif_fetch_option(option),
     }).encode('utf-8')
     request = urllib.request.Request(
         ENDPOINT,
