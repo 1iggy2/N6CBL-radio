@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""
+Fetch the N6CBL QRZ Logbook as ADIF for downstream static-log generation.
+
+QRZ's Logbook API uses a per-logbook access key, not the XML username/password
+session used by callsign lookups. The key must be supplied as QRZ_LOGBOOK_KEY and
+must never be committed. The fetched ADIF is written to an ignored working file so
+only the public-safe derived JSON is committed.
+"""
+import os
+import sys
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+ENDPOINT = 'https://logbook.qrz.com/api'
+AGENT = 'N6CBL.radio QRZ log fetch/1.0 (N6CBL)'
+DEFAULT_OUTPUT = '.cache/qrz-logbook.adi'
+
+
+def parse_response(body):
+    text = body.decode('utf-8', errors='replace')
+    parsed = urllib.parse.parse_qs(text, keep_blank_values=True, strict_parsing=False)
+    return {key.upper(): values[-1] if values else '' for key, values in parsed.items()}, text
+
+
+def post_qrz_logbook(key, option):
+    data = urllib.parse.urlencode({
+        'KEY': key,
+        'ACTION': 'FETCH',
+        'OPTION': option,
+        'TYPE': 'ADIF',
+    }).encode('utf-8')
+    request = urllib.request.Request(
+        ENDPOINT,
+        data=data,
+        headers={
+            'User-Agent': AGENT,
+            'Accept': 'text/plain,*/*;q=0.1',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method='POST',
+    )
+    with urllib.request.urlopen(request, timeout=60) as response:
+        return response.read()
+
+
+def main():
+    key = os.environ.get('QRZ_LOGBOOK_KEY', '').strip()
+    if not key:
+        print('QRZ_LOGBOOK_KEY is not set; cannot fetch QRZ Logbook ADIF.', file=sys.stderr)
+        return 2
+
+    output_path = Path(os.environ.get('QRZ_LOGBOOK_ADIF_PATH', DEFAULT_OUTPUT)).resolve()
+    option = os.environ.get('QRZ_LOGBOOK_FETCH_OPTION', 'ALL').strip() or 'ALL'
+
+    fields, raw_text = parse_response(post_qrz_logbook(key, option))
+    result = fields.get('RESULT', '').upper()
+    if result != 'OK':
+        reason = fields.get('REASON') or raw_text[:500]
+        print(f'QRZ Logbook fetch failed: RESULT={result or "(missing)"} REASON={reason}', file=sys.stderr)
+        return 1
+
+    adif = fields.get('ADIF', '')
+    if not adif.strip():
+        print('QRZ Logbook fetch returned OK without ADIF data.', file=sys.stderr)
+        return 1
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(adif, encoding='utf-8')
+    count = fields.get('COUNT', 'unknown')
+    print(f'Fetched QRZ Logbook ADIF: {count} record(s) -> {output_path}')
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

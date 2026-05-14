@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-Process ADIF files from logs/ into data/qso-log.json.
-Runs automatically via GitHub Actions on every push to main.
+Process ADIF records into data/qso-log.json.
 
-File convention: logs/YYYY-MM-DD[-description].adi
-ADIF content may also arrive from browser uploads with .adif, .log, or .txt
-extensions.
-Park reference and session type are derived from ADIF data, not filename.
+The scheduled production path fetches QRZ Logbook ADIF into an ignored working
+file, then passes that path through QSO_LOG_ADIF_PATH. A legacy logs/ fallback is
+kept for local one-off parsing, but committed log uploads are no longer the source
+of truth. Park reference and session type are derived from ADIF data, not filename.
 """
 import re
 import json
+import os
+import sys
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -161,19 +162,48 @@ def load_activation_notes():
     return notes
 
 
-def main():
+def configured_adif_paths():
+    explicit = [arg for arg in sys.argv[1:] if arg.strip()]
+    env_paths = [part for part in os.environ.get('QSO_LOG_ADIF_PATH', '').split(os.pathsep) if part.strip()]
+    if explicit or env_paths:
+        return sorted([Path(path) for path in explicit + env_paths], key=lambda p: p.stem)
+
     logs_dir = Path('logs')
+    paths = []
+    for suffix in ('*.adi', '*.adif', '*.log', '*.txt'):
+        paths.extend(logs_dir.glob(suffix))
+    return sorted(paths, key=lambda p: p.stem)
+
+
+def qso_group_key(qso, fallback):
+    date = fmt_date(qso.get('QSO_DATE', '')) or fallback
+    park_ref = first_value(
+        qso.get('MY_POTA_REF', ''),
+        qso.get('MY_SIG_INFO', ''),
+        qso.get('POTA_REF', ''),
+        qso.get('SIG_INFO', ''),
+    ).upper().strip()
+    if park_ref:
+        return f'{date}-{slug_text(park_ref)}'
+    return date or fallback
+
+
+def slug_text(value):
+    return re.sub(r'[^a-z0-9]+', '-', str(value or '').lower()).strip('-') or 'log'
+
+
+def should_sessionize(path):
+    if os.environ.get('QSO_LOG_SESSIONIZE', '').strip().lower() in ('1', 'true', 'yes'):
+        return True
+    return path.stem == 'qrz-logbook'
+
+
+def main():
     out_path = Path('data/qso-log.json')
     activation_notes = load_activation_notes()
     qrz_cache = load_qrz_cache()
 
-    paths = sorted(
-        list(logs_dir.glob('*.adi'))
-        + list(logs_dir.glob('*.adif'))
-        + list(logs_dir.glob('*.log'))
-        + list(logs_dir.glob('*.txt')),
-        key=lambda p: p.stem
-    )
+    paths = configured_adif_paths()
 
     sessions = []
     all_qsos = []
@@ -184,95 +214,100 @@ def main():
             print(f"  {path.name}: no QSOs found, skipping")
             continue
 
-        session_id = path.stem
+        qso_groups = {path.stem: raw_qsos}
+        if should_sessionize(path):
+            qso_groups = {}
+            for qso in raw_qsos:
+                qso_groups.setdefault(qso_group_key(qso, path.stem), []).append(qso)
 
-        # Park reference: check several common ADIF fields in priority order
-        park_ref = None
-        for q in raw_qsos:
-            ref = (q.get('MY_POTA_REF') or q.get('MY_SIG_INFO')
-                   or q.get('POTA_REF') or q.get('SIG_INFO'))
-            if ref and ref.strip():
-                park_ref = ref.strip().upper()
-                break
-
-        is_pota = park_ref is not None
-        if not is_pota:
-            for q in raw_qsos:
-                sig = (q.get('MY_SIG') or q.get('SIG', '')).upper()
-                if sig == 'POTA':
-                    is_pota = True
+        for session_id, session_qsos in sorted(qso_groups.items()):
+            # Park reference: check several common ADIF fields in priority order
+            park_ref = None
+            for q in session_qsos:
+                ref = (q.get('MY_POTA_REF') or q.get('MY_SIG_INFO')
+                       or q.get('POTA_REF') or q.get('SIG_INFO'))
+                if ref and ref.strip():
+                    park_ref = ref.strip().upper()
                     break
 
-        # Derive session date from first QSO or filename
-        first = raw_qsos[0]
-        date_raw = first.get('QSO_DATE', '')
-        date = fmt_date(date_raw) if date_raw else session_id[:10].replace('_', '-')
+            is_pota = park_ref is not None
+            if not is_pota:
+                for q in session_qsos:
+                    sig = (q.get('MY_SIG') or q.get('SIG', '')).upper()
+                    if sig == 'POTA':
+                        is_pota = True
+                        break
 
-        session_bands = sorted(set(q.get('BAND', '').lower() for q in raw_qsos if q.get('BAND')))
-        session_modes = sorted(set(q.get('MODE', '').upper() for q in raw_qsos if q.get('MODE')))
-        note = activation_notes.get(session_id, {})
+            # Derive session date from first QSO or filename
+            first = session_qsos[0]
+            date_raw = first.get('QSO_DATE', '')
+            date = fmt_date(date_raw) if date_raw else session_id[:10].replace('_', '-')
 
-        session = {
-            'id': session_id,
-            'date': date,
-            'type': 'pota' if is_pota else 'general',
-            'reference': note.get('reference') or park_ref,
-            'bands': session_bands,
-            'modes': session_modes,
-            'qso_count': len(raw_qsos),
-        }
-        for key in ('title', 'location', 'report', 'tags'):
-            if note.get(key):
-                session[key] = note[key]
-        sessions.append(session)
+            session_bands = sorted(set(q.get('BAND', '').lower() for q in session_qsos if q.get('BAND')))
+            session_modes = sorted(set(q.get('MODE', '').upper() for q in session_qsos if q.get('MODE')))
+            note = activation_notes.get(session_id, {})
 
-        for q in raw_qsos:
-            call = q.get('CALL', '').upper().strip()
-            qrz = qrz_record_for(qrz_cache, call)
-            grid = first_value(q.get('GRIDSQUARE', ''), qrz.get('grid', '')).upper().strip()
-            lat, lon = maidenhead_to_latlon(grid) if grid else (None, None)
-            state = first_value(q.get('STATE', ''), qrz.get('state', '')).upper().strip()
-            country = first_value(q.get('COUNTRY', ''), qrz.get('country', ''), qrz.get('land', ''))
-            name = first_value(q.get('NAME', ''), qrz.get('display_name', ''), qrz.get('name_fmt', ''))
-            first_name = first_value(qrz.get('nickname', ''), first_token(qrz.get('fname', '')), first_token(name))
-            last_name = first_value(proper_name(qrz.get('name', '')), '')
-            hunted_pota_refs = []
-            if (q.get('SIG', '') or '').upper().strip() == 'POTA':
-                hunted_pota_refs = split_reference_list(q.get('POTA_REF') or q.get('SIG_INFO'))
-            elif q.get('POTA_REF'):
-                hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
-            all_qsos.append({
-                'date':       fmt_date(q.get('QSO_DATE', '')),
-                'time':       fmt_time(q.get('TIME_ON', '')),
-                'call':       call,
-                'band':       q.get('BAND', '').lower(),
-                'freq':       q.get('FREQ', ''),
-                'mode':       q.get('MODE', '').upper(),
-                'rst_sent':   q.get('RST_SENT', ''),
-                'rst_rcvd':   q.get('RST_RCVD', ''),
-                'name':       name,
-                'first_name': proper_name(first_name),
-                'last_name':  proper_name(last_name),
-                'comment':    q.get('COMMENT', '') or q.get('NOTES', ''),
-                'session':    session_id,
-                'gridsquare': grid,
-                'lat':        lat,
-                'lon':        lon,
-                'state':      state,
-                'country':    country,
-                'county':     first_value(q.get('CNTY', ''), q.get('COUNTY', ''), qrz.get('county', '')),
-                'pota_refs':  hunted_pota_refs,
-                'dxcc':       first_value(q.get('DXCC', ''), qrz.get('dxcc', '')),
-                'cqzone':     first_value(q.get('CQZ', ''), qrz.get('cqzone', '')),
-                'ituzone':    first_value(q.get('ITUZ', ''), qrz.get('ituzone', '')),
-                'lotw':       qrz_flag(qrz, 'lotw'),
-                'eqsl':       qrz_flag(qrz, 'eqsl'),
-                'mqsl':       qrz_flag(qrz, 'mqsl'),
-                'qrz_url':    first_value(qrz.get('qrz_url', ''), f"https://www.qrz.com/db/{call}" if call else ''),
-                'qrz_enriched': bool(qrz),
-            })
+            session = {
+                'id': session_id,
+                'date': date,
+                'type': 'pota' if is_pota else 'general',
+                'reference': note.get('reference') or park_ref,
+                'bands': session_bands,
+                'modes': session_modes,
+                'qso_count': len(session_qsos),
+            }
+            for key in ('title', 'location', 'report', 'tags'):
+                if note.get(key):
+                    session[key] = note[key]
+            sessions.append(session)
 
-        print(f"  {path.name}: {len(raw_qsos)} QSOs, type={('pota' if is_pota else 'general')}, ref={park_ref or '—'}")
+            for q in session_qsos:
+                call = q.get('CALL', '').upper().strip()
+                qrz = qrz_record_for(qrz_cache, call)
+                grid = first_value(q.get('GRIDSQUARE', ''), qrz.get('grid', '')).upper().strip()
+                lat, lon = maidenhead_to_latlon(grid) if grid else (None, None)
+                state = first_value(q.get('STATE', ''), qrz.get('state', '')).upper().strip()
+                country = first_value(q.get('COUNTRY', ''), qrz.get('country', ''), qrz.get('land', ''))
+                name = first_value(q.get('NAME', ''), qrz.get('display_name', ''), qrz.get('name_fmt', ''))
+                first_name = first_value(qrz.get('nickname', ''), first_token(qrz.get('fname', '')), first_token(name))
+                last_name = first_value(proper_name(qrz.get('name', '')), '')
+                hunted_pota_refs = []
+                if (q.get('SIG', '') or '').upper().strip() == 'POTA':
+                    hunted_pota_refs = split_reference_list(q.get('POTA_REF') or q.get('SIG_INFO'))
+                elif q.get('POTA_REF'):
+                    hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
+                all_qsos.append({
+                    'date':       fmt_date(q.get('QSO_DATE', '')),
+                    'time':       fmt_time(q.get('TIME_ON', '')),
+                    'call':       call,
+                    'band':       q.get('BAND', '').lower(),
+                    'freq':       q.get('FREQ', ''),
+                    'mode':       q.get('MODE', '').upper(),
+                    'rst_sent':   q.get('RST_SENT', ''),
+                    'rst_rcvd':   q.get('RST_RCVD', ''),
+                    'name':       name,
+                    'first_name': proper_name(first_name),
+                    'last_name':  proper_name(last_name),
+                    'comment':    q.get('COMMENT', '') or q.get('NOTES', ''),
+                    'session':    session_id,
+                    'gridsquare': grid,
+                    'lat':        lat,
+                    'lon':        lon,
+                    'state':      state,
+                    'country':    country,
+                    'county':     first_value(q.get('CNTY', ''), q.get('COUNTY', ''), qrz.get('county', '')),
+                    'pota_refs':  hunted_pota_refs,
+                    'dxcc':       first_value(q.get('DXCC', ''), qrz.get('dxcc', '')),
+                    'cqzone':     first_value(q.get('CQZ', ''), qrz.get('cqzone', '')),
+                    'ituzone':    first_value(q.get('ITUZ', ''), qrz.get('ituzone', '')),
+                    'lotw':       qrz_flag(qrz, 'lotw'),
+                    'eqsl':       qrz_flag(qrz, 'eqsl'),
+                    'mqsl':       qrz_flag(qrz, 'mqsl'),
+                    'qrz_url':    first_value(qrz.get('qrz_url', ''), f"https://www.qrz.com/db/{call}" if call else ''),
+                    'qrz_enriched': bool(qrz),
+                })
+
+            print(f"  {path.name}#{session_id}: {len(session_qsos)} QSOs, type={('pota' if is_pota else 'general')}, ref={park_ref or '—'}")
 
     sessions.sort(key=lambda s: s['date'], reverse=True)
     all_qsos.sort(key=lambda q: (q['date'], q['time']), reverse=True)

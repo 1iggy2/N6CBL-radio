@@ -160,14 +160,16 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /blog/compose/index.html — owner-only browser publisher for structured blog source
 /content/blog/           — structured blog post JSON source
 /scripts/build-blog.js   — static blog/home generator
+/scripts/fetch-qrz-logbook.py — QRZ Logbook ADIF fetcher for scheduled QSO refresh
+/scripts/process-logs.py — derived public QSO log generator
 /styles.css              — single shared stylesheet for all pages
 /flag-us.svg             — header US flag
 /images/                 — page imagery (field photos, world map)
 /images/blog/            — committed blog photos, grouped by post slug
-/data/                   — committed data (POTA cron output)
-/worker.js               — Cloudflare Worker with assets passthrough
+/data/                   — committed derived data (QRZ/POTA cron output)
+/worker.js               — Cloudflare Worker with assets passthrough and blog publisher
 /wrangler.jsonc          — Workers deploy config
-/.github/workflows/      — fetch-pota cron, deploy automation
+/.github/workflows/      — QRZ/POTA cron and deploy automation
 ```
 
 CSS lives in a single shared stylesheet (`/styles.css`). Most pages are

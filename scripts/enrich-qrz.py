@@ -2,10 +2,10 @@
 """
 Populate a public-safe QRZ XML callsign cache for the N6CBL.radio QSO log.
 
-The script reads callsigns from ADIF-like files in logs/, looks up missing or stale
-records through the QRZ XML service, and writes only fields useful for public log
-presentation. QRZ credentials are read from environment variables and must never be
-committed to this repository.
+The script reads callsigns from the same ADIF source used by process-logs.py,
+looks up missing or stale records through the QRZ XML service, and writes only
+fields useful for public log presentation. QRZ credentials are read from
+environment variables and must never be committed to this repository.
 """
 import importlib.util
 import json
@@ -43,6 +43,10 @@ def load_process_logs_module():
 
 
 def adif_paths():
+    env_paths = [part for part in os.environ.get('QSO_LOG_ADIF_PATH', '').split(os.pathsep) if part.strip()]
+    if env_paths:
+        return sorted([Path(path) for path in env_paths], key=lambda p: p.stem)
+
     paths = []
     for suffix in ('*.adi', '*.adif', '*.log', '*.txt'):
         paths.extend(LOGS_DIR.glob(suffix))
