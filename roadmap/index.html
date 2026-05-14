@@ -181,7 +181,7 @@
             </tr>
             <tr>
               <th scope="row">Last reviewed</th>
-              <td><time datetime="2026-05-10">2026-05-10</time></td>
+              <td><time datetime="2026-05-14">2026-05-14</time></td>
             </tr>
             <tr>
               <th scope="row">Planning rule</th>
@@ -264,9 +264,9 @@
             </tr>
             <tr>
               <td class="path">/tools/</td>
-              <td class="st st-planned">Planned</td>
-              <td>Small browser utilities for radio math, field planning, and repeatable station workflows.</td>
-              <td class="desc roadmap-wide-col">Which three tools are useful enough to justify permanent navigation?</td>
+              <td class="st st-live">Live</td>
+              <td>Workbench index for 17 static, client-side utilities covering radio math, references, contest/log file handling, CW practice, and field planning.</td>
+              <td class="desc roadmap-wide-col">Which utilities need reference-data refreshes, mobile-table reductions, or promotion into field workflows?</td>
             </tr>
             <tr>
               <td class="path">/prints/</td>
@@ -309,7 +309,7 @@
               <td class="roadmap-area">roadmap workflow</td>
               <td class="st st-wip">P0</td>
               <td class="roadmap-vote">+3</td>
-              <td class="desc roadmap-wide-col">The roadmap should become a working conversation surface, not a static proclamation. Ideas need stable IDs, yes/no/defer votes, rationale, and moderation so good suggestions survive outside chat history.</td>
+              <td class="desc roadmap-wide-col">The public ledger has stable IDs, votes, and rationale. The missing piece is an intake mechanism that accepts suggestions without turning the static site into an unmoderated comment system.</td>
             </tr>
             <tr>
               <td class="roadmap-id">R-003</td>
@@ -323,9 +323,9 @@
               <td class="roadmap-id">R-004</td>
               <td class="roadmap-feature">Radio tools workbench</td>
               <td class="roadmap-area">tools</td>
-              <td class="st st-planned">P1</td>
+              <td class="st st-live">LIVE</td>
               <td class="roadmap-vote">+2</td>
-              <td class="desc roadmap-wide-col">Start with tools that answer field questions: antenna length calculator, battery/runtime estimator, grid locator helper, UTC/local sked converter, and POTA activation checklist.</td>
+              <td class="desc roadmap-wide-col">The workbench now ships 17 static utilities: grid math, frequency/band lookup, RF conversions, feedline and antenna calculators, file parsers, CW/reference aids, and operating planners. Follow-up work is quality control, reference freshness, and tool-specific field notes.</td>
             </tr>
             <tr>
               <td class="roadmap-id">R-005</td>
@@ -347,9 +347,9 @@
               <td class="roadmap-id">R-007</td>
               <td class="roadmap-feature">Field activation planner</td>
               <td class="roadmap-area">field workflow</td>
-              <td class="st st-planned">P1</td>
+              <td class="st st-live">LIVE</td>
               <td class="roadmap-vote">0</td>
-              <td class="desc roadmap-wide-col">Combine park reference, grid, forecast placeholders, band plan, gear checklist, battery estimate, and post-activation notes so the same page supports planning and after-action review.</td>
+              <td class="desc roadmap-wide-col">The propagation command station now covers the pre-departure go / hold call with NOAA indices, band reach, a 24 h operating window, and Hermosa surface weather. The remaining planner work is route/park metadata, gear checklist, battery estimate, and after-action capture.</td>
             </tr>
             <tr>
               <td class="roadmap-id">R-008</td>
@@ -365,7 +365,7 @@
               <td class="roadmap-area">telemetry</td>
               <td class="st st-planned">P2</td>
               <td class="roadmap-vote">0</td>
-              <td class="desc roadmap-wide-col">Telemetry should be cached and summarized as station state, not embedded as a third-party map widget. Privacy boundaries and stale-data labels are mandatory.</td>
+              <td class="desc roadmap-wide-col">Telemetry should be cached and summarized as station state, not embedded as a third-party map widget. Privacy boundaries, stale-data labels, and clear opt-out behavior are mandatory before public location data ships.</td>
             </tr>
             <tr>
               <td class="roadmap-id">R-010</td>
@@ -498,6 +498,11 @@
               <td class="blog-date"><time datetime="2026-05-14">2026-05-14</time></td>
               <td class="roadmap-feature">Add /propagation/ as the field-activation command station.</td>
               <td class="desc roadmap-wide-col">POTA go / no-go calls were leaving the laptop to use multiple sites (NOAA SWPC, hamqsl, weather.gov, surf reports). Consolidating the four checks that actually drive the decision &mdash; SFI, Kp, alerts, and Hermosa surface weather &mdash; into one dense dashboard removes friction before driving out.</td>
+            </tr>
+            <tr>
+              <td class="blog-date"><time datetime="2026-05-14">2026-05-14</time></td>
+              <td class="roadmap-feature">Promote /tools/ from planned workbench to live utility inventory.</td>
+              <td class="desc roadmap-wide-col">The site now exposes 17 no-build, client-side radio utilities in the permanent navigator. Future roadmap entries should treat tools as maintained public infrastructure, not a speculative route.</td>
             </tr>
           </tbody>
         </table>
