@@ -143,6 +143,7 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
 /station/          — my station: operator profile, gear, hardware notes, modes, CW progress
+/propagation/      — pre-activation command station: NOAA SWPC indices, per-band reach, 24 h window, Hermosa Beach weather
 /blog/             — posts: technical, radio, misc
 /tools/            — browser-based utilities
 /prints/           — 3D print catalog with files
@@ -156,6 +157,7 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats
 /station/index.html      — station reference and inventory
+/propagation/index.html  — live propagation dashboard (NOAA SWPC + Open-Meteo, client-fetched)
 /blog/index.html         — generated field journal running list
 /blog/compose/index.html — owner-only browser publisher for structured blog source
 /content/blog/           — structured blog post JSON source

@@ -1732,3 +1732,189 @@ td.bar-cell {
   font-family: var(--mono);
   font-size: 0.8rem;
 }
+
+/* ── PROPAGATION PAGE ────────────────────────────────────────────────────
+   Command-station dashboard. Dense indices, per-band day/night reach
+   table, 24 h activation matrix, space-weather alerts, and Hermosa
+   Beach surface weather rolled into a single go / hold call.
+─────────────────────────────────────────────────────────────────────── */
+.propagation-page section { border-bottom: 1px solid var(--rule); }
+.propagation-page section:last-child { border-bottom: none; }
+
+.propagation-control-table,
+.propagation-blocker-table,
+.propagation-band-table,
+.propagation-activation-table,
+.propagation-alert-table,
+.propagation-hour-table { table-layout: fixed; }
+
+.propagation-control-table th {
+  width: 132px;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.propagation-decision-grid { grid-template-columns: repeat(4, 1fr); }
+.propagation-index-grid    { grid-template-columns: repeat(6, 1fr); }
+.propagation-weather-grid  { grid-template-columns: repeat(6, 1fr); }
+
+.propagation-page .stat-value sub {
+  font-size: 0.5em;
+  letter-spacing: 0;
+  vertical-align: baseline;
+  position: relative;
+  bottom: -0.18em;
+  color: var(--muted);
+}
+
+.propagation-page .stat-label sub {
+  font-size: 0.85em;
+  letter-spacing: 0;
+}
+
+td.prop-state {
+  font-family: var(--mono);
+  font-weight: bold;
+  white-space: nowrap;
+  width: 1%;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.prop-good    { color: #2a7a2a; }
+.prop-fair    { color: var(--accent); }
+.prop-poor    { color: var(--muted); font-style: italic; }
+.prop-unknown { color: #999; }
+
+.prop-state-value.prop-good { color: #2a7a2a; }
+.prop-state-value.prop-fair { color: var(--accent); }
+.prop-state-value.prop-poor { color: var(--muted); }
+
+.propagation-band-table th:first-child,
+.propagation-band-table td:first-child { width: 56px; }
+.propagation-band-table th:nth-child(2),
+.propagation-band-table th:nth-child(3),
+.propagation-band-table th:nth-child(4) { width: 92px; }
+.propagation-band-table th:nth-child(5) { width: 26%; }
+
+.propagation-activation-table th:first-child,
+.propagation-activation-table td:first-child,
+.propagation-activation-table th:nth-child(2),
+.propagation-activation-table td:nth-child(2) { width: 70px; }
+.propagation-activation-table th:nth-child(3),
+.propagation-activation-table td:nth-child(3) { width: 62px; }
+.propagation-activation-table th:nth-child(4),
+.propagation-activation-table td:nth-child(4) { width: 132px; }
+.propagation-activation-table th:nth-child(5),
+.propagation-activation-table td:nth-child(5) { width: 96px; }
+
+.propagation-alert-table th:first-child,
+.propagation-alert-table td:first-child { width: 148px; }
+.propagation-alert-table th:nth-child(2),
+.propagation-alert-table td:nth-child(2) { width: 168px; }
+
+.propagation-blocker-table th:first-child,
+.propagation-blocker-table td:first-child { width: 168px; }
+.propagation-blocker-table th:nth-child(2),
+.propagation-blocker-table td:nth-child(2) { width: 132px; }
+
+.propagation-hour-table th:first-child,
+.propagation-hour-table td:first-child { width: 72px; }
+.propagation-hour-table th:nth-child(2),
+.propagation-hour-table td:nth-child(2) { width: 64px; }
+.propagation-hour-table th:nth-child(3),
+.propagation-hour-table td:nth-child(3) { width: 96px; }
+.propagation-hour-table th:nth-child(4),
+.propagation-hour-table td:nth-child(4) { width: 64px; }
+.propagation-hour-table th:nth-child(5),
+.propagation-hour-table td:nth-child(5) { width: 70px; }
+
+.propagation-loading-row td,
+.propagation-empty-row td {
+  font-family: var(--sans);
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .propagation-index-grid,
+  .propagation-weather-grid { grid-template-columns: repeat(3, 1fr); }
+  .propagation-index-grid .stat:nth-child(3n),
+  .propagation-weather-grid .stat:nth-child(3n) { border-right: none; }
+  .propagation-index-grid .stat:nth-child(-n+3),
+  .propagation-weather-grid .stat:nth-child(-n+3) { border-bottom: 1px solid var(--rule-2); }
+}
+
+@media (max-width: 768px) {
+  .propagation-decision-grid { grid-template-columns: repeat(2, 1fr); }
+  .propagation-decision-grid .stat:nth-child(2n) { border-right: none; }
+  .propagation-decision-grid .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule-2); }
+
+  .propagation-index-grid,
+  .propagation-weather-grid { grid-template-columns: repeat(2, 1fr); }
+  .propagation-index-grid .stat:nth-child(2n),
+  .propagation-weather-grid .stat:nth-child(2n) { border-right: none; }
+  .propagation-index-grid .stat:nth-child(3n),
+  .propagation-weather-grid .stat:nth-child(3n) { border-right: 1px solid var(--rule-2); }
+  .propagation-index-grid .stat:not(:nth-last-child(-n+2)),
+  .propagation-weather-grid .stat:not(:nth-last-child(-n+2)) {
+    border-bottom: 1px solid var(--rule-2);
+  }
+
+  .propagation-page .stat-value { font-size: 1.5rem; }
+  .propagation-page .stat { padding: 8px 8px; }
+
+  .propagation-control-table th { width: 96px; }
+
+  .propagation-page th,
+  .propagation-page td { padding: 4px 6px; }
+
+  /* Drop verbose explanation columns and timestamp columns on narrow
+     viewports. The state cells already carry the operational state and
+     the message cells stay because they are the data. */
+  .propagation-wide-col,
+  .propagation-reach-col,
+  .propagation-activation-table th:nth-child(3),
+  .propagation-activation-table td:nth-child(3),
+  .propagation-alert-table th:first-child,
+  .propagation-alert-table td:first-child,
+  .propagation-hour-table th:nth-child(4),
+  .propagation-hour-table td:nth-child(4) { display: none; }
+
+  .propagation-band-table th:first-child,
+  .propagation-band-table td:first-child { width: 40px; }
+  .propagation-band-table th:nth-child(2),
+  .propagation-band-table td:nth-child(2),
+  .propagation-band-table th:nth-child(3),
+  .propagation-band-table td:nth-child(3),
+  .propagation-band-table th:nth-child(4),
+  .propagation-band-table td:nth-child(4) { width: 64px; }
+
+  .propagation-activation-table th:first-child,
+  .propagation-activation-table td:first-child,
+  .propagation-activation-table th:nth-child(2),
+  .propagation-activation-table td:nth-child(2) { width: 48px; }
+  .propagation-activation-table th:nth-child(4),
+  .propagation-activation-table td:nth-child(4) { width: auto; }
+  .propagation-activation-table th:nth-child(5),
+  .propagation-activation-table td:nth-child(5) { width: 68px; }
+
+  .propagation-alert-table th:nth-child(2),
+  .propagation-alert-table td:nth-child(2) { width: 84px; white-space: normal; overflow-wrap: anywhere; }
+
+  .propagation-blocker-table th:first-child,
+  .propagation-blocker-table td:first-child { width: 92px; }
+  .propagation-blocker-table th:nth-child(2),
+  .propagation-blocker-table td:nth-child(2) { width: 72px; }
+
+  .propagation-hour-table th:first-child,
+  .propagation-hour-table td:first-child { width: 56px; }
+  .propagation-hour-table th:nth-child(2),
+  .propagation-hour-table td:nth-child(2) { width: 44px; }
+  .propagation-hour-table th:nth-child(3),
+  .propagation-hour-table td:nth-child(3) { width: 72px; }
+  .propagation-hour-table th:nth-child(5),
+  .propagation-hour-table td:nth-child(5) { width: 52px; }
+}

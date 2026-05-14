@@ -71,6 +71,11 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/propagation/">
+              <span class="nav-path">/propagation/</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/blog/">
               <span class="nav-path">/blog/</span>
             </a>
@@ -221,6 +226,12 @@
               <td class="st st-live">Live</td>
               <td>Operator profile, equipment inventory, antenna notes, power notes, and operating capabilities.</td>
               <td class="desc roadmap-wide-col">How should field test data be captured so it is comparable across antennas and locations?</td>
+            </tr>
+            <tr>
+              <td class="path">/propagation/</td>
+              <td class="st st-live">Live</td>
+              <td>Pre-activation command station: NOAA SWPC indices, per-band day/night reach from DM03tu, 24 h activation window, and Hermosa Beach surface weather rolled into one go / hold call.</td>
+              <td class="desc roadmap-wide-col">Should the page poll on a timer or stay reload-driven so the operator owns the refresh moment?</td>
             </tr>
             <tr>
               <td class="path">/blog/</td>
@@ -465,6 +476,11 @@
               <td class="blog-date"><time datetime="2026-05-10">2026-05-10</time></td>
               <td class="roadmap-feature">Make idea voting advisory and public.</td>
               <td class="desc roadmap-wide-col">Votes are useful signal, but the operator must still reject work that harms performance, privacy, maintainability, or the site's design doctrine.</td>
+            </tr>
+            <tr>
+              <td class="blog-date"><time datetime="2026-05-14">2026-05-14</time></td>
+              <td class="roadmap-feature">Add /propagation/ as the field-activation command station.</td>
+              <td class="desc roadmap-wide-col">POTA go / no-go calls were leaving the laptop to use multiple sites (NOAA SWPC, hamqsl, weather.gov, surf reports). Consolidating the four checks that actually drive the decision &mdash; SFI, Kp, alerts, and Hermosa surface weather &mdash; into one dense dashboard removes friction before driving out.</td>
             </tr>
           </tbody>
         </table>
