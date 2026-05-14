@@ -293,7 +293,7 @@
     function renderQSOs(qsos, sessions, filter) {
       qsoCountEl.textContent = '';
       if (!qsos || qsos.length === 0) {
-        qsoStateEl.textContent = 'No QSOs logged yet. Upload .adi files to /logs/ to populate.';
+        qsoStateEl.textContent = 'No QSOs logged yet. The scheduled QRZ Logbook refresh has not published contacts.';
         qsoStateEl.hidden = false;
         qsoTableEl.hidden = true;
         return;

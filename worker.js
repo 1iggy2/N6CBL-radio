@@ -2,10 +2,8 @@ const MAX_POST_BYTES = 32 * 1024;
 const MAX_PUBLISH_BYTES = 75 * 1024 * 1024;
 const MAX_REQUEST_BYTES = 100 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
-const MAX_LOG_BYTES = 5 * 1024 * 1024;
 const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif']);
 const IMAGE_FILE_PATTERN = /^[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
-const LOG_FILE_PATTERN = /^[^\\/\x00-\x1f]+\.(?:adi|adif|log|txt)$/i;
 
 export default {
   async fetch(request, env) {
@@ -20,13 +18,6 @@ export default {
         return json({ error: 'method not allowed' }, 405, { Allow: 'POST' });
       }
       return publishOwnerUpload(request, env);
-    }
-
-    if (url.pathname === '/api/log/publish') {
-      if (request.method !== 'POST') {
-        return json({ error: 'method not allowed' }, 405, { Allow: 'POST' });
-      }
-      return publishActivationLog(request, env);
     }
 
     if (url.pathname === '/api/pota-activations') {
@@ -56,10 +47,6 @@ export default {
 async function publishOwnerUpload(request, env) {
   const payloadResult = await readPublisherPayload(request, env);
   if (payloadResult.response) return payloadResult.response;
-
-  if (isLogOnlyPayload(payloadResult.payload)) {
-    return publishActivationLogPayload(payloadResult.payload, env);
-  }
 
   return publishBlogPostPayload(payloadResult.payload, env);
 }
@@ -121,41 +108,6 @@ async function publishBlogPostPayload(payload, env) {
   }, 201);
 }
 
-async function publishActivationLog(request, env) {
-  const payloadResult = await readPublisherPayload(request, env);
-  if (payloadResult.response) return payloadResult.response;
-  return publishActivationLogPayload(payloadResult.payload, env);
-}
-
-async function publishActivationLogPayload(payload, env) {
-  const logUpload = normalizeLogUpload(payload.log || payload.file || {});
-  const problems = validateLogUpload(logUpload);
-  if (problems.length) return json({ error: problems.join('; ') }, 400);
-
-  const branch = env.GITHUB_BRANCH || 'main';
-  const logPath = `logs/${logUpload.fileName}`;
-
-  const exists = await githubFetch(contentsEndpoint(env, logPath) + `?ref=${encodeURIComponent(branch)}`, env);
-  if (exists.status === 200) return json({ error: `${logPath} already exists` }, 409);
-  if (exists.status !== 404) {
-    return json({ error: `GitHub lookup failed for ${logPath} with HTTP ${exists.status}` }, 502);
-  }
-
-  const commitResult = await commitFiles(env, branch, `Add ${logUpload.fileName}`, [
-    { path: logPath, content: logUpload.contentBase64, encoding: 'base64' },
-  ]);
-
-  if (commitResult.error) return json({ error: commitResult.error }, commitResult.status || 502);
-
-  return json({
-    status: 'committed',
-    logPath,
-    commitSha: commitResult.sha,
-    commitUrl: commitResult.htmlUrl,
-    logUrl: `/log/#sid-${fileStem(logUpload.fileName)}`,
-  }, 201);
-}
-
 async function readPublisherPayload(request, env) {
   const authProblem = authorizePublisher(request, env);
   if (authProblem) return { response: json({ error: authProblem }, 403) };
@@ -172,33 +124,6 @@ async function readPublisherPayload(request, env) {
   } catch (err) {
     return { response: json({ error: 'invalid JSON payload' }, 400) };
   }
-}
-
-function isLogOnlyPayload(payload) {
-  if (!payload || typeof payload !== 'object') return false;
-  if (!payload.log && !payload.file) return false;
-  return !payload.title && !payload.slug && !payload.body && !payload.photos;
-}
-
-function normalizeLogUpload(log) {
-  return {
-    fileName: logFileNameValue(log.fileName || log.name),
-    mimeType: stringValue(log.mimeType || log.type).toLowerCase(),
-    size: Number(log.size || 0),
-    contentBase64: compactBase64(log.contentBase64 || log.data || ''),
-  };
-}
-
-function validateLogUpload(logUpload) {
-  const problems = [];
-  if (!logUpload.fileName) problems.push('log file name is required');
-  if (!LOG_FILE_PATTERN.test(logUpload.fileName) || hasParentDirectorySegment(logUpload.fileName)) {
-    problems.push('log file must be ADIF, ADI, LOG, or TXT with a safe filename');
-  }
-  if (!logUpload.contentBase64 || !isBase64(logUpload.contentBase64)) problems.push('log file has invalid data');
-  const actualBytes = logUpload.size || base64Bytes(logUpload.contentBase64);
-  if (actualBytes > MAX_LOG_BYTES) problems.push('log file exceeds 5 MB');
-  return problems;
 }
 
 function normalizePost(payload, photoUploads, publishedAtDate) {
@@ -414,18 +339,6 @@ function fileNameValue(value) {
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '')
     .replace(/^\.+/, '');
-}
-
-function logFileNameValue(value) {
-  return stringValue(value).replace(/^.*[\\/]/, '');
-}
-
-function fileStem(value) {
-  return stringValue(value).replace(/\.[^.]+$/, '');
-}
-
-function hasParentDirectorySegment(value) {
-  return /(^|[\s.])\.\.([\s.]|$)/.test(stringValue(value));
 }
 
 function compactBase64(value) {

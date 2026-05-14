@@ -41,48 +41,57 @@ cd n6cbl-radio
 Content: All rights reserved, N6CBL.  
 Code/templates: MIT unless otherwise noted in the file.
 
-## QRZ XML callsign enrichment
+## QRZ Logbook refresh
 
-The public QSO log can enrich uploaded ADIF records with QRZ XML subscriber data.
-This is a read-only integration: it looks up callsigns, stores a public-safe cache,
-and merges missing name, grid, state, country, DXCC, zone, and QSL capability fields
-into `data/qso-log.json` during the normal deploy workflow.
+The public QSO log is generated from QRZ Logbook rather than committed ADIF
+uploads. A scheduled GitHub Actions workflow runs every 15 minutes, downloads the
+logbook as ADIF into an ignored working file, enriches callsigns with QRZ XML
+subscriber data, regenerates `data/qso-log.json`, and commits only the public-safe
+JSON/cache output when something changed.
 
 ### Owner setup
 
-1. Confirm the QRZ account for N6CBL has an active XML data subscription.
-2. In GitHub, open the repository settings and add these **Actions secrets**:
-   - `QRZ_USERNAME` — the QRZ login username or callsign for the subscribed account.
-   - `QRZ_PASSWORD` — the QRZ login password.
-3. Do not put QRZ credentials in `wrangler.jsonc`, browser JavaScript, HTML, committed
-   JSON, or local shell history snippets that may be copied into the repo.
-4. Push to `main` or run the **Process logs and deploy** workflow manually. The workflow
-   runs `python3 scripts/enrich-qrz.py` before `python3 scripts/process-logs.py`.
-5. If the secrets are absent, the enrich step prints a skip message and leaves the
-   cache unchanged, so deployments still work without QRZ access.
+1. In QRZ Logbook, create/copy the API access key for the N6CBL logbook.
+2. In GitHub repository settings, add these **Actions secrets**:
+   - `QRZ_LOGBOOK_KEY` — QRZ Logbook API key used for ADIF `FETCH`.
+   - `QRZ_USERNAME` — QRZ login username or callsign for XML callsign lookups.
+   - `QRZ_PASSWORD` — QRZ login password for XML callsign lookups.
+3. Do not put QRZ credentials or raw fetched ADIF in `wrangler.jsonc`, browser
+   JavaScript, HTML, committed JSON, or shell snippets that may be copied into the
+   repo.
+4. The **Refresh QRZ log and deploy** workflow runs on `main` pushes, on manual
+   dispatch, and on a `*/15 * * * *` schedule. GitHub may delay scheduled jobs, so
+   15 minutes is the target cadence rather than a hard realtime SLA.
+5. The site serves the last committed `data/qso-log.json` if QRZ or GitHub Actions
+   is temporarily unavailable.
 
 ### Local owner use
 
-For a local refresh, export credentials only in the current shell, run the enrichment
-script, then regenerate the public log data:
+For a local refresh, export credentials only in the current shell, fetch the QRZ
+Logbook ADIF into the ignored cache directory, then regenerate the public log data:
 
 ```sh
+export QRZ_LOGBOOK_KEY='your-qrz-logbook-api-key'
 export QRZ_USERNAME='N6CBL'
 export QRZ_PASSWORD='your-qrz-password'
-python3 scripts/enrich-qrz.py
-python3 scripts/process-logs.py
+python3 scripts/fetch-qrz-logbook.py
+QSO_LOG_ADIF_PATH=.cache/qrz-logbook.adi python3 scripts/enrich-qrz.py
+QSO_LOG_ADIF_PATH=.cache/qrz-logbook.adi QSO_LOG_SESSIONIZE=1 python3 scripts/process-logs.py
 ```
 
 Optional environment controls:
 
 | Variable | Default | Purpose |
 |---|---:|---|
+| `QRZ_LOGBOOK_ADIF_PATH` | `.cache/qrz-logbook.adi` | Ignored working-file path for fetched ADIF. |
+| `QRZ_LOGBOOK_FETCH_OPTION` | `ALL` | QRZ Logbook `FETCH` option, such as `ALL` or `MODSINCE:YYYY-MM-DD`. |
 | `QRZ_CACHE_MAX_AGE_DAYS` | `90` | Refresh cached calls older than this many days. |
-| `QRZ_LOOKUP_LIMIT` | `250` | Maximum QRZ callsign lookups per run. |
-| `QRZ_LOOKUP_SLEEP_SECONDS` | `0.2` | Delay between QRZ lookup requests. |
+| `QRZ_LOOKUP_LIMIT` | `250` | Maximum QRZ XML callsign lookups per run. |
+| `QRZ_LOOKUP_SLEEP_SECONDS` | `0.2` | Delay between QRZ XML lookup requests. |
 
 ### Public cache policy
 
 `data/qrz-callsign-cache.json` is intended to contain only public-safe presentation
-fields. The enrichment script intentionally avoids publishing street addresses, email
-addresses, ZIP codes, and other personal fields that are not needed for the public log.
+fields. The enrichment script intentionally avoids publishing street addresses,
+email addresses, ZIP codes, and other personal fields that are not needed for the
+public log.

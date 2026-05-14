@@ -204,44 +204,6 @@
         </form>
       </section>
 
-      <section class="composer-section" aria-labelledby="activation-heading">
-        <div class="section-label split">
-          <span id="activation-heading">Activation log input</span>
-          <span id="activation-status" class="section-tag live">Ready</span>
-        </div>
-
-        <form class="composer-form" id="activation-form">
-          <div class="composer-grid">
-            <label class="composer-wide">
-              <span>ADIF / ham log upload</span>
-              <input id="activation-log-file" type="file" accept=".adi,.adif,.log,.txt,text/plain,application/octet-stream" required>
-              <span class="composer-help">Commits the selected log file as-is under <code>/logs/</code> through the Access-protected publisher endpoint. The deploy workflow regenerates <code>data/qso-log.json</code>; notes belong in a separate field-journal post when needed.</span>
-            </label>
-          </div>
-        </form>
-
-        <div class="composer-output-grid activation-output-grid">
-          <div class="composer-panel">
-            <h2>Activation transaction</h2>
-            <dl class="publish-status-grid">
-              <dt>Validation</dt>
-              <dd id="activation-validation-state">Waiting for log file</dd>
-              <dt>Repository files</dt>
-              <dd id="activation-repo-state">logs/selected-file.adi</dd>
-              <dt>Commit</dt>
-              <dd id="activation-commit-state">Not submitted</dd>
-            </dl>
-            <div class="publish-actions">
-              <button type="button" id="submit-activation" class="copy-button publish-button">Submit activation log only</button>
-            </div>
-          </div>
-          <div class="composer-panel">
-            <h2>Result</h2>
-            <p class="composer-help">Use this when the log needs to update the public QSO tables but the activation does not need a field-journal post. The uploaded file is the source of record; add narrative notes through the blog composer only when a post is warranted.</p>
-          </div>
-        </div>
-      </section>
-
       <section class="blog-tools-section composer-cheat-sheet" aria-labelledby="syntax-heading">
         <div class="section-label split">
           <span id="syntax-heading">Body syntax quick reference</span>
@@ -355,19 +317,10 @@
     var commitState = document.getElementById('commit-state');
     var previewButton = document.getElementById('preview-post');
     var submitButton = document.getElementById('submit-post');
-    var activationLogEl = document.getElementById('activation-log-file');
-    var activationStatusEl = document.getElementById('activation-status');
-    var activationValidationState = document.getElementById('activation-validation-state');
-    var activationRepoState = document.getElementById('activation-repo-state');
-    var activationCommitState = document.getElementById('activation-commit-state');
-    var submitActivationButton = document.getElementById('submit-activation');
     var slugTouched = false;
     var previewObjectUrls = [];
 
     dateEl.value = localDateValue(new Date());
-    document.getElementById('activation-form').addEventListener('input', renderActivation);
-    activationLogEl.addEventListener('change', renderActivation);
-    submitActivationButton.addEventListener('click', submitActivationLog);
 
     titleEl.addEventListener('input', function () {
       if (!slugTouched) slugEl.value = slugify(titleEl.value);
@@ -396,7 +349,6 @@
       });
     });
     render();
-    renderActivation();
 
     function render() {
       var payload = buildPayload(false);
@@ -447,92 +399,6 @@
       };
     }
 
-
-    function renderActivation() {
-      var payload = buildActivationPayload(false);
-      activationRepoState.textContent = payload.log.fileName
-        ? 'logs/' + payload.log.fileName
-        : 'logs/selected-file.adi';
-      var problems = validateActivationPayload(payload);
-      if (problems.length) {
-        activationValidationState.textContent = problems.join('; ');
-        submitActivationButton.disabled = true;
-        setActivationStatus('Blocked', 'todo');
-      } else {
-        activationValidationState.textContent = 'Ready to submit ' + payload.log.fileName + ' (' + Math.round(payload.log.size / 1024) + ' KB)';
-        submitActivationButton.disabled = false;
-        setActivationStatus('Ready', 'live');
-      }
-    }
-
-    function buildActivationPayload(includeUpload) {
-      var file = activationLogEl.files[0];
-      var log = {
-        fileName: file ? file.name : '',
-        mimeType: file ? file.type : '',
-        size: file ? file.size : 0
-      };
-      if (includeUpload && file) log.file = file;
-      return {
-        log: log
-      };
-    }
-
-    function validateActivationPayload(payload) {
-      var problems = [];
-      if (!payload.log.fileName) problems.push('ADIF or ham log file required');
-      if (payload.log.fileName && !isSafeLogFileName(payload.log.fileName)) problems.push('log filename must be a single .adi, .adif, .log, or .txt file name');
-      if (payload.log.size > 5 * 1024 * 1024) problems.push('log file must stay under 5 MB');
-      return problems;
-    }
-
-    async function submitActivationLog() {
-      var payload = buildActivationPayload(true);
-      var problems = validateActivationPayload(payload);
-      if (problems.length) {
-        activationValidationState.textContent = problems.join('; ');
-        return;
-      }
-      submitActivationButton.disabled = true;
-      activationCommitState.textContent = 'Encoding log and submitting to /api/blog/publish';
-      setActivationStatus('Submitting', 'todo');
-      try {
-        var file = payload.log.file;
-        delete payload.log.file;
-        payload.log.contentBase64 = await readFileBase64(file);
-        var response = await fetch('/api/blog/publish', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-        var responseText = await response.text();
-        var data = parseJsonResponse(responseText);
-        if (!response.ok) {
-          throw new Error(data.error || responseText || ('HTTP ' + response.status + ' ' + response.statusText));
-        }
-        activationCommitState.innerHTML = '<a href="' + escAttr(data.commitUrl || '#') + '" target="_blank" rel="noopener">' + escText(data.commitSha || 'committed') + ' &#8599;</a>';
-        activationValidationState.textContent = 'Committed log; deploy workflow will regenerate the public QSO log';
-        setActivationStatus('Committed', 'live');
-      } catch (err) {
-        activationCommitState.textContent = err.message;
-        activationValidationState.textContent = 'Submit failed before commit confirmation. Check GitHub for the target log before retrying.';
-        setActivationStatus('Failed', 'todo');
-        submitActivationButton.disabled = false;
-      }
-    }
-
-    function setActivationStatus(text, mode) {
-      activationStatusEl.textContent = text;
-      activationStatusEl.className = 'section-tag ' + (mode || 'live');
-    }
-
-    function isSafeLogFileName(name) {
-      return /^[^\\/\x00-\x1f]+\.(?:adi|adif|log|txt)$/i.test(String(name || ''))
-        && !/(^|[\s.])\.\.([\s.]|$)/.test(String(name || ''));
-    }
 
     function updateValidation(payload) {
       var problems = validatePayload(payload);

@@ -1,8 +1,11 @@
-name: Process logs and deploy
+name: Refresh QRZ log and deploy
 
 on:
+  schedule:
+    - cron: '*/15 * * * *'
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -15,13 +18,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch QRZ Logbook ADIF
+        env:
+          QRZ_LOGBOOK_KEY: ${{ secrets.QRZ_LOGBOOK_KEY }}
+          QRZ_LOGBOOK_ADIF_PATH: .cache/qrz-logbook.adi
+        run: python3 scripts/fetch-qrz-logbook.py
+
       - name: Refresh QRZ callsign cache
         env:
           QRZ_USERNAME: ${{ secrets.QRZ_USERNAME }}
           QRZ_PASSWORD: ${{ secrets.QRZ_PASSWORD }}
+          QSO_LOG_ADIF_PATH: .cache/qrz-logbook.adi
         run: python3 scripts/enrich-qrz.py
 
-      - name: Process ADIF logs
+      - name: Process QRZ logbook contacts
+        env:
+          QSO_LOG_ADIF_PATH: .cache/qrz-logbook.adi
+          QSO_LOG_SESSIONIZE: '1'
         run: python3 scripts/process-logs.py
 
       - name: Commit updated log data
@@ -36,7 +49,7 @@ jobs:
             git add -- data/was-map.svg
           fi
           git diff --cached --quiet && exit 0
-          git commit -m "chore: regenerate qso-log.json [skip ci]"
+          git commit -m "chore: refresh QRZ log data [skip ci]"
 
           for attempt in 1 2 3; do
             echo "Push attempt ${attempt}/3"
@@ -47,7 +60,7 @@ jobs:
             sleep $((attempt * 2))
           done
 
-          echo "Unable to push regenerated log data after rebasing onto origin/main."
+          echo "Unable to push refreshed QRZ log data after rebasing onto origin/main."
           exit 1
 
       - name: Deploy via Wrangler
