@@ -31,6 +31,10 @@ class FetchQrzLogbookTests(unittest.TestCase):
         self.assertEqual(fields['COUNT'], '1')
         self.assertIn('<CALL:4>W1AW', fields['ADIF'])
 
+    def test_default_fetch_option_uses_all_export(self):
+        self.assertEqual(fetch_qrz_logbook.DEFAULT_FETCH_OPTION, 'ALL')
+        self.assertEqual(fetch_qrz_logbook.adif_fetch_option(''), 'ALL,TYPE:ADIF')
+
     def test_fetch_option_pages_by_qrz_logid(self):
         responses = []
 

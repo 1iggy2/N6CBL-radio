@@ -17,7 +17,7 @@ from pathlib import Path
 ENDPOINT = 'https://logbook.qrz.com/api'
 AGENT = 'N6CBL.radio QRZ log fetch/1.0 (N6CBL)'
 DEFAULT_OUTPUT = '.cache/qrz-logbook.adi'
-DEFAULT_FETCH_OPTION = 'TYPE:ADIF,MAX:250,AFTERLOGID:0'
+DEFAULT_FETCH_OPTION = 'ALL'
 ADIF_LOGID_RE = re.compile(r'<APP_QRZLOG_LOGID:\d+[^>]*>(\d+)', re.IGNORECASE)
 ADIF_EOR_RE = re.compile(r'<EOR>', re.IGNORECASE)
 ADIF_TAG_RE = re.compile(r'<(?:EOH|[A-Z][A-Z0-9_]*:\d+(?::[^>]*)?)>', re.IGNORECASE)
