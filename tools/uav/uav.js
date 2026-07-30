@@ -1247,6 +1247,15 @@
   }
 
   /* ── Monte Carlo design search ───────────────────────────────────────── */
+  // Parameters excluded from the default vary set: component-quality and
+  // environment inputs the optimizer would simply run to their favorable end
+  // (lighter structure and better efficiency are always "better" — sampling
+  // them yields optimism, not design insight). They remain one click away.
+  var MC_DEFAULT_OFF = {
+    structure: 1, avionics: 1, propMass: 1, oswald: 1,
+    etaProp: 1, etaMotor: 1, battDensity: 1, usableBatt: 1, altitude: 1
+  };
+
   function mcOptionList() {
     // anything numeric — parameter or derived metric — can be constrained,
     // optimized, or plotted
@@ -1271,8 +1280,9 @@
     var html = '';
     PARAMS.forEach(function (p) {
       if (p.options) return;
+      var on = !MC_DEFAULT_OFF[p.key];
       html += '<tr>' +
-        '<td class="uav-mc-check"><input type="checkbox" data-mc-vary="' + p.key + '" id="mcv-' + p.key + '"></td>' +
+        '<td class="uav-mc-check"><input type="checkbox" data-mc-vary="' + p.key + '" id="mcv-' + p.key + '"' + (on ? ' checked' : '') + '></td>' +
         '<td><label for="mcv-' + p.key + '">' + esc(p.label) + '</label> <span class="desc">(' + esc(p.unit) + ')</span></td>' +
         '<td class="num" data-mc-current="' + p.key + '"></td>' +
         '<td><input type="number" data-mc-min="' + p.key + '" step="' + p.step + '" autocomplete="off"></td>' +
@@ -1280,10 +1290,23 @@
         '</tr>';
     });
     body.innerHTML = html;
+    // seed ranges for the default-checked set
+    PARAMS.forEach(function (p) {
+      if (!p.options && !MC_DEFAULT_OFF[p.key]) seedMcRange(p.key);
+    });
     body.addEventListener('change', function (e) {
       var key = e.target.getAttribute('data-mc-vary');
       if (!key) return;
       if (e.target.checked) seedMcRange(key);
+    });
+    document.getElementById('uav-mc-vary-all').addEventListener('click', function () {
+      document.querySelectorAll('[data-mc-vary]').forEach(function (cb) {
+        cb.checked = true;
+        seedMcRange(cb.getAttribute('data-mc-vary'));
+      });
+    });
+    document.getElementById('uav-mc-vary-none').addEventListener('click', function () {
+      document.querySelectorAll('[data-mc-vary]').forEach(function (cb) { cb.checked = false; });
     });
   }
 
@@ -1317,6 +1340,19 @@
     document.getElementById('uav-mc-constraints-body').appendChild(tr);
   }
 
+  function addObjectiveRow(key, dir, weight) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><select data-o-key>' + optionHtml(key || 'endurance') + '</select></td>' +
+      '<td><select data-o-dir>' +
+        '<option value="max"' + (dir !== 'min' ? ' selected' : '') + '>maximize</option>' +
+        '<option value="min"' + (dir === 'min' ? ' selected' : '') + '>minimize</option></select></td>' +
+      '<td><input type="number" data-o-weight step="any" min="0" value="' + (weight !== undefined ? weight : 1) + '" autocomplete="off"></td>' +
+      '<td class="uav-mc-check"><button type="button" class="tools-button" data-o-remove>remove</button></td>';
+    tr.querySelector('[data-o-remove]').addEventListener('click', function () { tr.remove(); });
+    document.getElementById('uav-mc-objectives-body').appendChild(tr);
+  }
+
   function readMcConfig() {
     var varied = [];
     document.querySelectorAll('[data-mc-vary]').forEach(function (cb) {
@@ -1339,14 +1375,21 @@
       if (!isFinite(lo) && !isFinite(hi)) return;
       constraints.push({ key: key, min: isFinite(lo) ? lo : -Infinity, max: isFinite(hi) ? hi : Infinity });
     });
+    var objectives = [];
+    document.querySelectorAll('#uav-mc-objectives-body tr').forEach(function (tr) {
+      var w = parseFloat(tr.querySelector('[data-o-weight]').value);
+      if (!isFinite(w) || w <= 0) w = 1;
+      objectives.push({
+        key: tr.querySelector('[data-o-key]').value,
+        dir: tr.querySelector('[data-o-dir]').value,
+        weight: w
+      });
+    });
     return {
       varied: varied,
       constraints: constraints,
-      objectiveKey: document.getElementById('uav-mc-objective').value,
-      objectiveDir: document.getElementById('uav-mc-direction').value,
-      samples: Math.min(100000, Math.max(50, parseInt(document.getElementById('uav-mc-samples').value, 10) || 3000)),
-      xKey: document.getElementById('uav-mc-x').value,
-      yKey: document.getElementById('uav-mc-y').value
+      objectives: objectives,
+      samples: Math.min(100000, Math.max(50, parseInt(document.getElementById('uav-mc-samples').value, 10) || 3000))
     };
   }
 
@@ -1363,13 +1406,20 @@
       statusEl.textContent = 'Select at least one parameter to vary.';
       return;
     }
+    if (!cfg.objectives.length) {
+      statusEl.textContent = 'Add at least one objective.';
+      return;
+    }
+    // snapshot the working design: every sample is base + varied overrides,
+    // so the best sample can be reconstructed exactly from its varied values
+    var base = {};
+    PARAMS.forEach(function (p) { base[p.key] = design[p.key]; });
     var points = [];
-    var best = null;
     var feasible = 0;
     var t0 = performance.now();
     for (var i = 0; i < cfg.samples; i++) {
       var sample = {};
-      PARAMS.forEach(function (p) { sample[p.key] = design[p.key]; });
+      PARAMS.forEach(function (p) { sample[p.key] = base[p.key]; });
       cfg.varied.forEach(function (vp) {
         var pd = paramByKey[vp.key];
         var v = vp.min + Math.random() * (vp.max - vp.min);
@@ -1384,33 +1434,82 @@
         return isFinite(v) && v >= c.min && v <= c.max;
       });
       if (ok) feasible++;
-      var obj = valueOf(sample, r, cfg.objectiveKey);
-      var px = valueOf(sample, r, cfg.xKey);
-      var py = valueOf(sample, r, cfg.yKey);
-      // keep the sample itself (when affordable) so scatter axes can be
-      // re-projected without re-running the search
-      points.push(cfg.samples <= 20000 ? { x: px, y: py, ok: ok, sample: sample } : { x: px, y: py, ok: ok });
-      if (ok && isFinite(obj)) {
-        if (!best || (cfg.objectiveDir === 'max' ? obj > best.obj : obj < best.obj)) {
-          best = { obj: obj, params: sample, derived: r, index: points.length - 1 };
-        }
-      }
+      // per point: feasibility, each objective's value, each varied
+      // parameter's value — everything scoring and the scatters need
+      points.push({
+        ok: ok,
+        objVals: cfg.objectives.map(function (o) { return valueOf(sample, r, o.key); }),
+        vals: cfg.varied.map(function (vp) { return sample[vp.key]; })
+      });
+    }
+
+    // weighted scoring: min-max normalize each objective over the feasible
+    // set, flip minimized objectives, then take the weighted average
+    var lo = [], hi = [];
+    cfg.objectives.forEach(function (o, oi) { lo[oi] = Infinity; hi[oi] = -Infinity; });
+    points.forEach(function (p) {
+      if (!p.ok) return;
+      p.objVals.forEach(function (v, oi) {
+        if (!isFinite(v)) return;
+        if (v < lo[oi]) lo[oi] = v;
+        if (v > hi[oi]) hi[oi] = v;
+      });
+    });
+    var wsum = cfg.objectives.reduce(function (a, o) { return a + o.weight; }, 0) || 1;
+    function scoreOf(p) {
+      var s = 0;
+      cfg.objectives.forEach(function (o, oi) {
+        var v = p.objVals[oi], n;
+        if (!isFinite(v)) n = 0;
+        else if (!(hi[oi] > lo[oi])) n = 0.5;
+        else n = Math.min(1, Math.max(0, (v - lo[oi]) / (hi[oi] - lo[oi])));
+        if (o.dir === 'min') n = 1 - n;
+        s += o.weight * n;
+      });
+      return s / wsum;
+    }
+    var best = null;
+    points.forEach(function (p, i) {
+      p.score = scoreOf(p);
+      if (p.ok && (!best || p.score > best.score)) best = { score: p.score, index: i };
+    });
+    if (best) {
+      var bp = points[best.index];
+      bp.best = true;
+      var params = {};
+      PARAMS.forEach(function (p) { params[p.key] = base[p.key]; });
+      cfg.varied.forEach(function (vp, vi) { params[vp.key] = bp.vals[vi]; });
+      best.params = params;
+      best.derived = derive(params);
+      best.objVals = bp.objVals;
     }
     var ms = performance.now() - t0;
-    if (best) points[best.index].best = true;
     mcResult = { cfg: cfg, points: points, best: best, feasible: feasible, ms: ms };
     renderMcResults();
+  }
+
+  function objectiveSummary(cfg, best) {
+    return cfg.objectives.map(function (o, oi) {
+      var m = metricByKey[o.key], u = m ? m.unit : (paramByKey[o.key] ? paramByKey[o.key].unit : '');
+      return labelFor(o.key) + ' ' + fmtMetric(o.key, best.objVals[oi]) + (u && u !== '-' ? ' ' + u : '');
+    }).join(' · ');
   }
 
   function renderMcResults() {
     var res = mcResult;
     var statusEl = document.getElementById('uav-mc-status');
     var cfg = res.cfg;
+    var bestText = '';
+    if (res.best) {
+      bestText = cfg.objectives.length > 1
+        ? ' · best weighted score ' + fmt(res.best.score, 3) + ' — ' + objectiveSummary(cfg, res.best)
+        : ' · best ' + objectiveSummary(cfg, res.best);
+    } else {
+      bestText = ' · no feasible sample — relax constraints or widen ranges';
+    }
     statusEl.textContent = res.points.length + ' samples in ' + fmt(res.ms, 0) + ' ms · ' +
-      res.feasible + ' feasible (' + fmt(100 * res.feasible / res.points.length, 1) + ' %)' +
-      (res.best ? ' · best ' + labelFor(cfg.objectiveKey) + ' = ' + fmtMetric(cfg.objectiveKey, res.best.obj) :
-        ' · no feasible sample — relax constraints or widen ranges');
-    renderMcScatter();
+      res.feasible + ' feasible (' + fmt(100 * res.feasible / res.points.length, 1) + ' %)' + bestText;
+    renderMcScatters();
     renderDesignReview(res);
   }
 
@@ -1433,13 +1532,13 @@
     var reviewName = baseName + '-mc-best';
 
     // headline + configuration spec line
-    var objLabel = labelFor(cfg.objectiveKey);
-    var objUnit = metricByKey[cfg.objectiveKey] ? metricByKey[cfg.objectiveKey].unit :
-      (paramByKey[cfg.objectiveKey] ? paramByKey[cfg.objectiveKey].unit : '');
+    var multi = cfg.objectives.length > 1;
+    var headline = multi
+      ? 'weighted score ' + fmt(res.best.score, 3) + ' — ' + objectiveSummary(cfg, res.best)
+      : (cfg.objectives[0].dir === 'max' ? 'maximized ' : 'minimized ') + objectiveSummary(cfg, res.best);
     var html = '<div class="uav-review">';
     html += '<div class="uav-review-header"><span>DESIGN REVIEW &mdash; ' + esc(reviewName) + '</span>' +
-      '<span>' + (cfg.objectiveDir === 'max' ? 'maximized' : 'minimized') + ' ' + esc(objLabel) + ' = ' +
-      fmtMetric(cfg.objectiveKey, res.best.obj) + (objUnit && objUnit !== '-' ? ' ' + esc(objUnit) : '') + '</span></div>';
+      '<span>' + esc(headline) + '</span></div>';
     html += '<div class="uav-review-config">' +
       fmt(p.span, 2) + ' m span &middot; ' + esc(TAIL_TYPES[p.tailType].label.toLowerCase()) + ' tail &middot; ' +
       esc(r.foil.label) + ' wing &middot; ' + fmtInt(r.massTotal) + ' g AUW (' + fmtInt(p.payload) + ' g payload) &middot; ' +
@@ -1447,6 +1546,22 @@
       fmt(p.propDiameter, 0) + ' in prop &middot; cruise ' + fmt(p.cruiseSpeed, 1) + ' m/s</div>';
     html += '<div class="uav-review-note">Best feasible sample of ' + res.feasible + ' feasible / ' +
       res.points.length + ' evaluated. All figures recomputed from the sampled parameters with the model on this page.</div>';
+
+    // objective breakdown (weighted runs)
+    if (multi) {
+      var wsum = cfg.objectives.reduce(function (a, o) { return a + o.weight; }, 0) || 1;
+      html += '<div class="uav-review-sub">Objective breakdown</div>';
+      html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+        '<th>Objective</th><th>Direction</th><th class="num">Weight</th><th class="num">Best sample</th></tr></thead><tbody>';
+      cfg.objectives.forEach(function (o, oi) {
+        var m = metricByKey[o.key], u = m ? m.unit : (paramByKey[o.key] ? paramByKey[o.key].unit : '');
+        html += '<tr><td>' + esc(labelFor(o.key)) + '</td>' +
+          '<td>' + (o.dir === 'max' ? 'maximize' : 'minimize') + '</td>' +
+          '<td class="num">' + fmt(o.weight, 2) + ' (' + fmt(100 * o.weight / wsum, 0) + ' %)</td>' +
+          '<td class="num">' + fmtMetric(o.key, res.best.objVals[oi]) + (u && u !== '-' ? ' ' + esc(u) : '') + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+    }
 
     // key figures
     html += '<div class="uav-review-sub">Key figures</div>';
@@ -1560,58 +1675,112 @@
     return key;
   }
 
-  function renderMcScatter() {
+  /* Scatters, auto-generated per run. With one objective: one plot per varied
+   * parameter, objective on X. With several: objective-vs-objective knee-curve
+   * plots first, then per-parameter plots against the weighted score. */
+  function objAxisLabel(cfg, oi) {
+    var o = cfg.objectives[oi];
+    var m = metricByKey[o.key], u = m ? m.unit : (paramByKey[o.key] ? paramByKey[o.key].unit : '');
+    return labelFor(o.key) + (u && u !== '-' ? ' (' + u + ')' : '');
+  }
+
+  function renderMcScatters() {
     var res = mcResult;
-    var host = document.getElementById('uav-mc-scatter');
-    if (!res) { host.innerHTML = ''; return; }
-    var xs = [], ys = [];
-    res.points.forEach(function (p) {
-      if (isFinite(p.x) && isFinite(p.y)) { xs.push(p.x); ys.push(p.y); }
-    });
-    if (!xs.length) { host.innerHTML = ''; return; }
-    var xmin = Math.min.apply(null, xs), xmax = Math.max.apply(null, xs);
-    var ymin = Math.min.apply(null, ys), ymax = Math.max.apply(null, ys);
-    if (xmin === xmax) { xmin -= 1; xmax += 1; }
-    if (ymin === ymax) { ymin -= 1; ymax += 1; }
-    var W = 640, H = 360, M = { l: 64, r: 16, t: 18, b: 46 };
-    var fr = chartFrame(W, H, M, xmin, xmax, ymin, ymax,
-      labelFor(res.cfg.xKey), labelFor(res.cfg.yKey));
-    var s = svgOpen(W, H) + '<title>Monte Carlo samples: feasible vs infeasible</title>' + fr.svg;
-    // cap the DOM cost: large sample sets are stride-thinned before drawing
-    // (every sample was still evaluated; only the plot is thinned)
-    var MAX_DRAW = 4000;
-    function drawSet(wantOk, radius, cls) {
-      var idx = [];
+    var host = document.getElementById('uav-mc-scatters');
+    if (!res || !res.cfg.varied.length) { host.innerHTML = ''; return; }
+    var cfg = res.cfg;
+    var multi = cfg.objectives.length > 1;
+    var W = 640, H = 300, M = { l: 64, r: 16, t: 14, b: 46 };
+    var figN = 0;
+    var html = '';
+
+    // per-plot draw budget scales down as plot count grows so a vary-everything
+    // run stays responsive (every sample is still evaluated; plots are thinned)
+    var nPlots = cfg.varied.length + (multi ? cfg.objectives.length * (cfg.objectives.length - 1) / 2 : 0);
+    var MAX_DRAW = Math.max(400, Math.floor(12000 / Math.max(1, nPlots)));
+
+    function drawSet(getX, getY, wantOk, radius, cls, fr) {
+      var s = '', idx = [];
       res.points.forEach(function (p, i) {
-        if (p.ok === wantOk && isFinite(p.x) && isFinite(p.y)) idx.push(i);
+        if (p.ok === wantOk && isFinite(getX(p)) && isFinite(getY(p))) idx.push(i);
       });
       var stride = Math.max(1, Math.ceil(idx.length / MAX_DRAW));
       for (var i = 0; i < idx.length; i += stride) {
         var p = res.points[idx[i]];
-        s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="' + radius + '" class="' + cls + '"/>';
+        s += '<circle cx="' + f2(fr.X(getX(p))) + '" cy="' + f2(fr.Y(getY(p))) + '" r="' + radius + '" class="' + cls + '"/>';
       }
-      return { total: idx.length, drawn: Math.ceil(idx.length / stride) };
+      return s;
     }
-    // infeasible under feasible; best on top with a ring
-    var inf = drawSet(false, 2, 'uav-pt-infeasible');
-    var fea = drawSet(true, 2.5, 'uav-pt-feasible');
-    if (res.best) {
+
+    function bestMark(getX, getY, fr) {
+      if (!res.best) return '';
       var b = res.points[res.best.index];
-      if (isFinite(b.x) && isFinite(b.y)) {
-        s += '<circle cx="' + f2(fr.X(b.x)) + '" cy="' + f2(fr.Y(b.y)) + '" r="6" class="uav-pt-best"/>';
-        s += text(fr.X(b.x) + 9, fr.Y(b.y) + 3, 'best', 'uav-fig-label');
+      if (!isFinite(getX(b)) || !isFinite(getY(b))) return '';
+      var bx = fr.X(getX(b)), by = fr.Y(getY(b));
+      var s = '<circle cx="' + f2(bx) + '" cy="' + f2(by) + '" r="6" class="uav-pt-best"/>';
+      // the best sample often sits at an extreme — flip the label inboard
+      s += bx > W - 60 ? text(bx - 9, by + 3, 'best', 'uav-fig-label', 'end')
+                       : text(bx + 9, by + 3, 'best', 'uav-fig-label');
+      return s;
+    }
+
+    function rangeOf(get) {
+      var lo = Infinity, hi = -Infinity;
+      res.points.forEach(function (p) {
+        var v = get(p);
+        if (!isFinite(v)) return;
+        if (v < lo) lo = v;
+        if (v > hi) hi = v;
+      });
+      if (lo === Infinity) return null;
+      if (lo === hi) { lo -= 1; hi += 1; }
+      return [lo, hi];
+    }
+
+    function plot(getX, getY, xlab, ylab, ymin, ymax, caption) {
+      var xr = rangeOf(getX);
+      if (!xr) return;
+      figN++;
+      var fr = chartFrame(W, H, M, xr[0], xr[1], ymin, ymax, xlab, ylab);
+      var s = svgOpen(W, H) + '<title>' + esc(ylab) + ' vs ' + esc(xlab) + '</title>' + fr.svg;
+      s += drawSet(getX, getY, false, 2, 'uav-pt-infeasible', fr);
+      s += drawSet(getX, getY, true, 2.5, 'uav-pt-feasible', fr);
+      s += bestMark(getX, getY, fr);
+      s += '</svg>';
+      html += '<figure class="uav-fig"><div>' + s + '</div>' +
+        '<figcaption class="uav-fig-caption">FIG 7.' + figN + ' &mdash; ' + caption + '</figcaption></figure>';
+    }
+
+    // knee curves: every objective pair, raw units — the feasible frontier is
+    // the trade the weights are choosing a point on
+    if (multi) {
+      for (var oi = 0; oi < cfg.objectives.length; oi++) {
+        for (var oj = oi + 1; oj < cfg.objectives.length; oj++) {
+          (function (oi, oj) {
+            var yr = rangeOf(function (p) { return p.objVals[oj]; });
+            if (!yr) return;
+            plot(function (p) { return p.objVals[oi]; },
+                 function (p) { return p.objVals[oj]; },
+                 objAxisLabel(cfg, oi), objAxisLabel(cfg, oj), yr[0], yr[1],
+                 esc(labelFor(cfg.objectives[oj].key)) + ' vs ' + esc(labelFor(cfg.objectives[oi].key)) +
+                 ' &mdash; the attainable trade; the ringed sample is where the weights landed.');
+          }(oi, oj));
+        }
       }
     }
-    // legend (text + swatch, identity not by color alone: shape/size differ too)
-    var feaLabel = 'feasible (' + res.feasible + (fea.drawn < fea.total ? ', drawn ' + fea.drawn : '') + ')';
-    var infLabel = 'infeasible' + (inf.drawn < inf.total ? ' (drawn ' + inf.drawn + ' of ' + inf.total + ')' : '');
-    s += '<circle cx="' + (M.l + 8) + '" cy="' + (M.t + 6) + '" r="2.5" class="uav-pt-feasible"/>';
-    s += text(M.l + 16, M.t + 9, feaLabel, 'uav-fig-label');
-    var infX = M.l + 26 + feaLabel.length * 6.6;
-    s += '<circle cx="' + f2(infX) + '" cy="' + (M.t + 6) + '" r="2" class="uav-pt-infeasible"/>';
-    s += text(infX + 8, M.t + 9, infLabel, 'uav-fig-label');
-    s += '</svg>';
-    host.innerHTML = s;
+
+    // one plot per varied parameter
+    var getX = multi ? function (p) { return p.score; } : function (p) { return p.objVals[0]; };
+    var xlab = multi ? 'weighted score (0–1)' : objAxisLabel(cfg, 0);
+    cfg.varied.forEach(function (vp, vi) {
+      var pd = paramByKey[vp.key];
+      var ymin = vp.min, ymax = vp.max;
+      if (ymin === ymax) { ymin -= 1; ymax += 1; }
+      plot(getX, function (p) { return p.vals[vi]; }, xlab, pd.label, ymin, ymax,
+        esc(pd.label) + ' (' + esc(pd.unit) + ') vs ' + (multi ? 'weighted score' : esc(labelFor(cfg.objectives[0].key))) +
+        ', sampled ' + fmt(vp.min, decimalsOf(pd.step)) + '&ndash;' + fmt(vp.max, decimalsOf(pd.step)) + '.');
+    });
+    host.innerHTML = html;
   }
 
   /* ── main recompute ──────────────────────────────────────────────────── */
@@ -1636,10 +1805,8 @@
     buildPresetTables();
     buildMcVaryTable();
     renderParamReference();
-    // MC selectors
-    document.getElementById('uav-mc-objective').innerHTML = optionHtml('endurance');
-    document.getElementById('uav-mc-x').innerHTML = optionHtml('massTotal');
-    document.getElementById('uav-mc-y').innerHTML = optionHtml('endurance');
+    // default objective: maximize endurance, weight 1
+    addObjectiveRow('endurance', 'max', 1);
     // prepopulated constraint set: airworthiness rows carry working bounds;
     // logistics/mission rows are blank templates — blank rows are ignored by
     // the solver until a bound is filled in
@@ -1675,29 +1842,12 @@
     document.getElementById('uav-mc-add-constraint').addEventListener('click', function () {
       addConstraintRow();
     });
-    document.getElementById('uav-mc-x').addEventListener('change', function () { if (mcResult) rerunScatterOnly(); });
-    document.getElementById('uav-mc-y').addEventListener('change', function () { if (mcResult) rerunScatterOnly(); });
-
+    document.getElementById('uav-mc-add-objective').addEventListener('click', function () {
+      addObjectiveRow('payload', 'max', 1);
+    });
     restoreAutosave();
     syncForm();
     recompute();
-  }
-
-  function rerunScatterOnly() {
-    var cfg = readMcConfig();
-    mcResult.cfg.xKey = cfg.xKey;
-    mcResult.cfg.yKey = cfg.yKey;
-    if (!mcResult.points.length || !mcResult.points[0].sample) {
-      document.getElementById('uav-mc-status').textContent =
-        'Axis selection changed — sample set too large to re-project; run the search again.';
-      return;
-    }
-    mcResult.points.forEach(function (p) {
-      var r = derive(p.sample);
-      p.x = valueOf(p.sample, r, cfg.xKey);
-      p.y = valueOf(p.sample, r, cfg.yKey);
-    });
-    renderMcScatter();
   }
 
   if (document.readyState === 'loading') {
