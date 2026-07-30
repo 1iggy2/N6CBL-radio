@@ -587,3 +587,14 @@ td.desc { color: var(--ink-2); }
   .xbar-actions .xbtn { padding: 6px 9px; font-size: 0.74rem; }
   .xfields, #uav-form .tools-form { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* 3-D preview */
+.uav-fig-3d { margin-bottom: 12px; }
+.uav-fig-3d canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  touch-action: none;
+  cursor: grab;
+}
+.uav-fig-3d canvas:active { cursor: grabbing; }

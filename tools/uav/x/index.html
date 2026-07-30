@@ -12,7 +12,7 @@
   <title>UAV Lab X &mdash; N6CBL.radio</title>
   <link rel="stylesheet" href="/tools/uav/x/x.css">
 </head>
-<body>
+<body data-uav-theme="dark">
 
   <header class="xbar">
     <div class="xbrand">
@@ -121,7 +121,11 @@
         </div>
 
         <div class="xcard">
-          <h2>Airframe</h2>
+          <h2>Airframe <span class="xchip">live 3-D</span></h2>
+          <figure class="uav-fig uav-fig-3d">
+            <canvas id="uav-3d-view"></canvas>
+            <figcaption class="uav-fig-caption">Drag to orbit &mdash; rebuilt live from the parameters, software-rendered, no libraries</figcaption>
+          </figure>
           <div class="uav-views-grid">
             <figure class="uav-fig"><div id="uav-top-view"></div><figcaption class="uav-fig-caption">Top view &mdash; to scale, CG (quartered circle) and neutral point (dot)</figcaption></figure>
             <figure class="uav-fig"><div id="uav-side-view"></div><figcaption class="uav-fig-caption">Side view &mdash; CG vs neutral point</figcaption></figure>

@@ -2589,3 +2589,13 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
   .uav-ref-table td.uav-ref-group { display: block; margin-top: 2px; }
   .uav-ref-table td.desc { display: block; margin-top: 4px; }
 }
+
+/* uav 3-D preview */
+.uav-fig-3d canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  touch-action: none;
+  cursor: grab;
+}
+.uav-fig-3d canvas:active { cursor: grabbing; }
