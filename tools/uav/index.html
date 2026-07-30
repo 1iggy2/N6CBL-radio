@@ -122,6 +122,62 @@
         <div class="uav-file-status" id="uav-file-status">Once you edit anything, the working design autosaves to this browser's local storage on every change &mdash; refresh-safe, stored on your device only, never transmitted. Save a .uav.json file to back up or move a design between machines; Reset defaults discards the autosaved copy.</div>
       </section>
 
+      <section aria-labelledby="uav-mission-heading">
+        <div class="section-label split">
+          <span id="uav-mission-heading">Mission solver &mdash; start here</span>
+          <span class="log-count">describe the job; the solver sizes, searches, compares, and reviews</span>
+        </div>
+        <div class="tools-form">
+          <label>
+            <span>Payload mass (g)</span>
+            <input type="number" id="uav-mission-payload" value="500" min="0" max="50000" step="10" autocomplete="off" inputmode="decimal">
+          </label>
+          <label>
+            <span>Endurance target (min)</span>
+            <input type="number" id="uav-mission-endurance" value="45" min="1" max="600" step="5" autocomplete="off" inputmode="decimal">
+          </label>
+          <label>
+            <span>Launch method</span>
+            <select id="uav-mission-launch">
+              <option value="hand">hand launch (stall &le; 8 m/s)</option>
+              <option value="catapult">catapult / bungee (stall &le; 12 m/s)</option>
+              <option value="runway">runway / belly (stall &le; 20 m/s)</option>
+              <option value="any" selected>any launch</option>
+            </select>
+          </label>
+          <label>
+            <span>Configuration</span>
+            <select id="uav-mission-config">
+              <option value="both" selected>best of both (solve twice, compare)</option>
+              <option value="conventional">conventional tail</option>
+              <option value="flyingwing">flying wing / BWB</option>
+            </select>
+          </label>
+          <label>
+            <span>Optimize for</span>
+            <select id="uav-mission-objective">
+              <option value="lightest" selected>lightest aircraft</option>
+              <option value="endurance">longest endurance</option>
+              <option value="range">longest range</option>
+              <option value="smallest">smallest span</option>
+            </select>
+          </label>
+          <label>
+            <span>Max span (m, optional)</span>
+            <input type="number" id="uav-mission-maxspan" min="0.3" max="8" step="0.1" autocomplete="off" inputmode="decimal" placeholder="no limit">
+          </label>
+          <label>
+            <span>Min cruise speed (m/s, optional)</span>
+            <input type="number" id="uav-mission-mincruise" min="2" max="100" step="0.5" autocomplete="off" inputmode="decimal" placeholder="no floor">
+          </label>
+          <div class="tools-field">
+            <span>Solve</span>
+            <button type="button" class="tools-button primary" id="uav-mission-solve">Solve mission &rarr;</button>
+          </div>
+        </div>
+        <div class="uav-file-status uav-mission-status" id="uav-mission-status">State the mission and press Solve. The solver sizes a starting airframe from scaling heuristics (payload fraction, wing loading by launch method, power loading), programs the Monte Carlo search below with matching constraints and ranges, runs a wide pass then a refinement pass per candidate configuration, compares configurations when asked, applies the winner to the working design, and writes the full design review. Every choice it makes lands in the visible controls, so you can audit and override any of it.</div>
+      </section>
+
       <section aria-labelledby="uav-presets-heading">
         <div class="section-label split">
           <span id="uav-presets-heading">COTS component presets</span>
@@ -340,6 +396,8 @@
           <strong>Battery.</strong> Pack mass from capacity &times; cells &times; 3.7 V &divide; energy density. Endurance uses the usable-capacity fraction at the cruise current; range is still-air.
           <strong>Stability.</strong> Neutral point from tail-volume method: x&#8345;&#8338;/MAC = 0.25 + 0.9&middot;V&#8346;&middot;(a&#8348;/a&#8349;)&middot;(1&minus;d&epsilon;/d&alpha;) &minus; 0.04 (fuselage correction), with d&epsilon;/d&alpha; = 2a&#8349;/(&pi;AR). The tail lift-curve slope a&#8348; comes from the configured tail aspect ratio; a T-tail sits above the wake and is modeled with a 30 % lower downwash gradient. Static margin is NP minus CG in % MAC.
           <strong>Tail configurations.</strong> Tail surfaces are sized from the volume coefficients, then shaped by the tail aspect ratios and taper. A V-tail uses the classic conversion: total panel area = S&#8346; + S&#8347;, panel dihedral &Gamma; = atan&nbsp;&radic;(S&#8347;/S&#8346;) &mdash; drag and stability use the projected areas, so a V-tail here is aerodynamically equivalent to the conventional tail it replaces (the real-world differences: fewer junctions, ruddervator mixing, pitch/yaw coupling, are not modeled).
+          <strong>Flying wing / BWB.</strong> No tail surfaces: the neutral point is the wing aerodynamic center (25 % MAC, less a 2 % blended-body correction), so the CG must sit ahead of &asymp;23 % MAC and static margins run 3&ndash;8 %. Trim comes from reflex and washout, which costs &asymp;15 % of CL&#8202;max (applied) and demands a near-zero section pitching moment &mdash; the checks flag cambered sections. Winglets are carried at a fixed 8 % of wing area for drag and drawing; yaw stiffness from sweep + winglets is not modeled quantitatively. Elevon sizing, washout distribution, and the deep BWB center-body lift carryover are beyond this fidelity.
+          <strong>Mission solver.</strong> Initial sizing uses scaling heuristics &mdash; AUW from a 28 % payload fraction, wing loading by launch method (35/55/85 g/dm&sup2; hand/catapult/runway), power from an L/D&asymp;9&ndash;10 cruise estimate and a thrust-to-weight floor, motor and cells snapped to the nearest COTS preset class, Li-ion chemistry above 90 min targets. The heuristic only centers the search; the Monte Carlo stages (wide, then re-centered &plusmn;18 % of the range around the stage-1 best) do the actual optimization against the mission constraints. Structure mass is held at a fixed fraction of the initial AUW estimate &mdash; refine it from build data, it is the weakest number in the loop.
           <strong>COTS presets.</strong> The airframe/motor/battery tables carry approximate class-typical specs, labeled by size class rather than brand. They are starting points for realistic combinations, not vendor data &mdash; check the actual datasheet before you buy or fly.
           <strong>Not modeled.</strong> Compressibility, wind, control-surface sizing, structural sizing/flutter, prop maps vs advance ratio, trim drag, battery voltage sag. Airfoil polar values are single-point summaries of low-Reynolds published data; outside Re &asymp; 60k&ndash;500k they drift.
           <strong>Roadmap for this lab.</strong> Constraint-driven inverse solving, prop/motor database with advance-ratio maps, structural weight estimation from geometry, multi-point missions (climb + cruise + loiter), and design-file schema v2 with named mission segments.

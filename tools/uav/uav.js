@@ -47,14 +47,25 @@
     ag35:     { label: 'AG35',           camber: 2.3, camberPos: 38, thickness:  8.7, cl0: 0.25, cla: 6.2, clmax: 1.10, cd0: 0.0070, cm: -0.060, use: 'F3-class glider, low drag' },
     mh32:     { label: 'MH32',           camber: 2.4, camberPos: 40, thickness:  8.7, cl0: 0.25, cla: 6.2, clmax: 1.15, cd0: 0.0070, cm: -0.060, use: 'fast glider / electric sport' },
     s1223:    { label: 'Selig S1223',    camber: 8.1, camberPos: 49, thickness: 12.1, cl0: 1.00, cla: 5.9, clmax: 2.10, cd0: 0.0150, cm: -0.250, use: 'max lift — heavy-payload lifters' },
+    mh45:     { label: 'MH45 (reflexed)', camber: 1.6, camberPos: 40, thickness:  9.9, cl0: 0.15, cla: 6.0, clmax: 1.05, cd0: 0.0080, cm:  0.000, use: 'flying wings — near-zero pitching moment' },
+    mh60:     { label: 'MH60 (reflexed)', camber: 1.5, camberPos: 38, thickness: 10.1, cl0: 0.12, cla: 6.0, clmax: 1.00, cd0: 0.0085, cm:  0.005, use: 'flying wing workhorse, docile' },
     flat:     { label: 'Flat plate',     camber: 0.0, camberPos: 30, thickness:  3.0, cl0: 0.00, cla: 5.5, clmax: 0.80, cd0: 0.0200, cm:  0.000, use: 'foamboard / park flyer baseline' }
   };
 
   var TAIL_TYPES = {
     conventional: { label: 'Conventional' },
     ttail:        { label: 'T-tail' },
-    vtail:        { label: 'V-tail' }
+    vtail:        { label: 'V-tail' },
+    flyingwing:   { label: 'Flying wing / BWB' }
   };
+
+  // parameters the model ignores for a given configuration (flying wings have
+  // no tail surfaces — stability comes from sweep, washout, and section cm)
+  var FLYING_WING_IRRELEVANT = { tailArm: 1, vh: 1, vv: 1, arH: 1, arV: 1, tailTaper: 1 };
+  function paramRelevant(key, d) {
+    if (d.tailType === 'flyingwing' && FLYING_WING_IRRELEVANT[key]) return false;
+    return true;
+  }
 
   /* ── parameter registry ──────────────────────────────────────────────── */
   var PARAMS = [
@@ -77,7 +88,7 @@
       teach: 'Where the mass balances along the mean chord. CG ahead of the neutral point = stable; the gap between them is the static margin. The single most important number to get right before a first flight.' },
     // tail geometry
     { key: 'tailType',    group: 'tail',     label: 'Tail configuration', unit: 'layout', def: 'conventional', options: TAIL_TYPES,
-      teach: 'Conventional is easiest to build and trim. A T-tail lifts the stabilizer out of the wing downwash (modeled here as a reduced downwash derivative) at a structural cost. A V-tail merges both surfaces into two panels — less wetted area and parts, but requires ruddervator mixing and couples pitch/yaw.' },
+      teach: 'Conventional is easiest to build and trim. A T-tail lifts the stabilizer out of the wing downwash (modeled here as a reduced downwash derivative) at a structural cost. A V-tail merges both surfaces into two panels — less wetted area and parts, but requires ruddervator mixing and couples pitch/yaw. A flying wing/BWB deletes the tail entirely: least drag and structure, but trim must come from sweep, washout, and a reflexed (near-zero cm) section, static margins shrink to 3–8 %, and the tail parameters below stop mattering.' },
     { key: 'tailArm',     group: 'tail',     label: 'Tail arm (c/4→c/4)', unit: 'm', def: 0.58, min: 0.15,  max: 5.0,   step: 0.01,
       teach: 'Lever arm from wing quarter-chord to tail quarter-chord. Tail effectiveness scales with arm × area, so a longer arm delivers the same stability with a smaller, lighter, lower-drag tail.' },
     { key: 'vh',          group: 'tail',     label: 'H-tail volume Vₕ', unit: '-',  def: 0.50,  min: 0.25,  max: 0.90,  step: 0.01,
@@ -159,6 +170,12 @@
         { id: 'glider2000', label: '2000 mm powered sailplane (Radian-class)',
           info: 'slender pod · T-tail · thermal floater',
           specs: { span: 2.00, rootChord: 0.185, taper: 0.60, sweepLE: 0, dihedral: 6, fusLength: 1.15, fusDiameter: 0.065, tailArm: 0.70, vh: 0.45, vv: 0.030, tailType: 'ttail', airfoil: 'sd7037', structure: 480 } },
+        { id: 'zagi900', label: '900 mm flying wing (Zagi / Z-84 class)',
+          info: 'EPP slope/park wing · elevons · reflexed MH45',
+          specs: { span: 0.90, rootChord: 0.28, taper: 0.50, sweepLE: 26, dihedral: 0, fusLength: 0.32, fusDiameter: 0.06, tailType: 'flyingwing', airfoil: 'mh45', structure: 260, cgMac: 20 } },
+        { id: 'mapwing1100', label: '1100 mm mapping flying wing (eBee-class)',
+          info: 'catapult/hand launch survey wing · camera bay pod',
+          specs: { span: 1.10, rootChord: 0.30, taper: 0.45, sweepLE: 22, dihedral: 0, fusLength: 0.42, fusDiameter: 0.09, tailType: 'flyingwing', airfoil: 'mh60', structure: 420, cgMac: 20 } },
         { id: 'maptalon1300', label: '1300 mm mapping pusher (Mini Talon-class)',
           info: 'V-tail · pusher prop keeps the camera view clean',
           specs: { span: 1.30, rootChord: 0.20, taper: 0.75, sweepLE: 3, dihedral: 2, fusLength: 0.83, fusDiameter: 0.13, tailArm: 0.55, vh: 0.50, vv: 0.040, tailType: 'vtail', airfoil: 'mh32', structure: 650 } },
@@ -270,28 +287,46 @@
     var yMac = (d.span / 6) * (1 + 2 * d.taper) / (1 + d.taper);
 
     // tail sizing from volume coefficients (projected/effective areas)
-    var shEff = d.vh * S * mac / d.tailArm;                     // m^2, horizontal projection
-    var svEff = d.vv * S * d.span / d.tailArm;                  // m^2, vertical projection
+    var flyingWing = d.tailType === 'flyingwing';
+    var shEff, svEff;
     var tail = { type: d.tailType };
-    if (d.tailType === 'vtail') {
+    if (flyingWing) {
+      // no tail surfaces; yaw stability comes from sweep and tip fins.
+      // winglets are carried as a fixed 8% of wing area for drag and drawing.
+      shEff = 0;
+      svEff = 0;
+      tail.wingletArea = 0.08 * S;
+    } else if (d.tailType === 'vtail') {
+      shEff = d.vh * S * mac / d.tailArm;                       // m^2, horizontal projection
+      svEff = d.vv * S * d.span / d.tailArm;                    // m^2, vertical projection
       // classic conversion: total V-tail area = Sh + Sv, panel dihedral from the split
       tail.gamma = Math.atan(Math.sqrt(svEff / Math.max(shEff, 1e-9)));
       tail.area = shEff + svEff;
       tail.span = Math.sqrt(d.arH * tail.area);                 // true (slant) span
       tail.rootChord = 2 * tail.area / (tail.span * (1 + d.tailTaper));
     } else {
+      shEff = d.vh * S * mac / d.tailArm;
+      svEff = d.vv * S * d.span / d.tailArm;
       tail.spanH = Math.sqrt(d.arH * shEff);
       tail.rootChordH = 2 * shEff / (tail.spanH * (1 + d.tailTaper));
       tail.heightV = Math.sqrt(d.arV * svEff);
       tail.rootChordV = 2 * svEff / (tail.heightV * (1 + d.tailTaper));
     }
 
-    // overall length, nose to aft-most tail edge (same placement the drawings use)
+    // overall length, nose to aft-most edge (same placement the drawings use)
     var wingRootLEx = 0.30 * d.fusLength;
-    var macLEx = wingRootLEx + yMac * Math.tan(d.sweepLE * Math.PI / 180);
-    var xTailC4 = macLEx + 0.25 * mac + d.tailArm;
-    var aftChord = d.tailType === 'vtail' ? tail.rootChord : Math.max(tail.rootChordH, tail.rootChordV);
-    var totalLength = Math.max(d.fusLength, xTailC4 + 0.75 * aftChord);
+    var sweepTanX = Math.tan(d.sweepLE * Math.PI / 180);
+    var macLEx = wingRootLEx + yMac * sweepTanX;
+    var totalLength;
+    var xTailC4 = 0;
+    if (flyingWing) {
+      var tipTE = wingRootLEx + (d.span / 2) * sweepTanX + tipChord;
+      totalLength = Math.max(d.fusLength, wingRootLEx + d.rootChord, tipTE);
+    } else {
+      xTailC4 = macLEx + 0.25 * mac + d.tailArm;
+      var aftChord = d.tailType === 'vtail' ? tail.rootChord : Math.max(tail.rootChordH, tail.rootChordV);
+      totalLength = Math.max(d.fusLength, xTailC4 + 0.75 * aftChord);
+    }
 
     // mass budget
     var battWh = (d.battCapacity / 1000) * d.battCells * CELL_V;
@@ -299,15 +334,16 @@
     var massKg = (d.structure + d.payload + d.avionics + d.propMass) / 1000 + battMassKg;
     var weightN = massKg * G;
 
-    // lift limits (finite-wing knockdown on the 2-D section)
-    var clMax3D = 0.9 * foil.clmax;
+    // lift limits (finite-wing knockdown on the 2-D section); a flying wing
+    // loses a further ~15% of CL max to the washout/reflex needed for trim
+    var clMax3D = 0.9 * foil.clmax * (flyingWing ? 0.85 : 1);
     var claw = foil.cla / (1 + foil.cla / (Math.PI * d.oswald * AR)); // per rad, 3-D
     var vstall = Math.sqrt(2 * weightN / (rho * S * clMax3D));
 
     // parasite drag buildup (referenced to wing area), +15% interference/misc
     var fusWetted = Math.PI * d.fusDiameter * d.fusLength * 0.8;
     var cd0Fus = 0.006 * fusWetted / S;
-    var cd0Tail = 0.008 * (shEff + svEff) / S;
+    var cd0Tail = flyingWing ? 0.008 * tail.wingletArea / S : 0.008 * (shEff + svEff) / S;
     var cd0 = 1.15 * (foil.cd0 + cd0Fus + cd0Tail);
     var k = 1 / (Math.PI * d.oswald * AR);
 
@@ -345,14 +381,22 @@
     var staticThrustN = 0.7 * Math.pow(2 * rho * diskA, 1 / 3) * Math.pow(pShaft, 2 / 3);
     var tw = staticThrustN / weightN;
 
-    // longitudinal stability: tail-volume neutral point with downwash,
-    // 0.9 tail efficiency, and a -4% MAC fuselage (Munk) correction.
-    // Tail lift-curve slope from the configured tail AR; a T-tail sits above
-    // the wake and sees ~30% less downwash gradient.
-    var clat = 5.8 / (1 + 5.8 / (Math.PI * 0.9 * d.arH));
-    var dedaFactor = d.tailType === 'ttail' ? 0.7 : 1.0;
-    var deda = Math.min(0.9, dedaFactor * 2 * claw / (Math.PI * AR));
-    var npFrac = 0.25 + 0.9 * d.vh * (clat / claw) * (1 - deda) - 0.04;
+    // longitudinal stability. Tailed: tail-volume neutral point with downwash,
+    // 0.9 tail efficiency, and a -4% MAC fuselage (Munk) correction; the tail
+    // lift-curve slope comes from the configured tail AR, and a T-tail sits
+    // above the wake with ~30% less downwash gradient. Flying wing: the NP is
+    // the wing aerodynamic center (25% MAC — sweep already shifts the MAC
+    // position) with a small -2% blended-body correction; CG must sit ahead
+    // of it, and the section pitching moment must be near zero to trim.
+    var npFrac, deda = 0, clat = 0;
+    if (flyingWing) {
+      npFrac = 0.25 - 0.02;
+    } else {
+      clat = 5.8 / (1 + 5.8 / (Math.PI * 0.9 * d.arH));
+      var dedaFactor = d.tailType === 'ttail' ? 0.7 : 1.0;
+      deda = Math.min(0.9, dedaFactor * 2 * claw / (Math.PI * AR));
+      npFrac = 0.25 + 0.9 * d.vh * (clat / claw) * (1 - deda) - 0.04;
+    }
     var smFrac = npFrac - d.cgMac / 100;
 
     return {
@@ -409,9 +453,13 @@
       if (v >= warnLo && v <= warnHi) return 'warn';
       return 'fail';
     }
-    return [
-      { label: 'Static margin', value: fmt(r.staticMargin, 1) + ' % MAC', limit: '5–15 % stable, docile',
-        status: band(r.staticMargin, 5, 15, 2, 25) },
+    var flyingWing = d.tailType === 'flyingwing';
+    var checksList = [
+      flyingWing
+        ? { label: 'Static margin', value: fmt(r.staticMargin, 1) + ' % MAC', limit: '3–8 % for flying wings (pitch damping is scarce)',
+            status: band(r.staticMargin, 3, 8, 1, 12) }
+        : { label: 'Static margin', value: fmt(r.staticMargin, 1) + ' % MAC', limit: '5–15 % stable, docile',
+            status: band(r.staticMargin, 5, 15, 2, 25) },
       { label: 'Thrust / weight', value: fmt(r.thrustWeight, 2), limit: '≥ 0.60 sport; ≥ 0.35 gentle',
         status: r.thrustWeight >= 0.6 ? 'ok' : r.thrustWeight >= 0.35 ? 'warn' : 'fail' },
       { label: 'Cruise / stall speed', value: fmt(r.stallMargin, 2), limit: '≥ 1.4 comfortable margin',
@@ -425,6 +473,17 @@
       { label: 'Tip Reynolds at stall', value: fmtInt(r.reTipStall), limit: '≥ 100k avoids tip-stall regime',
         status: r.reTipStall >= 100000 ? 'ok' : r.reTipStall >= 50000 ? 'warn' : 'fail' }
     ];
+    if (flyingWing) {
+      // with no tail, the wing section's own pitching moment must be trimmable
+      // by reflex/washout — strongly cambered sections cannot be
+      checksList.push({ label: 'Section cm vs configuration', value: fmt(r.foil.cm, 3),
+        limit: '≥ −0.02 for a flying wing (reflexed section)',
+        status: r.foil.cm >= -0.02 ? 'ok' : r.foil.cm >= -0.06 ? 'warn' : 'fail' });
+      checksList.push({ label: 'Sweep for a flying wing', value: fmt(d.sweepLE, 1) + '°',
+        limit: '15–35° gives washout leverage and pitch authority',
+        status: band(d.sweepLE, 15, 35, 8, 40) });
+    }
+    return checksList;
   }
 
   /* ── formatting ──────────────────────────────────────────────────────── */
@@ -515,6 +574,29 @@
     });
   }
 
+  // gray out and exclude inputs the current configuration ignores
+  function updateRelevance() {
+    PARAMS.forEach(function (p) {
+      var rel = paramRelevant(p.key, design);
+      var el = document.querySelector('[data-param="' + p.key + '"]');
+      if (el) {
+        el.disabled = !rel;
+        el.closest('label').classList.toggle('uav-param-irrelevant', !rel);
+      }
+      var cb = document.querySelector('[data-mc-vary="' + p.key + '"]');
+      if (cb) {
+        if (!rel && !cb.disabled) {
+          cb.dataset.wasChecked = cb.checked ? '1' : '';
+          cb.checked = false;
+          cb.disabled = true;
+        } else if (rel && cb.disabled) {
+          cb.disabled = false;
+          if (cb.dataset.wasChecked) cb.checked = true;
+        }
+      }
+    });
+  }
+
   /* ── COTS preset tables ──────────────────────────────────────────────── */
   function buildPresetTables() {
     var host = document.getElementById('uav-presets');
@@ -597,10 +679,12 @@
     { key: 'wingLoading',  sub: function (r) { return fmt(r.massTotal / 1000 / r.S, 2) + ' kg/m²'; } },
     { key: 'area',         sub: function (r) { return 'AR ' + fmt(r.aspectRatio, 2) + ' · MAC ' + fmt(r.mac * 1000, 0) + ' mm'; } },
     { key: 'areaH',        sub: function (r) {
+        if (r.tail.type === 'flyingwing') return 'no tail — flying wing; trim by reflex + sweep';
         return r.tail.type === 'vtail'
           ? 'V-tail Γ ' + fmt(r.tail.gamma * 180 / Math.PI, 0) + '° · true area ' + fmt(r.tail.area * 100, 1) + ' dm²'
           : 'span ' + fmt(r.tail.spanH, 2) + ' m · root ' + fmt(r.tail.rootChordH * 1000, 0) + ' mm'; } },
     { key: 'areaV',        sub: function (r) {
+        if (r.tail.type === 'flyingwing') return 'winglets ' + fmt(r.tail.wingletArea * 100, 1) + ' dm² total (fixed 8% of S)';
         return r.tail.type === 'vtail'
           ? 'projected from the V panels'
           : 'height ' + fmt(r.tail.heightV, 2) + ' m · root ' + fmt(r.tail.rootChordV * 1000, 0) + ' mm'; } },
@@ -688,7 +772,13 @@
     var t = r.tail;
     // drawing spans/chords per tail type
     var bhDraw, chRoot, chTip, hv, cvRoot, cvTip, gamma = 0;
-    if (t.type === 'vtail') {
+    if (t.type === 'flyingwing') {
+      bhDraw = 0; chRoot = 0; chTip = 0;
+      // each winglet: half the fixed winglet area at roughly tip-chord length
+      cvRoot = Math.max(0.6 * r.tipChord, 0.02);
+      hv = Math.min(0.5 * r.tipChord + (t.wingletArea / 2) / cvRoot, 0.25 * d.span);
+      cvTip = 0.6 * cvRoot;
+    } else if (t.type === 'vtail') {
       gamma = t.gamma;
       bhDraw = t.span * Math.cos(gamma);                 // projected span, top view
       chRoot = t.rootChord; chTip = t.rootChord * d.tailTaper;
@@ -736,7 +826,7 @@
       ' L ' + f2(cx - fr) + ' ' + f2(Y(0.7 * d.fusLength)) + ' Z', 'uav-skin');
     // tail boom if the tail sits behind the fuselage
     var boomEnd = L.xTailC4 + 0.75 * L.chRoot;
-    if (boomEnd > d.fusLength) {
+    if (r.tail.type !== 'flyingwing' && boomEnd > d.fusLength) {
       s += line(cx, Y(d.fusLength), cx, Y(boomEnd), 'uav-boom');
     }
     // wing planform
@@ -749,16 +839,24 @@
     // MAC chord line
     s += line(X(r.yMac), Y(L.macLE), X(r.yMac), Y(L.macLE + r.mac), 'uav-macline');
     s += text(X(r.yMac) + 5, Y(L.macLE + r.mac / 2), 'MAC', 'uav-fig-label');
-    // tail planform (projected for a V-tail)
-    var thLE = L.xTailC4 - 0.25 * L.chRoot;
-    var htHalf = L.bhDraw / 2;
-    s += poly([
-      [X(0), Y(thLE)], [X(htHalf), Y(thLE + (L.chRoot - L.chTip) / 2)],
-      [X(htHalf), Y(thLE + (L.chRoot + L.chTip) / 2)], [X(0), Y(thLE + L.chRoot)],
-      [X(-htHalf), Y(thLE + (L.chRoot + L.chTip) / 2)], [X(-htHalf), Y(thLE + (L.chRoot - L.chTip) / 2)]
-    ], 'uav-surface');
-    if (r.tail.type === 'vtail') {
-      s += text(X(htHalf) + 4, Y(thLE + L.chRoot / 2), 'V-tail Γ ' + fmt(L.gamma * 180 / Math.PI, 0) + '°', 'uav-fig-label');
+    if (r.tail.type === 'flyingwing') {
+      // winglets: chordwise strips at the tips
+      s += line(X(half), Y(tipLE), X(half), Y(tipLE + r.tipChord), 'uav-boom');
+      s += line(X(-half), Y(tipLE), X(-half), Y(tipLE + r.tipChord), 'uav-boom');
+      s += text(X(half) - 6, Y(tipLE) - 6, 'winglet', 'uav-fig-label', 'end');
+      if (d.sweepLE > 0) s += text(X(0) + 8, Y(rootLE) - 6, 'sweep ' + fmt(d.sweepLE, 0) + '°', 'uav-fig-label');
+    } else {
+      // tail planform (projected for a V-tail)
+      var thLE = L.xTailC4 - 0.25 * L.chRoot;
+      var htHalf = L.bhDraw / 2;
+      s += poly([
+        [X(0), Y(thLE)], [X(htHalf), Y(thLE + (L.chRoot - L.chTip) / 2)],
+        [X(htHalf), Y(thLE + (L.chRoot + L.chTip) / 2)], [X(0), Y(thLE + L.chRoot)],
+        [X(-htHalf), Y(thLE + (L.chRoot + L.chTip) / 2)], [X(-htHalf), Y(thLE + (L.chRoot - L.chTip) / 2)]
+      ], 'uav-surface');
+      if (r.tail.type === 'vtail') {
+        s += text(X(htHalf) + 4, Y(thLE + L.chRoot / 2), 'V-tail Γ ' + fmt(L.gamma * 180 / Math.PI, 0) + '°', 'uav-fig-label');
+      }
     }
     // CG / NP on centerline
     s += cgSymbol(cx, Y(L.xCG), 6);
@@ -798,7 +896,7 @@
       ' L ' + f2(X(d.fusLength)) + ' ' + f2(yRef - 0.2 * fr) +
       ' L ' + f2(X(0.65 * d.fusLength)) + ' ' + f2(yRef - fr) + ' Z', 'uav-skin');
     var boomEnd = L.xTailC4 + 0.75 * L.chRoot;
-    if (boomEnd > d.fusLength) s += line(X(d.fusLength), yRef, X(boomEnd), yRef, 'uav-boom');
+    if (r.tail.type !== 'flyingwing' && boomEnd > d.fusLength) s += line(X(d.fusLength), yRef, X(boomEnd), yRef, 'uav-boom');
     // wing root chord silhouette on top of fuselage
     var wingY = yRef - fr;
     s += poly([
@@ -810,7 +908,17 @@
     // tail surfaces by configuration
     var finBaseLE = L.xTailC4 - 0.25 * L.cvRoot;
     var finTopY = yRef - 0.2 * fr - L.hv * scale;
-    if (r.tail.type === 'vtail') {
+    if (r.tail.type === 'flyingwing') {
+      // winglet silhouette at the swept tip position
+      var wlLE = L.wingRootLE + (d.span / 2) * L.sweepTan;
+      s += poly([
+        [X(wlLE), wingY],
+        [X(wlLE + 0.45 * L.cvRoot), wingY - L.hv * scale],
+        [X(wlLE + 0.45 * L.cvRoot + L.cvTip), wingY - L.hv * scale],
+        [X(wlLE + L.cvRoot), wingY]
+      ], 'uav-surface');
+      s += text(X(wlLE) - 4, wingY - L.hv * scale - 5, 'winglet', 'uav-fig-label');
+    } else if (r.tail.type === 'vtail') {
       // single inclined panel drawn at its projected height
       s += poly([
         [X(finBaseLE), yRef - 0.2 * fr],
@@ -837,8 +945,10 @@
     s += '<circle cx="' + f2(X(L.xNP)) + '" cy="' + f2(yRef) + '" r="3.5" class="uav-np"/>';
     s += text(X(L.xCG) - 4, yRef + 20, 'CG ' + fmt(d.cgMac, 0) + '%', 'uav-fig-label');
     s += text(X(L.xNP) - 4, yRef - 14, 'NP ' + fmt(r.npMac, 0) + '%', 'uav-fig-label uav-fig-label-accent');
-    // tail arm dimension
-    s += dimH(X(L.xC4Mac), X(L.xTailC4), H - 14, 'tail arm ' + fmt(d.tailArm, 2) + ' m');
+    // tail arm dimension (meaningless for a flying wing)
+    if (r.tail.type !== 'flyingwing') {
+      s += dimH(X(L.xC4Mac), X(L.xTailC4), H - 14, 'tail arm ' + fmt(d.tailArm, 2) + ' m');
+    }
     s += '</svg>';
     document.getElementById(targetId || 'uav-side-view').innerHTML = s;
   }
@@ -865,7 +975,12 @@
     // fuselage section
     s += '<circle cx="' + f2(cx) + '" cy="' + f2(cy) + '" r="' + f2(fr) + '" class="uav-skin"/>';
     // tail by configuration
-    if (r.tail.type === 'vtail') {
+    if (r.tail.type === 'flyingwing') {
+      var tipY = cy - fr - tipRise * scale;
+      s += line(cx + half * scale, tipY, cx + half * scale, tipY - L.hv * scale, 'uav-boom');
+      s += line(cx - half * scale, tipY, cx - half * scale, tipY - L.hv * scale, 'uav-boom');
+      s += text(cx + half * scale - 4, tipY - L.hv * scale - 4, 'winglets', 'uav-fig-label', 'end');
+    } else if (r.tail.type === 'vtail') {
       var vx = (L.bhDraw / 2) * scale, vy = L.hv * scale; // panel projections
       s += line(cx, cy - fr, cx + vx, cy - fr - vy, 'uav-boom');
       s += line(cx, cy - fr, cx - vx, cy - fr - vy, 'uav-boom');
@@ -1094,7 +1209,7 @@
 
     var html = '';
     GROUPS.forEach(function (g) {
-      PARAMS.filter(function (p) { return p.group === g.id && !p.options; }).forEach(function (p) {
+      PARAMS.filter(function (p) { return p.group === g.id && !p.options && paramRelevant(p.key, design); }).forEach(function (p) {
         var v = design[p.key];
         // +10% of current value; for a zero value, +10% of the parameter's range
         var dv = v !== 0 ? 0.1 * Math.abs(v) : 0.1 * (p.max - p.min);
@@ -1416,6 +1531,7 @@
     PARAMS.forEach(function (p) { base[p.key] = design[p.key]; });
     var points = [];
     var feasible = 0;
+    var nearMiss = null, nearMissViolation = Infinity;
     var t0 = performance.now();
     for (var i = 0; i < cfg.samples; i++) {
       var sample = {};
@@ -1429,11 +1545,29 @@
         sample[vp.key] = Math.min(pd.max, Math.max(pd.min, v));
       });
       var r = derive(sample);
-      var ok = cfg.constraints.every(function (c) {
+      var ok = true, violation = 0;
+      cfg.constraints.forEach(function (c) {
         var v = valueOf(sample, r, c.key);
-        return isFinite(v) && v >= c.min && v <= c.max;
+        if (!isFinite(v)) { ok = false; violation += 10; return; }
+        if (v < c.min) { ok = false; violation += (c.min - v) / Math.max(1e-9, Math.abs(c.min)); }
+        else if (v > c.max) { ok = false; violation += (v - c.max) / Math.max(1e-9, Math.abs(c.max)); }
       });
       if (ok) feasible++;
+      else if (violation < nearMissViolation) {
+        nearMissViolation = violation;
+        nearMiss = cfg.constraints.map(function (c) {
+          var v = valueOf(sample, r, c.key);
+          if (isFinite(v) && v >= c.min && v <= c.max) return null;
+          var side = (isFinite(v) && v < c.min) ? 'min' : 'max';
+          var bound = side === 'min' ? c.min : c.max;
+          return { key: c.key, value: v, bound: bound, side: side,
+            rel: isFinite(v) ? Math.abs(v - bound) / Math.max(1e-9, Math.abs(bound)) : 10 };
+        }).filter(Boolean)
+          // lead with what actually binds; drop hairline round-off violations
+          .sort(function (a, b) { return b.rel - a.rel; })
+          .filter(function (e, i) { return i === 0 || e.rel > 0.01; })
+          .slice(0, 3);
+      }
       // per point: feasibility, each objective's value, each varied
       // parameter's value — everything scoring and the scatters need
       points.push({
@@ -1484,8 +1618,16 @@
       best.objVals = bp.objVals;
     }
     var ms = performance.now() - t0;
-    mcResult = { cfg: cfg, points: points, best: best, feasible: feasible, ms: ms };
+    mcResult = { cfg: cfg, points: points, best: best, feasible: feasible, ms: ms, base: base, nearMiss: nearMiss };
     renderMcResults();
+  }
+
+  function nearMissText(nearMiss) {
+    if (!nearMiss || !nearMiss.length) return '';
+    return nearMiss.map(function (v) {
+      return labelFor(v.key) + ' ' + fmtMetric(v.key, v.value) +
+        (v.side === 'min' ? ' < ' : ' > ') + fmtMetric(v.key, v.bound);
+    }).join(', ');
   }
 
   function objectiveSummary(cfg, best) {
@@ -1505,7 +1647,8 @@
         ? ' · best weighted score ' + fmt(res.best.score, 3) + ' — ' + objectiveSummary(cfg, res.best)
         : ' · best ' + objectiveSummary(cfg, res.best);
     } else {
-      bestText = ' · no feasible sample — relax constraints or widen ranges';
+      var nm = nearMissText(res.nearMiss);
+      bestText = ' · no feasible sample — ' + (nm ? 'closest miss: ' + nm : 'relax constraints or widen ranges');
     }
     statusEl.textContent = res.points.length + ' samples in ' + fmt(res.ms, 0) + ' ms · ' +
       res.feasible + ' feasible (' + fmt(100 * res.feasible / res.points.length, 1) + ' %)' + bestText;
@@ -1783,6 +1926,270 @@
     host.innerHTML = html;
   }
 
+  /* ── mission solver ──────────────────────────────────────────────────
+   * Describe the job; the solver sizes a starting point from scaling
+   * heuristics, programs the Monte Carlo UI (visible — every choice can be
+   * inspected and edited), runs a two-stage search per candidate
+   * configuration, compares configurations, and applies the winner.
+   */
+  // auwMax: what the launch method can physically throw — a stall cap alone
+  // would happily "hand launch" an 18 kg aircraft
+  var LAUNCH_TYPES = {
+    hand:     { label: 'hand launch',     stallMax: 8,        twMin: 0.55, wl: 35, auwMax: 2500 },
+    catapult: { label: 'catapult/bungee', stallMax: 12,       twMin: 0.60, wl: 55, auwMax: 15000 },
+    runway:   { label: 'runway / belly',  stallMax: 20,       twMin: 0.35, wl: 85, auwMax: 0 },
+    any:      { label: 'any launch',      stallMax: Infinity, twMin: 0.35, wl: 60, auwMax: 0 }
+  };
+
+  var MISSION_OBJECTIVES = {
+    lightest:  { key: 'massTotal', dir: 'min', label: 'lightest aircraft that flies the mission' },
+    endurance: { key: 'endurance', dir: 'max', label: 'longest endurance' },
+    range:     { key: 'range',     dir: 'max', label: 'longest still-air range' },
+    smallest:  { key: 'span',      dir: 'min', label: 'smallest span that flies the mission' }
+  };
+
+  function pickMotorPreset(powerW) {
+    var items = PRESETS.motor.items;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].specs.maxPower >= powerW) return items[i];
+    }
+    return items[items.length - 1];
+  }
+
+  function missionBaseDesign(m, config) {
+    var fw = config === 'flyingwing';
+    var auw = Math.max(m.payload / 0.28, m.payload + 300);       // g — payload-fraction guess
+    var wl = LAUNCH_TYPES[m.launch].wl * (fw ? 0.85 : 1);        // g/dm^2
+    var S = auw / wl / 100;                                       // m^2
+    var ar = fw ? 5 : 7.5;
+    var taper = fw ? 0.45 : 0.65;
+    var span = Math.sqrt(ar * S);
+    if (m.maxSpan && span > m.maxSpan) span = m.maxSpan;          // honor the cage; chord grows instead
+    var rootChord = 2 * S / (span * (1 + taper));
+    var weightN = auw / 1000 * G;
+    var vs = Math.sqrt(2 * weightN / (1.225 * S * (fw ? 0.85 : 1.1)));
+    var cruise = Math.max(m.minCruise || 0, 1.5 * vs);
+    var pElec = weightN * cruise / ((fw ? 10 : 9) * 0.47);        // L/D and efficiency-chain guess
+    var powerNeed = Math.max(pElec * 3.5, auw * (LAUNCH_TYPES[m.launch].twMin + 0.15));
+    var motor = pickMotorPreset(powerNeed);
+    var cells = motor.specs.battCells;
+    var density = m.endurance > 90 ? 240 : 150;                   // Li-ion for long loiter
+    var capacity = (m.endurance / 60) * pElec / (cells * CELL_V) / 0.8 * 1000;
+    var d = {
+      span: span, rootChord: rootChord, taper: taper,
+      sweepLE: fw ? 25 : 0,
+      dihedral: fw ? 0 : 4,
+      fusLength: fw ? Math.max(0.25, 1.4 * rootChord) : Math.max(0.4, 0.62 * span),
+      fusDiameter: Math.max(0.05, 0.075 * Math.pow(auw / 1000, 1 / 3) + 0.03),
+      cgMac: fw ? 19 : 30,
+      tailType: fw ? 'flyingwing' : 'conventional',
+      tailArm: Math.max(0.2, 0.4 * span),
+      vh: 0.5, vv: 0.035, arH: 4, arV: 1.5, tailTaper: 0.7,
+      airfoil: fw ? 'mh60' : (m.objective === 'lightest' ? 'clarky' : 'sd7037'),
+      oswald: fw ? 0.75 : 0.8,
+      structure: Math.round((fw ? 0.28 : 0.32) * auw),
+      payload: m.payload,
+      avionics: Math.round(60 + auw * 0.01),
+      propMass: motor.specs.propMass,
+      battCapacity: Math.round(capacity / 50) * 50,
+      battCells: cells,
+      battDensity: density,
+      usableBatt: 0.8,
+      maxPower: motor.specs.maxPower,
+      propDiameter: motor.specs.propDiameter,
+      etaProp: 0.55, etaMotor: 0.85,
+      cruiseSpeed: Math.round(cruise * 2) / 2,
+      altitude: design.altitude // keep the operator's field altitude
+    };
+    PARAMS.forEach(function (p) {
+      if (p.options || d[p.key] === undefined) return;
+      d[p.key] = Math.min(p.max, Math.max(p.min, d[p.key]));
+    });
+    return d;
+  }
+
+  function missionVarySet(m, base, config) {
+    var fw = config === 'flyingwing';
+    var keys = ['span', 'rootChord', 'taper', 'fusLength', 'fusDiameter',
+                'battCapacity', 'maxPower', 'propDiameter', 'cruiseSpeed'];
+    if (fw) keys.push('sweepLE'); else keys.push('dihedral', 'tailArm', 'vh');
+    var list = keys.map(function (k) {
+      var p = paramByKey[k], v = base[k];
+      var lo = Math.max(p.min, v * 0.65), hi = Math.min(p.max, v * 1.4);
+      if (k === 'sweepLE') { lo = 15; hi = 32; }
+      if (k === 'span' && m.maxSpan) hi = Math.min(hi, m.maxSpan);
+      if (k === 'cruiseSpeed' && m.minCruise) lo = Math.max(lo, m.minCruise);
+      return { key: k, lo: lo, hi: hi };
+    });
+    list.push({ key: 'cgMac', lo: fw ? 15 : 24, hi: fw ? 24 : 36 });
+    return list;
+  }
+
+  function missionConstraints(m, config) {
+    var fw = config === 'flyingwing';
+    var L = LAUNCH_TYPES[m.launch];
+    var list = [
+      { key: 'endurance', min: m.endurance, max: undefined },
+      { key: 'thrustWeight', min: L.twMin, max: undefined },
+      { key: 'staticMargin', min: fw ? 3 : 4, max: fw ? 8 : 18 },
+      { key: 'throttle', min: undefined, max: 80 },
+      { key: 'cRate', min: undefined, max: 25 }
+    ];
+    if (isFinite(L.stallMax)) list.push({ key: 'vstall', min: undefined, max: L.stallMax });
+    if (L.auwMax) list.push({ key: 'massTotal', min: undefined, max: L.auwMax });
+    if (m.maxSpan) list.push({ key: 'span', min: undefined, max: m.maxSpan });
+    if (m.minCruise) list.push({ key: 'cruiseSpeed', min: m.minCruise, max: undefined });
+    return list;
+  }
+
+  function setVaryRange(key, lo, hi) {
+    var p = paramByKey[key];
+    lo = Math.max(p.min, lo);
+    hi = Math.min(p.max, Math.max(lo, hi));
+    document.querySelector('[data-mc-min="' + key + '"]').value = +lo.toFixed(Math.max(4, decimalsOf(p.step)));
+    document.querySelector('[data-mc-max="' + key + '"]').value = +hi.toFixed(Math.max(4, decimalsOf(p.step)));
+  }
+
+  function setMcUi(varied, constraints, objective, samples) {
+    document.querySelectorAll('[data-mc-vary]').forEach(function (cb) {
+      cb.checked = false;
+      delete cb.dataset.wasChecked;
+    });
+    varied.forEach(function (v) {
+      var cb = document.querySelector('[data-mc-vary="' + v.key + '"]');
+      if (cb && !cb.disabled) cb.checked = true;
+      setVaryRange(v.key, v.lo !== undefined ? v.lo : v.min, v.hi !== undefined ? v.hi : v.max);
+    });
+    document.getElementById('uav-mc-constraints-body').innerHTML = '';
+    constraints.forEach(function (c) {
+      addConstraintRow(c.key,
+        (c.min !== undefined && isFinite(c.min)) ? +(+c.min).toFixed(4) : undefined,
+        (c.max !== undefined && isFinite(c.max)) ? +(+c.max).toFixed(4) : undefined);
+    });
+    document.getElementById('uav-mc-objectives-body').innerHTML = '';
+    (Array.isArray(objective) ? objective : [objective]).forEach(function (o) {
+      addObjectiveRow(o.key, o.dir, o.weight || 1);
+    });
+    document.getElementById('uav-mc-samples').value = samples || 6000;
+  }
+
+  function objBetter(dir, a, b) {
+    return dir === 'max' ? a > b : a < b;
+  }
+
+  // two-stage search: wide, then re-centered around the stage-1 best;
+  // a failed wide stage gets one automatic range widening before giving up
+  function stagedSearch() {
+    runMonteCarlo();
+    if (!mcResult.best) {
+      mcResult.cfg.varied.forEach(function (vp) {
+        var c = (vp.min + vp.max) / 2, w = vp.max - vp.min;
+        setVaryRange(vp.key, c - w, c + w);
+      });
+      runMonteCarlo();
+      if (!mcResult.best) return mcResult;
+    }
+    var s1 = mcResult;
+    s1.cfg.varied.forEach(function (vp) {
+      var b = s1.best.params[vp.key];
+      var w = (vp.max - vp.min) * 0.18;
+      setVaryRange(vp.key, b - w, b + w);
+    });
+    runMonteCarlo();
+    var dir = s1.cfg.objectives[0].dir;
+    if (!mcResult.best || objBetter(dir, s1.best.objVals[0], mcResult.best.objVals[0])) {
+      // zoom stage lost (rare) — restore the stage-1 ranges and result
+      s1.cfg.varied.forEach(function (vp) { setVaryRange(vp.key, vp.min, vp.max); });
+      mcResult = s1;
+      renderMcResults();
+    }
+    return mcResult;
+  }
+
+  function solveConfigCandidate(m, config) {
+    var base = missionBaseDesign(m, config);
+    PARAMS.forEach(function (p) {
+      if (base[p.key] !== undefined) design[p.key] = base[p.key];
+    });
+    designTouched = true;
+    syncForm();
+    recompute(); // updates relevance so flying-wing tail rows are excluded
+    var obj = MISSION_OBJECTIVES[m.objective];
+    setMcUi(missionVarySet(m, base, config), missionConstraints(m, config), obj, 6000);
+    var res = stagedSearch();
+    return {
+      config: config,
+      res: res,
+      ok: !!res.best,
+      objValue: res.best ? res.best.objVals[0] : NaN,
+      nearMiss: res.nearMiss
+    };
+  }
+
+  function candidateSummary(c, m) {
+    var lbl = TAIL_TYPES[c.config === 'flyingwing' ? 'flyingwing' : 'conventional'].label.toLowerCase();
+    if (!c.ok) return lbl + ': no feasible design (closest miss: ' + (nearMissText(c.nearMiss) || 'n/a') + ')';
+    var r = c.res.best.derived;
+    var mu = metricByKey[m.objectiveKey], unit = mu ? mu.unit : (paramByKey[m.objectiveKey] ? paramByKey[m.objectiveKey].unit : '');
+    return lbl + ': ' + fmt(c.res.best.params.span, 2) + ' m span · ' + fmtInt(r.massTotal) + ' g AUW · ' +
+      fmtInt(r.endurance) + ' min · stall ' + fmt(r.vstall, 1) + ' m/s · ' +
+      labelFor(m.objectiveKey) + ' ' + fmtMetric(m.objectiveKey, c.objValue) + (unit && unit !== '-' ? ' ' + unit : '');
+  }
+
+  function solveMission() {
+    var statusEl = document.getElementById('uav-mission-status');
+    var m = {
+      payload: parseFloat(document.getElementById('uav-mission-payload').value),
+      endurance: parseFloat(document.getElementById('uav-mission-endurance').value),
+      launch: document.getElementById('uav-mission-launch').value,
+      config: document.getElementById('uav-mission-config').value,
+      objective: document.getElementById('uav-mission-objective').value,
+      maxSpan: parseFloat(document.getElementById('uav-mission-maxspan').value) || 0,
+      minCruise: parseFloat(document.getElementById('uav-mission-mincruise').value) || 0
+    };
+    if (!isFinite(m.payload) || m.payload < 0) { statusEl.textContent = 'Enter a payload mass (0 is allowed).'; return; }
+    if (!isFinite(m.endurance) || m.endurance <= 0) { statusEl.textContent = 'Enter an endurance target in minutes.'; return; }
+    m.objectiveKey = MISSION_OBJECTIVES[m.objective].key;
+
+    var candidates = m.config === 'both' ? ['conventional', 'flyingwing'] : [m.config];
+    var results = candidates.map(function (cfg) { return solveConfigCandidate(m, cfg); });
+
+    var feasibleResults = results.filter(function (c) { return c.ok; });
+    var lines = ['MISSION: ' + fmtInt(m.payload) + ' g payload · ≥ ' + fmt(m.endurance, 0) + ' min · ' +
+      LAUNCH_TYPES[m.launch].label + ' · objective: ' + MISSION_OBJECTIVES[m.objective].label +
+      (m.maxSpan ? ' · span ≤ ' + m.maxSpan + ' m' : '') + (m.minCruise ? ' · cruise ≥ ' + m.minCruise + ' m/s' : '')];
+    results.forEach(function (c) { lines.push(candidateSummary(c, m)); });
+
+    if (!feasibleResults.length) {
+      lines.push('No feasible design inside the parameter bounds. The closest misses above show which requirement binds — relax it, change the launch method, or shrink the payload, then solve again.');
+      statusEl.textContent = lines.join('\n');
+      return;
+    }
+
+    var dir = MISSION_OBJECTIVES[m.objective].dir;
+    var winner = feasibleResults[0];
+    feasibleResults.forEach(function (c) {
+      if (objBetter(dir, c.objValue, winner.objValue)) winner = c;
+    });
+
+    // restore the winner's search setup and result, then adopt its design
+    setMcUi(winner.res.cfg.varied.map(function (vp) { return { key: vp.key, lo: vp.min, hi: vp.max }; }),
+      winner.res.cfg.constraints, winner.res.cfg.objectives, winner.res.cfg.samples);
+    PARAMS.forEach(function (p) { design[p.key] = winner.res.best.params[p.key]; });
+    designTouched = true;
+    syncForm();
+    recompute();
+    mcResult = winner.res;
+    renderMcResults();
+
+    if (results.length > 1) {
+      lines.push('Chosen: ' + TAIL_TYPES[winner.config === 'flyingwing' ? 'flyingwing' : 'conventional'].label +
+        ' — better ' + labelFor(m.objectiveKey) + ' for this brief.');
+    }
+    lines.push('Two-stage search (wide, then re-centered on the best) ran per configuration; the winning design has been applied to the working design and every solver choice is visible in the Monte Carlo controls below — tweak and re-run. Full design review at the bottom of the Monte Carlo section.');
+    statusEl.textContent = lines.join('\n');
+  }
+
   /* ── main recompute ──────────────────────────────────────────────────── */
   function recompute() {
     derived = derive(design);
@@ -1796,6 +2203,7 @@
     renderPolarChart(design, derived);
     renderSensitivity(derived);
     syncMcCurrents();
+    updateRelevance();
     autosave();
   }
 
@@ -1845,6 +2253,7 @@
     document.getElementById('uav-mc-add-objective').addEventListener('click', function () {
       addObjectiveRow('payload', 'max', 1);
     });
+    document.getElementById('uav-mission-solve').addEventListener('click', solveMission);
     restoreAutosave();
     syncForm();
     recompute();

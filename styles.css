@@ -2549,3 +2549,8 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
   border-top: 1px solid var(--rule-2);
 }
 #uav-mc-scatters:empty { display: none; }
+
+.uav-param-irrelevant { opacity: 0.35; }
+.uav-param-irrelevant > span::after { content: " — unused by this configuration"; text-transform: none; letter-spacing: 0; }
+
+.uav-mission-status { white-space: pre-line; }
