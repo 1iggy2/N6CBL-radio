@@ -2472,7 +2472,18 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
 .uav-mc-best-table { margin-top: 8px; }
 .uav-pt-feasible   { fill: var(--accent); }
 .uav-pt-infeasible { fill: #b5b5ae; }
-.uav-pt-best       { fill: none; stroke: var(--black); stroke-width: 2; }
+.uav-pt-best       { fill: none; stroke: var(--black); stroke-width: 2.5; }
+.uav-pt-best-halo  { fill: none; stroke: var(--white); stroke-width: 7; }
+.uav-pt-best-core  { fill: var(--black); }
+.uav-best-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: bold;
+  fill: var(--black);
+  stroke: var(--white);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
 
 @media (max-width: 768px) {
   .uav-views-grid { grid-template-columns: 1fr; }
@@ -2549,3 +2560,8 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
   border-top: 1px solid var(--rule-2);
 }
 #uav-mc-scatters:empty { display: none; }
+
+.uav-param-irrelevant { opacity: 0.35; }
+.uav-param-irrelevant > span::after { content: " — unused by this configuration"; text-transform: none; letter-spacing: 0; }
+
+.uav-mission-status { white-space: pre-line; }
