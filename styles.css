@@ -2477,3 +2477,24 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
 @media (max-width: 768px) {
   .uav-views-grid { grid-template-columns: 1fr; }
 }
+
+/* uav: COTS presets, sensitivity, parameter reference */
+.uav-preset-note { text-transform: none; letter-spacing: 0; }
+.uav-preset-table td.uav-preset-name { font-weight: bold; width: 40%; }
+.uav-preset-table td.tool-cta { width: 84px; text-align: right; }
+.uav-preset-active td { background: var(--tint); }
+.uav-preset-active td.uav-preset-name::after { content: " · applied"; color: var(--accent); font-weight: bold; }
+.uav-sens-table td.num, .uav-sens-table th.num { font-variant-numeric: tabular-nums; }
+.uav-sens-hi { font-weight: bold; }
+.uav-sens-lo { color: #999; }
+.uav-ref-table td.uav-ref-name { font-weight: bold; white-space: nowrap; }
+.uav-ref-table td.uav-ref-unit { font-family: var(--mono); color: var(--muted); white-space: nowrap; }
+.uav-ref-table td.uav-ref-group {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.uav-hstab { stroke: var(--black); stroke-width: 3; stroke-linecap: butt; }
