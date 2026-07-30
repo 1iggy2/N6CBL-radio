@@ -20,7 +20,7 @@ export default {
 
     const movedTool = url.pathname.match(/^\/tools\/([a-z]+)\/?$/);
     if (movedTool && MOVED_HAM_TOOLS.has(movedTool[1])) {
-      return Response.redirect(url.origin + '/tools/ham/' + movedTool[1] + '/', 301);
+      return Response.redirect(url.origin + '/tools/ham/' + movedTool[1] + '/' + url.search, 301);
     }
 
     if (url.pathname === '/api/blog/publish') {

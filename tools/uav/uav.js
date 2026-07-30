@@ -703,7 +703,7 @@
       hv: hv, cvRoot: cvRoot, cvTip: cvTip, gamma: gamma,
       xCG: macLE + (d.cgMac / 100) * r.mac,
       xNP: macLE + (r.npMac / 100) * r.mac,
-      totalLength: Math.max(d.fusLength, xTailC4 + 0.75 * chRoot)
+      totalLength: r.totalLength // same placement math as the derived metric
     };
   }
 
@@ -862,7 +862,7 @@
     s += '<circle cx="' + f2(cx) + '" cy="' + f2(cy) + '" r="' + f2(fr) + '" class="uav-skin"/>';
     // tail by configuration
     if (r.tail.type === 'vtail') {
-      var vx = (L.bhDraw / 2) * scale, vy = L.hv * scale * 2; // panel projections
+      var vx = (L.bhDraw / 2) * scale, vy = L.hv * scale; // panel projections
       s += line(cx, cy - fr, cx + vx, cy - fr - vy, 'uav-boom');
       s += line(cx, cy - fr, cx - vx, cy - fr - vy, 'uav-boom');
       s += text(cx + vx + 4, cy - fr - vy + 4, 'V-tail', 'uav-fig-label');
@@ -1443,15 +1443,24 @@
     var fr = chartFrame(W, H, M, xmin, xmax, ymin, ymax,
       labelFor(res.cfg.xKey), labelFor(res.cfg.yKey));
     var s = svgOpen(W, H) + '<title>Monte Carlo samples: feasible vs infeasible</title>' + fr.svg;
-    // draw infeasible under feasible; best on top with a ring
-    res.points.forEach(function (p) {
-      if (p.ok || !isFinite(p.x) || !isFinite(p.y)) return;
-      s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="2" class="uav-pt-infeasible"/>';
-    });
-    res.points.forEach(function (p) {
-      if (!p.ok || !isFinite(p.x) || !isFinite(p.y)) return;
-      s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="2.5" class="uav-pt-feasible"/>';
-    });
+    // cap the DOM cost: large sample sets are stride-thinned before drawing
+    // (every sample was still evaluated; only the plot is thinned)
+    var MAX_DRAW = 4000;
+    function drawSet(wantOk, radius, cls) {
+      var idx = [];
+      res.points.forEach(function (p, i) {
+        if (p.ok === wantOk && isFinite(p.x) && isFinite(p.y)) idx.push(i);
+      });
+      var stride = Math.max(1, Math.ceil(idx.length / MAX_DRAW));
+      for (var i = 0; i < idx.length; i += stride) {
+        var p = res.points[idx[i]];
+        s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="' + radius + '" class="' + cls + '"/>';
+      }
+      return { total: idx.length, drawn: Math.ceil(idx.length / stride) };
+    }
+    // infeasible under feasible; best on top with a ring
+    var inf = drawSet(false, 2, 'uav-pt-infeasible');
+    var fea = drawSet(true, 2.5, 'uav-pt-feasible');
     if (res.best) {
       var b = res.points[res.best.index];
       if (isFinite(b.x) && isFinite(b.y)) {
@@ -1460,10 +1469,13 @@
       }
     }
     // legend (text + swatch, identity not by color alone: shape/size differ too)
+    var feaLabel = 'feasible (' + res.feasible + (fea.drawn < fea.total ? ', drawn ' + fea.drawn : '') + ')';
+    var infLabel = 'infeasible' + (inf.drawn < inf.total ? ' (drawn ' + inf.drawn + ' of ' + inf.total + ')' : '');
     s += '<circle cx="' + (M.l + 8) + '" cy="' + (M.t + 6) + '" r="2.5" class="uav-pt-feasible"/>';
-    s += text(M.l + 16, M.t + 9, 'feasible (' + res.feasible + ')', 'uav-fig-label');
-    s += '<circle cx="' + (M.l + 118) + '" cy="' + (M.t + 6) + '" r="2" class="uav-pt-infeasible"/>';
-    s += text(M.l + 126, M.t + 9, 'infeasible', 'uav-fig-label');
+    s += text(M.l + 16, M.t + 9, feaLabel, 'uav-fig-label');
+    var infX = M.l + 26 + feaLabel.length * 6.6;
+    s += '<circle cx="' + f2(infX) + '" cy="' + (M.t + 6) + '" r="2" class="uav-pt-infeasible"/>';
+    s += text(infX + 8, M.t + 9, infLabel, 'uav-fig-label');
     s += '</svg>';
     host.innerHTML = s;
   }
