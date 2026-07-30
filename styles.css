@@ -2565,3 +2565,37 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
 .uav-param-irrelevant > span::after { content: " — unused by this configuration"; text-transform: none; letter-spacing: 0; }
 
 .uav-mission-status { white-space: pre-line; }
+
+/* Parameter physics reference: reflow rows into stacked blocks on narrow
+   viewports — four fixed columns cannot carry prose at phone width. */
+@media (max-width: 768px) {
+  .uav-ref-table, .uav-ref-table tbody { display: block; width: 100%; }
+  .uav-ref-table thead { display: none; }
+  .uav-ref-table tr {
+    display: block;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .uav-ref-table td {
+    display: inline;
+    width: auto;
+    padding: 0;
+    border: none;
+    white-space: normal;
+  }
+  .uav-ref-table td.uav-ref-name { font-family: var(--mono); }
+  .uav-ref-table td.uav-ref-unit::before { content: "("; }
+  .uav-ref-table td.uav-ref-unit::after { content: ")"; }
+  .uav-ref-table td.uav-ref-group { display: block; margin-top: 2px; }
+  .uav-ref-table td.desc { display: block; margin-top: 4px; }
+}
+
+/* uav 3-D preview */
+.uav-fig-3d canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  touch-action: none;
+  cursor: grab;
+}
+.uav-fig-3d canvas:active { cursor: grabbing; }

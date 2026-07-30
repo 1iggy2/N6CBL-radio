@@ -1,0 +1,600 @@
+/* UAV Lab X — experimental interface.
+   Deliberately outside the site style guide: dark, app-like, modern.
+   Styles both the static shell and every element uav.js generates. */
+
+:root {
+  --bg:      #0e1116;
+  --panel:   #151a21;
+  --panel-2: #1b212b;
+  --line:    #262e3a;
+  --line-2:  #313b4a;
+  --ink:     #e7eaf0;
+  --ink-2:   #9aa4b2;
+  --ink-3:   #6b7686;
+  --accent:  #35c9ea;
+  --accent-2:#8ce99a;
+  --warn:    #f5b93b;
+  --bad:     #f26d6d;
+  --ok:      #4ade80;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, Menlo, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --r: 12px;
+  --r-sm: 8px;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 15px; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(53, 201, 234, 0.07), transparent 60%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h2 { font-size: 1.05rem; font-weight: 650; margin: 0 0 2px; letter-spacing: 0.01em; }
+h3 { font-size: 0.8rem; font-weight: 650; margin: 14px 0 8px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ── top bar ─────────────────────────────────────────────────────────── */
+.xbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(14, 17, 22, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.xbrand { display: flex; align-items: center; gap: 9px; }
+.xmark {
+  width: 22px; height: 22px; border-radius: 6px; flex: none;
+  background: conic-gradient(from 210deg, var(--accent), #7c5cff, var(--accent));
+}
+.xtitle { font-family: var(--mono); font-weight: 700; letter-spacing: 0.12em; }
+.xtag {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+.xbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.xname {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 7px 10px;
+  width: 150px;
+}
+.xname:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+/* buttons */
+.xbtn {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  padding: 7px 13px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.05s;
+}
+.xbtn:hover { border-color: var(--accent); text-decoration: none; }
+.xbtn:active { transform: translateY(1px); }
+.xbtn.xprimary {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, white), var(--accent));
+  border-color: transparent;
+  color: #06212a;
+}
+.xbtn.xprimary:hover { filter: brightness(1.08); }
+.xbtn.xwide { width: 100%; padding: 12px; font-size: 0.95rem; margin-top: 4px; }
+.xbtn.xsm { padding: 5px 10px; font-size: 0.75rem; }
+.xbtn.xlink { color: var(--ink-2); }
+.xfile { position: relative; overflow: hidden; display: inline-block; }
+.xfile input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+.xstatusline {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+/* ── tabs (mobile navigation; hidden on wide screens) ────────────────── */
+.xtabs {
+  position: sticky;
+  top: 55px;
+  z-index: 25;
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  background: rgba(14, 17, 22, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+}
+.xtabs::-webkit-scrollbar { display: none; }
+.xtab {
+  flex: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.xtab.active { color: #06212a; background: var(--accent); }
+.xtab:not(.active):hover { border-color: var(--line-2); color: var(--ink); }
+.xtab-dot { position: relative; }
+.xtab-dot::after {
+  content: "";
+  position: absolute;
+  top: 4px; right: 6px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-2);
+}
+
+/* ── layout ──────────────────────────────────────────────────────────── */
+.xmain {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 16px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(340px, 430px) minmax(0, 1fr);
+  align-items: start;
+}
+.xcol { display: grid; gap: 16px; min-width: 0; }
+.xcol-wide { grid-column: 1 / -1; }
+.xview { min-width: 0; gap: 16px; }
+.xsplit > div { min-width: 0; }
+
+.xcard {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 18px;
+  min-width: 0;
+}
+.xhero { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.xsub { margin: 2px 0 14px; font-size: 0.82rem; color: var(--ink-2); }
+.xchip {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 999px;
+  padding: 2px 8px;
+  vertical-align: 2px;
+  margin-left: 6px;
+}
+.xnote { font-size: 0.74rem; color: var(--ink-3); margin: 8px 0 0; }
+.xrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+.xrun { margin-top: 14px; }
+.xsplit { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.xtall { max-height: 560px; overflow-y: auto; }
+.xnarrative {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  line-height: 1.65;
+  color: var(--ink-2);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  margin-top: 14px;
+  white-space: pre-line;
+}
+.xprose { font-size: 0.86rem; color: var(--ink-2); }
+.xprose p { margin: 0 0 10px; }
+.xprose strong { color: var(--ink); }
+
+.xfoot {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 18px 16px 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  border-top: 1px solid var(--line);
+}
+
+/* ── fields (shell + generated form) ─────────────────────────────────── */
+.xfields, #uav-form .tools-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.xfield, #uav-form .tools-form label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.xfield > span, #uav-form .tools-form label > span {
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.xfield input, .xfield select,
+#uav-form input, #uav-form select,
+.xinline input {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  width: 100%;
+  min-width: 0;
+}
+.xfield input:focus, .xfield select:focus, #uav-form input:focus, #uav-form select:focus, .xinline input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+#uav-form input:disabled { opacity: 0.55; }
+.xinline { flex-direction: row; align-items: center; gap: 8px; }
+.xinline > span { white-space: nowrap; }
+.xinline input { width: 110px; }
+.uav-param-irrelevant { opacity: 0.38; }
+.uav-param-irrelevant > span::after { content: " · unused"; text-transform: none; letter-spacing: 0; }
+
+.uav-group-label {
+  grid-column: 1 / -1;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+#uav-form .uav-group-label:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+#uav-form { display: block; }
+.uav-preset-note { color: var(--ink-3); font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+/* ── tables (generated) ──────────────────────────────────────────────── */
+.table-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+.tools-ref-table, .uav-ref-table { font-size: 0.8rem; }
+.tools-ref-table th, .uav-ref-table th {
+  text-align: left;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line-2);
+}
+.tools-ref-table td, .uav-ref-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.tools-ref-table tr:last-child td { border-bottom: none; }
+.tools-ref-table .num, .uav-ref-table .num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+td.desc { color: var(--ink-2); }
+
+/* presets */
+.uav-preset-table td.uav-preset-name { font-weight: 600; width: 42%; }
+.uav-preset-table td.tool-cta { text-align: right; white-space: nowrap; }
+.uav-preset-table td.tool-cta a {
+  font-size: 0.74rem;
+  font-weight: 600;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 3px 12px;
+}
+.uav-preset-table td.tool-cta a:hover { border-color: var(--accent); text-decoration: none; }
+.uav-preset-active td { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.uav-preset-active td.uav-preset-name::after { content: " ✓"; color: var(--accent); }
+
+/* monte carlo tables */
+.uav-mc-table input[type="number"], .uav-mc-table select {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 4px 7px;
+  width: 100%;
+  min-width: 72px;
+}
+.uav-mc-table .uav-mc-check { width: 44px; text-align: center; }
+.uav-mc-table input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; }
+.uav-mc-table .tools-button {
+  font-size: 0.68rem;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.uav-mc-table .tools-button:hover { border-color: var(--bad); color: var(--bad); }
+.uav-mc-table label { cursor: pointer; }
+
+/* checks */
+.uav-status { font-family: var(--mono); font-weight: 700; font-size: 0.74rem; }
+.uav-status-ok   { color: var(--ok); }
+.uav-status-warn { color: var(--warn); }
+.uav-status-fail { color: var(--bad); }
+.uav-status-ok::before   { content: "● "; }
+.uav-status-warn::before { content: "◆ "; }
+.uav-status-fail::before { content: "▲ "; }
+
+/* sensitivity */
+.uav-sens-hi { font-weight: 700; color: var(--ink); }
+.uav-sens-lo { color: var(--ink-3); }
+
+/* parameter reference */
+.uav-ref-table td.uav-ref-name { font-weight: 600; white-space: nowrap; }
+.uav-ref-table td.uav-ref-unit { font-family: var(--mono); color: var(--ink-3); white-space: nowrap; }
+.uav-ref-table td.uav-ref-group {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* ── readout tiles ───────────────────────────────────────────────────── */
+.tools-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+.tools-readout {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.tools-readout-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.tools-readout-value { font-family: var(--mono); font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
+.uav-unit { font-size: 0.72rem; font-weight: 400; color: var(--ink-3); }
+.tools-readout-sub { font-size: 0.7rem; color: var(--ink-2); }
+
+/* ── figures & svg theme ─────────────────────────────────────────────── */
+.uav-views-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+#uav-mc-scatters:empty { display: none; }
+.uav-fig {
+  margin: 0;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  min-width: 0;
+}
+.uav-fig svg { display: block; width: 100%; height: auto; }
+.uav-fig-caption {
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  padding: 7px 10px;
+  border-top: 1px solid var(--line);
+}
+.uav-chart-wrap { position: relative; }
+.uav-chart-tip {
+  display: none;
+  position: absolute;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+/* svg drawing */
+.uav-skin       { fill: none; stroke: var(--ink); stroke-width: 1.6; }
+.uav-surface    { fill: #232b36; stroke: #c6ccd6; stroke-width: 1.3; }
+.uav-boom       { stroke: var(--ink); stroke-width: 2.4; }
+.uav-hstab      { stroke: var(--ink); stroke-width: 3; }
+.uav-centerline { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 8 4 2 4; }
+.uav-macline    { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 5 3; }
+.uav-camberline { fill: none; stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 5 3; }
+.uav-foil       { fill: #232b36; stroke: var(--ink); stroke-width: 1.6; }
+.uav-propdisk   { fill: none; stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 4 4; }
+.uav-dim        { stroke: var(--ink-3); stroke-width: 1; }
+.uav-dim-label  { font-family: var(--mono); font-size: 11px; fill: var(--ink-3); }
+.uav-fig-label  { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+.uav-fig-label-accent { fill: var(--accent); }
+.uav-cg-ring    { fill: var(--bg); stroke: var(--ink); stroke-width: 1.4; }
+.uav-cg-fill    { fill: var(--ink); }
+.uav-np         { fill: var(--accent); }
+.uav-marker     { fill: var(--ink); }
+
+/* charts */
+.uav-grid         { stroke: #222937; stroke-width: 1; }
+.uav-axis         { stroke: var(--ink-3); stroke-width: 1.3; }
+.uav-tick         { font-family: var(--mono); font-size: 10px; fill: var(--ink-3); }
+.uav-axis-label   { font-family: var(--mono); font-size: 11px; fill: var(--ink-2); }
+.uav-series-req   { fill: none; stroke: var(--ink); stroke-width: 2; }
+.uav-series-avail { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 7 4; }
+.uav-series-label { font-family: var(--mono); font-size: 11px; fill: var(--ink); font-weight: 700; }
+.uav-series-label-accent { fill: var(--accent); }
+.uav-stall-line   { stroke: var(--warn); stroke-width: 1; stroke-dasharray: 2 3; }
+.uav-hover-target { fill: transparent; }
+.uav-crosshair    { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; pointer-events: none; }
+
+/* scatters */
+.uav-pt-feasible   { fill: var(--accent); }
+.uav-pt-infeasible { fill: #46505f; }
+.uav-pt-best       { fill: none; stroke: #ffffff; stroke-width: 2.5; }
+.uav-pt-best-halo  { fill: none; stroke: var(--bg); stroke-width: 7; }
+.uav-pt-best-core  { fill: #ffffff; }
+.uav-best-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  fill: #ffffff;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+/* ── design review (generated) ───────────────────────────────────────── */
+.uav-review {
+  margin-top: 16px;
+  background: var(--panel-2);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.uav-review-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #06212a;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #7c5cff));
+}
+.uav-review-config { font-family: var(--mono); font-size: 0.95rem; font-weight: 700; padding: 12px 16px 4px; }
+.uav-review-note { font-size: 0.72rem; color: var(--ink-3); padding: 0 16px 10px; border-bottom: 1px solid var(--line); }
+.uav-review-sub {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 14px 16px 6px;
+}
+.uav-review .tools-result-grid { padding: 0 16px; }
+.uav-review .uav-views-grid { padding: 0 16px 6px; margin-top: 4px; }
+.uav-review .table-scroll { padding: 0 16px; }
+.uav-review-total td { font-weight: 700; border-top: 1px solid var(--line-2); }
+.uav-review-actions { padding: 14px 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+.uav-review-actions .tools-button {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.uav-review-actions .tools-button:hover { border-color: var(--accent); }
+.uav-review-actions .tools-button.primary {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, white), var(--accent));
+  border-color: transparent;
+  color: #06212a;
+}
+.uav-review-footer { font-family: var(--mono); font-size: 0.66rem; color: var(--ink-3); padding: 8px 16px 12px; border-top: 1px solid var(--line); }
+.tools-controls-spacer { flex: 1; }
+
+/* mission narrative shares the pre-line behavior */
+.uav-mission-status { white-space: pre-line; }
+
+/* ── responsive: mobile becomes a tabbed app ─────────────────────────── */
+@media (min-width: 1100px) {
+  .xtabs { display: none; }
+  .xview { display: grid !important; }
+}
+@media (max-width: 1099px) {
+  .xmain { grid-template-columns: 1fr; padding: 12px; }
+  .xview { display: none; }
+  .xview.active { display: grid; }
+  .xsplit { grid-template-columns: 1fr; }
+  /* compact static bar (brand row + actions row); only the tabs stay sticky */
+  .xbar { position: static; flex-wrap: wrap; padding: 8px 12px; }
+  .xbar-actions {
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .xbar-actions::-webkit-scrollbar { display: none; }
+  .xname { width: 120px; flex: none; }
+  .xbar-actions .xbtn { flex: none; }
+  .xtabs { top: 0; }
+  .xcard { padding: 14px; border-radius: 10px; }
+  .tools-result-grid { grid-template-columns: repeat(2, 1fr); }
+  .tools-readout-value { font-size: 1.15rem; }
+  /* parameter reference reflows to stacked blocks, same as classic mobile */
+  .uav-ref-table thead { display: none; }
+  .uav-ref-table, .uav-ref-table tbody { display: block; width: 100%; }
+  .uav-ref-table tr { display: block; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .uav-ref-table td { display: inline; width: auto; padding: 0; border: none; white-space: normal; }
+  .uav-ref-table td.uav-ref-name { font-family: var(--mono); }
+  .uav-ref-table td.uav-ref-unit::before { content: "("; }
+  .uav-ref-table td.uav-ref-unit::after { content: ")"; }
+  .uav-ref-table td.uav-ref-group { display: block; margin-top: 2px; }
+  .uav-ref-table td.desc { display: block; margin-top: 4px; }
+}
+@media (max-width: 480px) {
+  .xbar-actions .xbtn { padding: 6px 9px; font-size: 0.74rem; }
+  .xfields, #uav-form .tools-form { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 3-D preview */
+.uav-fig-3d { margin-bottom: 12px; }
+.uav-fig-3d canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  touch-action: none;
+  cursor: grab;
+}
+.uav-fig-3d canvas:active { cursor: grabbing; }

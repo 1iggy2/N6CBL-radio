@@ -97,7 +97,7 @@
 
       <div class="section-label radio-meta">
         <span>/tools/uav/ &mdash; fixed-wing UAV design lab</span>
-        <span>parametric sizing / live 3-view / monte carlo</span>
+        <span>parametric sizing / live 3-view / monte carlo &middot; <a href="/tools/uav/x/">experimental UI &rarr;</a></span>
       </div>
 
       <section aria-labelledby="uav-file-heading">
@@ -245,6 +245,10 @@
             <div id="uav-airfoil-view"></div>
             <figcaption class="uav-fig-caption" id="uav-airfoil-caption">FIG 4 &mdash; wing section.</figcaption>
           </figure>
+          <figure class="uav-fig uav-fig-3d">
+            <canvas id="uav-3d-view"></canvas>
+            <figcaption class="uav-fig-caption">FIG 5 &mdash; 3-D preview, rebuilt live from the parameters: drag to orbit (auto-rotates until grabbed). Software-rendered on this page &mdash; no libraries, nothing loaded.</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -259,11 +263,11 @@
               <div id="uav-power-chart"></div>
               <div class="uav-chart-tip" id="uav-chart-tip"></div>
             </div>
-            <figcaption class="uav-fig-caption">FIG 5 &mdash; electrical power required vs airspeed (solid ink) against maximum electrical power (dashed accent). Vertical accent line marks stall.</figcaption>
+            <figcaption class="uav-fig-caption">FIG 6 &mdash; electrical power required vs airspeed (solid ink) against maximum electrical power (dashed accent). Vertical accent line marks stall.</figcaption>
           </figure>
           <figure class="uav-fig">
             <div id="uav-polar-chart"></div>
-            <figcaption class="uav-fig-caption">FIG 6 &mdash; drag polar CL vs CD with the cruise point and the best-glide (L/D max) point marked.</figcaption>
+            <figcaption class="uav-fig-caption">FIG 7 &mdash; drag polar CL vs CD with the cruise point and the best-glide (L/D max) point marked.</figcaption>
           </figure>
         </div>
       </section>

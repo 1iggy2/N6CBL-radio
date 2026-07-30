@@ -1044,6 +1044,278 @@
       (d.airfoil.indexOf('naca') === 0 ? '.' : ' — approximate for non-NACA sections; polar data from published low-Re tests.');
   }
 
+  /* ── 3-D preview ──────────────────────────────────────────────────────
+   * Tiny software renderer, no libraries: the parametric geometry is lofted
+   * into ~170 flat-shaded polygons, depth-sorted (painter's algorithm), and
+   * drawn to a canvas. Drag to orbit; auto-rotates until grabbed.
+   * Coordinates: x aft from the nose, y to starboard, z up (meters).
+   */
+  var view3D = { yaw: -0.6, pitch: -0.42, auto: true, mesh: null, canvas: null, ctx: null, ro: null };
+
+  var THEME3D = {
+    light: {
+      wing: [216, 216, 208], fus: [201, 201, 193], tail: [208, 208, 200],
+      edge: 'rgba(30,30,30,0.55)', prop: 'rgba(200,64,26,0.10)', propEdge: 'rgba(200,64,26,0.5)'
+    },
+    dark: {
+      wing: [96, 112, 134], fus: [76, 90, 110], tail: [110, 126, 148],
+      edge: 'rgba(231,234,240,0.4)', prop: 'rgba(53,201,234,0.10)', propEdge: 'rgba(53,201,234,0.55)'
+    }
+  };
+
+  function foilShapeFns(foil) {
+    var m = foil.camber / 100, p = Math.max(0.05, foil.camberPos / 100), tt = foil.thickness / 100;
+    return {
+      camber: function (f) {
+        if (m === 0) return 0;
+        return f < p ? m / (p * p) * (2 * p * f - f * f) : m / ((1 - p) * (1 - p)) * ((1 - 2 * p) + 2 * p * f - f * f);
+      },
+      thick: function (f) {
+        return 5 * tt * (0.2969 * Math.sqrt(f) - 0.1260 * f - 0.3516 * f * f + 0.2843 * f * f * f - 0.1015 * f * f * f * f);
+      }
+    };
+  }
+
+  function build3DMesh(d, r) {
+    var L = layout(d, r);
+    var faces = [];
+    var fusR = d.fusDiameter / 2;
+    var zWing = fusR * 0.85;
+    var shape = foilShapeFns(r.foil);
+    var tanDi = Math.tan(d.dihedral * Math.PI / 180);
+
+    function quad(a, b, c, e, part) { faces.push({ pts: [a, b, c, e], part: part }); }
+    function polyFace(pts, part) { faces.push({ pts: pts, part: part }); }
+
+    // wing: airfoil-sectioned strips, both halves
+    var chordFr = [0, 0.12, 0.35, 0.65, 1];
+    var nSpan = 6;
+    [1, -1].forEach(function (side) {
+      var secs = [];
+      for (var i = 0; i <= nSpan; i++) {
+        var t = i / nSpan;
+        var y = side * t * d.span / 2;
+        var chord = d.rootChord * (1 - (1 - d.taper) * t);
+        var xLE = L.wingRootLE + Math.abs(y) * L.sweepTan;
+        var z0 = zWing + Math.abs(y) * tanDi;
+        var up = [], lo = [];
+        chordFr.forEach(function (f) {
+          var xc = xLE + f * chord;
+          up.push([xc, y, z0 + (shape.camber(f) + shape.thick(f)) * chord]);
+          lo.push([xc, y, z0 + (shape.camber(f) - shape.thick(f)) * chord]);
+        });
+        secs.push({ up: up, lo: lo });
+      }
+      for (var s = 0; s < nSpan; s++) {
+        for (var j = 0; j < chordFr.length - 1; j++) {
+          quad(secs[s].up[j], secs[s].up[j + 1], secs[s + 1].up[j + 1], secs[s + 1].up[j], 'wing');
+          quad(secs[s].lo[j], secs[s + 1].lo[j], secs[s + 1].lo[j + 1], secs[s].lo[j + 1], 'wing');
+        }
+      }
+      var tip = secs[nSpan];
+      polyFace(tip.up.concat(tip.lo.slice().reverse()), 'wing');
+    });
+
+    // fuselage: lofted rings
+    var rProf = [0, 0.55, 0.85, 1, 0.95, 0.8, 0.5, 0.22];
+    var xProf = [0, 0.05, 0.15, 0.32, 0.52, 0.7, 0.86, 1];
+    var nSeg = 8;
+    var rings = xProf.map(function (fx, i) {
+      var ring = [];
+      for (var k = 0; k < nSeg; k++) {
+        var a = k / nSeg * 2 * Math.PI;
+        ring.push([fx * d.fusLength, Math.cos(a) * rProf[i] * fusR, Math.sin(a) * rProf[i] * fusR]);
+      }
+      return ring;
+    });
+    for (var ri = 0; ri < rings.length - 1; ri++) {
+      for (var k = 0; k < nSeg; k++) {
+        var k2 = (k + 1) % nSeg;
+        quad(rings[ri][k], rings[ri][k2], rings[ri + 1][k2], rings[ri + 1][k], 'fus');
+      }
+    }
+
+    // tail boom when the tail sits behind the fuselage (not flying wing)
+    var zTailBase = fusR * 0.35;
+    function plate(cornerFn, part) { polyFace(cornerFn, part); }
+    if (r.tail.type !== 'flyingwing') {
+      var boomEnd = L.xTailC4 + 0.75 * L.chRoot;
+      if (boomEnd > d.fusLength) {
+        var bw = Math.max(0.006, 0.008 * d.span);
+        quad([d.fusLength - 0.02, -bw, 0], [boomEnd, -bw, 0], [boomEnd, bw, 0], [d.fusLength - 0.02, bw, 0], 'fus');
+        quad([d.fusLength - 0.02, 0, -bw], [boomEnd, 0, -bw], [boomEnd, 0, bw], [d.fusLength - 0.02, 0, bw], 'fus');
+      }
+    }
+
+    // tail surfaces by configuration (thin plates, two-sided shading)
+    var thLE = L.xTailC4 - 0.25 * L.chRoot;
+    if (r.tail.type === 'flyingwing') {
+      // winglets at the swept tips
+      [1, -1].forEach(function (side) {
+        var yTip = side * d.span / 2;
+        var xTipLE = L.wingRootLE + (d.span / 2) * L.sweepTan;
+        var zTip = zWing + (d.span / 2) * tanDi;
+        plate([
+          [xTipLE, yTip, zTip],
+          [xTipLE + 0.45 * L.cvRoot, yTip, zTip + L.hv],
+          [xTipLE + 0.45 * L.cvRoot + L.cvTip, yTip, zTip + L.hv],
+          [xTipLE + L.cvRoot, yTip, zTip]
+        ], 'tail');
+      });
+    } else if (r.tail.type === 'vtail') {
+      [1, -1].forEach(function (side) {
+        var dy = side * Math.cos(L.gamma) * r.tail.span / 2;
+        var dz = Math.sin(L.gamma) * r.tail.span / 2;
+        plate([
+          [thLE, 0, zTailBase],
+          [thLE + (L.chRoot - L.chTip) / 2, dy, zTailBase + dz],
+          [thLE + (L.chRoot + L.chTip) / 2, dy, zTailBase + dz],
+          [thLE + L.chRoot, 0, zTailBase]
+        ], 'tail');
+      });
+    } else {
+      var finTopZ = zTailBase + L.hv;
+      var finLE = L.xTailC4 - 0.25 * L.cvRoot;
+      plate([
+        [finLE - 0.35 * L.cvRoot, 0, zTailBase],
+        [finLE + 0.45 * L.cvRoot, 0, finTopZ],
+        [finLE + 0.45 * L.cvRoot + L.cvTip, 0, finTopZ],
+        [finLE + 1.05 * L.cvRoot, 0, zTailBase]
+      ], 'tail');
+      var hz = r.tail.type === 'ttail' ? finTopZ : zTailBase;
+      [1, -1].forEach(function (side) {
+        var yT = side * L.bhDraw / 2;
+        plate([
+          [thLE, 0, hz],
+          [thLE + (L.chRoot - L.chTip) / 2, yT, hz],
+          [thLE + (L.chRoot + L.chTip) / 2, yT, hz],
+          [thLE + L.chRoot, 0, hz]
+        ], 'tail');
+      });
+    }
+
+    // prop disk at the nose
+    var propR = d.propDiameter * 0.0254 / 2;
+    var disk = [];
+    for (var pa = 0; pa < 20; pa++) {
+      var ang = pa / 20 * 2 * Math.PI;
+      disk.push([-0.01, Math.cos(ang) * propR, Math.sin(ang) * propR]);
+    }
+    polyFace(disk, 'prop');
+
+    // fit data
+    var half = d.span / 2;
+    var height = Math.max(propR, fusR + half * Math.abs(tanDi) + 0.1 * d.span);
+    return { faces: faces, span: d.span, length: r.totalLength, height: height,
+             cx: r.totalLength / 2, theme: document.body.dataset.uavTheme === 'dark' ? 'dark' : 'light' };
+  }
+
+  function render3D() {
+    var v = view3D;
+    if (!v.canvas || !v.mesh) return;
+    var cw = v.canvas.clientWidth || 640;
+    var ch = Math.round(cw * 0.62);
+    var dpr = window.devicePixelRatio || 1;
+    if (v.canvas.width !== cw * dpr || v.canvas.height !== ch * dpr) {
+      v.canvas.width = cw * dpr;
+      v.canvas.height = ch * dpr;
+    }
+    var ctx = v.ctx;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cw, ch);
+
+    var m = v.mesh;
+    var cosY = Math.cos(v.yaw), sinY = Math.sin(v.yaw);
+    var cosP = Math.cos(v.pitch), sinP = Math.sin(v.pitch);
+    var maxDim = Math.max(m.span, m.length, m.height * 2) || 1;
+    var scale = 0.82 * Math.min(cw, ch * 1.6) / maxDim;
+    var ox = cw / 2, oy = ch / 2;
+
+    function proj(p) {
+      var x = p[0] - m.cx, y = p[1], z = p[2];
+      var x1 = x * cosY - y * sinY;
+      var y1 = x * sinY + y * cosY;
+      var y2 = y1;
+      var z2 = z * cosP - x1 * sinP;
+      var depth = x1 * cosP + z * sinP;
+      return [ox + y2 * scale, oy - z2 * scale, depth];
+    }
+
+    var theme = THEME3D[m.theme] || THEME3D.light;
+    var light = [0.35, -0.5, 0.79]; // camera-space light
+    var drawn = [];
+    m.faces.forEach(function (f) {
+      var pts = f.pts.map(proj);
+      var depth = 0;
+      pts.forEach(function (p) { depth += p[2]; });
+      // face normal in projected space for shading (two-sided)
+      var ax = pts[1][0] - pts[0][0], ay = pts[1][1] - pts[0][1], az = pts[1][2] - pts[0][2];
+      var bx = pts[2][0] - pts[0][0], by = pts[2][1] - pts[0][1], bz = pts[2][2] - pts[0][2];
+      var nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+      var nl = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+      var shade = 0.55 + 0.45 * Math.abs((nx * light[0] + ny * light[1] + nz * light[2]) / nl);
+      drawn.push({ pts: pts, depth: depth / pts.length, part: f.part, shade: shade });
+    });
+    drawn.sort(function (a, b) { return a.depth - b.depth; });
+
+    drawn.forEach(function (f) {
+      ctx.beginPath();
+      f.pts.forEach(function (p, i) { i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); });
+      ctx.closePath();
+      if (f.part === 'prop') {
+        ctx.fillStyle = theme.prop;
+        ctx.strokeStyle = theme.propEdge;
+        ctx.setLineDash([4, 4]);
+        ctx.fill();
+        ctx.stroke();
+        ctx.setLineDash([]);
+        return;
+      }
+      var c = theme[f.part] || theme.fus;
+      ctx.fillStyle = 'rgb(' + Math.round(c[0] * f.shade) + ',' + Math.round(c[1] * f.shade) + ',' + Math.round(c[2] * f.shade) + ')';
+      ctx.strokeStyle = theme.edge;
+      ctx.lineWidth = 0.6;
+      ctx.fill();
+      ctx.stroke();
+    });
+  }
+
+  function setup3D() {
+    var canvas = document.getElementById('uav-3d-view');
+    if (!canvas) return;
+    view3D.canvas = canvas;
+    view3D.ctx = canvas.getContext('2d');
+
+    var dragging = false, lastX = 0, lastY = 0;
+    canvas.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      view3D.auto = false;
+      lastX = e.clientX; lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      view3D.yaw += (e.clientX - lastX) * 0.008;
+      view3D.pitch = Math.max(-1.35, Math.min(1.35, view3D.pitch - (e.clientY - lastY) * 0.008));
+      lastX = e.clientX; lastY = e.clientY;
+      render3D();
+    });
+    canvas.addEventListener('pointerup', function () { dragging = false; });
+    canvas.addEventListener('pointercancel', function () { dragging = false; });
+
+    if ('ResizeObserver' in window) {
+      view3D.ro = new ResizeObserver(function () { render3D(); });
+      view3D.ro.observe(canvas);
+    }
+    (function tick() {
+      if (view3D.auto && !document.hidden && canvas.clientWidth) {
+        view3D.yaw += 0.004;
+        render3D();
+      }
+      requestAnimationFrame(tick);
+    }());
+  }
+
   /* ── chart scaffolding ───────────────────────────────────────────────── */
   function niceTicks(min, max, n) {
     var span = max - min;
@@ -1897,7 +2169,7 @@
       s += bestMark(getX, getY, fr);
       s += '</svg>';
       html += '<figure class="uav-fig"><div>' + s + '</div>' +
-        '<figcaption class="uav-fig-caption">FIG 7.' + figN + ' &mdash; ' + caption + '</figcaption></figure>';
+        '<figcaption class="uav-fig-caption">FIG 8.' + figN + ' &mdash; ' + caption + '</figcaption></figure>';
     }
 
     // knee curves: every objective pair, raw units — the feasible frontier is
@@ -2206,6 +2478,8 @@
     renderSideView(design, derived);
     renderFrontView(design, derived);
     renderAirfoil(design, derived);
+    view3D.mesh = build3DMesh(design, derived);
+    render3D();
     renderPowerChart(design, derived);
     renderPolarChart(design, derived);
     renderSensitivity(derived);
@@ -2220,6 +2494,7 @@
     buildPresetTables();
     buildMcVaryTable();
     renderParamReference();
+    setup3D();
     // default objective: maximize endurance, weight 1
     addObjectiveRow('endurance', 'max', 1);
     // prepopulated constraint set: airworthiness rows carry working bounds;
