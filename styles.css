@@ -2498,3 +2498,53 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
 }
 
 .uav-hstab { stroke: var(--black); stroke-width: 3; stroke-linecap: butt; }
+
+/* uav: monte carlo design review slide */
+.uav-review {
+  border: 2px solid var(--rule);
+  margin: 12px 10px;
+  background: var(--white);
+}
+.uav-review-header {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.uav-review-config {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: bold;
+  padding: 10px 12px 4px;
+}
+.uav-review-note {
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding: 0 12px 8px;
+  border-bottom: 1px solid var(--rule-2);
+}
+.uav-review-sub {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 12px 4px;
+}
+.uav-review .uav-views-grid { padding: 6px 12px 10px; }
+.uav-review .tools-result-grid { border-top: 1px solid var(--rule-2); }
+.uav-review-table { margin: 0 0 4px; }
+.uav-review-total td { font-weight: bold; border-top: 2px solid var(--rule); }
+.uav-review-actions { padding: 10px 12px; }
+.uav-review-footer {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  padding: 6px 12px 10px;
+  border-top: 1px solid var(--rule-2);
+}

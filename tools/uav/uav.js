@@ -629,7 +629,7 @@
     document.getElementById('uav-readouts').innerHTML = html;
   }
 
-  function renderChecks(d, r) {
+  function checksRowsHtml(d, r) {
     var rows = designChecks(d, r);
     var html = '';
     var words = { ok: 'OK', warn: 'WARN', fail: 'FAIL' };
@@ -638,7 +638,11 @@
         '<td class="desc">' + c.limit + '</td>' +
         '<td class="uav-status uav-status-' + c.status + '">' + words[c.status] + '</td></tr>';
     });
-    document.getElementById('uav-checks-body').innerHTML = html;
+    return html;
+  }
+
+  function renderChecks(d, r) {
+    document.getElementById('uav-checks-body').innerHTML = checksRowsHtml(d, r);
   }
 
   /* ── SVG helpers ─────────────────────────────────────────────────────── */
@@ -708,7 +712,7 @@
   }
 
   /* ── top view ────────────────────────────────────────────────────────── */
-  function renderTopView(d, r) {
+  function renderTopView(d, r, targetId) {
     var L = layout(d, r);
     var W = 640, H = 420, pad = 48;
     var scale = Math.min((W - 2 * pad) / d.span, (H - 2 * pad - 20) / L.totalLength);
@@ -770,11 +774,11 @@
     s += line(dx - 4, Y(d.fusLength), dx + 4, Y(d.fusLength), 'uav-dim');
     s += '<text x="' + f2(dx + 4) + '" y="' + f2(Y(d.fusLength / 2)) + '" class="uav-dim-label" transform="rotate(90 ' + f2(dx + 4) + ' ' + f2(Y(d.fusLength / 2)) + ')" text-anchor="middle">fus ' + fmt(d.fusLength, 2) + ' m</text>';
     s += '</svg>';
-    document.getElementById('uav-top-view').innerHTML = s;
+    document.getElementById(targetId || 'uav-top-view').innerHTML = s;
   }
 
   /* ── side view ───────────────────────────────────────────────────────── */
-  function renderSideView(d, r) {
+  function renderSideView(d, r, targetId) {
     var L = layout(d, r);
     var W = 640, H = 220, pad = 40;
     var finTop = d.fusDiameter + L.hv;
@@ -836,7 +840,7 @@
     // tail arm dimension
     s += dimH(X(L.xC4Mac), X(L.xTailC4), H - 14, 'tail arm ' + fmt(d.tailArm, 2) + ' m');
     s += '</svg>';
-    document.getElementById('uav-side-view').innerHTML = s;
+    document.getElementById(targetId || 'uav-side-view').innerHTML = s;
   }
 
   /* ── front view ──────────────────────────────────────────────────────── */
@@ -1133,26 +1137,35 @@
   }
 
   /* ── design file save / load ─────────────────────────────────────────── */
-  function designFile() {
+  function designFileFrom(source, name) {
     var params = {};
-    PARAMS.forEach(function (p) { params[p.key] = design[p.key]; });
+    PARAMS.forEach(function (p) { params[p.key] = source[p.key]; });
     return {
       schema: SCHEMA,
-      name: document.getElementById('uav-design-name').value.trim() || 'unnamed-uav',
+      name: name || document.getElementById('uav-design-name').value.trim() || 'unnamed-uav',
       saved: new Date().toISOString(),
       params: params
     };
   }
 
-  function saveDesign() {
-    var file = designFile();
+  function designFile() {
+    return designFileFrom(design);
+  }
+
+  function downloadDesignFile(file) {
     var blob = new Blob([JSON.stringify(file, null, 2) + '\n'], { type: 'application/json' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = file.name.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase() + '.uav.json';
     a.click();
     URL.revokeObjectURL(a.href);
-    setFileStatus('Saved ' + a.download + ' — ' + file.saved);
+    return a.download;
+  }
+
+  function saveDesign() {
+    var file = designFile();
+    var saved = downloadDesignFile(file);
+    setFileStatus('Saved ' + saved + ' — ' + file.saved);
   }
 
   // apply a parsed design file to the working design; shared by file load
@@ -1358,9 +1371,12 @@
       var sample = {};
       PARAMS.forEach(function (p) { sample[p.key] = design[p.key]; });
       cfg.varied.forEach(function (vp) {
+        var pd = paramByKey[vp.key];
         var v = vp.min + Math.random() * (vp.max - vp.min);
-        if (paramByKey[vp.key].step >= 1) v = Math.round(v);
-        sample[vp.key] = v;
+        // snap to the parameter's step so sampled, displayed, applied, and
+        // saved values are the same number
+        v = +(Math.round(v / pd.step) * pd.step).toFixed(6);
+        sample[vp.key] = Math.min(pd.max, Math.max(pd.min, v));
       });
       var r = derive(sample);
       var ok = cfg.constraints.every(function (c) {
@@ -1395,19 +1411,133 @@
       (res.best ? ' · best ' + labelFor(cfg.objectiveKey) + ' = ' + fmtMetric(cfg.objectiveKey, res.best.obj) :
         ' · no feasible sample — relax constraints or widen ranges');
     renderMcScatter();
+    renderDesignReview(res);
+  }
+
+  /* ── design review slide for the best feasible sample ────────────────── */
+  function reviewTile(label, value, unit, sub) {
+    return '<div class="tools-readout">' +
+      '<span class="tools-readout-label">' + esc(label) + '</span>' +
+      '<span class="tools-readout-value mono">' + value +
+      (unit ? '<span class="uav-unit"> ' + esc(unit) + '</span>' : '') + '</span>' +
+      '<span class="tools-readout-sub">' + sub + '</span></div>';
+  }
+
+  function renderDesignReview(res) {
     var bestHost = document.getElementById('uav-mc-best');
     if (!res.best) { bestHost.innerHTML = ''; return; }
-    var html = '<table class="tools-ref-table uav-mc-best-table"><thead><tr>' +
-      '<th>Varied parameter</th><th class="num">Best sample</th><th class="num">Current design</th></tr></thead><tbody>';
-    cfg.varied.forEach(function (vp) {
-      var p = paramByKey[vp.key];
-      html += '<tr><td>' + esc(p.label) + ' (' + esc(p.unit) + ')</td>' +
-        '<td class="num">' + fmt(res.best.params[vp.key], decimalsOf(p.step)) + '</td>' +
-        '<td class="num">' + fmt(design[vp.key], decimalsOf(p.step)) + '</td></tr>';
+    var cfg = res.cfg;
+    var p = res.best.params;
+    var r = res.best.derived;
+    var baseName = document.getElementById('uav-design-name').value.trim() || 'unnamed-uav';
+    var reviewName = baseName + '-mc-best';
+
+    // headline + configuration spec line
+    var objLabel = labelFor(cfg.objectiveKey);
+    var objUnit = metricByKey[cfg.objectiveKey] ? metricByKey[cfg.objectiveKey].unit :
+      (paramByKey[cfg.objectiveKey] ? paramByKey[cfg.objectiveKey].unit : '');
+    var html = '<div class="uav-review">';
+    html += '<div class="uav-review-header"><span>DESIGN REVIEW &mdash; ' + esc(reviewName) + '</span>' +
+      '<span>' + (cfg.objectiveDir === 'max' ? 'maximized' : 'minimized') + ' ' + esc(objLabel) + ' = ' +
+      fmtMetric(cfg.objectiveKey, res.best.obj) + (objUnit && objUnit !== '-' ? ' ' + esc(objUnit) : '') + '</span></div>';
+    html += '<div class="uav-review-config">' +
+      fmt(p.span, 2) + ' m span &middot; ' + esc(TAIL_TYPES[p.tailType].label.toLowerCase()) + ' tail &middot; ' +
+      esc(r.foil.label) + ' wing &middot; ' + fmtInt(r.massTotal) + ' g AUW (' + fmtInt(p.payload) + ' g payload) &middot; ' +
+      p.battCells + 'S ' + fmtInt(p.battCapacity) + ' mAh &middot; ' + fmtInt(p.maxPower) + ' W &middot; ' +
+      fmt(p.propDiameter, 0) + ' in prop &middot; cruise ' + fmt(p.cruiseSpeed, 1) + ' m/s</div>';
+    html += '<div class="uav-review-note">Best feasible sample of ' + res.feasible + ' feasible / ' +
+      res.points.length + ' evaluated. All figures recomputed from the sampled parameters with the model on this page.</div>';
+
+    // key figures
+    html += '<div class="uav-review-sub">Key figures</div>';
+    html += '<div class="tools-result-grid cols-3">';
+    html += reviewTile('All-up mass', fmtInt(r.massTotal), 'g', 'battery ' + fmtInt(r.battMass) + ' g · ' + fmt(r.battWh, 1) + ' Wh');
+    html += reviewTile('Wing loading', fmt(r.wingLoading, 1), 'g/dm²', fmt(r.massTotal / 1000 / r.S, 2) + ' kg/m² · area ' + fmt(r.area, 1) + ' dm²');
+    html += reviewTile('Geometry', fmt(p.span, 2), 'm span', 'AR ' + fmt(r.aspectRatio, 2) + ' · length ' + fmt(r.totalLength, 2) + ' m');
+    html += reviewTile('Stall speed', fmt(r.vstall, 1), 'm/s', 'cruise/stall ' + fmt(r.stallMargin, 2) + ' · CL max ' + fmt(r.clMax3D, 2));
+    html += reviewTile('L/D', fmt(r.ldCruise, 1), 'cruise', 'max ' + fmt(r.ldMax, 1) + ' at ' + fmt(r.vLdMax, 1) + ' m/s');
+    html += reviewTile('Cruise power', fmt(r.cruisePowerE, 1), 'W', fmt(r.throttle, 0) + ' % throttle · ' + fmt(r.current, 1) + ' A · ' + fmt(r.cRate, 1) + ' C');
+    html += reviewTile('Endurance', fmtInt(r.endurance), 'min', 'range ' + fmt(r.range, 1) + ' km still air');
+    html += reviewTile('Climb', fmt(r.roc, 1), 'm/s', 'T/W ' + fmt(r.thrustWeight, 2) + ' · static thrust ' + fmtInt(r.staticThrust) + ' g');
+    html += reviewTile('Static margin', fmt(r.staticMargin, 1), '% MAC', 'NP ' + fmt(r.npMac, 1) + ' % · CG ' + fmt(p.cgMac, 1) + ' %');
+    html += '</div>';
+
+    // suggested airframe views (filled in after insertion)
+    html += '<div class="uav-review-sub">Suggested airframe</div>';
+    html += '<div class="uav-views-grid uav-review-views">' +
+      '<figure class="uav-fig"><div id="uav-review-top"></div><figcaption class="uav-fig-caption">top view &mdash; best sample, to scale</figcaption></figure>' +
+      '<figure class="uav-fig"><div id="uav-review-side"></div><figcaption class="uav-fig-caption">side view &mdash; CG vs neutral point</figcaption></figure></div>';
+
+    // mass budget
+    var budget = [
+      ['Structure', p.structure], ['Payload', p.payload], ['Avionics + servos', p.avionics],
+      ['Propulsion group', p.propMass], ['Battery pack', r.battMass]
+    ];
+    html += '<div class="uav-review-sub">Mass budget</div>';
+    html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+      '<th>Item</th><th class="num">Mass (g)</th><th class="num">Share of AUW</th></tr></thead><tbody>';
+    budget.forEach(function (row) {
+      html += '<tr><td>' + row[0] + '</td><td class="num">' + fmtInt(row[1]) + '</td>' +
+        '<td class="num">' + fmt(100 * row[1] / r.massTotal, 1) + ' %</td></tr>';
     });
-    html += '</tbody></table>' +
-      '<div class="tools-controls"><button type="button" class="tools-button primary" id="uav-mc-apply">Apply best sample to design</button></div>';
+    html += '<tr class="uav-review-total"><td>All-up mass</td><td class="num">' + fmtInt(r.massTotal) + '</td><td class="num">100.0 %</td></tr>';
+    html += '</tbody></table></div>';
+
+    // design checks on the best sample
+    html += '<div class="uav-review-sub">Design checks (best sample)</div>';
+    html += '<div class="table-scroll"><table class="tools-ref-table uav-check-table"><thead><tr>' +
+      '<th>Check</th><th class="num">Value</th><th>Guideline</th><th>Status</th></tr></thead><tbody>' +
+      checksRowsHtml(p, r) + '</tbody></table></div>';
+
+    // constraint verification with margins
+    if (cfg.constraints.length) {
+      html += '<div class="uav-review-sub">Constraint verification</div>';
+      html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+        '<th>Constraint</th><th class="num">Bound</th><th class="num">Best sample</th><th class="num">Margin</th></tr></thead><tbody>';
+      cfg.constraints.forEach(function (c) {
+        var v = valueOf(p, r, c.key);
+        var bounds = [];
+        if (isFinite(c.min)) bounds.push('&ge; ' + fmtMetric(c.key, c.min));
+        if (isFinite(c.max)) bounds.push('&le; ' + fmtMetric(c.key, c.max));
+        var margin = Math.min(
+          isFinite(c.min) ? v - c.min : Infinity,
+          isFinite(c.max) ? c.max - v : Infinity);
+        html += '<tr><td>' + esc(labelFor(c.key)) + '</td>' +
+          '<td class="num">' + bounds.join(' &middot; ') + '</td>' +
+          '<td class="num">' + fmtMetric(c.key, v) + '</td>' +
+          '<td class="num">' + (margin === Infinity ? DASH : fmtMetric(c.key, margin)) + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+    }
+
+    // varied parameters vs current working design
+    html += '<div class="uav-review-sub">Suggested parameter changes</div>';
+    html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+      '<th>Varied parameter</th><th class="num">Current</th><th class="num">Suggested</th><th class="num">&Delta;</th></tr></thead><tbody>';
+    cfg.varied.forEach(function (vp) {
+      var pd = paramByKey[vp.key];
+      var cur = design[vp.key], sug = p[vp.key];
+      var delta = cur !== 0 ? 100 * (sug - cur) / Math.abs(cur) : NaN;
+      html += '<tr><td>' + esc(pd.label) + ' (' + esc(pd.unit) + ')</td>' +
+        '<td class="num">' + fmt(cur, decimalsOf(pd.step)) + '</td>' +
+        '<td class="num">' + fmt(sug, decimalsOf(pd.step)) + '</td>' +
+        '<td class="num">' + (isFinite(delta) ? (delta >= 0 ? '+' : '') + fmt(delta, 1) + ' %' : DASH) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+
+    // actions + provenance footer
+    html += '<div class="tools-controls uav-review-actions">' +
+      '<button type="button" class="tools-button primary" id="uav-mc-apply">Apply to working design</button>' +
+      '<button type="button" class="tools-button" id="uav-mc-save-best">Save reviewed design &darr;</button>' +
+      '<span class="tools-controls-spacer"></span></div>';
+    html += '<div class="uav-review-footer">Generated ' + new Date().toISOString() +
+      ' &middot; schema ' + SCHEMA + ' &middot; conceptual-design fidelity &mdash; see model notes below.</div>';
+    html += '</div>';
+
     bestHost.innerHTML = html;
+    renderTopView(p, r, 'uav-review-top');
+    renderSideView(p, r, 'uav-review-side');
+
     document.getElementById('uav-mc-apply').addEventListener('click', function () {
       cfg.varied.forEach(function (vp) {
         design[vp.key] = res.best.params[vp.key];
@@ -1417,6 +1547,10 @@
       syncForm();
       recompute();
       setFileStatus('Applied Monte Carlo best sample to the working design.');
+    });
+    document.getElementById('uav-mc-save-best').addEventListener('click', function () {
+      var saved = downloadDesignFile(designFileFrom(res.best.params, reviewName));
+      setFileStatus('Saved reviewed design ' + saved + ' (working design unchanged).');
     });
   }
 
