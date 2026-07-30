@@ -233,6 +233,10 @@
         </div>
 
         <div class="uav-mc-sub">1 &mdash; parameters to vary (unchecked parameters stay at their current value)</div>
+        <div class="tools-controls">
+          <button type="button" class="tools-button" id="uav-mc-vary-all">Vary all</button>
+          <button type="button" class="tools-button" id="uav-mc-vary-none">Vary none</button>
+        </div>
         <div class="table-scroll">
           <table class="tools-ref-table uav-mc-table">
             <thead>
@@ -247,6 +251,8 @@
             <tbody id="uav-mc-vary-body"></tbody>
           </table>
         </div>
+
+        <div class="uav-file-status">Design parameters default to varied (&plusmn;30 % around the current value) &mdash; uncheck the ones you want to cage. Component-quality and environment inputs (structure/avionics/propulsion mass, efficiencies, Oswald e, pack density, usable fraction, altitude) default off: the optimizer would simply run them to their favorable end, which is optimism, not design insight. Vary them deliberately if that is the question you are asking.</div>
 
         <div class="uav-mc-sub">2 &mdash; constraints (a sample is feasible when every constraint holds)</div>
         <div class="table-scroll">
@@ -267,32 +273,38 @@
         </div>
         <div class="uav-file-status">The table starts with the usual suspects: stability and thrust rows carry working bounds; the logistics and mission rows (all-up mass, payload, span, total length, stall speed, endurance) are blank templates &mdash; a row with both bounds empty is ignored, so fill in only what the mission actually demands. Handy anchor numbers: 250 g (FAA registration threshold), 25 kg / 55 lb (Part 107 ceiling), the cargo width of your vehicle for span, the workshop door for total length, and a full-flaps jog (&asymp; 6 m/s) for a hand-catch stall speed.</div>
 
-        <div class="uav-mc-sub">3 &mdash; objective and run</div>
+        <div class="uav-mc-sub">3 &mdash; objectives and run</div>
+        <div class="table-scroll">
+          <table class="tools-ref-table uav-mc-table">
+            <thead>
+              <tr>
+                <th>Objective</th>
+                <th>Direction</th>
+                <th>Weight</th>
+                <th class="uav-mc-check">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody id="uav-mc-objectives-body"></tbody>
+          </table>
+        </div>
+        <div class="tools-controls">
+          <button type="button" class="tools-button" id="uav-mc-add-objective">Add objective +</button>
+        </div>
+        <div class="uav-file-status">With several objectives, each is min&ndash;max normalized over the feasible samples (flipped for minimize), then combined as a weighted average into a 0&ndash;1 score; the best design maximizes that score. Weights set where on the trade curve you land &mdash; e.g. endurance and payload both maximized at equal weight picks the knee, weight one of them heavier to slide along the curve. Knee-curve plots for every objective pair are generated automatically below.</div>
         <div class="tools-form">
-          <label>
-            <span>Objective quantity</span>
-            <select id="uav-mc-objective"></select>
-          </label>
-          <label>
-            <span>Direction</span>
-            <select id="uav-mc-direction">
-              <option value="max">maximize</option>
-              <option value="min">minimize</option>
-            </select>
-          </label>
-          <label>
+          <label class="tools-half">
             <span>Samples (50&ndash;100 000)</span>
             <input type="number" id="uav-mc-samples" value="3000" min="50" max="100000" step="50" autocomplete="off" inputmode="numeric">
           </label>
-          <div class="tools-field">
+          <div class="tools-field tools-half">
             <span>Run</span>
             <button type="button" class="tools-button primary" id="uav-mc-run">Run search &rarr;</button>
           </div>
         </div>
         <div class="uav-file-status" id="uav-mc-status">No search run yet. Check parameters to vary, set constraints, pick an objective, run.</div>
 
-        <div class="uav-mc-sub">4 &mdash; sampled design space, one plot per varied parameter</div>
-        <div class="uav-file-status">After a run, every varied parameter gets its own scatter automatically: the objective on the X axis, that parameter on the Y axis over its sampled range. Accent dots satisfy all constraints, gray dots violate at least one, the ringed dot is the best feasible sample. Plots share one objective axis so columns line up across figures.</div>
+        <div class="uav-mc-sub">4 &mdash; sampled design space</div>
+        <div class="uav-file-status">After a run, plots generate automatically: with several objectives, a knee-curve scatter for each objective pair comes first (raw units &mdash; the feasible cloud is the attainable trade), then every varied parameter gets its own scatter against the objective (single) or the weighted score (multiple). Accent dots satisfy all constraints, gray dots violate at least one, the ringed dot is the chosen best.</div>
         <div class="uav-views-grid" id="uav-mc-scatters"></div>
         <div id="uav-mc-best"></div>
       </section>
