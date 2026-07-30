@@ -103,7 +103,7 @@
       <section aria-labelledby="uav-file-heading">
         <div class="section-label split">
           <span id="uav-file-heading">Design file</span>
-          <span class="log-count">schema n6cbl.uav-design/1 &middot; JSON &middot; parameters only, nothing uploaded</span>
+          <span class="log-count">schema n6cbl.uav-design/1 &middot; JSON &middot; autosaves locally &middot; nothing uploaded</span>
         </div>
         <div class="tools-form">
           <label class="tools-half">
@@ -119,7 +119,7 @@
             </div>
           </div>
         </div>
-        <div class="uav-file-status" id="uav-file-status">Working design lives in this page only &mdash; save a .uav.json file to keep it, load one to resume.</div>
+        <div class="uav-file-status" id="uav-file-status">Once you edit anything, the working design autosaves to this browser's local storage on every change &mdash; refresh-safe, stored on your device only, never transmitted. Save a .uav.json file to back up or move a design between machines; Reset defaults discards the autosaved copy.</div>
       </section>
 
       <section aria-labelledby="uav-presets-heading">
@@ -330,7 +330,7 @@
       <section aria-labelledby="uav-model-heading">
         <div class="section-label" id="uav-model-heading">Model notes &mdash; assumptions and formulas</div>
         <div class="tools-note">
-          <strong>Scope.</strong> Conceptual-design sizing for conventional-layout electric fixed-wing aircraft in the 0.3&ndash;20 kg class. Estimates are for comparing configurations, not certifying one &mdash; expect &plusmn;15&ndash;25 % against a built airframe.
+          <strong>Scope.</strong> Conceptual-design sizing for conventional-layout electric fixed-wing aircraft, from 300 g park flyers to the &asymp;100 kg class. Estimates are for comparing configurations, not certifying one &mdash; expect &plusmn;15&ndash;25 % against a built airframe. Note for heavy designs: the airfoil polar summaries are low-Reynolds measurements, so at the multi-million Reynolds numbers of large airframes the drag figures run conservative (real sections do somewhat better), and regulatory/structural questions this tool does not touch start to dominate the design.
           <strong>Planform.</strong> Trapezoidal wing: S = b&middot;c&#8345;(1+&lambda;)/2, AR = b&sup2;/S, MAC = &#8532;&middot;c&#8345;&middot;(1+&lambda;+&lambda;&sup2;)/(1+&lambda;). Tail surfaces are sized from the chosen volume coefficients: S&#8346; = V&#8346;&middot;S&middot;MAC/l&#8348;, S&#8347; = V&#8347;&middot;S&middot;b/l&#8348;.
           <strong>Lift.</strong> 3-D lift-curve slope a = a&#8320;/(1 + a&#8320;/(&pi;eAR)); CL&#8202;max is the 2-D section value knocked down 10 % for the finite wing. Stall speed from V&#8347; = &radic;(2W/(&rho;SCL&#8202;max)).
           <strong>Drag.</strong> Parasite buildup referenced to wing area: section cd&#8320; + fuselage (0.006&middot;S&#8348;&#8338;&#8348;/S with S&#8348;&#8338;&#8348; &asymp; 0.8&middot;&pi;DL) + tails (0.008&middot;(S&#8346;+S&#8347;)/S), all &times;1.15 for interference; induced drag CL&sup2;/(&pi;eAR). L/D&#8202;max = 1/(2&radic;(kCD&#8320;)).
