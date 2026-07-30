@@ -120,7 +120,8 @@ over the same engine as `/tools/uav/`. It loads the shared `/tools/uav/uav.js`
 unchanged and provides the same element IDs in a different shell, so the two
 pages stay functionally identical by construction. Do not "fix" its styling to
 match the site doctrine, and do not let its aesthetic leak into the rest of the
-site. It is linked from the classic UAV page, not the navigator.
+site. It appears in the navigator as `↳ uav/x/` and is also linked from the
+classic UAV page.
 
 ### Anti-patterns (never do these)
 
