@@ -222,6 +222,7 @@
     { key: 'mac',          label: 'Mean aero chord',      unit: 'm',      dec: 3 },
     { key: 'areaH',        label: 'H-tail area (proj.)',  unit: 'dm²', dec: 1 },
     { key: 'areaV',        label: 'Fin area (proj.)',     unit: 'dm²', dec: 1 },
+    { key: 'totalLength',  label: 'Total length (nose→tail)', unit: 'm', dec: 2 },
     { key: 'wingLoading',  label: 'Wing loading',         unit: 'g/dm²', dec: 1 },
     { key: 'vstall',       label: 'Stall speed',          unit: 'm/s',    dec: 1 },
     { key: 'stallMargin',  label: 'Cruise / stall ratio', unit: '-',      dec: 2 },
@@ -284,6 +285,13 @@
       tail.heightV = Math.sqrt(d.arV * svEff);
       tail.rootChordV = 2 * svEff / (tail.heightV * (1 + d.tailTaper));
     }
+
+    // overall length, nose to aft-most tail edge (same placement the drawings use)
+    var wingRootLEx = 0.30 * d.fusLength;
+    var macLEx = wingRootLEx + yMac * Math.tan(d.sweepLE * Math.PI / 180);
+    var xTailC4 = macLEx + 0.25 * mac + d.tailArm;
+    var aftChord = d.tailType === 'vtail' ? tail.rootChord : Math.max(tail.rootChordH, tail.rootChordV);
+    var totalLength = Math.max(d.fusLength, xTailC4 + 0.75 * aftChord);
 
     // mass budget
     var battWh = (d.battCapacity / 1000) * d.battCells * CELL_V;
@@ -361,6 +369,7 @@
       mac: mac,
       areaH: shEff * 100,
       areaV: svEff * 100,
+      totalLength: totalLength,
       wingLoading: massKg * 1000 / (S * 100),
       vstall: vstall,
       stallMargin: v / vstall,
@@ -595,6 +604,7 @@
         return r.tail.type === 'vtail'
           ? 'projected from the V panels'
           : 'height ' + fmt(r.tail.heightV, 2) + ' m · root ' + fmt(r.tail.rootChordV * 1000, 0) + ' mm'; } },
+    { key: 'totalLength',  sub: function (r) { return 'fuselage ' + fmt(design.fusLength, 2) + ' m · overhang ' + fmt(Math.max(0, r.totalLength - design.fusLength), 2) + ' m'; } },
     { key: 'vstall',       sub: function (r) { return fmt(r.vstall * 3.6, 1) + ' km/h at CL ' + fmt(r.clMax3D, 2); } },
     { key: 'ldCruise',     sub: function (r) { return 'L/D max ' + fmt(r.ldMax, 1) + ' at ' + fmt(r.vLdMax, 1) + ' m/s'; } },
     { key: 'cruisePowerE', sub: function (r) { return fmt(r.throttle, 0) + ' % throttle · ' + fmt(r.current, 1) + ' A · ' + fmt(r.cRate, 1) + ' C'; } },
@@ -1484,8 +1494,17 @@
     document.getElementById('uav-mc-objective').innerHTML = optionHtml('endurance');
     document.getElementById('uav-mc-x').innerHTML = optionHtml('massTotal');
     document.getElementById('uav-mc-y').innerHTML = optionHtml('endurance');
+    // prepopulated constraint set: airworthiness rows carry working bounds;
+    // logistics/mission rows are blank templates — blank rows are ignored by
+    // the solver until a bound is filled in
     addConstraintRow('staticMargin', 4, 20);
     addConstraintRow('thrustWeight', 0.5, undefined);
+    addConstraintRow('massTotal');
+    addConstraintRow('payload');
+    addConstraintRow('span');
+    addConstraintRow('totalLength');
+    addConstraintRow('vstall');
+    addConstraintRow('endurance');
 
     document.getElementById('uav-save').addEventListener('click', saveDesign);
     document.getElementById('uav-load-input').addEventListener('change', function (e) {
