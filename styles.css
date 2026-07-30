@@ -2548,3 +2548,4 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
   padding: 6px 12px 10px;
   border-top: 1px solid var(--rule-2);
 }
+#uav-mc-scatters:empty { display: none; }

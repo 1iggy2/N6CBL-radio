@@ -291,20 +291,9 @@
         </div>
         <div class="uav-file-status" id="uav-mc-status">No search run yet. Check parameters to vary, set constraints, pick an objective, run.</div>
 
-        <div class="tools-form">
-          <label class="tools-half">
-            <span>Scatter X axis</span>
-            <select id="uav-mc-x"></select>
-          </label>
-          <label class="tools-half">
-            <span>Scatter Y axis</span>
-            <select id="uav-mc-y"></select>
-          </label>
-        </div>
-        <figure class="uav-fig">
-          <div id="uav-mc-scatter"></div>
-          <figcaption class="uav-fig-caption">FIG 7 &mdash; sampled design space. Accent dots satisfy all constraints, gray dots violate at least one, the ringed dot is the best feasible sample by the objective.</figcaption>
-        </figure>
+        <div class="uav-mc-sub">4 &mdash; sampled design space, one plot per varied parameter</div>
+        <div class="uav-file-status">After a run, every varied parameter gets its own scatter automatically: the objective on the X axis, that parameter on the Y axis over its sampled range. Accent dots satisfy all constraints, gray dots violate at least one, the ringed dot is the best feasible sample. Plots share one objective axis so columns line up across figures.</div>
+        <div class="uav-views-grid" id="uav-mc-scatters"></div>
         <div id="uav-mc-best"></div>
       </section>
 
