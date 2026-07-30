@@ -112,6 +112,16 @@ Action links are inline text with an arrow: `Read →`, `View →`, `Download �
 tells the user exactly what happens. CTAs live at the end of each row in a table,
 or at the end of a section as a footer link.
 
+### Sanctioned exception: /tools/uav/x/
+
+`/tools/uav/x/` is a deliberate experiment that opts out of this design doctrine:
+a modern, dark, app-like interface (tabs, cards, border-radius, accent gradients)
+over the same engine as `/tools/uav/`. It loads the shared `/tools/uav/uav.js`
+unchanged and provides the same element IDs in a different shell, so the two
+pages stay functionally identical by construction. Do not "fix" its styling to
+match the site doctrine, and do not let its aesthetic leak into the rest of the
+site. It is linked from the classic UAV page, not the navigator.
+
 ### Anti-patterns (never do these)
 
 - Centered hero with big tagline and whitespace
@@ -169,6 +179,7 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /tools/ham/*/index.html  — amateur radio utilities (one directory per tool)
 /tools/uav/index.html    — fixed-wing UAV design lab page
 /tools/uav/uav.js        — UAV lab engine: parameter/metric registries, model, views, Monte Carlo
+/tools/uav/x/            — experimental UAV lab UI (see sanctioned exception below)
 /content/blog/           — structured blog post JSON source
 /scripts/build-blog.js   — static blog/home generator
 /scripts/fetch-qrz-logbook.py — QRZ Logbook ADIF fetcher for scheduled QSO refresh

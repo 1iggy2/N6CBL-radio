@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="UAV Lab X &mdash; experimental interface for the N6CBL fixed-wing UAV design calculator. Same engine, modern dark UI: mission solver, parametric design, live 3-view, Monte Carlo optimization.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/uav/x/">
+  <meta property="og:title" content="UAV Lab X &mdash; N6CBL.radio">
+  <meta property="og:description" content="Experimental modern interface for the fixed-wing UAV design lab. Describe a mission, get an optimized aircraft.">
+  <title>UAV Lab X &mdash; N6CBL.radio</title>
+  <link rel="stylesheet" href="/tools/uav/x/x.css">
+</head>
+<body>
+
+  <header class="xbar">
+    <div class="xbrand">
+      <span class="xmark" aria-hidden="true"></span>
+      <span class="xtitle">UAV&nbsp;LAB</span>
+      <span class="xtag">experimental</span>
+    </div>
+    <div class="xbar-actions">
+      <input type="text" id="uav-design-name" class="xname" value="trainer-1500" maxlength="60" autocomplete="off" aria-label="Design name">
+      <button type="button" class="xbtn" id="uav-save">Save</button>
+      <label class="xbtn xfile">Load<input type="file" id="uav-load-input" accept=".json,application/json"></label>
+      <button type="button" class="xbtn" id="uav-reset">Reset</button>
+      <a href="/tools/uav/" class="xbtn xlink">Classic UI</a>
+    </div>
+  </header>
+
+  <div class="xstatusline" id="uav-file-status">Designs autosave to this browser after your first edit and carry over between this UI and the classic page. Save a .uav.json to back up or share.</div>
+
+  <nav class="xtabs" aria-label="Sections">
+    <button type="button" class="xtab active" data-tab="mission">Mission</button>
+    <button type="button" class="xtab" data-tab="design">Design</button>
+    <button type="button" class="xtab" data-tab="aircraft">Aircraft</button>
+    <button type="button" class="xtab" data-tab="analyze">Analyze</button>
+    <button type="button" class="xtab" data-tab="optimize">Optimize</button>
+    <button type="button" class="xtab" data-tab="learn">Learn</button>
+  </nav>
+
+  <main class="xmain">
+
+    <!-- ── column 1: intent ─────────────────────────────────────────── -->
+    <div class="xcol xcol-input">
+
+      <section class="xview" data-view="mission">
+        <div class="xcard xhero">
+          <h2>Mission solver</h2>
+          <p class="xsub">Describe the job. The solver sizes an airframe, runs a staged Monte&nbsp;Carlo search, compares configurations, and hands you a reviewed design.</p>
+          <div class="xfields">
+            <label class="xfield"><span>Payload mass (g)</span>
+              <input type="number" id="uav-mission-payload" value="500" min="0" max="50000" step="10" autocomplete="off" inputmode="decimal"></label>
+            <label class="xfield"><span>Endurance target (min)</span>
+              <input type="number" id="uav-mission-endurance" value="45" min="1" max="600" step="5" autocomplete="off" inputmode="decimal"></label>
+            <label class="xfield"><span>Launch method</span>
+              <select id="uav-mission-launch">
+                <option value="hand">hand launch (stall &le; 8 m/s)</option>
+                <option value="catapult">catapult / bungee (&le; 12 m/s)</option>
+                <option value="runway">runway / belly (&le; 20 m/s)</option>
+                <option value="any" selected>any launch</option>
+              </select></label>
+            <label class="xfield"><span>Configuration</span>
+              <select id="uav-mission-config">
+                <option value="both" selected>best of both — compare</option>
+                <option value="conventional">conventional tail</option>
+                <option value="flyingwing">flying wing / BWB</option>
+              </select></label>
+            <label class="xfield"><span>Optimize for</span>
+              <select id="uav-mission-objective">
+                <option value="lightest" selected>lightest aircraft</option>
+                <option value="endurance">longest endurance</option>
+                <option value="range">longest range</option>
+                <option value="smallest">smallest span</option>
+              </select></label>
+            <label class="xfield"><span>Max span (m) — optional</span>
+              <input type="number" id="uav-mission-maxspan" min="0.3" max="8" step="0.1" autocomplete="off" inputmode="decimal" placeholder="no limit"></label>
+            <label class="xfield"><span>Min cruise (m/s) — optional</span>
+              <input type="number" id="uav-mission-mincruise" min="2" max="100" step="0.5" autocomplete="off" inputmode="decimal" placeholder="no floor"></label>
+          </div>
+          <button type="button" class="xbtn xprimary xwide" id="uav-mission-solve">Solve mission</button>
+          <div class="xnarrative uav-mission-status" id="uav-mission-status">Fill in the brief and press Solve. Every choice the solver makes lands in the visible Optimize controls, so you can audit and override all of it.</div>
+        </div>
+
+        <div class="xcard">
+          <h2>Component presets</h2>
+          <p class="xsub">Common airframes, motor combos, and packs — approximate class specs. Applying one fills its parameters; everything stays editable.</p>
+          <div id="uav-presets"></div>
+          <div class="xnote" id="uav-preset-status">Highlighted row = currently applied.</div>
+        </div>
+      </section>
+
+      <section class="xview" data-view="design">
+        <div class="xcard">
+          <h2>Parameters</h2>
+          <p class="xsub">31 inputs. Everything recomputes live; grayed inputs are unused by the current configuration.</p>
+          <div id="uav-form"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── column 2: the aircraft ───────────────────────────────────── -->
+    <div class="xcol xcol-output">
+
+      <section class="xview" data-view="aircraft">
+        <div class="xcard">
+          <h2>Derived performance</h2>
+          <div class="tools-result-grid cols-3" id="uav-readouts"></div>
+        </div>
+
+        <div class="xcard">
+          <h2>Design checks</h2>
+          <div class="table-scroll">
+            <table class="tools-ref-table uav-check-table">
+              <thead><tr><th>Check</th><th class="num">Value</th><th>Guideline</th><th>Status</th></tr></thead>
+              <tbody id="uav-checks-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="xcard">
+          <h2>Airframe</h2>
+          <div class="uav-views-grid">
+            <figure class="uav-fig"><div id="uav-top-view"></div><figcaption class="uav-fig-caption">Top view &mdash; to scale, CG (quartered circle) and neutral point (dot)</figcaption></figure>
+            <figure class="uav-fig"><div id="uav-side-view"></div><figcaption class="uav-fig-caption">Side view &mdash; CG vs neutral point</figcaption></figure>
+            <figure class="uav-fig"><div id="uav-front-view"></div><figcaption class="uav-fig-caption">Front view &mdash; dihedral, tail, prop disk</figcaption></figure>
+            <figure class="uav-fig"><div id="uav-airfoil-view"></div><figcaption class="uav-fig-caption" id="uav-airfoil-caption">Wing section</figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="xview" data-view="analyze">
+        <div class="xcard">
+          <h2>Performance</h2>
+          <div class="uav-views-grid">
+            <figure class="uav-fig">
+              <div class="uav-chart-wrap">
+                <div id="uav-power-chart"></div>
+                <div class="uav-chart-tip" id="uav-chart-tip"></div>
+              </div>
+              <figcaption class="uav-fig-caption">Power required vs airspeed against max power &mdash; hover for a point readout</figcaption>
+            </figure>
+            <figure class="uav-fig"><div id="uav-polar-chart"></div><figcaption class="uav-fig-caption">Drag polar with cruise and best-glide points</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="xcard">
+          <h2>Sensitivity <span class="xchip">what moves the design</span></h2>
+          <p class="xsub">+10&nbsp;% on each parameter &rarr; % change in the key metrics, everything else held. Bold moves a metric &ge;&nbsp;5&nbsp;%.</p>
+          <div class="table-scroll">
+            <table class="tools-ref-table uav-sens-table">
+              <thead id="uav-sens-head"></thead>
+              <tbody id="uav-sens-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── full width: optimization + learning ──────────────────────── -->
+    <div class="xcol xcol-wide">
+
+      <section class="xview" data-view="optimize">
+        <div class="xcard">
+          <h2>Optimize <span class="xchip">Monte Carlo</span></h2>
+          <p class="xsub">Design parameters default to varied; component-quality and environment inputs stay opt-in so the optimizer cannot buy performance it did not earn.</p>
+
+          <div class="xsplit">
+            <div>
+              <h3>1 &middot; Vary</h3>
+              <div class="xrow">
+                <button type="button" class="xbtn xsm" id="uav-mc-vary-all">Vary all</button>
+                <button type="button" class="xbtn xsm" id="uav-mc-vary-none">Vary none</button>
+              </div>
+              <div class="table-scroll xtall">
+                <table class="tools-ref-table uav-mc-table">
+                  <thead><tr><th class="uav-mc-check">On</th><th>Parameter</th><th class="num">Now</th><th>Min</th><th>Max</th></tr></thead>
+                  <tbody id="uav-mc-vary-body"></tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h3>2 &middot; Constrain</h3>
+              <div class="table-scroll">
+                <table class="tools-ref-table uav-mc-table">
+                  <thead><tr><th>Quantity</th><th>Min</th><th>Max</th><th class="uav-mc-check">&nbsp;</th></tr></thead>
+                  <tbody id="uav-mc-constraints-body"></tbody>
+                </table>
+              </div>
+              <div class="xrow"><button type="button" class="xbtn xsm" id="uav-mc-add-constraint">+ constraint</button></div>
+              <p class="xnote">Blank rows are templates &mdash; ignored until you type a bound. Anchors: 250&nbsp;g registration, 25&nbsp;kg Part&nbsp;107, the car boot for span.</p>
+
+              <h3>3 &middot; Objectives</h3>
+              <div class="table-scroll">
+                <table class="tools-ref-table uav-mc-table">
+                  <thead><tr><th>Objective</th><th>Direction</th><th>Weight</th><th class="uav-mc-check">&nbsp;</th></tr></thead>
+                  <tbody id="uav-mc-objectives-body"></tbody>
+                </table>
+              </div>
+              <div class="xrow"><button type="button" class="xbtn xsm" id="uav-mc-add-objective">+ objective</button></div>
+              <p class="xnote">Several objectives combine as a weighted average of normalized scores &mdash; weights pick your point on the knee curve, plotted automatically below.</p>
+              <div class="xrow xrun">
+                <label class="xfield xinline"><span>Samples</span>
+                  <input type="number" id="uav-mc-samples" value="3000" min="50" max="100000" step="50" autocomplete="off" inputmode="numeric"></label>
+                <button type="button" class="xbtn xprimary" id="uav-mc-run">Run search</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="xnarrative" id="uav-mc-status">No search yet. The mission solver programs this section automatically, or set it up by hand.</div>
+          <div class="uav-views-grid" id="uav-mc-scatters"></div>
+          <div id="uav-mc-best"></div>
+        </div>
+      </section>
+
+      <section class="xview" data-view="learn">
+        <div class="xcard">
+          <h2>Parameter physics</h2>
+          <p class="xsub">What every input is and why it matters.</p>
+          <div class="table-scroll">
+            <table class="uav-ref-table">
+              <thead><tr><th>Parameter</th><th>Unit</th><th>Group</th><th>Physics</th></tr></thead>
+              <tbody id="uav-ref-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="xcard">
+          <h2>Model notes</h2>
+          <div class="xprose">
+            <p><strong>Scope.</strong> Conceptual-design sizing for conventional-layout and flying-wing electric fixed-wing aircraft, from 300&nbsp;g park flyers to the &asymp;100&nbsp;kg class. Estimates compare configurations; expect &plusmn;15&ndash;25&nbsp;% against a built airframe.</p>
+            <p><strong>Aerodynamics.</strong> Trapezoidal planform math; finite-wing lift correction; component parasite-drag buildup (+15&nbsp;% interference); induced drag CL&sup2;/(&pi;eAR). Tails size from volume coefficients; V-tails use the classic area-sum conversion; flying wings put the neutral point at the wing aerodynamic center, take a &asymp;15&nbsp;% CL&nbsp;max penalty for reflex/washout trim, and demand a near-zero section pitching moment.</p>
+            <p><strong>Propulsion &amp; energy.</strong> Electrical &rarr; shaft &rarr; thrust through your efficiencies; static thrust from actuator-disk theory (FoM&nbsp;0.7); climb is excess power at the minimum-power speed; pack mass from energy density; endurance from usable capacity at cruise current.</p>
+            <p><strong>Stability.</strong> Tail-volume neutral-point method with downwash and a fuselage correction; T-tails see a reduced downwash gradient; static margin is NP&nbsp;&minus;&nbsp;CG in %&nbsp;MAC.</p>
+            <p><strong>Mission solver.</strong> Scaling heuristics (payload fraction, wing loading by launch, power loading, COTS motor/pack classes) center a two-stage Monte&nbsp;Carlo search; launch methods carry stall <em>and</em> all-up-mass ceilings; infeasible briefs report the binding constraint. Structure mass is held at a heuristic fraction &mdash; the weakest number in the loop; refine it from build data.</p>
+            <p><strong>Not modeled.</strong> Wind, control-surface sizing, structural sizing/flutter, prop maps vs advance ratio, trim drag, battery sag, BWB center-body lift carryover. Airfoil polars are low-Reynolds summaries.</p>
+            <p class="xnote">This experimental interface runs the identical engine as the <a href="/tools/uav/">classic page</a> &mdash; same model, same design files, same autosave.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="xfoot">
+    <span>N6CBL.radio &middot; UAV Lab X &mdash; experimental interface</span>
+    <span>same engine &amp; design files as the <a href="/tools/uav/">classic UI</a></span>
+  </footer>
+
+  <script src="/tools/uav/uav.js"></script>
+  <script src="/tools/uav/x/x.js"></script>
+</body>
+</html>
