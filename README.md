@@ -23,7 +23,9 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | `/log/stats/` | QSO analysis and statistics |
 | `/station/` | My station: operator profile, gear, hardware notes, modes |
 | `/blog/` | Posts |
-| `/tools/` | Browser utilities |
+| `/tools/` | Workbench index |
+| `/tools/ham/` | Amateur radio utilities (17 tools) |
+| `/tools/uav/` | Fixed-wing UAV design lab |
 | `/prints/` | 3D print catalog |
 
 ## Development

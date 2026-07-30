@@ -61,7 +61,10 @@ Key rules:
 - Implemented routes appear as plain path text; unimplemented routes stay visible in the navigator with muted text until they ship. Do not add separate LIVE, WIP, or PLANNED badges to the sidebar navigation.
 - Every public routable internal page appears as its own top-level row in the
   visible navigation list. Do not hide public subpages only inside parent-page body
-  links.
+  links. Exception: individual utilities inside a workbench (`/tools/ham/grid/`,
+  `/tools/ham/swr/`, …) are indexed from their workbench page, not the navigator —
+  the navigator lists one row per workbench (`↳ ham/`, `↳ uav/`) so the visible
+  list stays readable as the tool inventory grows.
 - Owner-only operational routes, such as `/blog/compose/`, may be omitted from the
   public navigator when protected by Cloudflare Access and used only as publishing
   controls rather than public site content.
@@ -145,7 +148,9 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /station/          — my station: operator profile, gear, hardware notes, modes, CW progress
 /propagation/      — pre-activation command station: NOAA SWPC indices, per-band reach, 24 h window, Hermosa Beach weather
 /blog/             — posts: technical, radio, misc
-/tools/            — browser-based utilities
+/tools/            — workbench index: one route per tool discipline
+/tools/ham/        — amateur radio workbench: 17 client-side utilities
+/tools/uav/        — fixed-wing UAV design lab: parametric sizing, Monte Carlo, 3-view
 /prints/           — 3D print catalog with files
 ```
 
@@ -160,6 +165,10 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /propagation/index.html  — live propagation dashboard (NOAA SWPC + Open-Meteo, client-fetched)
 /blog/index.html         — generated field journal running list
 /blog/compose/index.html — owner-only browser publisher for structured blog source
+/tools/index.html        — workbench index (ham + uav)
+/tools/ham/*/index.html  — amateur radio utilities (one directory per tool)
+/tools/uav/index.html    — fixed-wing UAV design lab page
+/tools/uav/uav.js        — UAV lab engine: parameter/metric registries, model, views, Monte Carlo
 /content/blog/           — structured blog post JSON source
 /scripts/build-blog.js   — static blog/home generator
 /scripts/fetch-qrz-logbook.py — QRZ Logbook ADIF fetcher for scheduled QSO refresh

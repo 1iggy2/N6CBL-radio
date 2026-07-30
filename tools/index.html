@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="N6CBL.radio tools workbench &mdash; browser-based utilities for amateur radio operators: grid locator math, antenna and coax calculators, SWR conversion, Morse training, ADIF tools, and more.">
+  <meta name="description" content="N6CBL.radio tools index &mdash; browser-based engineering workbenches: the amateur radio utility bench and the fixed-wing UAV design lab. Static, client-side, no accounts, no telemetry.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://n6cbl.radio/tools/">
   <meta property="og:title" content="Tools &mdash; N6CBL.radio">
-  <meta property="og:description" content="Static, client-side amateur radio utilities: grid math, antenna and feedline calculators, SWR and dB conversion, CW trainer, ADIF tools, license exam practice, and more.">
+  <meta property="og:description" content="Static, client-side engineering workbenches: 17 amateur radio utilities and a fixed-wing UAV design calculator with live visualization.">
   <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
   <meta property="og:image:width" content="1536">
   <meta property="og:image:height" content="1024">
@@ -53,23 +53,8 @@
           <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
           <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
           <li class="nav-item"><a href="/tools/" aria-current="page"><span class="nav-path">/tools/</span></a></li>
-          <li class="nav-item"><a href="/tools/adif/"><span class="nav-path" aria-label="/tools/adif/">&#x21B3; adif/</span></a></li>
-          <li class="nav-item"><a href="/tools/balun/"><span class="nav-path" aria-label="/tools/balun/">&#x21B3; balun/</span></a></li>
-          <li class="nav-item"><a href="/tools/cabrillo/"><span class="nav-path" aria-label="/tools/cabrillo/">&#x21B3; cabrillo/</span></a></li>
-          <li class="nav-item"><a href="/tools/callsign/"><span class="nav-path" aria-label="/tools/callsign/">&#x21B3; callsign/</span></a></li>
-          <li class="nav-item"><a href="/tools/coax/"><span class="nav-path" aria-label="/tools/coax/">&#x21B3; coax/</span></a></li>
-          <li class="nav-item"><a href="/tools/db/"><span class="nav-path" aria-label="/tools/db/">&#x21B3; db/</span></a></li>
-          <li class="nav-item"><a href="/tools/dipole/"><span class="nav-path" aria-label="/tools/dipole/">&#x21B3; dipole/</span></a></li>
-          <li class="nav-item"><a href="/tools/exam/"><span class="nav-path" aria-label="/tools/exam/">&#x21B3; exam/</span></a></li>
-          <li class="nav-item"><a href="/tools/freq/"><span class="nav-path" aria-label="/tools/freq/">&#x21B3; freq/</span></a></li>
-          <li class="nav-item"><a href="/tools/grayline/"><span class="nav-path" aria-label="/tools/grayline/">&#x21B3; grayline/</span></a></li>
-          <li class="nav-item"><a href="/tools/grid/"><span class="nav-path" aria-label="/tools/grid/">&#x21B3; grid/</span></a></li>
-          <li class="nav-item"><a href="/tools/match/"><span class="nav-path" aria-label="/tools/match/">&#x21B3; match/</span></a></li>
-          <li class="nav-item"><a href="/tools/morse/"><span class="nav-path" aria-label="/tools/morse/">&#x21B3; morse/</span></a></li>
-          <li class="nav-item"><a href="/tools/qcodes/"><span class="nav-path" aria-label="/tools/qcodes/">&#x21B3; qcodes/</span></a></li>
-          <li class="nav-item"><a href="/tools/swr/"><span class="nav-path" aria-label="/tools/swr/">&#x21B3; swr/</span></a></li>
-          <li class="nav-item"><a href="/tools/tones/"><span class="nav-path" aria-label="/tools/tones/">&#x21B3; tones/</span></a></li>
-          <li class="nav-item"><a href="/tools/utc/"><span class="nav-path" aria-label="/tools/utc/">&#x21B3; utc/</span></a></li>
+          <li class="nav-item"><a href="/tools/ham/"><span class="nav-path" aria-label="/tools/ham/">&#x21B3; ham/</span></a></li>
+          <li class="nav-item"><a href="/tools/uav/"><span class="nav-path" aria-label="/tools/uav/">&#x21B3; uav/</span></a></li>
           <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
         </ul>
       </div>
@@ -111,17 +96,17 @@
     <main class="main-content tools-page">
 
       <div class="section-label radio-meta">
-        <span>/tools/ &mdash; workbench</span>
-        <span>17 utilities / static / client-side</span>
+        <span>/tools/ &mdash; workbench index</span>
+        <span>2 workbenches / static / client-side</span>
       </div>
 
       <section aria-labelledby="tools-purpose-heading">
-        <div class="section-label" id="tools-purpose-heading">Workbench dossier</div>
+        <div class="section-label" id="tools-purpose-heading">Tools dossier</div>
         <table class="roadmap-control-table">
           <tbody>
             <tr>
               <th scope="row">Purpose</th>
-              <td>Small browser utilities for the questions an operator actually asks on the bench, in the field, and during planning.</td>
+              <td>Browser-based engineering workbenches. Each workbench groups related utilities behind a single route so the site navigator stays flat while the tool inventory grows.</td>
             </tr>
             <tr>
               <th scope="row">Delivery</th>
@@ -129,15 +114,15 @@
             </tr>
             <tr>
               <th scope="row">Trust boundary</th>
-              <td>Every tool runs in your browser. File parsers (ADIF, Cabrillo) never upload anything. Reference data (band plans, CTCSS tones, exam pools) is committed in this repo.</td>
+              <td>Every tool runs in your browser. File parsers and design-file loaders never upload anything. Reference data is committed in this repo.</td>
             </tr>
             <tr>
               <th scope="row">Scope rule</th>
-              <td>A tool earns a slot when it answers a recurring radio question faster than a calculator app or a search engine, and stays useful offline.</td>
+              <td>A workbench earns a slot when it answers recurring engineering questions faster than a calculator app or a search engine, and stays useful offline.</td>
             </tr>
             <tr>
               <th scope="row">Last reviewed</th>
-              <td><time datetime="2026-05-14">2026-05-14</time></td>
+              <td><time datetime="2026-07-30">2026-07-30</time></td>
             </tr>
           </tbody>
         </table>
@@ -145,8 +130,8 @@
 
       <section aria-labelledby="tools-list-heading">
         <div class="section-label split">
-          <span id="tools-list-heading">Tools index</span>
-          <span class="log-count">17 utilities / all routes live</span>
+          <span id="tools-list-heading">Workbench index</span>
+          <span class="log-count">2 workbenches / all routes live</span>
         </div>
         <table class="tools-index-table">
           <thead>
@@ -159,106 +144,16 @@
           </thead>
           <tbody>
             <tr>
-              <td class="path">/tools/grid/</td>
-              <td class="tool-cat">geo</td>
-              <td class="desc">Maidenhead grid &harr; lat/lon (4/6/8 char), distance and bearing between two grids or coordinates.</td>
-              <td class="tool-cta"><a href="/tools/grid/">Open &rarr;</a></td>
+              <td class="path">/tools/ham/</td>
+              <td class="tool-cat">radio</td>
+              <td class="desc">Amateur radio workbench: 17 utilities covering grid math, antenna and feedline calculators, SWR and dB conversion, CW trainer, ADIF/Cabrillo log tools, license exam practice, and operating references.</td>
+              <td class="tool-cta"><a href="/tools/ham/">Open &rarr;</a></td>
             </tr>
             <tr>
-              <td class="path">/tools/freq/</td>
-              <td class="tool-cat">rf math</td>
-              <td class="desc">Frequency &harr; wavelength, band identifier, US amateur band plan and license-class privileges.</td>
-              <td class="tool-cta"><a href="/tools/freq/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/db/</td>
-              <td class="tool-cat">rf math</td>
-              <td class="desc">dBm &harr; W &harr; &mu;V into 50 &#937;, S-units for HF and VHF, path-loss math.</td>
-              <td class="tool-cta"><a href="/tools/db/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/swr/</td>
-              <td class="tool-cat">rf math</td>
-              <td class="desc">SWR &harr; return loss &harr; reflection coefficient &harr; mismatch loss, single field drives all four.</td>
-              <td class="tool-cta"><a href="/tools/swr/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/dipole/</td>
-              <td class="tool-cat">antenna</td>
-              <td class="desc">Resonant length for dipole, inverted-V, end-fed half-wave, quarter-wave vertical, and full-wave loop.</td>
-              <td class="tool-cta"><a href="/tools/dipole/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/coax/</td>
-              <td class="tool-cat">feedline</td>
-              <td class="desc">Coax loss per 100 ft for common types at your frequency, total loss for the run, power delivered to the antenna.</td>
-              <td class="tool-cta"><a href="/tools/coax/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/balun/</td>
-              <td class="tool-cat">antenna</td>
-              <td class="desc">Toroid winding helper: turns for target impedance and frequency on common cores (FT-114-43, FT-240-31, T-200, etc.).</td>
-              <td class="tool-cta"><a href="/tools/balun/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/match/</td>
-              <td class="tool-cat">antenna</td>
-              <td class="desc">L-network impedance match: input and output Z to series/shunt L and C values, both high-pass and low-pass topologies.</td>
-              <td class="tool-cta"><a href="/tools/match/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/utc/</td>
-              <td class="tool-cat">operating</td>
-              <td class="desc">Live UTC + local + Julian Date + day-of-year + Unix time + GMST. Sidereal-grade clock for logging and scheduling.</td>
-              <td class="tool-cta"><a href="/tools/utc/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/grayline/</td>
-              <td class="tool-cat">operating</td>
-              <td class="desc">Sunrise / sunset / grayline window for your QTH and a target grid; identifies the best gray-line DX window.</td>
-              <td class="tool-cta"><a href="/tools/grayline/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/tones/</td>
-              <td class="tool-cat">vhf/uhf</td>
-              <td class="desc">Searchable CTCSS and DCS reference, standard repeater offsets per US band, frequency-to-offset shortcut.</td>
-              <td class="tool-cta"><a href="/tools/tones/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/qcodes/</td>
-              <td class="tool-cat">reference</td>
-              <td class="desc">Searchable Q-codes, common prosigns, NATO + Western Union phonetic alphabets in a single dense reference page.</td>
-              <td class="tool-cta"><a href="/tools/qcodes/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/morse/</td>
-              <td class="tool-cat">training</td>
-              <td class="desc">Koch-method Morse trainer with adjustable WPM, Farnsworth spacing, character set selector, and a text-to-tone sender.</td>
-              <td class="tool-cta"><a href="/tools/morse/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/exam/</td>
-              <td class="tool-cat">training</td>
-              <td class="desc">FCC Technician / General / Extra question-pool practice with score tracking and per-element review.</td>
-              <td class="tool-cta"><a href="/tools/exam/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/adif/</td>
-              <td class="tool-cat">log</td>
-              <td class="desc">Drop an ADIF file in, get a sortable table, summary counts by band and mode, and filtered subset export.</td>
-              <td class="tool-cta"><a href="/tools/adif/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/cabrillo/</td>
-              <td class="tool-cat">log</td>
-              <td class="desc">Convert ADIF to Cabrillo for contest log submission. Customize CONTEST, CATEGORY, and exchange fields.</td>
-              <td class="tool-cta"><a href="/tools/cabrillo/">Open &rarr;</a></td>
-            </tr>
-            <tr>
-              <td class="path">/tools/callsign/</td>
-              <td class="tool-cat">reference</td>
-              <td class="desc">DXCC prefix lookup: enter a callsign, get country, ITU/CQ zones, continent, and standard prefix region.</td>
-              <td class="tool-cta"><a href="/tools/callsign/">Open &rarr;</a></td>
+              <td class="path">/tools/uav/</td>
+              <td class="tool-cat">aero</td>
+              <td class="desc">Fixed-wing UAV design lab: parametric airframe sizing, airfoil and propulsion selection, mass budget, aero performance and stability estimates, live 3-view visualization, Monte Carlo design-space search, and design-file save/load.</td>
+              <td class="tool-cta"><a href="/tools/uav/">Open &rarr;</a></td>
             </tr>
           </tbody>
         </table>
@@ -280,23 +175,23 @@
           <tbody>
             <tr>
               <td class="roadmap-feature">No external scripts</td>
-              <td class="desc roadmap-wide-col">A radio tool must keep working on a tethered phone in the field, with a flaky cell signal and the operator's hands on the radio.</td>
+              <td class="desc roadmap-wide-col">A field tool must keep working on a tethered phone with a flaky cell signal. An engineering tool must not phone home.</td>
               <td>Every dependency ships from this origin.</td>
             </tr>
             <tr>
               <td class="roadmap-feature">No uploads</td>
-              <td class="desc roadmap-wide-col">ADIF logs and Cabrillo exports contain personal contact data. A static page has nothing to upload to.</td>
+              <td class="desc roadmap-wide-col">Logs and design files are the operator's data. A static page has nothing to upload to.</td>
               <td>All file parsing runs in the browser.</td>
             </tr>
             <tr>
               <td class="roadmap-feature">Show the math</td>
-              <td class="desc roadmap-wide-col">A calculator that only prints an answer cannot be checked. Reference tables and unit toggles let the operator verify the result.</td>
-              <td>Each tool exposes inputs, formulas, and reference tables.</td>
+              <td class="desc roadmap-wide-col">A calculator that only prints an answer cannot be checked. Formulas, assumptions, and reference tables let the user verify every result.</td>
+              <td>Each tool exposes inputs, formulas, and models.</td>
             </tr>
             <tr>
-              <td class="roadmap-feature">Mobile-first density</td>
-              <td class="desc roadmap-wide-col">Field use happens on a phone. Tools must fit a 390 px viewport without horizontal scroll or icon-only controls.</td>
-              <td>Dense labeled tables, no decorative chrome.</td>
+              <td class="roadmap-feature">One route per workbench</td>
+              <td class="desc roadmap-wide-col">The site navigator lists every public route. Grouping utilities behind a workbench route keeps that list readable as the inventory grows.</td>
+              <td>Sub-tools index from their workbench page.</td>
             </tr>
           </tbody>
         </table>

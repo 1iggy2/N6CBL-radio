@@ -4,6 +4,11 @@ const MAX_REQUEST_BYTES = 100 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif']);
 const IMAGE_FILE_PATTERN = /^[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
+// Ham utilities moved from /tools/<name>/ to /tools/ham/<name>/ in 2026-07; keep old URLs alive.
+const MOVED_HAM_TOOLS = new Set([
+  'adif', 'balun', 'cabrillo', 'callsign', 'coax', 'db', 'dipole', 'exam', 'freq',
+  'grayline', 'grid', 'match', 'morse', 'qcodes', 'swr', 'tones', 'utc',
+]);
 
 export default {
   async fetch(request, env) {
@@ -11,6 +16,11 @@ export default {
 
     if (url.pathname === '/stats' || url.pathname === '/stats/') {
       return Response.redirect(url.origin + '/log/stats/', 301);
+    }
+
+    const movedTool = url.pathname.match(/^\/tools\/([a-z]+)\/?$/);
+    if (movedTool && MOVED_HAM_TOOLS.has(movedTool[1])) {
+      return Response.redirect(url.origin + '/tools/ham/' + movedTool[1] + '/', 301);
     }
 
     if (url.pathname === '/api/blog/publish') {
