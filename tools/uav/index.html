@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fixed-wing UAV design lab &mdash; parametric RC aircraft sizing calculator: wing geometry, airfoil selection, mass budget, propulsion, performance and stability estimates, live 3-view visualization, Monte Carlo design-space search, and JSON design-file save/load. Runs entirely in the browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/uav/">
+  <meta property="og:title" content="Fixed-Wing UAV Design Lab &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Parametric fixed-wing UAV/RC aircraft design calculator with live 3-view visualization, performance and stability estimates, Monte Carlo design search, and design-file save/load.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Fixed-Wing UAV Design Lab &mdash; N6CBL.radio Tools</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/UAV/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item"><a href="/"><span class="nav-path">/</span></a></li>
+          <li class="nav-item"><a href="/roadmap/"><span class="nav-path">/roadmap/</span></a></li>
+          <li class="nav-item"><a href="/log/"><span class="nav-path">/log/</span></a></li>
+          <li class="nav-item"><a href="/log/stats/"><span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span></a></li>
+          <li class="nav-item"><a href="/station/"><span class="nav-path">/station/</span></a></li>
+          <li class="nav-item"><a href="/propagation/"><span class="nav-path">/propagation/</span></a></li>
+          <li class="nav-item"><a href="/blog/"><span class="nav-path">/blog/</span></a></li>
+          <li class="nav-item"><a href="/tools/"><span class="nav-path">/tools/</span></a></li>
+          <li class="nav-item"><a href="/tools/ham/"><span class="nav-path" aria-label="/tools/ham/">&#x21B3; ham/</span></a></li>
+          <li class="nav-item"><a href="/tools/uav/" aria-current="page"><span class="nav-path" aria-label="/tools/uav/">&#x21B3; uav/</span></a></li>
+          <li class="nav-item nav-item-unimplemented"><a href="/prints/"><span class="nav-path">/prints/</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt><dd>Elecraft KX2</dd>
+          <dt>Antenna</dt><dd>CHA SS17</dd>
+          <dt>Power</dt><dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt><dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt><dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content tools-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/uav/ &mdash; fixed-wing UAV design lab</span>
+        <span>parametric sizing / live 3-view / monte carlo</span>
+      </div>
+
+      <section aria-labelledby="uav-file-heading">
+        <div class="section-label split">
+          <span id="uav-file-heading">Design file</span>
+          <span class="log-count">schema n6cbl.uav-design/1 &middot; JSON &middot; parameters only, nothing uploaded</span>
+        </div>
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>Design name</span>
+            <input type="text" id="uav-design-name" value="trainer-1500" maxlength="60" autocomplete="off">
+          </label>
+          <div class="tools-field tools-half">
+            <span>File operations</span>
+            <div class="uav-file-buttons">
+              <button type="button" class="tools-button primary" id="uav-save">Save design &darr;</button>
+              <label class="tools-button uav-load-label">Load design &uarr;<input type="file" id="uav-load-input" accept=".json,application/json"></label>
+              <button type="button" class="tools-button" id="uav-reset">Reset defaults</button>
+            </div>
+          </div>
+        </div>
+        <div class="uav-file-status" id="uav-file-status">Working design lives in this page only &mdash; save a .uav.json file to keep it, load one to resume.</div>
+      </section>
+
+      <section aria-labelledby="uav-params-heading">
+        <div class="section-label split">
+          <span id="uav-params-heading">Design parameters</span>
+          <span class="log-count">27 parameters / 5 groups / recompute on every edit</span>
+        </div>
+        <div id="uav-form"></div>
+      </section>
+
+      <section aria-labelledby="uav-readout-heading">
+        <div class="section-label split">
+          <span id="uav-readout-heading">Derived performance</span>
+          <span class="log-count">recomputed live from the model below</span>
+        </div>
+        <div class="tools-result-grid cols-3" id="uav-readouts"></div>
+      </section>
+
+      <section aria-labelledby="uav-checks-heading">
+        <div class="section-label split">
+          <span id="uav-checks-heading">Design checks</span>
+          <span class="log-count">rule-of-thumb gates for a conventional RC airframe</span>
+        </div>
+        <div class="table-scroll">
+          <table class="tools-ref-table uav-check-table">
+            <thead>
+              <tr>
+                <th>Check</th>
+                <th class="num">Value</th>
+                <th>Guideline</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="uav-checks-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="uav-views-heading">
+        <div class="section-label split">
+          <span id="uav-views-heading">Airframe &mdash; live views</span>
+          <span class="log-count">drawn to scale from current parameters</span>
+        </div>
+        <div class="uav-views-grid">
+          <figure class="uav-fig">
+            <div id="uav-top-view"></div>
+            <figcaption class="uav-fig-caption">FIG 1 &mdash; top view: wing planform, tailplane, MAC, CG (quartered circle) and neutral point (dot).</figcaption>
+          </figure>
+          <figure class="uav-fig">
+            <div id="uav-side-view"></div>
+            <figcaption class="uav-fig-caption">FIG 2 &mdash; side view: fuselage, fin, tail arm, CG vs neutral point along the MAC.</figcaption>
+          </figure>
+          <figure class="uav-fig">
+            <div id="uav-front-view"></div>
+            <figcaption class="uav-fig-caption">FIG 3 &mdash; front view: dihedral, fuselage section, fin height, prop disk (dashed).</figcaption>
+          </figure>
+          <figure class="uav-fig">
+            <div id="uav-airfoil-view"></div>
+            <figcaption class="uav-fig-caption" id="uav-airfoil-caption">FIG 4 &mdash; wing section.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="uav-charts-heading">
+        <div class="section-label split">
+          <span id="uav-charts-heading">Performance charts</span>
+          <span class="log-count">hover the power chart for point readout</span>
+        </div>
+        <div class="uav-views-grid">
+          <figure class="uav-fig">
+            <div class="uav-chart-wrap">
+              <div id="uav-power-chart"></div>
+              <div class="uav-chart-tip" id="uav-chart-tip"></div>
+            </div>
+            <figcaption class="uav-fig-caption">FIG 5 &mdash; electrical power required vs airspeed (solid ink) against maximum electrical power (dashed accent). Vertical accent line marks stall.</figcaption>
+          </figure>
+          <figure class="uav-fig">
+            <div id="uav-polar-chart"></div>
+            <figcaption class="uav-fig-caption">FIG 6 &mdash; drag polar CL vs CD with the cruise point and the best-glide (L/D max) point marked.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="uav-mc-heading">
+        <div class="section-label split">
+          <span id="uav-mc-heading">Monte Carlo design search</span>
+          <span class="log-count">uniform sampling / any input or derived value as constraint or objective</span>
+        </div>
+
+        <div class="uav-mc-sub">1 &mdash; parameters to vary (unchecked parameters stay at their current value)</div>
+        <div class="table-scroll">
+          <table class="tools-ref-table uav-mc-table">
+            <thead>
+              <tr>
+                <th class="uav-mc-check">Vary</th>
+                <th>Parameter</th>
+                <th class="num">Current</th>
+                <th>Sample min</th>
+                <th>Sample max</th>
+              </tr>
+            </thead>
+            <tbody id="uav-mc-vary-body"></tbody>
+          </table>
+        </div>
+
+        <div class="uav-mc-sub">2 &mdash; constraints (a sample is feasible when every constraint holds)</div>
+        <div class="table-scroll">
+          <table class="tools-ref-table uav-mc-table">
+            <thead>
+              <tr>
+                <th>Quantity</th>
+                <th>Min allowed</th>
+                <th>Max allowed</th>
+                <th class="uav-mc-check">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody id="uav-mc-constraints-body"></tbody>
+          </table>
+        </div>
+        <div class="tools-controls">
+          <button type="button" class="tools-button" id="uav-mc-add-constraint">Add constraint +</button>
+        </div>
+
+        <div class="uav-mc-sub">3 &mdash; objective and run</div>
+        <div class="tools-form">
+          <label>
+            <span>Objective quantity</span>
+            <select id="uav-mc-objective"></select>
+          </label>
+          <label>
+            <span>Direction</span>
+            <select id="uav-mc-direction">
+              <option value="max">maximize</option>
+              <option value="min">minimize</option>
+            </select>
+          </label>
+          <label>
+            <span>Samples (50&ndash;100 000)</span>
+            <input type="number" id="uav-mc-samples" value="3000" min="50" max="100000" step="50" autocomplete="off" inputmode="numeric">
+          </label>
+          <div class="tools-field">
+            <span>Run</span>
+            <button type="button" class="tools-button primary" id="uav-mc-run">Run search &rarr;</button>
+          </div>
+        </div>
+        <div class="uav-file-status" id="uav-mc-status">No search run yet. Check parameters to vary, set constraints, pick an objective, run.</div>
+
+        <div class="tools-form">
+          <label class="tools-half">
+            <span>Scatter X axis</span>
+            <select id="uav-mc-x"></select>
+          </label>
+          <label class="tools-half">
+            <span>Scatter Y axis</span>
+            <select id="uav-mc-y"></select>
+          </label>
+        </div>
+        <figure class="uav-fig">
+          <div id="uav-mc-scatter"></div>
+          <figcaption class="uav-fig-caption">FIG 7 &mdash; sampled design space. Accent dots satisfy all constraints, gray dots violate at least one, the ringed dot is the best feasible sample by the objective.</figcaption>
+        </figure>
+        <div id="uav-mc-best"></div>
+      </section>
+
+      <section aria-labelledby="uav-model-heading">
+        <div class="section-label" id="uav-model-heading">Model notes &mdash; assumptions and formulas</div>
+        <div class="tools-note">
+          <strong>Scope.</strong> Conceptual-design sizing for conventional-layout electric fixed-wing aircraft in the 0.3&ndash;20 kg class. Estimates are for comparing configurations, not certifying one &mdash; expect &plusmn;15&ndash;25 % against a built airframe.
+          <strong>Planform.</strong> Trapezoidal wing: S = b&middot;c&#8345;(1+&lambda;)/2, AR = b&sup2;/S, MAC = &#8532;&middot;c&#8345;&middot;(1+&lambda;+&lambda;&sup2;)/(1+&lambda;). Tail surfaces are sized from the chosen volume coefficients: S&#8346; = V&#8346;&middot;S&middot;MAC/l&#8348;, S&#8347; = V&#8347;&middot;S&middot;b/l&#8348;.
+          <strong>Lift.</strong> 3-D lift-curve slope a = a&#8320;/(1 + a&#8320;/(&pi;eAR)); CL&#8202;max is the 2-D section value knocked down 10 % for the finite wing. Stall speed from V&#8347; = &radic;(2W/(&rho;SCL&#8202;max)).
+          <strong>Drag.</strong> Parasite buildup referenced to wing area: section cd&#8320; + fuselage (0.006&middot;S&#8348;&#8338;&#8348;/S with S&#8348;&#8338;&#8348; &asymp; 0.8&middot;&pi;DL) + tails (0.008&middot;(S&#8346;+S&#8347;)/S), all &times;1.15 for interference; induced drag CL&sup2;/(&pi;eAR). L/D&#8202;max = 1/(2&radic;(kCD&#8320;)).
+          <strong>Propulsion.</strong> Electrical power to thrust power through motor+ESC efficiency and a cruise prop efficiency you set. Static thrust from actuator-disk theory with a 0.7 static figure of merit: T = 0.7&middot;(2&rho;A)^&#8531;&middot;P&#8347;&#8346;&#8336;&#8342;&#8348;^&#8532;. Climb rate is excess power over weight at the minimum-power speed.
+          <strong>Battery.</strong> Pack mass from capacity &times; cells &times; 3.7 V &divide; energy density. Endurance uses the usable-capacity fraction at the cruise current; range is still-air.
+          <strong>Stability.</strong> Neutral point from tail-volume method: x&#8345;&#8338;/MAC = 0.25 + 0.9&middot;V&#8346;&middot;(a&#8348;/a&#8349;)&middot;(1&minus;d&epsilon;/d&alpha;) &minus; 0.04 (fuselage correction), with d&epsilon;/d&alpha; = 2a&#8349;/(&pi;AR). Static margin is NP minus CG in % MAC.
+          <strong>Not modeled.</strong> Compressibility, wind, control-surface sizing, structural sizing/flutter, prop maps vs advance ratio, trim drag, battery voltage sag. Airfoil polar values are single-point summaries of low-Reynolds published data; outside Re &asymp; 60k&ndash;500k they drift.
+          <strong>Roadmap for this lab.</strong> Constraint-driven inverse solving, prop/motor database with advance-ratio maps, structural weight estimation from geometry, multi-point missions (climb + cruise + loiter), and design-file schema v2 with named mission segments.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">CONTACT VIA QRZ &#8599;</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script src="/tools/uav/uav.js"></script>
+</body>
+</html>

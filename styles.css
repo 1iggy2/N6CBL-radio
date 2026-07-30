@@ -158,7 +158,8 @@ header {
 .nav-item:last-child a { border-bottom: none; }
 .nav-item a:hover { background: var(--tint); }
 
-.nav-item a[aria-current="page"] {
+.nav-item a[aria-current="page"],
+.nav-item a[aria-current="location"] {
   background: var(--tint);
   font-weight: bold;
 }
@@ -2333,4 +2334,146 @@ td.tool-cta a:hover { text-decoration: underline; }
   .tools-index-table td { padding: 4px 6px; }
 
   .tools-callsign-result .cs-meta { grid-template-columns: 92px 1fr; }
+}
+
+/* ── /tools/uav/ — fixed-wing UAV design lab ─────────────────────────── */
+
+.uav-group-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 10px 4px;
+  border-bottom: 1px solid var(--rule-2);
+}
+
+.uav-file-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.uav-load-label { position: relative; overflow: hidden; display: inline-block; }
+.uav-load-label input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.uav-file-status {
+  font-size: 0.74rem;
+  color: var(--muted);
+  padding: 8px 10px;
+  border-top: 1px solid var(--rule-2);
+}
+
+.uav-unit { font-size: 0.7rem; color: var(--muted); }
+
+/* figures */
+.uav-views-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 12px 10px;
+}
+.uav-fig {
+  margin: 0;
+  border: 1px solid var(--rule-2);
+  background: var(--white);
+}
+.uav-fig svg { display: block; width: 100%; height: auto; }
+.uav-fig-caption {
+  font-size: 0.7rem;
+  font-family: var(--mono);
+  color: var(--muted);
+  padding: 6px 8px;
+  border-top: 1px solid var(--rule-2);
+}
+#uav-mc-scatter:empty { min-height: 0; }
+section .uav-fig:last-of-type { margin-bottom: 12px; }
+
+/* svg drawing classes */
+.uav-skin      { fill: none; stroke: var(--black); stroke-width: 1.6; }
+.uav-surface   { fill: var(--tint); stroke: var(--black); stroke-width: 1.4; }
+.uav-boom      { stroke: var(--black); stroke-width: 2.4; }
+.uav-centerline{ stroke: var(--rule-2); stroke-width: 1; stroke-dasharray: 8 4 2 4; }
+.uav-macline   { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 5 3; }
+.uav-camberline{ fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 5 3; }
+.uav-foil      { fill: var(--tint); stroke: var(--black); stroke-width: 1.6; }
+.uav-propdisk  { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4; }
+.uav-dim       { stroke: var(--muted); stroke-width: 1; }
+.uav-dim-label { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.uav-fig-label { font-family: var(--mono); font-size: 11px; fill: var(--black); }
+.uav-fig-label-accent { fill: var(--accent); }
+.uav-cg-ring   { fill: var(--white); stroke: var(--black); stroke-width: 1.4; }
+.uav-cg-fill   { fill: var(--black); }
+.uav-np        { fill: var(--accent); }
+.uav-marker    { fill: var(--black); }
+
+/* charts */
+.uav-grid        { stroke: #ddd; stroke-width: 1; }
+.uav-axis        { stroke: var(--black); stroke-width: 1.4; }
+.uav-tick        { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
+.uav-axis-label  { font-family: var(--mono); font-size: 11px; fill: var(--black); }
+.uav-series-req  { fill: none; stroke: var(--black); stroke-width: 2; }
+.uav-series-avail{ stroke: var(--accent); stroke-width: 2; stroke-dasharray: 7 4; }
+.uav-series-label{ font-family: var(--mono); font-size: 11px; fill: var(--black); font-weight: bold; }
+.uav-series-label-accent { fill: var(--accent); }
+.uav-stall-line  { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 3; }
+.uav-hover-target{ fill: transparent; }
+.uav-crosshair   { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; pointer-events: none; }
+
+.uav-chart-wrap { position: relative; }
+.uav-chart-tip {
+  display: none;
+  position: absolute;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 3px 7px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+/* design checks */
+.uav-status { font-weight: bold; font-family: var(--mono); }
+.uav-status-ok   { color: var(--muted); }
+.uav-status-warn { color: var(--black); }
+.uav-status-fail { color: var(--accent); }
+.uav-check-table td.uav-status-fail { background: var(--tint); }
+
+/* monte carlo */
+.uav-mc-sub {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 10px 4px;
+}
+.uav-mc-table input[type="number"] {
+  width: 100%;
+  max-width: 110px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  border: 1px solid var(--rule-2);
+  background: var(--white);
+  color: var(--black);
+  padding: 3px 6px;
+}
+.uav-mc-table select {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  border: 1px solid var(--rule-2);
+  background: var(--white);
+  color: var(--black);
+  padding: 3px 6px;
+}
+.uav-mc-table .uav-mc-check { width: 56px; text-align: center; }
+.uav-mc-table .tools-button { padding: 2px 8px; font-size: 0.7rem; }
+.uav-mc-best-table { margin-top: 8px; }
+.uav-pt-feasible   { fill: var(--accent); }
+.uav-pt-infeasible { fill: #b5b5ae; }
+.uav-pt-best       { fill: none; stroke: var(--black); stroke-width: 2; }
+
+@media (max-width: 768px) {
+  .uav-views-grid { grid-template-columns: 1fr; }
 }
