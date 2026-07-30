@@ -1,17 +1,22 @@
 /* /tools/uav/ — fixed-wing UAV design lab.
  *
  * Architecture (kept deliberately framework-shaped so the tool can grow):
- *   PARAMS   — registry of every design input: bounds, units, defaults, groups.
- *              The form, the design file, and the Monte Carlo sampler all read
- *              this registry; adding a parameter here wires it in everywhere.
+ *   PARAMS   — registry of every design input: bounds, units, defaults, groups,
+ *              and a physics explainer. The form, the design file, the Monte
+ *              Carlo sampler, the sensitivity table, and the parameter
+ *              reference all read this registry; adding a parameter here wires
+ *              it in everywhere.
  *   AIRFOILS — 2-D section database (RC-Reynolds polar summaries + shape params).
- *   derive() — pure function: design → derived quantities. No DOM access, so the
- *              Monte Carlo engine can call it tens of thousands of times.
+ *   PRESETS  — COTS component archetypes (airframes, motors, batteries) that
+ *              write into PARAMS keys; specs are approximate class values.
+ *   derive() — pure function: design → derived quantities. No DOM access, so
+ *              search and sensitivity code can call it tens of thousands of times.
  *   METRICS  — registry of derived outputs: labels, units, formatting. Constraint
  *              and objective pickers are generated from PARAMS + METRICS, which is
  *              what makes "any parameter can be a constraint" hold.
  *   Views    — readouts, design checks, SVG 3-view, airfoil section, performance
- *              charts, Monte Carlo scatter. All views re-render from one state.
+ *              charts, sensitivity table, Monte Carlo scatter. All views
+ *              re-render from one state.
  *   Design file — versioned JSON (n6cbl.uav-design/1) download/upload for
  *              save/resume; parameters only, derived values are recomputed.
  */
@@ -22,6 +27,7 @@
   var MU_AIR = 1.81e-5;     // Pa*s, dynamic viscosity of air at ~15 C
   var CELL_V = 3.7;         // nominal LiPo cell voltage
   var SCHEMA = 'n6cbl.uav-design/1';
+  var STORE_KEY = 'n6cbl.uav.working';  // localStorage autosave slot (device-local, never sent anywhere)
   var DASH = '—';
 
   /* ── airfoil database ─────────────────────────────────────────────────
@@ -44,49 +50,168 @@
     flat:     { label: 'Flat plate',     camber: 0.0, camberPos: 30, thickness:  3.0, cl0: 0.00, cla: 5.5, clmax: 0.80, cd0: 0.0200, cm:  0.000, use: 'foamboard / park flyer baseline' }
   };
 
+  var TAIL_TYPES = {
+    conventional: { label: 'Conventional' },
+    ttail:        { label: 'T-tail' },
+    vtail:        { label: 'V-tail' }
+  };
+
   /* ── parameter registry ──────────────────────────────────────────────── */
   var PARAMS = [
-    // geometry
-    { key: 'span',        group: 'geometry', label: 'Wing span',          unit: 'm',     def: 1.50,  min: 0.30,  max: 6.0,   step: 0.01 },
-    { key: 'rootChord',   group: 'geometry', label: 'Root chord',         unit: 'm',     def: 0.24,  min: 0.05,  max: 1.2,   step: 0.005 },
-    { key: 'taper',       group: 'geometry', label: 'Taper ratio',        unit: 'tip/root', def: 0.70, min: 0.25, max: 1.0,  step: 0.01 },
-    { key: 'sweepLE',     group: 'geometry', label: 'LE sweep',           unit: 'deg',   def: 0,     min: 0,     max: 35,    step: 0.5 },
-    { key: 'dihedral',    group: 'geometry', label: 'Dihedral',           unit: 'deg',   def: 3,     min: 0,     max: 12,    step: 0.5 },
-    { key: 'fusLength',   group: 'geometry', label: 'Fuselage length',    unit: 'm',     def: 1.00,  min: 0.20,  max: 3.0,   step: 0.01 },
-    { key: 'fusDiameter', group: 'geometry', label: 'Fuselage diameter',  unit: 'm',     def: 0.09,  min: 0.02,  max: 0.50,  step: 0.005 },
-    { key: 'tailArm',     group: 'geometry', label: 'Tail arm (c/4→c/4)', unit: 'm', def: 0.58, min: 0.15,  max: 2.5,   step: 0.01 },
-    { key: 'vh',          group: 'geometry', label: 'H-tail volume Vₕ', unit: '-',  def: 0.50,  min: 0.25,  max: 0.90,  step: 0.01 },
-    { key: 'vv',          group: 'geometry', label: 'V-tail volume Vᵥ', unit: '-',  def: 0.035, min: 0.015, max: 0.080, step: 0.001 },
-    { key: 'cgMac',       group: 'geometry', label: 'CG position',        unit: '% MAC', def: 30,    min: 10,    max: 45,    step: 0.5 },
+    // wing + fuselage geometry
+    { key: 'span',        group: 'geometry', label: 'Wing span',          unit: 'm',     def: 1.50,  min: 0.30,  max: 8.0,   step: 0.01,
+      teach: 'Primary driver of induced drag through aspect ratio: at fixed weight and speed, induced drag scales with 1/b². More span means a flatter glide and slower roll response, and the structural bending moment at the root grows with it.' },
+    { key: 'rootChord',   group: 'geometry', label: 'Root chord',         unit: 'm',     def: 0.24,  min: 0.05,  max: 2.0,   step: 0.005,
+      teach: 'With span and taper this sets wing area, hence wing loading and stall speed. Bigger chord also raises the Reynolds number, which improves airfoil behavior at RC scale.' },
+    { key: 'taper',       group: 'geometry', label: 'Taper ratio',        unit: 'tip/root', def: 0.70, min: 0.25, max: 1.0,  step: 0.01,
+      teach: 'Tip chord over root chord. Moderate taper approaches the elliptical lift distribution (better span efficiency e), but small tips run low Reynolds numbers and stall first — the classic tip-stall trade.' },
+    { key: 'sweepLE',     group: 'geometry', label: 'LE sweep',           unit: 'deg',   def: 0,     min: 0,     max: 35,    step: 0.5,
+      teach: 'At model speeds sweep is not about compressibility: it moves the aerodynamic center aft and adds effective dihedral. Mostly a CG-range, stability, and styling decision.' },
+    { key: 'dihedral',    group: 'geometry', label: 'Dihedral',           unit: 'deg',   def: 3,     min: 0,     max: 12,    step: 0.5,
+      teach: 'Tilting the panels up gives roll stability: in a sideslip the low wing meets the air at higher effective angle of attack and rolls the aircraft level. Traded against roll agility — aerobats fly near zero.' },
+    { key: 'fusLength',   group: 'geometry', label: 'Fuselage length',    unit: 'm',     def: 1.00,  min: 0.20,  max: 6.0,   step: 0.01,
+      teach: 'Sets wetted area (skin-friction drag) and how far aft the tail can sit. A longer fuselage costs drag but buys tail arm, which buys stability per gram of tail.' },
+    { key: 'fusDiameter', group: 'geometry', label: 'Fuselage diameter',  unit: 'm',     def: 0.09,  min: 0.02,  max: 1.00,  step: 0.005,
+      teach: 'Drives fuselage wetted area and the internal volume available for battery and payload. Parasite drag grows roughly linearly with diameter at fixed length.' },
+    { key: 'cgMac',       group: 'geometry', label: 'CG position',        unit: '% MAC', def: 30,    min: 10,    max: 45,    step: 0.5,
+      teach: 'Where the mass balances along the mean chord. CG ahead of the neutral point = stable; the gap between them is the static margin. The single most important number to get right before a first flight.' },
+    // tail geometry
+    { key: 'tailType',    group: 'tail',     label: 'Tail configuration', unit: 'layout', def: 'conventional', options: TAIL_TYPES,
+      teach: 'Conventional is easiest to build and trim. A T-tail lifts the stabilizer out of the wing downwash (modeled here as a reduced downwash derivative) at a structural cost. A V-tail merges both surfaces into two panels — less wetted area and parts, but requires ruddervator mixing and couples pitch/yaw.' },
+    { key: 'tailArm',     group: 'tail',     label: 'Tail arm (c/4→c/4)', unit: 'm', def: 0.58, min: 0.15,  max: 5.0,   step: 0.01,
+      teach: 'Lever arm from wing quarter-chord to tail quarter-chord. Tail effectiveness scales with arm × area, so a longer arm delivers the same stability with a smaller, lighter, lower-drag tail.' },
+    { key: 'vh',          group: 'tail',     label: 'H-tail volume Vₕ', unit: '-',  def: 0.50,  min: 0.25,  max: 0.90,  step: 0.01,
+      teach: 'Horizontal tail volume coefficient Vₕ = Sₕ·Lₜ/(S·MAC) — the classic similarity number for pitch stability. Trainers run ≈ 0.5–0.7, aerobats lower, powered gliders ≈ 0.4–0.5.' },
+    { key: 'vv',          group: 'tail',     label: 'V-tail volume Vᵥ', unit: '-',  def: 0.035, min: 0.015, max: 0.080, step: 0.001,
+      teach: 'Vertical tail volume Vᵥ = Sᵥ·Lₜ/(S·b) — yaw stiffness, the "weathervane" authority. 0.02–0.05 covers most conventional layouts; more for short fuselages and pusher props.' },
+    { key: 'arH',         group: 'tail',     label: 'H-tail aspect ratio', unit: '-', def: 4.0,  min: 2.0,   max: 7.0,   step: 0.1,
+      teach: 'Aspect ratio of the tailplane (V-tail: of the combined panels). Higher AR steepens the tail lift-curve slope — more stabilizing power per unit area — but leaves the tail itself less stall margin.' },
+    { key: 'arV',         group: 'tail',     label: 'Fin aspect ratio',   unit: '-', def: 1.5,  min: 0.8,   max: 3.0,   step: 0.1,
+      teach: 'Fin height squared over fin area. Tall slender fins bite cleaner air and are more effective per area; short wide fins are stiffer and tolerate prop wash and grass landings better.' },
+    { key: 'tailTaper',   group: 'tail',     label: 'Tail taper ratio',   unit: 'tip/root', def: 0.7, min: 0.4, max: 1.0, step: 0.05,
+      teach: 'Tip/root chord of the tail surfaces. At this model fidelity it mainly shapes the drawn planform and the tail tip Reynolds number; structurally it lightens the tip.' },
     // aerodynamics
-    { key: 'airfoil',     group: 'aero',     label: 'Wing airfoil',       unit: 'section', def: 'clarky', options: AIRFOILS },
-    { key: 'oswald',      group: 'aero',     label: 'Oswald efficiency e', unit: '-',    def: 0.80,  min: 0.50,  max: 0.95,  step: 0.01 },
+    { key: 'airfoil',     group: 'aero',     label: 'Wing airfoil',       unit: 'section', def: 'clarky', options: AIRFOILS,
+      teach: 'The section sets how much lift the wing can generate (cl max → stall speed), its zero-lift drag floor, and its pitching moment — the nose-down torque the tail must continuously trim out.' },
+    { key: 'oswald',      group: 'aero',     label: 'Oswald efficiency e', unit: '-',    def: 0.80,  min: 0.50,  max: 0.95,  step: 0.01,
+      teach: 'Span-efficiency factor in the induced-drag term CL²/(π·e·AR). A perfect elliptical loading is e = 1; real monoplanes run 0.7–0.9. Planform taper, washout, and tip treatment move it.' },
     // mass budget
-    { key: 'structure',   group: 'mass',     label: 'Structure mass',     unit: 'g',     def: 420,   min: 20,    max: 20000, step: 5 },
-    { key: 'payload',     group: 'mass',     label: 'Payload mass',       unit: 'g',     def: 200,   min: 0,     max: 20000, step: 5 },
-    { key: 'avionics',    group: 'mass',     label: 'Avionics + servos',  unit: 'g',     def: 60,    min: 0,     max: 2000,  step: 5 },
-    { key: 'propMass',    group: 'mass',     label: 'Motor + ESC + prop', unit: 'g',     def: 130,   min: 0,     max: 5000,  step: 5 },
+    { key: 'structure',   group: 'mass',     label: 'Structure mass',     unit: 'g',     def: 420,   min: 20,    max: 60000, step: 5,
+      teach: 'Airframe: wing, fuselage, tail, gear. On built aircraft it typically runs 35–50 % of all-up weight. Every gram here compounds — it raises wing loading, which raises stall speed and power required.' },
+    { key: 'payload',     group: 'mass',     label: 'Payload mass',       unit: 'g',     def: 200,   min: 0,     max: 50000, step: 5,
+      teach: 'The mission: camera, sensor, cargo. The aircraft exists to carry this — good practice is to size the airframe around the payload, not squeeze the payload into an airframe.' },
+    { key: 'avionics',    group: 'mass',     label: 'Avionics + servos',  unit: 'g',     def: 60,    min: 0,     max: 10000,  step: 5,
+      teach: 'Receiver, servos, flight controller, GPS, wiring. Nearly constant across aircraft sizes, so it punishes small airframes disproportionately — one reason micros fly worse than their numbers suggest.' },
+    { key: 'propMass',    group: 'mass',     label: 'Motor + ESC + prop', unit: 'g',     def: 130,   min: 0,     max: 25000,  step: 5,
+      teach: 'The complete propulsion group mass. Scales roughly with max power (≈ 2–4 W per gram for hobby outrunners). The motor presets below fill realistic combos.' },
     // propulsion + battery
-    { key: 'battCapacity',group: 'power',    label: 'Battery capacity',   unit: 'mAh',   def: 2200,  min: 100,   max: 50000, step: 50 },
-    { key: 'battCells',   group: 'power',    label: 'Battery cells',      unit: 'S',     def: 3,     min: 1,     max: 14,    step: 1 },
-    { key: 'battDensity', group: 'power',    label: 'Pack energy density',unit: 'Wh/kg', def: 150,   min: 60,    max: 300,   step: 5 },
-    { key: 'usableBatt',  group: 'power',    label: 'Usable capacity',    unit: 'fraction', def: 0.80, min: 0.50, max: 1.00, step: 0.01 },
-    { key: 'maxPower',    group: 'power',    label: 'Max electrical power', unit: 'W',   def: 350,   min: 5,     max: 20000, step: 5 },
-    { key: 'propDiameter',group: 'power',    label: 'Prop diameter',      unit: 'in',    def: 10,    min: 3,     max: 40,    step: 0.5 },
-    { key: 'etaProp',     group: 'power',    label: 'Prop efficiency (cruise)', unit: '-', def: 0.55, min: 0.20, max: 0.90,  step: 0.01 },
-    { key: 'etaMotor',    group: 'power',    label: 'Motor + ESC efficiency', unit: '-', def: 0.85,  min: 0.50,  max: 0.98,  step: 0.01 },
+    { key: 'battCapacity',group: 'power',    label: 'Battery capacity',   unit: 'mAh',   def: 2200,  min: 100,   max: 200000, step: 50,
+      teach: 'Energy on board grows linearly with capacity — and so does pack mass. Endurance therefore grows sub-linearly: each added cell of capacity also makes the aircraft heavier and hungrier.' },
+    { key: 'battCells',   group: 'power',    label: 'Battery cells',      unit: 'S',     def: 3,     min: 1,     max: 14,    step: 1,
+      teach: 'Series cells set pack voltage (3.7 V nominal each). Voltage decides which motor Kv is sensible and, with capacity, the total energy. Higher voltage moves the same power at lower current.' },
+    { key: 'battDensity', group: 'power',    label: 'Pack energy density',unit: 'Wh/kg', def: 150,   min: 60,    max: 300,   step: 5,
+      teach: 'Energy per kilogram of pack. LiPo ≈ 130–160 Wh/kg with high discharge rate; Li-ion ≈ 220–260 Wh/kg but limited current. The single biggest technology lever on endurance.' },
+    { key: 'usableBatt',  group: 'power',    label: 'Usable capacity',    unit: 'fraction', def: 0.80, min: 0.50, max: 1.00, step: 0.01,
+      teach: 'Fraction of capacity the mission may consume. 80 % protects LiPo cycle life and keeps a go-around reserve; Li-ion tolerates deeper discharge.' },
+    { key: 'maxPower',    group: 'power',    label: 'Max electrical power', unit: 'W',   def: 350,   min: 5,     max: 50000, step: 5,
+      teach: 'Full-throttle electrical draw. Through the efficiency chain it caps static thrust and climb rate, and sets how much of the power-required curve the aircraft can actually reach.' },
+    { key: 'propDiameter',group: 'power',    label: 'Prop diameter',      unit: 'in',    def: 10,    min: 3,     max: 60,    step: 0.5,
+      teach: 'A bigger disk makes more thrust per watt at low speed — actuator-disk physics: T ∝ (2ρA·P²)^⅓. Traded against ground clearance, RPM matching, and tip noise.' },
+    { key: 'etaProp',     group: 'power',    label: 'Prop efficiency (cruise)', unit: '-', def: 0.55, min: 0.20, max: 0.90,  step: 0.01,
+      teach: 'Fraction of shaft power that becomes thrust power at cruise. A well-matched prop near its design advance ratio reaches 0.6–0.7; a badly matched one silently wastes a third of the battery.' },
+    { key: 'etaMotor',    group: 'power',    label: 'Motor + ESC efficiency', unit: '-', def: 0.85,  min: 0.50,  max: 0.98,  step: 0.01,
+      teach: 'Electrical-to-shaft efficiency of motor plus ESC. Good outrunners near their sweet spot run 0.80–0.90; heavily loaded or badly Kv-matched motors fall well below and turn the loss into heat.' },
     // operating point
-    { key: 'cruiseSpeed', group: 'ops',      label: 'Cruise speed',       unit: 'm/s',   def: 14,    min: 2,     max: 80,    step: 0.5 },
-    { key: 'altitude',    group: 'ops',      label: 'Field altitude',     unit: 'm MSL', def: 0,     min: 0,     max: 5000,  step: 50 }
+    { key: 'cruiseSpeed', group: 'ops',      label: 'Cruise speed',       unit: 'm/s',   def: 14,    min: 2,     max: 100,    step: 0.5,
+      teach: 'The operating point for every cruise number on this page. Fly at the best-L/D speed to maximize range; fly slower, at the minimum-power speed (≈ 0.76 × V_LD), to maximize endurance.' },
+    { key: 'altitude',    group: 'ops',      label: 'Field altitude',     unit: 'm MSL', def: 0,     min: 0,     max: 5000,  step: 50,
+      teach: 'Air density falls about 1 % per 100 m. Thin air demands higher true airspeed for the same lift, robs the prop of static thrust, and slightly reduces drag.' }
   ];
 
   var GROUPS = [
-    { id: 'geometry', label: 'Airframe geometry' },
+    { id: 'geometry', label: 'Wing + fuselage geometry' },
+    { id: 'tail',     label: 'Tail geometry' },
     { id: 'aero',     label: 'Aerodynamics' },
     { id: 'mass',     label: 'Mass budget' },
     { id: 'power',    label: 'Propulsion + battery' },
     { id: 'ops',      label: 'Operating point + environment' }
   ];
+
+  /* ── COTS presets ─────────────────────────────────────────────────────
+   * Approximate class values for common hobby hardware, labeled by size
+   * class rather than brand. Applying a preset writes the listed PARAMS keys;
+   * everything stays editable afterwards.
+   */
+  var PRESETS = {
+    airframe: {
+      label: 'Airframes',
+      note: 'sets geometry, tail, airfoil, structure mass',
+      items: [
+        { id: 'micro800', label: '800 mm micro park flyer',
+          info: 'foam · 0.13 m² · flat-plate wing',
+          specs: { span: 0.80, rootChord: 0.16, taper: 0.90, sweepLE: 0, dihedral: 3, fusLength: 0.65, fusDiameter: 0.06, tailArm: 0.38, vh: 0.50, vv: 0.035, tailType: 'conventional', airfoil: 'flat', structure: 120 } },
+        { id: 'ft1200', label: '1200 mm foamboard scratch build (FT-style)',
+          info: 'flat foamboard · constant chord · cheap and crashable',
+          specs: { span: 1.20, rootChord: 0.30, taper: 1.00, sweepLE: 0, dihedral: 2, fusLength: 0.90, fusDiameter: 0.10, tailArm: 0.55, vh: 0.50, vv: 0.035, tailType: 'conventional', airfoil: 'flat', structure: 400 } },
+        { id: 'trainer1400', label: '1400 mm foam high-wing trainer (Apprentice-class)',
+          info: 'molded foam · Clark Y · self-leveling dihedral',
+          specs: { span: 1.40, rootChord: 0.23, taper: 0.85, sweepLE: 0, dihedral: 5, fusLength: 1.10, fusDiameter: 0.11, tailArm: 0.62, vh: 0.55, vv: 0.040, tailType: 'conventional', airfoil: 'clarky', structure: 780 } },
+        { id: 'glider2000', label: '2000 mm powered sailplane (Radian-class)',
+          info: 'slender pod · T-tail · thermal floater',
+          specs: { span: 2.00, rootChord: 0.185, taper: 0.60, sweepLE: 0, dihedral: 6, fusLength: 1.15, fusDiameter: 0.065, tailArm: 0.70, vh: 0.45, vv: 0.030, tailType: 'ttail', airfoil: 'sd7037', structure: 480 } },
+        { id: 'maptalon1300', label: '1300 mm mapping pusher (Mini Talon-class)',
+          info: 'V-tail · pusher prop keeps the camera view clean',
+          specs: { span: 1.30, rootChord: 0.20, taper: 0.75, sweepLE: 3, dihedral: 2, fusLength: 0.83, fusDiameter: 0.13, tailArm: 0.55, vh: 0.50, vv: 0.040, tailType: 'vtail', airfoil: 'mh32', structure: 650 } },
+        { id: 'believer1960', label: '1960 mm survey twin (Believer-class)',
+          info: 'big fuselage volume · long-endurance mapping',
+          specs: { span: 1.96, rootChord: 0.24, taper: 0.65, sweepLE: 2, dihedral: 3, fusLength: 1.20, fusDiameter: 0.14, tailArm: 0.72, vh: 0.55, vv: 0.045, tailType: 'conventional', airfoil: 'sd7037', structure: 1650 } },
+        { id: 'eglider2400', label: '2400 mm thermal e-glider',
+          info: 'high AR · AG35 · built for minimum sink',
+          specs: { span: 2.40, rootChord: 0.20, taper: 0.55, sweepLE: 0, dihedral: 4, fusLength: 1.25, fusDiameter: 0.06, tailArm: 0.85, vh: 0.50, vv: 0.030, tailType: 'ttail', airfoil: 'ag35', structure: 900 } },
+        { id: 'cargo2100', label: '2100 mm heavy-lift cargo (student UAS class)',
+          info: 'high-lift section · sized around the payload bay',
+          specs: { span: 2.10, rootChord: 0.33, taper: 0.70, sweepLE: 0, dihedral: 3, fusLength: 1.40, fusDiameter: 0.16, tailArm: 0.85, vh: 0.60, vv: 0.045, tailType: 'conventional', airfoil: 'naca4412', structure: 2200 } },
+        { id: 'survey3200', label: '3200 mm long-endurance survey (22 kg class)',
+          info: 'composite · high AR · catapult or runway launch',
+          specs: { span: 3.20, rootChord: 0.42, taper: 0.60, sweepLE: 2, dihedral: 2, fusLength: 2.20, fusDiameter: 0.25, tailArm: 1.35, vh: 0.55, vv: 0.040, tailType: 'ttail', airfoil: 'e205', structure: 9000 } },
+        { id: 'cargo5500', label: '5500 mm heavy cargo UAV (100 kg class)',
+          info: 'runway launch · sized around a 30 kg payload bay',
+          specs: { span: 5.50, rootChord: 0.62, taper: 0.65, sweepLE: 0, dihedral: 2, fusLength: 3.60, fusDiameter: 0.45, tailArm: 2.20, vh: 0.60, vv: 0.050, tailType: 'conventional', airfoil: 'naca4412', structure: 42000 } }
+      ]
+    },
+    motor: {
+      label: 'Motors (motor + ESC + prop combo)',
+      note: 'sets propulsion mass, max power, prop diameter, cells',
+      items: [
+        { id: 'm1806', label: '1806 · 2300 kV micro',    info: '5×4.5 · 2–3S · ≈45 g combo',  specs: { propMass: 45,  maxPower: 110,  propDiameter: 5,   battCells: 3 } },
+        { id: 'm2204', label: '2204 · 2300 kV mini',     info: '6×4 · 3S · ≈60 g combo',      specs: { propMass: 60,  maxPower: 150,  propDiameter: 6,   battCells: 3 } },
+        { id: 'm2212', label: '2212 · 1000 kV classic',  info: '10×4.7 · 3S · ≈105 g combo',  specs: { propMass: 105, maxPower: 200,  propDiameter: 10,  battCells: 3 } },
+        { id: 'm2216', label: '2216 · 880 kV',           info: '11×7 · 3–4S · ≈140 g combo',  specs: { propMass: 140, maxPower: 280,  propDiameter: 11,  battCells: 4 } },
+        { id: 'm2814', label: '2814 · 900 kV',           info: '12×6 · 4S · ≈180 g combo',    specs: { propMass: 180, maxPower: 450,  propDiameter: 12,  battCells: 4 } },
+        { id: 'm4108', label: '4108 · 480 kV',           info: '15×8 · 6S · ≈280 g combo',    specs: { propMass: 280, maxPower: 700,  propDiameter: 15,  battCells: 6 } },
+        { id: 'm5010', label: '5010 · 300 kV large',     info: '18×6.5 · 6S · ≈420 g combo',  specs: { propMass: 420, maxPower: 900,  propDiameter: 18,  battCells: 6 } },
+        { id: 'm8318', label: '8318 · 120 kV heavy-lift', info: '29×9.5 · 12S · ≈1.3 kg combo', specs: { propMass: 1300, maxPower: 4000, propDiameter: 29, battCells: 12 } },
+        { id: 'm15kw', label: '15 kW class UAV powertrain', info: '40 in · 14S · ≈6 kg combo',  specs: { propMass: 6000, maxPower: 15000, propDiameter: 40, battCells: 14 } }
+      ]
+    },
+    battery: {
+      label: 'Batteries',
+      note: 'sets capacity, cells, energy density (from real pack mass)',
+      items: [
+        { id: 'b2s800',   label: '2S 800 mAh 45 C LiPo',    info: '≈45 g · 5.9 Wh',    specs: { battCapacity: 800,   battCells: 2, battDensity: 131 } },
+        { id: 'b3s1300',  label: '3S 1300 mAh 45 C LiPo',   info: '≈115 g · 14.4 Wh',  specs: { battCapacity: 1300,  battCells: 3, battDensity: 125 } },
+        { id: 'b3s2200',  label: '3S 2200 mAh 25 C LiPo',   info: '≈185 g · 24.4 Wh',  specs: { battCapacity: 2200,  battCells: 3, battDensity: 132 } },
+        { id: 'b3s5000',  label: '3S 5000 mAh 20 C LiPo',   info: '≈400 g · 55.5 Wh',  specs: { battCapacity: 5000,  battCells: 3, battDensity: 139 } },
+        { id: 'b4s3300',  label: '4S 3300 mAh 35 C LiPo',   info: '≈340 g · 48.8 Wh',  specs: { battCapacity: 3300,  battCells: 4, battDensity: 144 } },
+        { id: 'b4s5200',  label: '4S 5200 mAh 15 C LiPo',   info: '≈480 g · 77.0 Wh',  specs: { battCapacity: 5200,  battCells: 4, battDensity: 160 } },
+        { id: 'b6s5000',  label: '6S 5000 mAh 25 C LiPo',   info: '≈760 g · 111 Wh',   specs: { battCapacity: 5000,  battCells: 6, battDensity: 146 } },
+        { id: 'bli3s35',  label: '3S 3500 mAh Li-ion (18650)', info: '≈160 g · 38.9 Wh · ≤2 C', specs: { battCapacity: 3500, battCells: 3, battDensity: 243 } },
+        { id: 'bli4s7',   label: '4S2P 7000 mAh Li-ion (18650)', info: '≈420 g · 104 Wh · ≤2 C', specs: { battCapacity: 7000, battCells: 4, battDensity: 247 } },
+        { id: 'b12s22',   label: '12S 22000 mAh 25 C LiPo', info: '≈6.0 kg · 977 Wh',  specs: { battCapacity: 22000, battCells: 12, battDensity: 163 } },
+        { id: 'b14s30li', label: '14S3P 30000 mAh Li-ion',  info: '≈7.8 kg · 1554 Wh · ≤3 C', specs: { battCapacity: 30000, battCells: 14, battDensity: 199 } }
+      ]
+    }
+  };
 
   /* ── derived-metric registry (Monte Carlo constraints/objectives) ────── */
   var METRICS = [
@@ -95,6 +220,9 @@
     { key: 'area',         label: 'Wing area',            unit: 'dm²', dec: 1 },
     { key: 'aspectRatio',  label: 'Aspect ratio',         unit: '-',      dec: 2 },
     { key: 'mac',          label: 'Mean aero chord',      unit: 'm',      dec: 3 },
+    { key: 'areaH',        label: 'H-tail area (proj.)',  unit: 'dm²', dec: 1 },
+    { key: 'areaV',        label: 'Fin area (proj.)',     unit: 'dm²', dec: 1 },
+    { key: 'totalLength',  label: 'Total length (nose→tail)', unit: 'm', dec: 2 },
     { key: 'wingLoading',  label: 'Wing loading',         unit: 'g/dm²', dec: 1 },
     { key: 'vstall',       label: 'Stall speed',          unit: 'm/s',    dec: 1 },
     { key: 'stallMargin',  label: 'Cruise / stall ratio', unit: '-',      dec: 2 },
@@ -141,9 +269,29 @@
     var mac = (2 / 3) * d.rootChord * (1 + d.taper + d.taper * d.taper) / (1 + d.taper);
     var yMac = (d.span / 6) * (1 + 2 * d.taper) / (1 + d.taper);
 
-    // tail sizing from volume coefficients
-    var sh = d.vh * S * mac / d.tailArm;                        // m^2
-    var sv = d.vv * S * d.span / d.tailArm;                     // m^2
+    // tail sizing from volume coefficients (projected/effective areas)
+    var shEff = d.vh * S * mac / d.tailArm;                     // m^2, horizontal projection
+    var svEff = d.vv * S * d.span / d.tailArm;                  // m^2, vertical projection
+    var tail = { type: d.tailType };
+    if (d.tailType === 'vtail') {
+      // classic conversion: total V-tail area = Sh + Sv, panel dihedral from the split
+      tail.gamma = Math.atan(Math.sqrt(svEff / Math.max(shEff, 1e-9)));
+      tail.area = shEff + svEff;
+      tail.span = Math.sqrt(d.arH * tail.area);                 // true (slant) span
+      tail.rootChord = 2 * tail.area / (tail.span * (1 + d.tailTaper));
+    } else {
+      tail.spanH = Math.sqrt(d.arH * shEff);
+      tail.rootChordH = 2 * shEff / (tail.spanH * (1 + d.tailTaper));
+      tail.heightV = Math.sqrt(d.arV * svEff);
+      tail.rootChordV = 2 * svEff / (tail.heightV * (1 + d.tailTaper));
+    }
+
+    // overall length, nose to aft-most tail edge (same placement the drawings use)
+    var wingRootLEx = 0.30 * d.fusLength;
+    var macLEx = wingRootLEx + yMac * Math.tan(d.sweepLE * Math.PI / 180);
+    var xTailC4 = macLEx + 0.25 * mac + d.tailArm;
+    var aftChord = d.tailType === 'vtail' ? tail.rootChord : Math.max(tail.rootChordH, tail.rootChordV);
+    var totalLength = Math.max(d.fusLength, xTailC4 + 0.75 * aftChord);
 
     // mass budget
     var battWh = (d.battCapacity / 1000) * d.battCells * CELL_V;
@@ -159,7 +307,7 @@
     // parasite drag buildup (referenced to wing area), +15% interference/misc
     var fusWetted = Math.PI * d.fusDiameter * d.fusLength * 0.8;
     var cd0Fus = 0.006 * fusWetted / S;
-    var cd0Tail = 0.008 * (sh + sv) / S;
+    var cd0Tail = 0.008 * (shEff + svEff) / S;
     var cd0 = 1.15 * (foil.cd0 + cd0Fus + cd0Tail);
     var k = 1 / (Math.PI * d.oswald * AR);
 
@@ -198,17 +346,20 @@
     var tw = staticThrustN / weightN;
 
     // longitudinal stability: tail-volume neutral point with downwash,
-    // 0.9 tail efficiency, and a -4% MAC fuselage (Munk) correction
-    var deda = Math.min(0.9, 2 * claw / (Math.PI * AR));
-    var clat = 4.0; // finite tail plane, AR ~ 4
+    // 0.9 tail efficiency, and a -4% MAC fuselage (Munk) correction.
+    // Tail lift-curve slope from the configured tail AR; a T-tail sits above
+    // the wake and sees ~30% less downwash gradient.
+    var clat = 5.8 / (1 + 5.8 / (Math.PI * 0.9 * d.arH));
+    var dedaFactor = d.tailType === 'ttail' ? 0.7 : 1.0;
+    var deda = Math.min(0.9, dedaFactor * 2 * claw / (Math.PI * AR));
     var npFrac = 0.25 + 0.9 * d.vh * (clat / claw) * (1 - deda) - 0.04;
     var smFrac = npFrac - d.cgMac / 100;
 
     return {
-      foil: foil, rho: rho,
-      tipChord: tipChord, S: S, sh: sh, sv: sv, yMac: yMac,
+      foil: foil, rho: rho, tail: tail,
+      tipChord: tipChord, S: S, shEff: shEff, svEff: svEff, yMac: yMac,
       weightN: weightN, battWh: battWh,
-      cd0: cd0, k: k, claw: claw, clMax3D: clMax3D,
+      cd0: cd0, k: k, claw: claw, clat: clat, deda: deda, clMax3D: clMax3D,
       pAvailMech: pAvailMech, packV: packV,
       // registry metrics
       massTotal: massKg * 1000,
@@ -216,6 +367,9 @@
       area: S * 100,
       aspectRatio: AR,
       mac: mac,
+      areaH: shEff * 100,
+      areaV: svEff * 100,
+      totalLength: totalLength,
       wingLoading: massKg * 1000 / (S * 100),
       vstall: vstall,
       stallMargin: v / vstall,
@@ -281,7 +435,7 @@
   function fmtInt(v) {
     if (!isFinite(v) || isNaN(v)) return DASH;
     v = Math.round(v);
-    return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
   function fmtMetric(key, v) {
     var m = metricByKey[key];
@@ -303,6 +457,7 @@
   var design = defaultDesign();
   var derived = null;
   var mcResult = null;
+  var activePreset = { airframe: null, motor: null, battery: null };
 
   function defaultDesign() {
     var d = {};
@@ -345,6 +500,8 @@
         if (!isFinite(v)) return; // keep last valid value while the user types
         design[key] = Math.min(p.max, Math.max(p.min, v));
       }
+      designTouched = true;
+      notePresetDivergence(key);
       recompute();
     });
   }
@@ -358,11 +515,96 @@
     });
   }
 
+  /* ── COTS preset tables ──────────────────────────────────────────────── */
+  function buildPresetTables() {
+    var host = document.getElementById('uav-presets');
+    var html = '';
+    Object.keys(PRESETS).forEach(function (cat) {
+      var c = PRESETS[cat];
+      html += '<div class="uav-group-label">' + esc(c.label) + ' <span class="uav-preset-note">&mdash; ' + esc(c.note) + '</span></div>';
+      html += '<div class="table-scroll"><table class="tools-ref-table uav-preset-table"><tbody>';
+      c.items.forEach(function (it) {
+        html += '<tr id="preset-' + cat + '-' + it.id + '">' +
+          '<td class="uav-preset-name">' + esc(it.label) + '</td>' +
+          '<td class="desc">' + esc(it.info) + '</td>' +
+          '<td class="tool-cta"><a href="#" data-preset="' + cat + ':' + it.id + '">Apply &rarr;</a></td></tr>';
+      });
+      html += '</tbody></table></div>';
+    });
+    host.innerHTML = html;
+    host.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-preset]');
+      if (!a) return;
+      e.preventDefault();
+      var parts = a.getAttribute('data-preset').split(':');
+      applyPreset(parts[0], parts[1]);
+    });
+  }
+
+  function applyPreset(cat, id) {
+    var item = null;
+    PRESETS[cat].items.forEach(function (it) { if (it.id === id) item = it; });
+    if (!item) return;
+    var setKeys = [], changedKeys = [];
+    Object.keys(item.specs).forEach(function (key) {
+      var p = paramByKey[key];
+      if (!p) return;
+      var v = p.options ? item.specs[key] : Math.min(p.max, Math.max(p.min, item.specs[key]));
+      if (design[key] !== v) changedKeys.push(key);
+      design[key] = v;
+      setKeys.push(p.label);
+    });
+    activePreset[cat] = id;
+    designTouched = true;
+    // a spec that actually changes another category's keys invalidates that selection
+    Object.keys(PRESETS).forEach(function (other) {
+      if (other === cat) return;
+      if (activePreset[other] && changedKeys.some(function (k) { return presetOwns(other, k); })) {
+        activePreset[other] = null;
+      }
+    });
+    syncForm();
+    recompute();
+    renderPresetStatus();
+    document.getElementById('uav-preset-status').textContent =
+      'Applied ' + item.label + ' — set: ' + setKeys.join(', ') + '. All values remain editable.';
+  }
+
+  function presetOwns(cat, key) {
+    return PRESETS[cat].items.some(function (it) { return key in it.specs; });
+  }
+
+  function notePresetDivergence(key) {
+    var changed = false;
+    Object.keys(PRESETS).forEach(function (cat) {
+      if (activePreset[cat] && presetOwns(cat, key)) { activePreset[cat] = null; changed = true; }
+    });
+    if (changed) renderPresetStatus();
+  }
+
+  function renderPresetStatus() {
+    Object.keys(PRESETS).forEach(function (cat) {
+      PRESETS[cat].items.forEach(function (it) {
+        var row = document.getElementById('preset-' + cat + '-' + it.id);
+        if (row) row.classList.toggle('uav-preset-active', activePreset[cat] === it.id);
+      });
+    });
+  }
+
   /* ── readouts ────────────────────────────────────────────────────────── */
   var READOUTS = [
     { key: 'massTotal',    sub: function (r) { return 'battery ' + fmtInt(r.battMass) + ' g · ' + fmt(r.battWh, 1) + ' Wh'; } },
     { key: 'wingLoading',  sub: function (r) { return fmt(r.massTotal / 1000 / r.S, 2) + ' kg/m²'; } },
     { key: 'area',         sub: function (r) { return 'AR ' + fmt(r.aspectRatio, 2) + ' · MAC ' + fmt(r.mac * 1000, 0) + ' mm'; } },
+    { key: 'areaH',        sub: function (r) {
+        return r.tail.type === 'vtail'
+          ? 'V-tail Γ ' + fmt(r.tail.gamma * 180 / Math.PI, 0) + '° · true area ' + fmt(r.tail.area * 100, 1) + ' dm²'
+          : 'span ' + fmt(r.tail.spanH, 2) + ' m · root ' + fmt(r.tail.rootChordH * 1000, 0) + ' mm'; } },
+    { key: 'areaV',        sub: function (r) {
+        return r.tail.type === 'vtail'
+          ? 'projected from the V panels'
+          : 'height ' + fmt(r.tail.heightV, 2) + ' m · root ' + fmt(r.tail.rootChordV * 1000, 0) + ' mm'; } },
+    { key: 'totalLength',  sub: function (r) { return 'fuselage ' + fmt(design.fusLength, 2) + ' m · overhang ' + fmt(Math.max(0, r.totalLength - design.fusLength), 2) + ' m'; } },
     { key: 'vstall',       sub: function (r) { return fmt(r.vstall * 3.6, 1) + ' km/h at CL ' + fmt(r.clMax3D, 2); } },
     { key: 'ldCruise',     sub: function (r) { return 'L/D max ' + fmt(r.ldMax, 1) + ' at ' + fmt(r.vLdMax, 1) + ' m/s'; } },
     { key: 'cruisePowerE', sub: function (r) { return fmt(r.throttle, 0) + ' % throttle · ' + fmt(r.current, 1) + ' A · ' + fmt(r.cRate, 1) + ' C'; } },
@@ -387,7 +629,7 @@
     document.getElementById('uav-readouts').innerHTML = html;
   }
 
-  function renderChecks(d, r) {
+  function checksRowsHtml(d, r) {
     var rows = designChecks(d, r);
     var html = '';
     var words = { ok: 'OK', warn: 'WARN', fail: 'FAIL' };
@@ -396,7 +638,11 @@
         '<td class="desc">' + c.limit + '</td>' +
         '<td class="uav-status uav-status-' + c.status + '">' + words[c.status] + '</td></tr>';
     });
-    document.getElementById('uav-checks-body').innerHTML = html;
+    return html;
+  }
+
+  function renderChecks(d, r) {
+    document.getElementById('uav-checks-body').innerHTML = checksRowsHtml(d, r);
   }
 
   /* ── SVG helpers ─────────────────────────────────────────────────────── */
@@ -439,23 +685,34 @@
     var macLE = wingRootLE + r.yMac * sweepTan;
     var xC4Mac = macLE + 0.25 * r.mac;
     var xTailC4 = xC4Mac + d.tailArm;
-    // tail planform: AR_h = 4, taper 0.7; fin: AR_v = 1.5
-    var bh = Math.sqrt(4 * r.sh);
-    var ch = r.sh / bh;
-    var hv = Math.sqrt(1.5 * r.sv);
-    var cv = r.sv / hv;
+    var t = r.tail;
+    // drawing spans/chords per tail type
+    var bhDraw, chRoot, chTip, hv, cvRoot, cvTip, gamma = 0;
+    if (t.type === 'vtail') {
+      gamma = t.gamma;
+      bhDraw = t.span * Math.cos(gamma);                 // projected span, top view
+      chRoot = t.rootChord; chTip = t.rootChord * d.tailTaper;
+      hv = (t.span / 2) * Math.sin(gamma);               // projected height, side view
+      cvRoot = t.rootChord; cvTip = chTip;
+    } else {
+      bhDraw = t.spanH;
+      chRoot = t.rootChordH; chTip = t.rootChordH * d.tailTaper;
+      hv = t.heightV;
+      cvRoot = t.rootChordV; cvTip = t.rootChordV * d.tailTaper;
+    }
     return {
       wingRootLE: wingRootLE, sweepTan: sweepTan, macLE: macLE,
       xC4Mac: xC4Mac, xTailC4: xTailC4,
-      bh: bh, ch: ch, hv: hv, cv: cv,
+      bhDraw: bhDraw, chRoot: chRoot, chTip: chTip,
+      hv: hv, cvRoot: cvRoot, cvTip: cvTip, gamma: gamma,
       xCG: macLE + (d.cgMac / 100) * r.mac,
       xNP: macLE + (r.npMac / 100) * r.mac,
-      totalLength: Math.max(d.fusLength, xTailC4 + 0.75 * ch)
+      totalLength: r.totalLength // same placement math as the derived metric
     };
   }
 
   /* ── top view ────────────────────────────────────────────────────────── */
-  function renderTopView(d, r) {
+  function renderTopView(d, r, targetId) {
     var L = layout(d, r);
     var W = 640, H = 420, pad = 48;
     var scale = Math.min((W - 2 * pad) / d.span, (H - 2 * pad - 20) / L.totalLength);
@@ -478,7 +735,7 @@
       ' L ' + f2(cx - 0.35 * fr) + ' ' + f2(Y(d.fusLength)) +
       ' L ' + f2(cx - fr) + ' ' + f2(Y(0.7 * d.fusLength)) + ' Z', 'uav-skin');
     // tail boom if the tail sits behind the fuselage
-    var boomEnd = L.xTailC4 + 0.75 * L.ch;
+    var boomEnd = L.xTailC4 + 0.75 * L.chRoot;
     if (boomEnd > d.fusLength) {
       s += line(cx, Y(d.fusLength), cx, Y(boomEnd), 'uav-boom');
     }
@@ -492,14 +749,17 @@
     // MAC chord line
     s += line(X(r.yMac), Y(L.macLE), X(r.yMac), Y(L.macLE + r.mac), 'uav-macline');
     s += text(X(r.yMac) + 5, Y(L.macLE + r.mac / 2), 'MAC', 'uav-fig-label');
-    // horizontal tail
-    var thLE = L.xTailC4 - 0.25 * L.ch;
-    var htHalf = L.bh / 2, htTipC = 0.7 * L.ch, htRootC = L.ch * 1.15; // approx trapezoid, same area
+    // tail planform (projected for a V-tail)
+    var thLE = L.xTailC4 - 0.25 * L.chRoot;
+    var htHalf = L.bhDraw / 2;
     s += poly([
-      [X(0), Y(thLE)], [X(htHalf), Y(thLE + (htRootC - htTipC) / 2)],
-      [X(htHalf), Y(thLE + (htRootC + htTipC) / 2)], [X(0), Y(thLE + htRootC)],
-      [X(-htHalf), Y(thLE + (htRootC + htTipC) / 2)], [X(-htHalf), Y(thLE + (htRootC - htTipC) / 2)]
+      [X(0), Y(thLE)], [X(htHalf), Y(thLE + (L.chRoot - L.chTip) / 2)],
+      [X(htHalf), Y(thLE + (L.chRoot + L.chTip) / 2)], [X(0), Y(thLE + L.chRoot)],
+      [X(-htHalf), Y(thLE + (L.chRoot + L.chTip) / 2)], [X(-htHalf), Y(thLE + (L.chRoot - L.chTip) / 2)]
     ], 'uav-surface');
+    if (r.tail.type === 'vtail') {
+      s += text(X(htHalf) + 4, Y(thLE + L.chRoot / 2), 'V-tail Γ ' + fmt(L.gamma * 180 / Math.PI, 0) + '°', 'uav-fig-label');
+    }
     // CG / NP on centerline
     s += cgSymbol(cx, Y(L.xCG), 6);
     s += '<circle cx="' + f2(cx) + '" cy="' + f2(Y(L.xNP)) + '" r="3.5" class="uav-np"/>';
@@ -514,11 +774,11 @@
     s += line(dx - 4, Y(d.fusLength), dx + 4, Y(d.fusLength), 'uav-dim');
     s += '<text x="' + f2(dx + 4) + '" y="' + f2(Y(d.fusLength / 2)) + '" class="uav-dim-label" transform="rotate(90 ' + f2(dx + 4) + ' ' + f2(Y(d.fusLength / 2)) + ')" text-anchor="middle">fus ' + fmt(d.fusLength, 2) + ' m</text>';
     s += '</svg>';
-    document.getElementById('uav-top-view').innerHTML = s;
+    document.getElementById(targetId || 'uav-top-view').innerHTML = s;
   }
 
   /* ── side view ───────────────────────────────────────────────────────── */
-  function renderSideView(d, r) {
+  function renderSideView(d, r, targetId) {
     var L = layout(d, r);
     var W = 640, H = 220, pad = 40;
     var finTop = d.fusDiameter + L.hv;
@@ -537,7 +797,7 @@
       ' L ' + f2(X(d.fusLength)) + ' ' + f2(yRef + 0.2 * fr) +
       ' L ' + f2(X(d.fusLength)) + ' ' + f2(yRef - 0.2 * fr) +
       ' L ' + f2(X(0.65 * d.fusLength)) + ' ' + f2(yRef - fr) + ' Z', 'uav-skin');
-    var boomEnd = L.xTailC4 + 0.75 * L.ch;
+    var boomEnd = L.xTailC4 + 0.75 * L.chRoot;
     if (boomEnd > d.fusLength) s += line(X(d.fusLength), yRef, X(boomEnd), yRef, 'uav-boom');
     // wing root chord silhouette on top of fuselage
     var wingY = yRef - fr;
@@ -547,16 +807,31 @@
       [X(L.wingRootLE + 0.3 * d.rootChord), wingY - Math.max(4, 0.16 * d.rootChord * scale)],
       [X(L.wingRootLE), wingY - Math.max(2, 0.06 * d.rootChord * scale)]
     ], 'uav-surface');
-    // fin
-    var finBaseLE = L.xTailC4 - 0.25 * L.cv;
-    s += poly([
-      [X(finBaseLE - 0.35 * L.cv), yRef - 0.2 * fr],
-      [X(finBaseLE + 0.45 * L.cv), yRef - 0.2 * fr - L.hv * scale],
-      [X(finBaseLE + 0.45 * L.cv + 0.6 * L.cv), yRef - 0.2 * fr - L.hv * scale],
-      [X(finBaseLE + 1.05 * L.cv), yRef - 0.2 * fr]
-    ], 'uav-surface');
-    // horizontal tail chord line
-    s += line(X(L.xTailC4 - 0.25 * L.ch), yRef - 0.15 * fr, X(L.xTailC4 + 0.75 * L.ch), yRef - 0.15 * fr, 'uav-macline');
+    // tail surfaces by configuration
+    var finBaseLE = L.xTailC4 - 0.25 * L.cvRoot;
+    var finTopY = yRef - 0.2 * fr - L.hv * scale;
+    if (r.tail.type === 'vtail') {
+      // single inclined panel drawn at its projected height
+      s += poly([
+        [X(finBaseLE), yRef - 0.2 * fr],
+        [X(finBaseLE + 0.45 * L.cvRoot), finTopY],
+        [X(finBaseLE + 0.45 * L.cvRoot + L.cvTip), finTopY],
+        [X(finBaseLE + L.cvRoot), yRef - 0.2 * fr]
+      ], 'uav-surface');
+      s += text(X(finBaseLE) - 4, finTopY - 5, 'V-tail Γ ' + fmt(L.gamma * 180 / Math.PI, 0) + '°', 'uav-fig-label');
+    } else {
+      // fin
+      s += poly([
+        [X(finBaseLE - 0.35 * L.cvRoot), yRef - 0.2 * fr],
+        [X(finBaseLE + 0.45 * L.cvRoot), finTopY],
+        [X(finBaseLE + 0.45 * L.cvRoot + L.cvTip), finTopY],
+        [X(finBaseLE + 1.05 * L.cvRoot), yRef - 0.2 * fr]
+      ], 'uav-surface');
+      // tailplane chord line: at the fin top for a T-tail, on the fuselage otherwise
+      var tpY = r.tail.type === 'ttail' ? finTopY : yRef - 0.15 * fr;
+      s += line(X(L.xTailC4 - 0.25 * L.chRoot), tpY, X(L.xTailC4 + 0.75 * L.chRoot), tpY, 'uav-hstab');
+      if (r.tail.type === 'ttail') s += text(X(L.xTailC4 + 0.75 * L.chRoot) + 3, tpY + 3, 'T', 'uav-fig-label');
+    }
     // CG + NP
     s += cgSymbol(X(L.xCG), yRef, 6);
     s += '<circle cx="' + f2(X(L.xNP)) + '" cy="' + f2(yRef) + '" r="3.5" class="uav-np"/>';
@@ -565,7 +840,7 @@
     // tail arm dimension
     s += dimH(X(L.xC4Mac), X(L.xTailC4), H - 14, 'tail arm ' + fmt(d.tailArm, 2) + ' m');
     s += '</svg>';
-    document.getElementById('uav-side-view').innerHTML = s;
+    document.getElementById(targetId || 'uav-side-view').innerHTML = s;
   }
 
   /* ── front view ──────────────────────────────────────────────────────── */
@@ -580,7 +855,7 @@
     var fr = d.fusDiameter / 2 * scale;
 
     var s = svgOpen(W, H);
-    s += '<title>Front view: dihedral, fuselage section, prop disk</title>';
+    s += '<title>Front view: dihedral, fuselage section, tail, prop disk</title>';
     // prop disk
     s += '<circle cx="' + f2(cx) + '" cy="' + f2(cy) + '" r="' + f2(propR * scale) + '" class="uav-propdisk"/>';
     // wing panels (thin quadrilaterals along dihedral)
@@ -589,9 +864,25 @@
     s += poly([[cx, cy - fr], [cx - half * scale, cy - fr - tipRise * scale], [cx - half * scale, cy - fr - tipRise * scale - t], [cx, cy - fr - t]], 'uav-surface');
     // fuselage section
     s += '<circle cx="' + f2(cx) + '" cy="' + f2(cy) + '" r="' + f2(fr) + '" class="uav-skin"/>';
-    // fin
-    s += line(cx, cy - fr, cx, cy - fr - L.hv * scale, 'uav-boom');
-    s += text(cx + 6, cy - fr - L.hv * scale + 4, 'fin', 'uav-fig-label');
+    // tail by configuration
+    if (r.tail.type === 'vtail') {
+      var vx = (L.bhDraw / 2) * scale, vy = L.hv * scale; // panel projections
+      s += line(cx, cy - fr, cx + vx, cy - fr - vy, 'uav-boom');
+      s += line(cx, cy - fr, cx - vx, cy - fr - vy, 'uav-boom');
+      s += text(cx + vx + 4, cy - fr - vy + 4, 'V-tail', 'uav-fig-label');
+    } else {
+      var finH = L.hv * scale;
+      s += line(cx, cy - fr, cx, cy - fr - finH, 'uav-boom');
+      if (r.tail.type === 'ttail') {
+        var htHalf = (L.bhDraw / 2) * scale;
+        s += line(cx - htHalf, cy - fr - finH, cx + htHalf, cy - fr - finH, 'uav-hstab');
+        s += text(cx + htHalf + 4, cy - fr - finH + 4, 'T-tail', 'uav-fig-label');
+      } else {
+        var htHalf2 = (L.bhDraw / 2) * scale;
+        s += line(cx - htHalf2, cy - fr * 0.4, cx + htHalf2, cy - fr * 0.4, 'uav-hstab');
+        s += text(cx + 6, cy - fr - finH + 4, 'fin', 'uav-fig-label');
+      }
+    }
     // dihedral label
     s += text(cx + half * scale * 0.55, cy - fr - tipRise * scale * 0.55 - 8, 'dihedral ' + fmt(d.dihedral, 1) + '°', 'uav-fig-label', 'middle');
     s += text(cx, cy + propR * scale + 14, 'prop ⌀ ' + fmt(d.propDiameter, 1) + ' in', 'uav-fig-label', 'middle');
@@ -716,7 +1007,6 @@
       s += text(fr.X(d.cruiseSpeed) + 7, fr.Y(pc) + 3, 'cruise', 'uav-fig-label');
     }
     s += '<rect class="uav-hover-target" x="' + M.l + '" y="' + M.t + '" width="' + (W - M.l - M.r) + '" height="' + (H - M.t - M.b) + '"/>';
-    s += line(0, 0, 0, 0, 'uav-crosshair'); // placeholder, real crosshair drawn on hover
     s += '</svg>';
     var host = document.getElementById('uav-power-chart');
     host.innerHTML = s;
@@ -790,27 +1080,114 @@
     document.getElementById('uav-polar-chart').innerHTML = s;
   }
 
+  /* ── sensitivity analysis (learning tool) ────────────────────────────── */
+  var SENS_METRICS = ['vstall', 'ldMax', 'endurance', 'range', 'roc', 'staticMargin'];
+
+  function renderSensitivity(base) {
+    var head = document.getElementById('uav-sens-head');
+    var body = document.getElementById('uav-sens-body');
+    var hh = '<tr><th>Parameter (+10 %)</th>';
+    SENS_METRICS.forEach(function (k) {
+      hh += '<th class="num">' + esc(metricByKey[k].label) + '</th>';
+    });
+    head.innerHTML = hh + '</tr>';
+
+    var html = '';
+    GROUPS.forEach(function (g) {
+      PARAMS.filter(function (p) { return p.group === g.id && !p.options; }).forEach(function (p) {
+        var v = design[p.key];
+        // +10% of current value; for a zero value, +10% of the parameter's range
+        var dv = v !== 0 ? 0.1 * Math.abs(v) : 0.1 * (p.max - p.min);
+        var v2 = Math.min(p.max, v + dv);
+        if (v2 === v) return; // pinned at the upper bound — no room to perturb
+        var t = {};
+        PARAMS.forEach(function (q) { t[q.key] = design[q.key]; });
+        t[p.key] = v2;
+        var r2 = derive(t);
+        html += '<tr><td>' + esc(p.label) + (v === 0 ? ' <span class="desc">(from 0: +10 % of range)</span>' : '') + '</td>';
+        SENS_METRICS.forEach(function (k) {
+          var b = base[k], n = r2[k];
+          var pct = (isFinite(b) && b !== 0 && isFinite(n)) ? 100 * (n - b) / Math.abs(b) : NaN;
+          var cls = 'num';
+          if (isFinite(pct)) {
+            if (Math.abs(pct) >= 5) cls += ' uav-sens-hi';
+            else if (Math.abs(pct) < 0.5) cls += ' uav-sens-lo';
+          }
+          html += '<td class="' + cls + '">' + (isFinite(pct) ? (pct >= 0 ? '+' : '') + pct.toFixed(1) + ' %' : DASH) + '</td>';
+        });
+        html += '</tr>';
+      });
+    });
+    body.innerHTML = html;
+  }
+
+  /* ── parameter physics reference (generated from the registry) ───────── */
+  function renderParamReference() {
+    var body = document.getElementById('uav-ref-body');
+    var html = '';
+    GROUPS.forEach(function (g) {
+      PARAMS.filter(function (p) { return p.group === g.id; }).forEach(function (p) {
+        html += '<tr><td class="uav-ref-name">' + esc(p.label) + '</td>' +
+          '<td class="uav-ref-unit">' + esc(p.unit) + '</td>' +
+          '<td class="uav-ref-group">' + esc(g.label) + '</td>' +
+          '<td class="desc">' + esc(p.teach || '') + '</td></tr>';
+      });
+    });
+    body.innerHTML = html;
+  }
+
   /* ── design file save / load ─────────────────────────────────────────── */
-  function designFile() {
+  function designFileFrom(source, name) {
     var params = {};
-    PARAMS.forEach(function (p) { params[p.key] = design[p.key]; });
+    PARAMS.forEach(function (p) { params[p.key] = source[p.key]; });
     return {
       schema: SCHEMA,
-      name: document.getElementById('uav-design-name').value.trim() || 'unnamed-uav',
+      name: name || document.getElementById('uav-design-name').value.trim() || 'unnamed-uav',
       saved: new Date().toISOString(),
       params: params
     };
   }
 
-  function saveDesign() {
-    var file = designFile();
+  function designFile() {
+    return designFileFrom(design);
+  }
+
+  function downloadDesignFile(file) {
     var blob = new Blob([JSON.stringify(file, null, 2) + '\n'], { type: 'application/json' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = file.name.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase() + '.uav.json';
     a.click();
     URL.revokeObjectURL(a.href);
-    setFileStatus('Saved ' + a.download + ' — ' + file.saved);
+    return a.download;
+  }
+
+  function saveDesign() {
+    var file = designFile();
+    var saved = downloadDesignFile(file);
+    setFileStatus('Saved ' + saved + ' — ' + file.saved);
+  }
+
+  // apply a parsed design file to the working design; shared by file load
+  // and localStorage restore
+  function applyDesignData(data) {
+    if (data.schema !== SCHEMA) throw new Error('unknown schema "' + data.schema + '" (expected ' + SCHEMA + ')');
+    var applied = 0, skipped = [];
+    PARAMS.forEach(function (p) {
+      var v = data.params ? data.params[p.key] : undefined;
+      if (v === undefined) { skipped.push(p.key); return; }
+      if (p.options) {
+        if (p.options[v]) { design[p.key] = v; applied++; } else skipped.push(p.key);
+      } else {
+        v = parseFloat(v);
+        if (isFinite(v)) { design[p.key] = Math.min(p.max, Math.max(p.min, v)); applied++; }
+        else skipped.push(p.key);
+      }
+    });
+    if (data.name) document.getElementById('uav-design-name').value = String(data.name).slice(0, 60);
+    activePreset = { airframe: null, motor: null, battery: null };
+    renderPresetStatus();
+    return { applied: applied, skipped: skipped };
   }
 
   function loadDesign(fileObj) {
@@ -818,24 +1195,12 @@
     reader.onload = function () {
       try {
         var data = JSON.parse(reader.result);
-        if (data.schema !== SCHEMA) throw new Error('unknown schema "' + data.schema + '" (expected ' + SCHEMA + ')');
-        var applied = 0, skipped = [];
-        PARAMS.forEach(function (p) {
-          var v = data.params ? data.params[p.key] : undefined;
-          if (v === undefined) { skipped.push(p.key); return; }
-          if (p.options) {
-            if (p.options[v]) { design[p.key] = v; applied++; } else skipped.push(p.key);
-          } else {
-            v = parseFloat(v);
-            if (isFinite(v)) { design[p.key] = Math.min(p.max, Math.max(p.min, v)); applied++; }
-            else skipped.push(p.key);
-          }
-        });
-        if (data.name) document.getElementById('uav-design-name').value = String(data.name).slice(0, 60);
+        var res = applyDesignData(data);
+        designTouched = true;
         syncForm();
         recompute();
-        setFileStatus('Loaded "' + (data.name || 'unnamed') + '" — ' + applied + ' parameters applied' +
-          (skipped.length ? ', defaults kept for: ' + skipped.join(', ') : ''));
+        setFileStatus('Loaded "' + (data.name || 'unnamed') + '" — ' + res.applied + ' parameters applied' +
+          (res.skipped.length ? ', defaults kept for: ' + res.skipped.join(', ') : ''));
       } catch (err) {
         setFileStatus('Load failed: ' + err.message);
       }
@@ -845,6 +1210,40 @@
 
   function setFileStatus(msg) {
     document.getElementById('uav-file-status').textContent = msg;
+  }
+
+  /* ── localStorage autosave (device-local; refresh-safe working copy) ───
+   * Nothing is stored until the visitor actually edits the design — an
+   * untouched page leaves no trace.
+   */
+  var designTouched = false;
+
+  function autosave() {
+    if (!designTouched) return;
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(designFile()));
+    } catch (err) {
+      /* private browsing or quota — the page still works, just without persistence */
+    }
+  }
+
+  function restoreAutosave() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return false;
+      var data = JSON.parse(raw);
+      applyDesignData(data);
+      designTouched = true;
+      setFileStatus('Restored working design "' + (data.name || 'unnamed') + '" autosaved ' +
+        (data.saved || 'earlier') + ' in this browser. Reset defaults discards it.');
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  function clearAutosave() {
+    try { localStorage.removeItem(STORE_KEY); } catch (err) { /* ignore */ }
   }
 
   /* ── Monte Carlo design search ───────────────────────────────────────── */
@@ -907,9 +1306,7 @@
     });
   }
 
-  var constraintSeq = 0;
   function addConstraintRow(key, min, max) {
-    constraintSeq++;
     var tr = document.createElement('tr');
     tr.innerHTML =
       '<td><select data-c-key>' + optionHtml(key || 'staticMargin') + '</select></td>' +
@@ -974,9 +1371,12 @@
       var sample = {};
       PARAMS.forEach(function (p) { sample[p.key] = design[p.key]; });
       cfg.varied.forEach(function (vp) {
+        var pd = paramByKey[vp.key];
         var v = vp.min + Math.random() * (vp.max - vp.min);
-        if (paramByKey[vp.key].step >= 1) v = Math.round(v);
-        sample[vp.key] = v;
+        // snap to the parameter's step so sampled, displayed, applied, and
+        // saved values are the same number
+        v = +(Math.round(v / pd.step) * pd.step).toFixed(6);
+        sample[vp.key] = Math.min(pd.max, Math.max(pd.min, v));
       });
       var r = derive(sample);
       var ok = cfg.constraints.every(function (c) {
@@ -1011,24 +1411,146 @@
       (res.best ? ' · best ' + labelFor(cfg.objectiveKey) + ' = ' + fmtMetric(cfg.objectiveKey, res.best.obj) :
         ' · no feasible sample — relax constraints or widen ranges');
     renderMcScatter();
+    renderDesignReview(res);
+  }
+
+  /* ── design review slide for the best feasible sample ────────────────── */
+  function reviewTile(label, value, unit, sub) {
+    return '<div class="tools-readout">' +
+      '<span class="tools-readout-label">' + esc(label) + '</span>' +
+      '<span class="tools-readout-value mono">' + value +
+      (unit ? '<span class="uav-unit"> ' + esc(unit) + '</span>' : '') + '</span>' +
+      '<span class="tools-readout-sub">' + sub + '</span></div>';
+  }
+
+  function renderDesignReview(res) {
     var bestHost = document.getElementById('uav-mc-best');
     if (!res.best) { bestHost.innerHTML = ''; return; }
-    var html = '<table class="tools-ref-table uav-mc-best-table"><thead><tr>' +
-      '<th>Varied parameter</th><th class="num">Best sample</th><th class="num">Current design</th></tr></thead><tbody>';
-    cfg.varied.forEach(function (vp) {
-      var p = paramByKey[vp.key];
-      html += '<tr><td>' + esc(p.label) + ' (' + esc(p.unit) + ')</td>' +
-        '<td class="num">' + fmt(res.best.params[vp.key], decimalsOf(p.step)) + '</td>' +
-        '<td class="num">' + fmt(design[vp.key], decimalsOf(p.step)) + '</td></tr>';
+    var cfg = res.cfg;
+    var p = res.best.params;
+    var r = res.best.derived;
+    var baseName = document.getElementById('uav-design-name').value.trim() || 'unnamed-uav';
+    var reviewName = baseName + '-mc-best';
+
+    // headline + configuration spec line
+    var objLabel = labelFor(cfg.objectiveKey);
+    var objUnit = metricByKey[cfg.objectiveKey] ? metricByKey[cfg.objectiveKey].unit :
+      (paramByKey[cfg.objectiveKey] ? paramByKey[cfg.objectiveKey].unit : '');
+    var html = '<div class="uav-review">';
+    html += '<div class="uav-review-header"><span>DESIGN REVIEW &mdash; ' + esc(reviewName) + '</span>' +
+      '<span>' + (cfg.objectiveDir === 'max' ? 'maximized' : 'minimized') + ' ' + esc(objLabel) + ' = ' +
+      fmtMetric(cfg.objectiveKey, res.best.obj) + (objUnit && objUnit !== '-' ? ' ' + esc(objUnit) : '') + '</span></div>';
+    html += '<div class="uav-review-config">' +
+      fmt(p.span, 2) + ' m span &middot; ' + esc(TAIL_TYPES[p.tailType].label.toLowerCase()) + ' tail &middot; ' +
+      esc(r.foil.label) + ' wing &middot; ' + fmtInt(r.massTotal) + ' g AUW (' + fmtInt(p.payload) + ' g payload) &middot; ' +
+      p.battCells + 'S ' + fmtInt(p.battCapacity) + ' mAh &middot; ' + fmtInt(p.maxPower) + ' W &middot; ' +
+      fmt(p.propDiameter, 0) + ' in prop &middot; cruise ' + fmt(p.cruiseSpeed, 1) + ' m/s</div>';
+    html += '<div class="uav-review-note">Best feasible sample of ' + res.feasible + ' feasible / ' +
+      res.points.length + ' evaluated. All figures recomputed from the sampled parameters with the model on this page.</div>';
+
+    // key figures
+    html += '<div class="uav-review-sub">Key figures</div>';
+    html += '<div class="tools-result-grid cols-3">';
+    html += reviewTile('All-up mass', fmtInt(r.massTotal), 'g', 'battery ' + fmtInt(r.battMass) + ' g · ' + fmt(r.battWh, 1) + ' Wh');
+    html += reviewTile('Wing loading', fmt(r.wingLoading, 1), 'g/dm²', fmt(r.massTotal / 1000 / r.S, 2) + ' kg/m² · area ' + fmt(r.area, 1) + ' dm²');
+    html += reviewTile('Geometry', fmt(p.span, 2), 'm span', 'AR ' + fmt(r.aspectRatio, 2) + ' · length ' + fmt(r.totalLength, 2) + ' m');
+    html += reviewTile('Stall speed', fmt(r.vstall, 1), 'm/s', 'cruise/stall ' + fmt(r.stallMargin, 2) + ' · CL max ' + fmt(r.clMax3D, 2));
+    html += reviewTile('L/D', fmt(r.ldCruise, 1), 'cruise', 'max ' + fmt(r.ldMax, 1) + ' at ' + fmt(r.vLdMax, 1) + ' m/s');
+    html += reviewTile('Cruise power', fmt(r.cruisePowerE, 1), 'W', fmt(r.throttle, 0) + ' % throttle · ' + fmt(r.current, 1) + ' A · ' + fmt(r.cRate, 1) + ' C');
+    html += reviewTile('Endurance', fmtInt(r.endurance), 'min', 'range ' + fmt(r.range, 1) + ' km still air');
+    html += reviewTile('Climb', fmt(r.roc, 1), 'm/s', 'T/W ' + fmt(r.thrustWeight, 2) + ' · static thrust ' + fmtInt(r.staticThrust) + ' g');
+    html += reviewTile('Static margin', fmt(r.staticMargin, 1), '% MAC', 'NP ' + fmt(r.npMac, 1) + ' % · CG ' + fmt(p.cgMac, 1) + ' %');
+    html += '</div>';
+
+    // suggested airframe views (filled in after insertion)
+    html += '<div class="uav-review-sub">Suggested airframe</div>';
+    html += '<div class="uav-views-grid uav-review-views">' +
+      '<figure class="uav-fig"><div id="uav-review-top"></div><figcaption class="uav-fig-caption">top view &mdash; best sample, to scale</figcaption></figure>' +
+      '<figure class="uav-fig"><div id="uav-review-side"></div><figcaption class="uav-fig-caption">side view &mdash; CG vs neutral point</figcaption></figure></div>';
+
+    // mass budget
+    var budget = [
+      ['Structure', p.structure], ['Payload', p.payload], ['Avionics + servos', p.avionics],
+      ['Propulsion group', p.propMass], ['Battery pack', r.battMass]
+    ];
+    html += '<div class="uav-review-sub">Mass budget</div>';
+    html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+      '<th>Item</th><th class="num">Mass (g)</th><th class="num">Share of AUW</th></tr></thead><tbody>';
+    budget.forEach(function (row) {
+      html += '<tr><td>' + row[0] + '</td><td class="num">' + fmtInt(row[1]) + '</td>' +
+        '<td class="num">' + fmt(100 * row[1] / r.massTotal, 1) + ' %</td></tr>';
     });
-    html += '</tbody></table>' +
-      '<div class="tools-controls"><button type="button" class="tools-button primary" id="uav-mc-apply">Apply best sample to design</button></div>';
+    html += '<tr class="uav-review-total"><td>All-up mass</td><td class="num">' + fmtInt(r.massTotal) + '</td><td class="num">100.0 %</td></tr>';
+    html += '</tbody></table></div>';
+
+    // design checks on the best sample
+    html += '<div class="uav-review-sub">Design checks (best sample)</div>';
+    html += '<div class="table-scroll"><table class="tools-ref-table uav-check-table"><thead><tr>' +
+      '<th>Check</th><th class="num">Value</th><th>Guideline</th><th>Status</th></tr></thead><tbody>' +
+      checksRowsHtml(p, r) + '</tbody></table></div>';
+
+    // constraint verification with margins
+    if (cfg.constraints.length) {
+      html += '<div class="uav-review-sub">Constraint verification</div>';
+      html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+        '<th>Constraint</th><th class="num">Bound</th><th class="num">Best sample</th><th class="num">Margin</th></tr></thead><tbody>';
+      cfg.constraints.forEach(function (c) {
+        var v = valueOf(p, r, c.key);
+        var bounds = [];
+        if (isFinite(c.min)) bounds.push('&ge; ' + fmtMetric(c.key, c.min));
+        if (isFinite(c.max)) bounds.push('&le; ' + fmtMetric(c.key, c.max));
+        var margin = Math.min(
+          isFinite(c.min) ? v - c.min : Infinity,
+          isFinite(c.max) ? c.max - v : Infinity);
+        html += '<tr><td>' + esc(labelFor(c.key)) + '</td>' +
+          '<td class="num">' + bounds.join(' &middot; ') + '</td>' +
+          '<td class="num">' + fmtMetric(c.key, v) + '</td>' +
+          '<td class="num">' + (margin === Infinity ? DASH : fmtMetric(c.key, margin)) + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+    }
+
+    // varied parameters vs current working design
+    html += '<div class="uav-review-sub">Suggested parameter changes</div>';
+    html += '<div class="table-scroll"><table class="tools-ref-table uav-review-table"><thead><tr>' +
+      '<th>Varied parameter</th><th class="num">Current</th><th class="num">Suggested</th><th class="num">&Delta;</th></tr></thead><tbody>';
+    cfg.varied.forEach(function (vp) {
+      var pd = paramByKey[vp.key];
+      var cur = design[vp.key], sug = p[vp.key];
+      var delta = cur !== 0 ? 100 * (sug - cur) / Math.abs(cur) : NaN;
+      html += '<tr><td>' + esc(pd.label) + ' (' + esc(pd.unit) + ')</td>' +
+        '<td class="num">' + fmt(cur, decimalsOf(pd.step)) + '</td>' +
+        '<td class="num">' + fmt(sug, decimalsOf(pd.step)) + '</td>' +
+        '<td class="num">' + (isFinite(delta) ? (delta >= 0 ? '+' : '') + fmt(delta, 1) + ' %' : DASH) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+
+    // actions + provenance footer
+    html += '<div class="tools-controls uav-review-actions">' +
+      '<button type="button" class="tools-button primary" id="uav-mc-apply">Apply to working design</button>' +
+      '<button type="button" class="tools-button" id="uav-mc-save-best">Save reviewed design &darr;</button>' +
+      '<span class="tools-controls-spacer"></span></div>';
+    html += '<div class="uav-review-footer">Generated ' + new Date().toISOString() +
+      ' &middot; schema ' + SCHEMA + ' &middot; conceptual-design fidelity &mdash; see model notes below.</div>';
+    html += '</div>';
+
     bestHost.innerHTML = html;
+    renderTopView(p, r, 'uav-review-top');
+    renderSideView(p, r, 'uav-review-side');
+
     document.getElementById('uav-mc-apply').addEventListener('click', function () {
-      cfg.varied.forEach(function (vp) { design[vp.key] = res.best.params[vp.key]; });
+      cfg.varied.forEach(function (vp) {
+        design[vp.key] = res.best.params[vp.key];
+        notePresetDivergence(vp.key);
+      });
+      designTouched = true;
       syncForm();
       recompute();
       setFileStatus('Applied Monte Carlo best sample to the working design.');
+    });
+    document.getElementById('uav-mc-save-best').addEventListener('click', function () {
+      var saved = downloadDesignFile(designFileFrom(res.best.params, reviewName));
+      setFileStatus('Saved reviewed design ' + saved + ' (working design unchanged).');
     });
   }
 
@@ -1055,15 +1577,24 @@
     var fr = chartFrame(W, H, M, xmin, xmax, ymin, ymax,
       labelFor(res.cfg.xKey), labelFor(res.cfg.yKey));
     var s = svgOpen(W, H) + '<title>Monte Carlo samples: feasible vs infeasible</title>' + fr.svg;
-    // draw infeasible under feasible; best on top with a ring
-    res.points.forEach(function (p) {
-      if (p.ok || !isFinite(p.x) || !isFinite(p.y)) return;
-      s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="2" class="uav-pt-infeasible"/>';
-    });
-    res.points.forEach(function (p) {
-      if (!p.ok || !isFinite(p.x) || !isFinite(p.y)) return;
-      s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="2.5" class="uav-pt-feasible"/>';
-    });
+    // cap the DOM cost: large sample sets are stride-thinned before drawing
+    // (every sample was still evaluated; only the plot is thinned)
+    var MAX_DRAW = 4000;
+    function drawSet(wantOk, radius, cls) {
+      var idx = [];
+      res.points.forEach(function (p, i) {
+        if (p.ok === wantOk && isFinite(p.x) && isFinite(p.y)) idx.push(i);
+      });
+      var stride = Math.max(1, Math.ceil(idx.length / MAX_DRAW));
+      for (var i = 0; i < idx.length; i += stride) {
+        var p = res.points[idx[i]];
+        s += '<circle cx="' + f2(fr.X(p.x)) + '" cy="' + f2(fr.Y(p.y)) + '" r="' + radius + '" class="' + cls + '"/>';
+      }
+      return { total: idx.length, drawn: Math.ceil(idx.length / stride) };
+    }
+    // infeasible under feasible; best on top with a ring
+    var inf = drawSet(false, 2, 'uav-pt-infeasible');
+    var fea = drawSet(true, 2.5, 'uav-pt-feasible');
     if (res.best) {
       var b = res.points[res.best.index];
       if (isFinite(b.x) && isFinite(b.y)) {
@@ -1072,10 +1603,13 @@
       }
     }
     // legend (text + swatch, identity not by color alone: shape/size differ too)
+    var feaLabel = 'feasible (' + res.feasible + (fea.drawn < fea.total ? ', drawn ' + fea.drawn : '') + ')';
+    var infLabel = 'infeasible' + (inf.drawn < inf.total ? ' (drawn ' + inf.drawn + ' of ' + inf.total + ')' : '');
     s += '<circle cx="' + (M.l + 8) + '" cy="' + (M.t + 6) + '" r="2.5" class="uav-pt-feasible"/>';
-    s += text(M.l + 16, M.t + 9, 'feasible (' + res.feasible + ')', 'uav-fig-label');
-    s += '<circle cx="' + (M.l + 118) + '" cy="' + (M.t + 6) + '" r="2" class="uav-pt-infeasible"/>';
-    s += text(M.l + 126, M.t + 9, 'infeasible', 'uav-fig-label');
+    s += text(M.l + 16, M.t + 9, feaLabel, 'uav-fig-label');
+    var infX = M.l + 26 + feaLabel.length * 6.6;
+    s += '<circle cx="' + f2(infX) + '" cy="' + (M.t + 6) + '" r="2" class="uav-pt-infeasible"/>';
+    s += text(infX + 8, M.t + 9, infLabel, 'uav-fig-label');
     s += '</svg>';
     host.innerHTML = s;
   }
@@ -1091,19 +1625,32 @@
     renderAirfoil(design, derived);
     renderPowerChart(design, derived);
     renderPolarChart(design, derived);
+    renderSensitivity(derived);
     syncMcCurrents();
+    autosave();
   }
 
   /* ── init ────────────────────────────────────────────────────────────── */
   function init() {
     buildForm();
+    buildPresetTables();
     buildMcVaryTable();
+    renderParamReference();
     // MC selectors
     document.getElementById('uav-mc-objective').innerHTML = optionHtml('endurance');
     document.getElementById('uav-mc-x').innerHTML = optionHtml('massTotal');
     document.getElementById('uav-mc-y').innerHTML = optionHtml('endurance');
-    addConstraintRow('staticMargin', 5, 15);
+    // prepopulated constraint set: airworthiness rows carry working bounds;
+    // logistics/mission rows are blank templates — blank rows are ignored by
+    // the solver until a bound is filled in
+    addConstraintRow('staticMargin', 4, 20);
     addConstraintRow('thrustWeight', 0.5, undefined);
+    addConstraintRow('massTotal');
+    addConstraintRow('payload');
+    addConstraintRow('span');
+    addConstraintRow('totalLength');
+    addConstraintRow('vstall');
+    addConstraintRow('endurance');
 
     document.getElementById('uav-save').addEventListener('click', saveDesign);
     document.getElementById('uav-load-input').addEventListener('change', function (e) {
@@ -1112,9 +1659,17 @@
     });
     document.getElementById('uav-reset').addEventListener('click', function () {
       design = defaultDesign();
+      activePreset = { airframe: null, motor: null, battery: null };
+      designTouched = false;
+      clearAutosave();
+      renderPresetStatus();
       syncForm();
       recompute();
-      setFileStatus('Reset to default trainer-class design.');
+      setFileStatus('Reset to default trainer-class design. Autosaved copy discarded.');
+    });
+    document.getElementById('uav-design-name').addEventListener('input', function () {
+      designTouched = true;
+      autosave();
     });
     document.getElementById('uav-mc-run').addEventListener('click', runMonteCarlo);
     document.getElementById('uav-mc-add-constraint').addEventListener('click', function () {
@@ -1123,6 +1678,7 @@
     document.getElementById('uav-mc-x').addEventListener('change', function () { if (mcResult) rerunScatterOnly(); });
     document.getElementById('uav-mc-y').addEventListener('change', function () { if (mcResult) rerunScatterOnly(); });
 
+    restoreAutosave();
     syncForm();
     recompute();
   }

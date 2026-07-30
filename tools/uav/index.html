@@ -103,7 +103,7 @@
       <section aria-labelledby="uav-file-heading">
         <div class="section-label split">
           <span id="uav-file-heading">Design file</span>
-          <span class="log-count">schema n6cbl.uav-design/1 &middot; JSON &middot; parameters only, nothing uploaded</span>
+          <span class="log-count">schema n6cbl.uav-design/1 &middot; JSON &middot; autosaves locally &middot; nothing uploaded</span>
         </div>
         <div class="tools-form">
           <label class="tools-half">
@@ -119,13 +119,22 @@
             </div>
           </div>
         </div>
-        <div class="uav-file-status" id="uav-file-status">Working design lives in this page only &mdash; save a .uav.json file to keep it, load one to resume.</div>
+        <div class="uav-file-status" id="uav-file-status">Once you edit anything, the working design autosaves to this browser's local storage on every change &mdash; refresh-safe, stored on your device only, never transmitted. Save a .uav.json file to back up or move a design between machines; Reset defaults discards the autosaved copy.</div>
+      </section>
+
+      <section aria-labelledby="uav-presets-heading">
+        <div class="section-label split">
+          <span id="uav-presets-heading">COTS component presets</span>
+          <span class="log-count">approximate class specs / apply writes the listed parameters</span>
+        </div>
+        <div id="uav-presets"></div>
+        <div class="uav-file-status" id="uav-preset-status">Presets are archetypes of common hobby hardware, labeled by size class, not brand. Applying one fills its parameter group; editing any of those parameters afterwards marks the category custom again. Highlighted row = currently applied.</div>
       </section>
 
       <section aria-labelledby="uav-params-heading">
         <div class="section-label split">
           <span id="uav-params-heading">Design parameters</span>
-          <span class="log-count">27 parameters / 5 groups / recompute on every edit</span>
+          <span class="log-count">31 parameters / 6 groups / recompute on every edit</span>
         </div>
         <div id="uav-form"></div>
       </section>
@@ -203,6 +212,20 @@
         </div>
       </section>
 
+      <section aria-labelledby="uav-sens-heading">
+        <div class="section-label split">
+          <span id="uav-sens-heading">Sensitivity &mdash; what actually moves the design</span>
+          <span class="log-count">% change in each metric for a +10 % change in one parameter</span>
+        </div>
+        <div class="table-scroll">
+          <table class="tools-ref-table uav-sens-table">
+            <thead id="uav-sens-head"></thead>
+            <tbody id="uav-sens-body"></tbody>
+          </table>
+        </div>
+        <div class="uav-file-status">Each row perturbs one parameter +10 % from its current value (parameters at 0 use +10 % of their range; parameters pinned at their maximum are omitted), holds everything else, and re-runs the model. Bold cells move a metric &ge; 5 % &mdash; those are the levers worth arguing about. Values &lt; 0.5 % are muted. This is a local, first-order picture around the current design: move the design, and the sensitivities move too.</div>
+      </section>
+
       <section aria-labelledby="uav-mc-heading">
         <div class="section-label split">
           <span id="uav-mc-heading">Monte Carlo design search</span>
@@ -242,6 +265,7 @@
         <div class="tools-controls">
           <button type="button" class="tools-button" id="uav-mc-add-constraint">Add constraint +</button>
         </div>
+        <div class="uav-file-status">The table starts with the usual suspects: stability and thrust rows carry working bounds; the logistics and mission rows (all-up mass, payload, span, total length, stall speed, endurance) are blank templates &mdash; a row with both bounds empty is ignored, so fill in only what the mission actually demands. Handy anchor numbers: 250 g (FAA registration threshold), 25 kg / 55 lb (Part 107 ceiling), the cargo width of your vehicle for span, the workshop door for total length, and a full-flaps jog (&asymp; 6 m/s) for a hand-catch stall speed.</div>
 
         <div class="uav-mc-sub">3 &mdash; objective and run</div>
         <div class="tools-form">
@@ -284,16 +308,38 @@
         <div id="uav-mc-best"></div>
       </section>
 
+      <section aria-labelledby="uav-ref-heading">
+        <div class="section-label split">
+          <span id="uav-ref-heading">Parameter physics reference</span>
+          <span class="log-count">what each input is and why it matters</span>
+        </div>
+        <div class="table-scroll">
+          <table class="tools-ref-table uav-ref-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Unit</th>
+                <th>Group</th>
+                <th>Physics</th>
+              </tr>
+            </thead>
+            <tbody id="uav-ref-body"></tbody>
+          </table>
+        </div>
+      </section>
+
       <section aria-labelledby="uav-model-heading">
         <div class="section-label" id="uav-model-heading">Model notes &mdash; assumptions and formulas</div>
         <div class="tools-note">
-          <strong>Scope.</strong> Conceptual-design sizing for conventional-layout electric fixed-wing aircraft in the 0.3&ndash;20 kg class. Estimates are for comparing configurations, not certifying one &mdash; expect &plusmn;15&ndash;25 % against a built airframe.
+          <strong>Scope.</strong> Conceptual-design sizing for conventional-layout electric fixed-wing aircraft, from 300 g park flyers to the &asymp;100 kg class. Estimates are for comparing configurations, not certifying one &mdash; expect &plusmn;15&ndash;25 % against a built airframe. Note for heavy designs: the airfoil polar summaries are low-Reynolds measurements, so at the multi-million Reynolds numbers of large airframes the drag figures run conservative (real sections do somewhat better), and regulatory/structural questions this tool does not touch start to dominate the design.
           <strong>Planform.</strong> Trapezoidal wing: S = b&middot;c&#8345;(1+&lambda;)/2, AR = b&sup2;/S, MAC = &#8532;&middot;c&#8345;&middot;(1+&lambda;+&lambda;&sup2;)/(1+&lambda;). Tail surfaces are sized from the chosen volume coefficients: S&#8346; = V&#8346;&middot;S&middot;MAC/l&#8348;, S&#8347; = V&#8347;&middot;S&middot;b/l&#8348;.
           <strong>Lift.</strong> 3-D lift-curve slope a = a&#8320;/(1 + a&#8320;/(&pi;eAR)); CL&#8202;max is the 2-D section value knocked down 10 % for the finite wing. Stall speed from V&#8347; = &radic;(2W/(&rho;SCL&#8202;max)).
           <strong>Drag.</strong> Parasite buildup referenced to wing area: section cd&#8320; + fuselage (0.006&middot;S&#8348;&#8338;&#8348;/S with S&#8348;&#8338;&#8348; &asymp; 0.8&middot;&pi;DL) + tails (0.008&middot;(S&#8346;+S&#8347;)/S), all &times;1.15 for interference; induced drag CL&sup2;/(&pi;eAR). L/D&#8202;max = 1/(2&radic;(kCD&#8320;)).
           <strong>Propulsion.</strong> Electrical power to thrust power through motor+ESC efficiency and a cruise prop efficiency you set. Static thrust from actuator-disk theory with a 0.7 static figure of merit: T = 0.7&middot;(2&rho;A)^&#8531;&middot;P&#8347;&#8346;&#8336;&#8342;&#8348;^&#8532;. Climb rate is excess power over weight at the minimum-power speed.
           <strong>Battery.</strong> Pack mass from capacity &times; cells &times; 3.7 V &divide; energy density. Endurance uses the usable-capacity fraction at the cruise current; range is still-air.
-          <strong>Stability.</strong> Neutral point from tail-volume method: x&#8345;&#8338;/MAC = 0.25 + 0.9&middot;V&#8346;&middot;(a&#8348;/a&#8349;)&middot;(1&minus;d&epsilon;/d&alpha;) &minus; 0.04 (fuselage correction), with d&epsilon;/d&alpha; = 2a&#8349;/(&pi;AR). Static margin is NP minus CG in % MAC.
+          <strong>Stability.</strong> Neutral point from tail-volume method: x&#8345;&#8338;/MAC = 0.25 + 0.9&middot;V&#8346;&middot;(a&#8348;/a&#8349;)&middot;(1&minus;d&epsilon;/d&alpha;) &minus; 0.04 (fuselage correction), with d&epsilon;/d&alpha; = 2a&#8349;/(&pi;AR). The tail lift-curve slope a&#8348; comes from the configured tail aspect ratio; a T-tail sits above the wake and is modeled with a 30 % lower downwash gradient. Static margin is NP minus CG in % MAC.
+          <strong>Tail configurations.</strong> Tail surfaces are sized from the volume coefficients, then shaped by the tail aspect ratios and taper. A V-tail uses the classic conversion: total panel area = S&#8346; + S&#8347;, panel dihedral &Gamma; = atan&nbsp;&radic;(S&#8347;/S&#8346;) &mdash; drag and stability use the projected areas, so a V-tail here is aerodynamically equivalent to the conventional tail it replaces (the real-world differences: fewer junctions, ruddervator mixing, pitch/yaw coupling, are not modeled).
+          <strong>COTS presets.</strong> The airframe/motor/battery tables carry approximate class-typical specs, labeled by size class rather than brand. They are starting points for realistic combinations, not vendor data &mdash; check the actual datasheet before you buy or fly.
           <strong>Not modeled.</strong> Compressibility, wind, control-surface sizing, structural sizing/flutter, prop maps vs advance ratio, trim drag, battery voltage sag. Airfoil polar values are single-point summaries of low-Reynolds published data; outside Re &asymp; 60k&ndash;500k they drift.
           <strong>Roadmap for this lab.</strong> Constraint-driven inverse solving, prop/motor database with advance-ratio maps, structural weight estimation from geometry, multi-point missions (climb + cruise + loiter), and design-file schema v2 with named mission segments.
         </div>
