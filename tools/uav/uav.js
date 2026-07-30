@@ -1416,6 +1416,7 @@
     });
     document.getElementById('uav-mc-vary-all').addEventListener('click', function () {
       document.querySelectorAll('[data-mc-vary]').forEach(function (cb) {
+        if (cb.disabled) return; // configuration-irrelevant parameters stay out
         cb.checked = true;
         seedMcRange(cb.getAttribute('data-mc-vary'));
       });
@@ -1471,7 +1472,7 @@
   function readMcConfig() {
     var varied = [];
     document.querySelectorAll('[data-mc-vary]').forEach(function (cb) {
-      if (!cb.checked) return;
+      if (!cb.checked || cb.disabled) return;
       var key = cb.getAttribute('data-mc-vary');
       var p = paramByKey[key];
       var lo = parseFloat(document.querySelector('[data-mc-min="' + key + '"]').value);
@@ -1860,10 +1861,15 @@
       var b = res.points[res.best.index];
       if (!isFinite(getX(b)) || !isFinite(getY(b))) return '';
       var bx = fr.X(getX(b)), by = fr.Y(getY(b));
-      var s = '<circle cx="' + f2(bx) + '" cy="' + f2(by) + '" r="6" class="uav-pt-best"/>';
+      // halo under ring under guaranteed center dot: stays legible when the
+      // viewBox scales down to phone width and the cloud is dense (the best
+      // point itself may have been stride-thinned out, so redraw it)
+      var s = '<circle cx="' + f2(bx) + '" cy="' + f2(by) + '" r="9" class="uav-pt-best-halo"/>';
+      s += '<circle cx="' + f2(bx) + '" cy="' + f2(by) + '" r="9" class="uav-pt-best"/>';
+      s += '<circle cx="' + f2(bx) + '" cy="' + f2(by) + '" r="3.5" class="uav-pt-best-core"/>';
       // the best sample often sits at an extreme — flip the label inboard
-      s += bx > W - 60 ? text(bx - 9, by + 3, 'best', 'uav-fig-label', 'end')
-                       : text(bx + 9, by + 3, 'best', 'uav-fig-label');
+      s += bx > W - 64 ? text(bx - 13, by + 4, 'BEST', 'uav-best-label', 'end')
+                       : text(bx + 13, by + 4, 'BEST', 'uav-best-label');
       return s;
     }
 
@@ -2172,13 +2178,14 @@
       if (objBetter(dir, c.objValue, winner.objValue)) winner = c;
     });
 
-    // restore the winner's search setup and result, then adopt its design
-    setMcUi(winner.res.cfg.varied.map(function (vp) { return { key: vp.key, lo: vp.min, hi: vp.max }; }),
-      winner.res.cfg.constraints, winner.res.cfg.objectives, winner.res.cfg.samples);
+    // adopt the winner's design first (so parameter relevance matches its
+    // configuration), then restore its search setup and result
     PARAMS.forEach(function (p) { design[p.key] = winner.res.best.params[p.key]; });
     designTouched = true;
     syncForm();
     recompute();
+    setMcUi(winner.res.cfg.varied.map(function (vp) { return { key: vp.key, lo: vp.min, hi: vp.max }; }),
+      winner.res.cfg.constraints, winner.res.cfg.objectives, winner.res.cfg.samples);
     mcResult = winner.res;
     renderMcResults();
 
