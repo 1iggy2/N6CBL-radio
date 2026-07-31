@@ -1058,8 +1058,8 @@
       edge: 'rgba(30,30,30,0.55)', prop: 'rgba(200,64,26,0.10)', propEdge: 'rgba(200,64,26,0.5)'
     },
     dark: {
-      wing: [96, 112, 134], fus: [76, 90, 110], tail: [110, 126, 148],
-      edge: 'rgba(231,234,240,0.4)', prop: 'rgba(53,201,234,0.10)', propEdge: 'rgba(53,201,234,0.55)'
+      wing: [98, 116, 136], fus: [78, 94, 112], tail: [112, 130, 150],
+      edge: 'rgba(207,224,238,0.38)', prop: 'rgba(63,224,129,0.08)', propEdge: 'rgba(63,224,129,0.5)'
     }
   };
 
@@ -1314,6 +1314,189 @@
       }
       requestAnimationFrame(tick);
     }());
+  }
+
+  /* ── ops scope: mission footprint display ────────────────────────────
+   * Renders only where the page provides #uav-ops-map (the experimental UI).
+   * Range rings on a Maidenhead graticule around a configurable launch
+   * point, with HUD-style stamped mission numbers. Still-air, flat-earth
+   * local projection — honest at UAV scales, labeled as such.
+   */
+  var OPS_DEFAULT = { lat: 33.854, lon: -118.375 }; // DM03tu center
+
+  function locatorOf(lat, lon) {
+    var L = 'ABCDEFGHIJKLMNOPQRSTUVWX';
+    var x = lon + 180, y = lat + 90;
+    return L[Math.floor(x / 20)] + L[Math.floor(y / 10)] +
+      Math.floor((x % 20) / 2) + Math.floor(y % 10) +
+      L[Math.floor((x % 2) * 12)].toLowerCase() + L[Math.floor((y % 1) * 24)].toLowerCase();
+  }
+
+  // power-limited level top speed: largest V with P_elec(V) <= max power
+  function topSpeed(d, r) {
+    if (!isFinite(r.vstall)) return NaN;
+    var lo = r.vstall * 1.001, hi = 200;
+    var pLo = powerElecAt(d, r, lo);
+    if (!isFinite(pLo) || pLo > d.maxPower) return NaN; // cannot sustain level flight
+    if (powerElecAt(d, r, hi) <= d.maxPower) return hi;
+    for (var i = 0; i < 48; i++) {
+      var mid = (lo + hi) / 2;
+      if (powerElecAt(d, r, mid) <= d.maxPower) lo = mid; else hi = mid;
+    }
+    return lo;
+  }
+
+  function opsCenter() {
+    var latEl = document.getElementById('uav-ops-lat');
+    var lonEl = document.getElementById('uav-ops-lon');
+    var lat = latEl ? parseFloat(latEl.value) : NaN;
+    var lon = lonEl ? parseFloat(lonEl.value) : NaN;
+    if (!isFinite(lat) || lat < -89.9 || lat > 89.9) lat = OPS_DEFAULT.lat;
+    if (!isFinite(lon) || lon < -180 || lon > 180) lon = OPS_DEFAULT.lon;
+    return { lat: lat, lon: lon };
+  }
+
+  function renderOpsMap(d, r) {
+    var host = document.getElementById('uav-ops-map');
+    if (!host) return;
+    var W = 860, H = 600;
+    var cx = W / 2, cy = H / 2;
+    var c = opsCenter();
+    var vmax = topSpeed(d, r);
+
+    var ferryKm = r.range;                 // one-way, still air
+    var rtbKm = r.range / 2;               // out and back
+    var flyable = isFinite(ferryKm) && ferryKm > 0 && r.stallMargin > 1;
+
+    var s = svgOpen(W, H);
+    s += '<title>Mission footprint: range rings around the launch point</title>';
+    s += '<rect x="0" y="0" width="' + W + '" height="' + H + '" class="ops-bg"/>';
+
+    if (!flyable) {
+      s += text(cx, cy - 8, 'NO SUSTAINED FLIGHT', 'ops-stamp-value', 'middle');
+      s += text(cx, cy + 16, 'cruise point is not flyable — check stall margin and power', 'ops-note', 'middle');
+      s += '</svg>';
+      host.innerHTML = s;
+      return;
+    }
+
+    // scale: ferry ring at 40% of the short dimension
+    var fit = 0.40 * Math.min(W, H);
+    var pxPerKm = fit / ferryKm;
+    var kmPerDegLat = 111.32;
+    var kmPerDegLon = 111.32 * Math.cos(c.lat * Math.PI / 180);
+
+    // Maidenhead graticule: subsquares (5' x 2.5'), else squares (2 x 1 deg)
+    var lonStep = 2 / 24, latStep = 1 / 24, level = 'subsquare';
+    if (latStep * kmPerDegLat * pxPerKm < 26) { lonStep = 2; latStep = 1; level = 'square'; }
+    function gx(lon) { return cx + (lon - c.lon) * kmPerDegLon * pxPerKm; }
+    function gy(lat) { return cy - (lat - c.lat) * kmPerDegLat * pxPerKm; }
+    var lon0 = Math.floor((c.lon - (cx / pxPerKm) / kmPerDegLon) / lonStep) * lonStep;
+    var lat0 = Math.floor((c.lat - (cy / pxPerKm) / kmPerDegLat) / latStep) * latStep;
+    for (var lo = lon0; gx(lo) < W + 2; lo += lonStep) s += line(gx(lo), 0, gx(lo), H, 'ops-graticule');
+    for (var la = lat0; gy(la) > -2; la += latStep) s += line(0, gy(la), W, gy(la), 'ops-graticule');
+    s += text(10, 16, 'GRID ' + (level === 'subsquare' ? "5' × 2.5' (subsquare)" : '2° × 1° (square)'), 'ops-graticule-label');
+
+    // scope circle + bearing ticks
+    var scopeR = fit * 1.12;
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + f2(scopeR) + '" class="ops-scope"/>';
+    for (var b = 0; b < 360; b += 15) {
+      var a = (b - 90) * Math.PI / 180;
+      var isMaj = b % 45 === 0;
+      var r1 = scopeR - (isMaj ? 12 : 6);
+      s += line(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1, cx + Math.cos(a) * scopeR, cy + Math.sin(a) * scopeR, 'ops-bearing');
+      if (isMaj) {
+        var rl = scopeR - 24;
+        s += text(cx + Math.cos(a) * rl, cy + Math.sin(a) * rl + 4,
+          ('00' + b).slice(-3), 'ops-bearing-label', 'middle');
+      }
+    }
+    // radar sweep (rotated by CSS animation)
+    s += '<g class="ops-sweep-g" style="transform-origin:' + cx + 'px ' + cy + 'px">' +
+      '<path d="M ' + cx + ' ' + cy + ' L ' + cx + ' ' + f2(cy - scopeR) +
+      ' A ' + f2(scopeR) + ' ' + f2(scopeR) + ' 0 0 1 ' + f2(cx + scopeR * 0.42) + ' ' + f2(cy - scopeR * 0.9) + ' Z" class="ops-sweep"/></g>';
+
+    // range rings at nice intervals
+    var ringStep = niceTicks(0, ferryKm, 4).filter(function (v) { return v > 0; });
+    ringStep.forEach(function (km) {
+      var rr = km * pxPerKm;
+      if (rr > scopeR) return;
+      s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + f2(rr) + '" class="ops-ring"/>';
+      s += text(cx + rr * 0.7071 + 4, cy - rr * 0.7071 - 4, km + ' km', 'ops-ring-label');
+    });
+
+    // mission rings: RTB (out & back) and one-way delivery
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + f2(rtbKm * pxPerKm) + '" class="ops-rtb"/>';
+    s += text(cx, cy - rtbKm * pxPerKm - 7, 'RTB RADIUS ' + fmt(rtbKm, rtbKm < 20 ? 1 : 0) + ' KM — OUT & BACK', 'ops-mission-label', 'middle');
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + f2(ferryKm * pxPerKm) + '" class="ops-oneway"/>';
+    s += text(cx, cy + ferryKm * pxPerKm + 16, 'ONE-WAY DELIVERY ' + fmt(ferryKm, ferryKm < 20 ? 1 : 0) + ' KM', 'ops-mission-label', 'middle');
+    // visual line of sight ring when resolvable
+    var vlosKm = 1.5;
+    if (vlosKm * pxPerKm > 9) {
+      s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + f2(vlosKm * pxPerKm) + '" class="ops-vlos"/>';
+      s += text(cx + vlosKm * pxPerKm + 5, cy + 4, 'VLOS ~1.5 KM', 'ops-vlos-label');
+    }
+
+    // launch point
+    s += line(cx - 14, cy, cx + 14, cy, 'ops-center');
+    s += line(cx, cy - 14, cx, cy + 14, 'ops-center');
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="4" class="ops-center-dot"/>';
+
+    // HUD stamps
+    var name = (document.getElementById('uav-design-name') || { value: 'unnamed' }).value.trim().toUpperCase() || 'UNNAMED';
+    function stamp(x, y, anchor, rows) {
+      var out = '';
+      rows.forEach(function (row, i) {
+        out += text(x, y + i * 17, row[0], row[1] || 'ops-stamp-sub', anchor);
+      });
+      return out;
+    }
+    s += stamp(14, 40, 'start', [
+      [name, 'ops-stamp-value'],
+      [TAIL_TYPES[d.tailType].label.toUpperCase() + ' · ' + r.foil.label.toUpperCase()],
+      ['AUW ' + fmtInt(r.massTotal) + ' G · PAYLOAD ' + fmtInt(d.payload) + ' G'],
+      ['SPAN ' + fmt(d.span, 2) + ' M · T/W ' + fmt(r.thrustWeight, 2)]
+    ]);
+    s += stamp(W - 14, 40, 'end', [
+      ['ENDURANCE ' + fmtInt(r.endurance) + ' MIN', 'ops-stamp-value'],
+      ['RTB RADIUS ' + fmt(rtbKm, 1) + ' KM'],
+      ['ONE-WAY ' + fmt(ferryKm, 1) + ' KM'],
+      ['TRANSIT TO RTB EDGE ' + fmtInt(rtbKm / (d.cruiseSpeed * 3.6) * 60) + ' MIN']
+    ]);
+    s += stamp(14, H - 62, 'start', [
+      ['V-STALL ' + fmt(r.vstall, 1) + ' · CRUISE ' + fmt(d.cruiseSpeed, 1) + ' · V-MAX ' + (isFinite(vmax) ? fmt(vmax, 1) : '—') + ' M/S', 'ops-stamp-value'],
+      ['CRUISE ' + fmt(d.cruiseSpeed * 3.6, 0) + ' KM/H · CLIMB ' + fmt(r.roc, 1) + ' M/S'],
+      ['CRUISE DRAW ' + fmt(r.cruisePowerE, 0) + ' W · ' + fmt(r.throttle, 0) + ' % THROTTLE']
+    ]);
+    s += stamp(W - 14, H - 62, 'end', [
+      [locatorOf(c.lat, c.lon).toUpperCase(), 'ops-stamp-value'],
+      [fmt(Math.abs(c.lat), 3) + '°' + (c.lat >= 0 ? 'N' : 'S') + ' ' + fmt(Math.abs(c.lon), 3) + '°' + (c.lon >= 0 ? 'E' : 'W')],
+      ['STILL AIR · NO RESERVE · CONCEPT FIDELITY']
+    ]);
+
+    s += '</svg>';
+    host.innerHTML = s;
+  }
+
+  function setupOps() {
+    if (!document.getElementById('uav-ops-map')) return;
+    ['uav-ops-lat', 'uav-ops-lon'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function () { renderOpsMap(design, derived); });
+    });
+    var fix = document.getElementById('uav-ops-fix');
+    if (fix) {
+      fix.addEventListener('click', function () {
+        if (!navigator.geolocation) { fix.textContent = 'NO GEOLOCATION'; return; }
+        fix.textContent = 'ACQUIRING…';
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          document.getElementById('uav-ops-lat').value = pos.coords.latitude.toFixed(4);
+          document.getElementById('uav-ops-lon').value = pos.coords.longitude.toFixed(4);
+          fix.textContent = 'DEVICE FIX';
+          renderOpsMap(design, derived);
+        }, function () { fix.textContent = 'FIX DENIED'; });
+      });
+    }
   }
 
   /* ── chart scaffolding ───────────────────────────────────────────────── */
@@ -2480,6 +2663,7 @@
     renderAirfoil(design, derived);
     view3D.mesh = build3DMesh(design, derived);
     render3D();
+    renderOpsMap(design, derived);
     renderPowerChart(design, derived);
     renderPolarChart(design, derived);
     renderSensitivity(derived);
@@ -2495,6 +2679,7 @@
     buildMcVaryTable();
     renderParamReference();
     setup3D();
+    setupOps();
     // default objective: maximize endurance, weight 1
     addObjectiveRow('endurance', 'max', 1);
     // prepopulated constraint set: airworthiness rows carry working bounds;

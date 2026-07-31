@@ -21,7 +21,7 @@
       <span class="xtag">experimental</span>
     </div>
     <div class="xbar-actions">
-      <input type="text" id="uav-design-name" class="xname" value="trainer-1500" maxlength="60" autocomplete="off" aria-label="Design name">
+      <input type="text" id="uav-design-name" class="xname" value="Untitled Design" maxlength="60" autocomplete="off" aria-label="Design name">
       <button type="button" class="xbtn" id="uav-save">Save</button>
       <label class="xbtn xfile">Load<input type="file" id="uav-load-input" accept=".json,application/json"></label>
       <button type="button" class="xbtn" id="uav-reset">Reset</button>
@@ -33,6 +33,7 @@
 
   <nav class="xtabs" aria-label="Sections">
     <button type="button" class="xtab active" data-tab="mission">Mission</button>
+    <button type="button" class="xtab" data-tab="ops">Ops</button>
     <button type="button" class="xtab" data-tab="design">Design</button>
     <button type="button" class="xtab" data-tab="aircraft">Aircraft</button>
     <button type="button" class="xtab" data-tab="analyze">Analyze</button>
@@ -103,6 +104,22 @@
 
     <!-- ── column 2: the aircraft ───────────────────────────────────── -->
     <div class="xcol xcol-output">
+
+      <section class="xview" data-view="ops">
+        <div class="xcard">
+          <h2>Mission footprint <span class="xchip">ops</span></h2>
+          <p class="xsub">Simulated reach of the current design from a launch point: return-to-base radius (out &amp; back), one-way delivery range, and the mission numbers that matter. Still air, no reserve &mdash; concept fidelity.</p>
+          <div class="uav-fig uav-fig-ops"><div id="uav-ops-map"></div></div>
+          <div class="xrow xops-controls">
+            <label class="xfield xinline"><span>Lat</span>
+              <input type="number" id="uav-ops-lat" value="33.854" min="-89.9" max="89.9" step="0.001" autocomplete="off" inputmode="decimal"></label>
+            <label class="xfield xinline"><span>Lon</span>
+              <input type="number" id="uav-ops-lon" value="-118.375" min="-180" max="180" step="0.001" autocomplete="off" inputmode="decimal"></label>
+            <button type="button" class="xbtn xsm" id="uav-ops-fix">Device fix</button>
+            <span class="xnote">Launch point is yours to set &mdash; coordinates stay on this device.</span>
+          </div>
+        </div>
+      </section>
 
       <section class="xview" data-view="aircraft">
         <div class="xcard">
