@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -268,21 +268,23 @@
           <span id="match-diagram-heading">Topology diagrams</span>
           <span class="log-count" id="diagram-side">shunt orientation depends on which Z is higher</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr><th>Topology</th><th>Circuit (signal flows Rs &rarr; Rl)</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>low-pass</td>
-              <td><pre id="diagram-lp" style="margin:0;font-family:var(--mono);font-size:0.78rem;line-height:1.3;white-space:pre;">&mdash;</pre></td>
-            </tr>
-            <tr>
-              <td>high-pass</td>
-              <td><pre id="diagram-hp" style="margin:0;font-family:var(--mono);font-size:0.78rem;line-height:1.3;white-space:pre;">&mdash;</pre></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr><th>Topology</th><th>Circuit (signal flows Rs &rarr; Rl)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>low-pass</td>
+                <td><pre id="diagram-lp" style="margin:0;font-family:var(--mono);font-size:0.78rem;line-height:1.3;white-space:pre;">&mdash;</pre></td>
+              </tr>
+              <tr>
+                <td>high-pass</td>
+                <td><pre id="diagram-hp" style="margin:0;font-family:var(--mono);font-size:0.78rem;line-height:1.3;white-space:pre;">&mdash;</pre></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="match-notes-heading">

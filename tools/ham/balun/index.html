@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -225,18 +225,20 @@
           <span id="balun-cores-heading">Core reference</span>
           <span class="log-count">Amidon FT- ferrite &middot; T- iron powder</span>
         </div>
-        <table class="data-table tools-ref-table">
-          <thead>
-            <tr>
-              <th>Core</th>
-              <th>Mix</th>
-              <th class="num">AL (nH/turn&sup2;)</th>
-              <th class="num">OD (in)</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody id="cores-tbody"></tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="data-table tools-ref-table">
+            <thead>
+              <tr>
+                <th>Core</th>
+                <th>Mix</th>
+                <th class="num">AL (nH/turn&sup2;)</th>
+                <th class="num">OD (in)</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="cores-tbody"></tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="balun-presets-heading">
@@ -244,52 +246,54 @@
           <span id="balun-presets-heading">Common balun winding presets</span>
           <span class="log-count">starting points &mdash; verify on a VNA</span>
         </div>
-        <table class="data-table tools-ref-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Core</th>
-              <th>Turns</th>
-              <th>Ratio</th>
-              <th>Range</th>
-              <th>Use</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1:1 choke</td>
-              <td>FT-240-31</td>
-              <td>14 turns</td>
-              <td>1:1 (Z)</td>
-              <td>1&ndash;30 MHz</td>
-              <td>Common-mode choke, RG-58 or RG-400 through core; current balun for coax-fed dipole</td>
-            </tr>
-            <tr>
-              <td>4:1 current</td>
-              <td>FT-240-43</td>
-              <td>~11 trifilar</td>
-              <td>4:1 (Z)</td>
-              <td>1.8&ndash;30 MHz</td>
-              <td>Guanella current balun for OCF dipoles and folded-dipole feedpoints (200&Omega; to 50&Omega;)</td>
-            </tr>
-            <tr>
-              <td>9:1 unun</td>
-              <td>FT-240-43</td>
-              <td>7 + 21 (1:3 turns)</td>
-              <td>9:1 (Z)</td>
-              <td>3.5&ndash;30 MHz</td>
-              <td>Autotransformer for random-wire / end-fed long-wire antennas (~450&Omega; to 50&Omega;)</td>
-            </tr>
-            <tr>
-              <td>49:1 unun</td>
-              <td>FT-240-43</td>
-              <td>2 + 14 (1:7 turns)</td>
-              <td>49:1 (Z)</td>
-              <td>3.5&ndash;30 MHz</td>
-              <td>End-fed half-wave (EFHW) matching transformer (~2450&Omega; to 50&Omega;)</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="data-table tools-ref-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Core</th>
+                <th>Turns</th>
+                <th>Ratio</th>
+                <th>Range</th>
+                <th>Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1:1 choke</td>
+                <td>FT-240-31</td>
+                <td>14 turns</td>
+                <td>1:1 (Z)</td>
+                <td>1&ndash;30 MHz</td>
+                <td>Common-mode choke, RG-58 or RG-400 through core; current balun for coax-fed dipole</td>
+              </tr>
+              <tr>
+                <td>4:1 current</td>
+                <td>FT-240-43</td>
+                <td>~11 trifilar</td>
+                <td>4:1 (Z)</td>
+                <td>1.8&ndash;30 MHz</td>
+                <td>Guanella current balun for OCF dipoles and folded-dipole feedpoints (200&Omega; to 50&Omega;)</td>
+              </tr>
+              <tr>
+                <td>9:1 unun</td>
+                <td>FT-240-43</td>
+                <td>7 + 21 (1:3 turns)</td>
+                <td>9:1 (Z)</td>
+                <td>3.5&ndash;30 MHz</td>
+                <td>Autotransformer for random-wire / end-fed long-wire antennas (~450&Omega; to 50&Omega;)</td>
+              </tr>
+              <tr>
+                <td>49:1 unun</td>
+                <td>FT-240-43</td>
+                <td>2 + 14 (1:7 turns)</td>
+                <td>49:1 (Z)</td>
+                <td>3.5&ndash;30 MHz</td>
+                <td>End-fed half-wave (EFHW) matching transformer (~2450&Omega; to 50&Omega;)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="balun-notes-heading">

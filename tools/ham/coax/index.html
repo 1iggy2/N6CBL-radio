@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -246,21 +246,23 @@
           <span id="coax-ref-heading">Reference: loss per 100 ft at common frequencies</span>
           <span class="log-count">dB / 100 ft &middot; approximate</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr>
-              <th scope="col">Cable</th>
-              <th scope="col" class="num">1 MHz</th>
-              <th scope="col" class="num">10 MHz</th>
-              <th scope="col" class="num">100 MHz</th>
-              <th scope="col" class="num">144 MHz</th>
-              <th scope="col" class="num">450 MHz</th>
-              <th scope="col" class="num">1296 MHz</th>
-              <th scope="col" class="num">2400 MHz</th>
-            </tr>
-          </thead>
-          <tbody id="ref-body"></tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr>
+                <th scope="col">Cable</th>
+                <th scope="col" class="num">1 MHz</th>
+                <th scope="col" class="num">10 MHz</th>
+                <th scope="col" class="num">100 MHz</th>
+                <th scope="col" class="num">144 MHz</th>
+                <th scope="col" class="num">450 MHz</th>
+                <th scope="col" class="num">1296 MHz</th>
+                <th scope="col" class="num">2400 MHz</th>
+              </tr>
+            </thead>
+            <tbody id="ref-body"></tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="coax-notes-heading">

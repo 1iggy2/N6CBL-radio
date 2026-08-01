@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -257,17 +257,19 @@
           <span id="freq-ref-heading">US amateur band reference</span>
           <span class="log-count">FCC Part 97 / ITU Region 2</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr>
-              <th>Band</th>
-              <th class="num">Range (MHz)</th>
-              <th class="num">&lambda; (m)</th>
-              <th class="roadmap-wide-col">Notes</th>
-            </tr>
-          </thead>
-          <tbody id="band-ref-body"></tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr>
+                <th>Band</th>
+                <th class="num">Range (MHz)</th>
+                <th class="num">&lambda; (m)</th>
+                <th class="roadmap-wide-col">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="band-ref-body"></tbody>
+          </table>
+        </div>
         <div class="tools-note">
           <strong>Scope.</strong> Bands listed above are US (ITU Region 2) amateur allocations under FCC Part 97. Privileges within each band depend on license class &mdash; Technician, General, and Amateur Extra each see different sub-segments, especially on HF phone. The <strong>segment</strong> readout shows the general activity at the input frequency; it is not a substitute for the authoritative band plan. For full detail, see the <strong>ARRL US Amateur Radio Bands</strong> chart and FCC Part 97.301 / 97.305. The 2200 m and 630 m allocations require LF/MF notification to the UTC; 60 m is channelized with USB only and a 100 W ERP cap.
         </div>
