@@ -7,3 +7,7 @@
 
 # generated QRZ fetch working files
 .cache/
+
+# python bytecode from running scripts/ and tests/
+__pycache__/
+*.py[cod]

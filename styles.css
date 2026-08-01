@@ -835,6 +835,15 @@ footer a:hover { text-decoration: underline; }
   .roadmap-table th,
   .roadmap-table td { padding: 4px 6px; }
 
+  /* Drop only the ordinal index — the explanation column is the page. */
+  .design-table th.col-idx,
+  .design-table td.col-idx { display: none; }
+  .design-table th.col-term  { width: 34%; }
+  .design-table th.col-token { width: 104px; }
+  .design-table th.col-value { width: 76px; }
+  .design-table th,
+  .design-table td { padding: 4px 6px; }
+
   .roadmap-control-table th { width: 96px; }
   .roadmap-page th,
   .roadmap-page td { padding: 4px 6px; }
@@ -926,6 +935,7 @@ footer a:hover { text-decoration: underline; }
   letter-spacing: 0.06em;
   color: var(--muted);
   display: flex;
+  flex-wrap: wrap; /* keeps the key + count from forcing body overflow at 390px */
   justify-content: space-between;
   align-items: center;
   gap: 12px;
@@ -940,6 +950,74 @@ footer a:hover { text-decoration: underline; }
 }
 
 .stats-map-bar span:last-child { flex-shrink: 0; }
+
+/* ── DESIGN LANGUAGE PAGE ───────────────────────────────────────────────────── */
+/* Its own column geometry: .roadmap-table is sized for the roadmap's fixed
+   4-column shape, and its wide column is dropped on mobile. Here the wide
+   column carries the actual doctrine, so it must survive to the phone. */
+.design-table { table-layout: fixed; width: 100%; }
+.design-table th.col-idx    { width: 44px; }
+.design-table th.col-term   { width: 26%; }
+.design-table th.col-swatch { width: 64px; }
+.design-table th.col-token  { width: 132px; }
+.design-table th.col-value  { width: 92px; }
+
+/* /design/ — type specimens render in the stack they document. */
+.specimen-mono {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.specimen-sans {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+}
+
+.specimen-display {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* /design/ — color swatches carry the value they name. */
+.swatch {
+  display: inline-block;
+  width: 28px;
+  height: 14px;
+  border: 1px solid var(--black);
+  vertical-align: middle;
+}
+
+.swatch-black  { background: var(--black); }
+.swatch-white  { background: var(--white); }
+.swatch-accent { background: var(--accent); }
+.swatch-muted  { background: var(--muted); }
+
+/* Map key: two plotted classes, labeled rather than left to be inferred. */
+.map-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+  min-width: 0;
+}
+
+.map-key-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.map-key-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border: 1px solid var(--black);
+}
+
+.map-key-dot-position { background: var(--black); }
+.map-key-dot-contact  { background: var(--accent); border-color: var(--accent); }
 
 .stats-core-grid {
   display: grid;

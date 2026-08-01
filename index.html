@@ -56,6 +56,11 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -168,12 +173,12 @@
 
       <section class="stats-map-section">
         <div class="section-label split">
-          <span>QSO Contact Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
+          <span>QSO Contact Map &mdash; arcs from operating position</span>
           <span id="home-map-count" class="log-count"></span>
         </div>
         <div class="stats-map-wrap">
           <img src="/images/world-map.svg"
-               alt="World map with N6CBL contact arcs from DM03tu"
+               alt="World map with N6CBL contact arcs drawn from each operating position to the station worked"
                class="stats-map-img" width="1000" height="500">
           <svg id="home-contact-overlay"
                viewBox="0 0 1000 500"
@@ -182,7 +187,15 @@
                aria-hidden="true"></svg>
         </div>
         <div class="stats-map-bar">
-          <span>N6CBL &middot; DM03tu &middot; 33.85&deg;N 118.38&deg;W &middot; Los Angeles, CA</span>
+          <span class="map-key">
+            <span class="map-key-item">
+              <span class="map-key-dot map-key-dot-position"></span>
+              <span id="home-map-key">Operating position</span>
+            </span>
+            <span class="map-key-item">
+              <span class="map-key-dot map-key-dot-contact"></span>Station worked
+            </span>
+          </span>
           <a href="/log/stats/" style="color:inherit;text-decoration:none">Full stats &#8594;</a>
         </div>
       </section>
@@ -253,83 +266,6 @@
         </table>
       </section>
 
-      <section class="roadmap" aria-labelledby="roadmap-heading">
-        <div class="section-label split">
-          <span id="roadmap-heading">Roadmap preview</span>
-          <span class="section-tag">/roadmap/</span>
-        </div>
-        <table class="roadmap-table">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Feature</th>
-              <th class="col-deliverable">Next deliverable</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="roadmap-id">1</td>
-              <td class="roadmap-feature"><span class="path">/roadmap/</span> Planning ledger</td>
-              <td class="desc col-deliverable">Use the new roadmap page for route inventory, future projects, idea voting, and rationale before implementation.</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">2</td>
-              <td class="roadmap-feature"><span class="path">/blog/compose/</span> Owner-only publisher</td>
-              <td class="desc col-deliverable">Add image upload to the Cloudflare Access-protected composer while keeping structured source and static output.</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">3</td>
-              <td class="roadmap-feature"><span class="path">/tools/</span> Browser utilities workbench</td>
-              <td class="desc col-deliverable">Keep the 17 live static tools accurate: refresh reference data, tighten mobile tables, and add utilities only when they answer recurring field questions.</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">4</td>
-              <td class="roadmap-feature"><span class="path">/propagation/</span> Activation command station</td>
-              <td class="desc col-deliverable">Evaluate whether reload-owned NOAA/weather checks are enough or if a labeled refresh cadence is worth the extra moving parts.</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">5</td>
-              <td class="roadmap-feature"><span class="path">/station/</span> Station dossier</td>
-              <td class="desc col-deliverable">Deepen the station inventory with hardware notes, antenna experiments, battery data, mode plans, and CW progress.</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">6</td>
-              <td class="roadmap-feature"><span class="path">/log/</span> QSO log workstation</td>
-              <td class="desc col-deliverable">Improve contact/session browsing with stronger filters, import notes, dedupe previews, and explicit data freshness metadata.</td>
-              <td class="st st-wip">WIP</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">7</td>
-              <td class="roadmap-feature"><span class="path">/prints/</span> 3D print catalog</td>
-              <td class="desc col-deliverable">Publish printable radio accessories with file downloads, revision notes, material settings, and field-use photos.</td>
-              <td class="st st-planned">Planned</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">8</td>
-              <td class="roadmap-feature"><span class="path">/blog/</span> Field journal system</td>
-              <td class="desc col-deliverable">Add more activation reports, station essays, post metadata, and a cleaner static publishing workflow.</td>
-              <td class="st st-live">Live</td>
-            </tr>
-            <tr>
-              <td class="roadmap-id">9</td>
-              <td class="roadmap-feature"><span class="path">shared chrome</span> Site-wide navigation source</td>
-              <td class="desc col-deliverable">Replace copied sidebar/header markup with a static include or generation step so every route exposes the same public site map.</td>
-              <td class="st st-wip">P0</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="pota-footer">
-          <span>Planning source of truth</span>
-          <a href="/roadmap/">Full roadmap &#8594;</a>
-        </div>
-      </section>
-
     </div><!-- /.main-content -->
 
   </div><!-- /.layout-body -->
@@ -391,7 +327,23 @@
     }
 
     /* ── Contact map ─────────────────────────────────────────────────── */
+    /* Home QTH is the fallback origin only; QSOs logged with an operator-side
+       grid are plotted from where they were actually made. */
+    var HOME_GRID = 'DM03tu';
     var HOME_LAT = 33.8542, HOME_LON = -118.375;
+    var COLOR_CONTACT  = '#c8401a';  /* station worked     */
+    var COLOR_POSITION = '#0a0a0a';  /* operating position */
+
+    function isFiniteCoord(value) {
+      return typeof value === 'number' && isFinite(value);
+    }
+
+    function operatorPosition(q) {
+      if (isFiniteCoord(q.my_lat) && isFiniteCoord(q.my_lon)) {
+        return { grid: q.my_gridsquare || '—', lat: q.my_lat, lon: q.my_lon };
+      }
+      return { grid: HOME_GRID, lat: HOME_LAT, lon: HOME_LON };
+    }
 
     function toSVG(lat, lon) {
       return [(lon + 180) * 1000 / 360, (90 - lat) * 500 / 180];
@@ -418,25 +370,45 @@
       var svg = document.getElementById('home-contact-overlay');
       if (!svg) return;
       var qsos = data.qsos || [];
-      var seen = {}, paths = '', dots = '';
+      var seenGrid = {}, seenArc = {}, positions = {}, paths = '', dots = '';
       for (var i = 0; i < qsos.length; i++) {
         var q = qsos[i];
-        if (!q.lat || !q.lon || !q.gridsquare || seen[q.gridsquare]) continue;
-        seen[q.gridsquare] = true;
-        paths += '<path d="' + greatCirclePath(HOME_LAT, HOME_LON, q.lat, q.lon, 20)
-          + '" fill="none" stroke="#c8401a" stroke-width="0.7" stroke-opacity="0.45"/>';
-        var pt = toSVG(q.lat, q.lon);
-        dots += '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1)
-          + '" r="2.2" fill="#c8401a" fill-opacity="0.85"/>';
+        var origin = operatorPosition(q);
+        positions[origin.grid] = origin;
+
+        if (!isFiniteCoord(q.lat) || !isFiniteCoord(q.lon) || !q.gridsquare) continue;
+
+        var arcKey = origin.grid + '>' + q.gridsquare;
+        if (!seenArc[arcKey]) {
+          seenArc[arcKey] = true;
+          paths += '<path d="' + greatCirclePath(origin.lat, origin.lon, q.lat, q.lon, 20)
+            + '" fill="none" stroke="' + COLOR_CONTACT + '" stroke-width="0.7" stroke-opacity="0.45"/>';
+        }
+        if (!seenGrid[q.gridsquare]) {
+          seenGrid[q.gridsquare] = true;
+          var pt = toSVG(q.lat, q.lon);
+          dots += '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1)
+            + '" r="2.2" fill="' + COLOR_CONTACT + '" fill-opacity="0.85"/>';
+        }
       }
-      var home = toSVG(HOME_LAT, HOME_LON);
-      var hx = home[0].toFixed(1), hy = home[1].toFixed(1);
-      svg.innerHTML = paths + dots
-        + '<circle cx="'+hx+'" cy="'+hy+'" r="9" fill="none" stroke="#c8401a" stroke-width="1.5" stroke-opacity="0.6"/>'
-        + '<circle cx="'+hx+'" cy="'+hy+'" r="4" fill="#c8401a"/>';
-      var gc = Object.keys(seen).length;
+      var marks = '', positionGrids = Object.keys(positions);
+      for (var p = 0; p < positionGrids.length; p++) {
+        var pos = positions[positionGrids[p]];
+        var m = toSVG(pos.lat, pos.lon);
+        var mx = m[0].toFixed(1), my = m[1].toFixed(1);
+        marks += '<circle cx="'+mx+'" cy="'+my+'" r="7" fill="none" stroke="'
+          + COLOR_POSITION + '" stroke-width="1.2" stroke-opacity="0.7"/>'
+          + '<circle cx="'+mx+'" cy="'+my+'" r="3.2" fill="' + COLOR_POSITION + '"/>';
+      }
+      svg.innerHTML = paths + dots + marks;
+      var gc = Object.keys(seenGrid).length;
       var countEl = document.getElementById('home-map-count');
       if (countEl) countEl.textContent = gc + ' grids · ' + qsos.length + ' QSOs';
+      var keyEl = document.getElementById('home-map-key');
+      if (keyEl) {
+        keyEl.textContent = positionGrids.length + ' operating position'
+          + (positionGrids.length === 1 ? '' : 's') + ': ' + positionGrids.join(', ');
+      }
     });
 
 
