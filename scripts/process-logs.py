@@ -196,11 +196,16 @@ def qso_group_key(qso, fallback):
     park_ref = first_value(
         qso.get('MY_POTA_REF', ''),
         qso.get('MY_SIG_INFO', ''),
-        qso.get('POTA_REF', ''),
-        qso.get('SIG_INFO', ''),
     ).upper().strip()
     if park_ref:
         return f'{date}-{slug_text(park_ref)}'
+    my_loc = first_value(
+        qso.get('MY_GRIDSQUARE', ''),
+        qso.get('MY_STATE', ''),
+        qso.get('MY_CNTY', ''),
+    ).upper().strip()
+    if my_loc:
+        return f'{date}-{slug_text(my_loc)}'
     return date or fallback
 
 
@@ -237,11 +242,11 @@ def main():
                 qso_groups.setdefault(qso_group_key(qso, path.stem), []).append(qso)
 
         for session_id, session_qsos in sorted(qso_groups.items()):
-            # Park reference: check several common ADIF fields in priority order
+            # Park reference: only MY_* fields count — POTA_REF/SIG_INFO describe
+            # the other station's park when we're hunting, not our own activation.
             park_ref = None
             for q in session_qsos:
-                ref = (q.get('MY_POTA_REF') or q.get('MY_SIG_INFO')
-                       or q.get('POTA_REF') or q.get('SIG_INFO'))
+                ref = q.get('MY_POTA_REF') or q.get('MY_SIG_INFO')
                 if ref and ref.strip():
                     park_ref = ref.strip().upper()
                     break
@@ -249,7 +254,7 @@ def main():
             is_pota = park_ref is not None
             if not is_pota:
                 for q in session_qsos:
-                    sig = (q.get('MY_SIG') or q.get('SIG', '')).upper()
+                    sig = (q.get('MY_SIG') or '').upper()
                     if sig == 'POTA':
                         is_pota = True
                         break
