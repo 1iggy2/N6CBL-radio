@@ -10,7 +10,9 @@ making changes. Treat it as the source of truth for:
 - layout conventions, including sidebar and dense table patterns;
 - static-site technical constraints;
 - file organization expectations;
-- validation, mobile-width, and commit-message rules.
+- validation, mobile-width, and commit-message rules;
+- the expectation that you fix defects you find, not just the ones you were asked
+  about (see "Fix what you find").
 
 Do not duplicate or reinterpret those rules here. If guidance changes, update
 `CLAUDE.md` first so all agent-facing files continue to point at the same source of

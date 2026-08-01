@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -285,18 +285,20 @@
           <span id="grayline-table-heading">24-hour solar elevation</span>
           <span class="log-count">every 30 minutes UTC &middot; 48 rows</span>
         </div>
-        <table class="data-table tools-ref-table" id="elev-table">
-          <thead>
-            <tr>
-              <th>UTC</th>
-              <th class="num">From elev (&deg;)</th>
-              <th class="num">To elev (&deg;)</th>
-              <th>State</th>
-            </tr>
-          </thead>
-          <tbody id="elev-body">
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="data-table tools-ref-table" id="elev-table">
+            <thead>
+              <tr>
+                <th>UTC</th>
+                <th class="num">From elev (&deg;)</th>
+                <th class="num">To elev (&deg;)</th>
+                <th>State</th>
+              </tr>
+            </thead>
+            <tbody id="elev-body">
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="grayline-note-heading">

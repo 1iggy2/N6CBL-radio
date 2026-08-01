@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -253,16 +253,18 @@
 
       <section aria-labelledby="db-stable-heading">
         <div class="section-label" id="db-stable-heading">S-unit reference table (HF)</div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr>
-              <th>S-meter</th>
-              <th class="num">HF dBm into 50 &Omega;</th>
-              <th class="num">HF &mu;V (rms)</th>
-            </tr>
-          </thead>
-          <tbody id="s-table-body"></tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr>
+                <th>S-meter</th>
+                <th class="num">HF dBm into 50 &Omega;</th>
+                <th class="num">HF &mu;V (rms)</th>
+              </tr>
+            </thead>
+            <tbody id="s-table-body"></tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="db-fspl-heading">

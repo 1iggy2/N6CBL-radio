@@ -231,7 +231,20 @@ node scripts/check-widths.js            # viewport overflow sweep (needs Playwri
 python3 -m http.server 8000             # preview the site at localhost:8000
 ```
 
-The first three run on every push and pull request via `.github/workflows/check.yml`.
+All four run on every push and pull request via `.github/workflows/check.yml`.
+
+### Fix what you find
+
+If you notice a defect while working — a broken layout, a stale document, a wrong
+label, dead code, a check nothing runs — fix it in the same pass rather than
+reporting it and moving on. The operator is not writing code and should not have
+to triage a list of findings back to you. This applies to problems you did not
+cause and that nobody asked about.
+
+Two limits. Keep the unrelated fix separable, as its own commit with its own
+reasoning, so it can be reverted without touching the requested work. And say
+plainly in your summary what you fixed beyond what was asked, including anything
+you decided to leave alone and why — silently expanding scope is its own defect.
 
 ### Repository workflow
 
@@ -255,10 +268,12 @@ Rules:
   `node scripts/check-widths.js` loads every page across 320/390/430/768/1024/1280/1440
   and fails with the offending element named. "Mentally check at 390px" missed a
   5px overflow on `/station/` and a real one on `/design/`; the sweep found both.
-- Known pre-existing overflows the sweep reports (not yet fixed): `/log/` at 1024px,
-  `/propagation/` at 320px, and `/tools/ham/{balun,coax,dipole,qcodes,tones}/` at
-  320-430px. `check-widths.js` is deliberately **not** wired into CI until these are
-  cleared — a check that always fails is a check nobody reads.
+- The sweep is clean and runs in CI, so any failure is a regression you introduced.
+  Do not merge past it.
+- The fix for a wide data table is a `<div class="table-scroll">` wrapper, which
+  scrolls the table inside its own box instead of widening the page. Dense
+  reference tables should keep all their columns and scroll; dropping columns is
+  for cases where a column is genuinely redundant on a phone.
 - The `<meta name="viewport" content="width=device-width, initial-scale=1.0">` tag is
   required on every page. Never omit or alter it.
 

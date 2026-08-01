@@ -6,10 +6,8 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Fast, dependency-free checks only, so this stays cheap enough to run on every
-# push. The viewport sweep (scripts/check-widths.js) needs a browser and is run
-# locally — see CLAUDE.md.
 jobs:
+  # Fast, dependency-free checks; these report in seconds.
   check:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +32,24 @@ jobs:
             git --no-pager diff --stat -- blog/index.html index.html
             exit 1
           fi
+
+  # Viewport overflow sweep. Needs a browser, so it runs as its own job rather
+  # than slowing the fast checks. Playwright is installed ad hoc — the repo
+  # itself stays dependency-free with no package.json or lockfile.
+  widths:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: No horizontal overflow on any page
+        run: node scripts/check-widths.js

@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/" aria-current="page">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -190,23 +190,25 @@
       </div>
 
       <div id="qso-state" class="log-state"></div>
-      <table id="qso-table" hidden>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>UTC</th>
-            <th>Call</th>
-            <th class="col-name">Name</th>
-            <th class="col-qth">QTH</th>
-            <th>Band</th>
-            <th class="col-mode">Mode</th>
-            <th class="col-freq">Freq</th>
-            <th class="col-rst">Sent</th>
-            <th class="col-rst">Rcvd</th>
-          </tr>
-        </thead>
-        <tbody id="qso-tbody"></tbody>
-      </table>
+      <div class="table-scroll">
+        <table id="qso-table" hidden>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>UTC</th>
+              <th>Call</th>
+              <th class="col-name">Name</th>
+              <th class="col-qth">QTH</th>
+              <th>Band</th>
+              <th class="col-mode">Mode</th>
+              <th class="col-freq">Freq</th>
+              <th class="col-rst">Sent</th>
+              <th class="col-rst">Rcvd</th>
+            </tr>
+          </thead>
+          <tbody id="qso-tbody"></tbody>
+        </table>
+      </div>
 
       <div class="log-footer">
         <span id="log-updated"></span>

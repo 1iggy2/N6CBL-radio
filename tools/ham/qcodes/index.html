@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -166,51 +166,53 @@
           <span id="qcodes-table-heading">Q-codes</span>
           <span class="log-count">international Morse / amateur usage</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr><th>Code</th><th>Question form</th><th>Statement form</th></tr>
-          </thead>
-          <tbody>
-            <tr class="qcode-row"><td>QRA</td><td>What is your station's name/call?</td><td>My station is...</td></tr>
-            <tr class="qcode-row"><td>QRG</td><td>Will you tell me my exact frequency?</td><td>Your exact frequency is...</td></tr>
-            <tr class="qcode-row"><td>QRH</td><td>Does my frequency vary?</td><td>Your frequency varies.</td></tr>
-            <tr class="qcode-row"><td>QRI</td><td>How is the tone of my transmission?</td><td>The tone of your transmission is (1=good, 2=variable, 3=bad).</td></tr>
-            <tr class="qcode-row"><td>QRK</td><td>What is the intelligibility of my signals?</td><td>The intelligibility of your signals is... (1&ndash;5)</td></tr>
-            <tr class="qcode-row"><td>QRL</td><td>Are you busy?</td><td>I am busy.</td></tr>
-            <tr class="qcode-row"><td>QRM</td><td>Are you being interfered with?</td><td>I am being interfered with.</td></tr>
-            <tr class="qcode-row"><td>QRN</td><td>Are you troubled by static?</td><td>I am troubled by static.</td></tr>
-            <tr class="qcode-row"><td>QRO</td><td>Shall I increase power?</td><td>Increase power.</td></tr>
-            <tr class="qcode-row"><td>QRP</td><td>Shall I decrease power?</td><td>Decrease power.</td></tr>
-            <tr class="qcode-row"><td>QRQ</td><td>Shall I send faster?</td><td>Send faster (W.P.M.).</td></tr>
-            <tr class="qcode-row"><td>QRS</td><td>Shall I send more slowly?</td><td>Send more slowly (W.P.M.).</td></tr>
-            <tr class="qcode-row"><td>QRT</td><td>Shall I stop sending?</td><td>Stop sending.</td></tr>
-            <tr class="qcode-row"><td>QRU</td><td>Have you anything for me?</td><td>I have nothing for you.</td></tr>
-            <tr class="qcode-row"><td>QRV</td><td>Are you ready?</td><td>I am ready.</td></tr>
-            <tr class="qcode-row"><td>QRX</td><td>When will you call again?</td><td>I will call you again at...</td></tr>
-            <tr class="qcode-row"><td>QRY</td><td>What is my turn?</td><td>Your turn is number...</td></tr>
-            <tr class="qcode-row"><td>QRZ</td><td>Who is calling me?</td><td>You are being called by...</td></tr>
-            <tr class="qcode-row"><td>QSA</td><td>What is the strength of my signals?</td><td>The strength of your signals is... (1&ndash;5)</td></tr>
-            <tr class="qcode-row"><td>QSB</td><td>Are my signals fading?</td><td>Your signals are fading.</td></tr>
-            <tr class="qcode-row"><td>QSD</td><td>Is my keying defective?</td><td>Your keying is defective.</td></tr>
-            <tr class="qcode-row"><td>QSL</td><td>Can you acknowledge receipt?</td><td>I am acknowledging receipt.</td></tr>
-            <tr class="qcode-row"><td>QSM</td><td>Shall I repeat the last message?</td><td>Repeat the last message.</td></tr>
-            <tr class="qcode-row"><td>QSN</td><td>Did you hear me on...?</td><td>I heard you on...</td></tr>
-            <tr class="qcode-row"><td>QSO</td><td>Can you communicate with...?</td><td>I can communicate with...</td></tr>
-            <tr class="qcode-row"><td>QSP</td><td>Will you relay to...?</td><td>I will relay to...</td></tr>
-            <tr class="qcode-row"><td>QSR</td><td>Shall we repeat the call on the agreed frequency?</td><td>Repeat the call.</td></tr>
-            <tr class="qcode-row"><td>QST</td><td>General call to all amateurs.</td><td>Notice to all amateurs (ARRL term).</td></tr>
-            <tr class="qcode-row"><td>QSU</td><td>Shall I send/reply on this frequency?</td><td>Send/reply on this frequency.</td></tr>
-            <tr class="qcode-row"><td>QSW</td><td>Will you send on this frequency?</td><td>I am going to send on this frequency.</td></tr>
-            <tr class="qcode-row"><td>QSX</td><td>Will you listen for me on...?</td><td>I am listening for you on...</td></tr>
-            <tr class="qcode-row"><td>QSY</td><td>Shall I change frequency?</td><td>Change to transmission on another frequency.</td></tr>
-            <tr class="qcode-row"><td>QSZ</td><td>Shall I send each word twice?</td><td>Send each word twice.</td></tr>
-            <tr class="qcode-row"><td>QTC</td><td>How many messages have you to send?</td><td>I have N messages.</td></tr>
-            <tr class="qcode-row"><td>QTH</td><td>What is your location?</td><td>My location is...</td></tr>
-            <tr class="qcode-row"><td>QTR</td><td>What is the correct time?</td><td>The correct time is...</td></tr>
-            <tr class="qcode-row"><td>QTV</td><td>Shall I stand guard for you?</td><td>Stand guard for me.</td></tr>
-            <tr class="qcode-row"><td>QTX</td><td>Will you keep your station open?</td><td>I will keep my station open.</td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr><th>Code</th><th>Question form</th><th>Statement form</th></tr>
+            </thead>
+            <tbody>
+              <tr class="qcode-row"><td>QRA</td><td>What is your station's name/call?</td><td>My station is...</td></tr>
+              <tr class="qcode-row"><td>QRG</td><td>Will you tell me my exact frequency?</td><td>Your exact frequency is...</td></tr>
+              <tr class="qcode-row"><td>QRH</td><td>Does my frequency vary?</td><td>Your frequency varies.</td></tr>
+              <tr class="qcode-row"><td>QRI</td><td>How is the tone of my transmission?</td><td>The tone of your transmission is (1=good, 2=variable, 3=bad).</td></tr>
+              <tr class="qcode-row"><td>QRK</td><td>What is the intelligibility of my signals?</td><td>The intelligibility of your signals is... (1&ndash;5)</td></tr>
+              <tr class="qcode-row"><td>QRL</td><td>Are you busy?</td><td>I am busy.</td></tr>
+              <tr class="qcode-row"><td>QRM</td><td>Are you being interfered with?</td><td>I am being interfered with.</td></tr>
+              <tr class="qcode-row"><td>QRN</td><td>Are you troubled by static?</td><td>I am troubled by static.</td></tr>
+              <tr class="qcode-row"><td>QRO</td><td>Shall I increase power?</td><td>Increase power.</td></tr>
+              <tr class="qcode-row"><td>QRP</td><td>Shall I decrease power?</td><td>Decrease power.</td></tr>
+              <tr class="qcode-row"><td>QRQ</td><td>Shall I send faster?</td><td>Send faster (W.P.M.).</td></tr>
+              <tr class="qcode-row"><td>QRS</td><td>Shall I send more slowly?</td><td>Send more slowly (W.P.M.).</td></tr>
+              <tr class="qcode-row"><td>QRT</td><td>Shall I stop sending?</td><td>Stop sending.</td></tr>
+              <tr class="qcode-row"><td>QRU</td><td>Have you anything for me?</td><td>I have nothing for you.</td></tr>
+              <tr class="qcode-row"><td>QRV</td><td>Are you ready?</td><td>I am ready.</td></tr>
+              <tr class="qcode-row"><td>QRX</td><td>When will you call again?</td><td>I will call you again at...</td></tr>
+              <tr class="qcode-row"><td>QRY</td><td>What is my turn?</td><td>Your turn is number...</td></tr>
+              <tr class="qcode-row"><td>QRZ</td><td>Who is calling me?</td><td>You are being called by...</td></tr>
+              <tr class="qcode-row"><td>QSA</td><td>What is the strength of my signals?</td><td>The strength of your signals is... (1&ndash;5)</td></tr>
+              <tr class="qcode-row"><td>QSB</td><td>Are my signals fading?</td><td>Your signals are fading.</td></tr>
+              <tr class="qcode-row"><td>QSD</td><td>Is my keying defective?</td><td>Your keying is defective.</td></tr>
+              <tr class="qcode-row"><td>QSL</td><td>Can you acknowledge receipt?</td><td>I am acknowledging receipt.</td></tr>
+              <tr class="qcode-row"><td>QSM</td><td>Shall I repeat the last message?</td><td>Repeat the last message.</td></tr>
+              <tr class="qcode-row"><td>QSN</td><td>Did you hear me on...?</td><td>I heard you on...</td></tr>
+              <tr class="qcode-row"><td>QSO</td><td>Can you communicate with...?</td><td>I can communicate with...</td></tr>
+              <tr class="qcode-row"><td>QSP</td><td>Will you relay to...?</td><td>I will relay to...</td></tr>
+              <tr class="qcode-row"><td>QSR</td><td>Shall we repeat the call on the agreed frequency?</td><td>Repeat the call.</td></tr>
+              <tr class="qcode-row"><td>QST</td><td>General call to all amateurs.</td><td>Notice to all amateurs (ARRL term).</td></tr>
+              <tr class="qcode-row"><td>QSU</td><td>Shall I send/reply on this frequency?</td><td>Send/reply on this frequency.</td></tr>
+              <tr class="qcode-row"><td>QSW</td><td>Will you send on this frequency?</td><td>I am going to send on this frequency.</td></tr>
+              <tr class="qcode-row"><td>QSX</td><td>Will you listen for me on...?</td><td>I am listening for you on...</td></tr>
+              <tr class="qcode-row"><td>QSY</td><td>Shall I change frequency?</td><td>Change to transmission on another frequency.</td></tr>
+              <tr class="qcode-row"><td>QSZ</td><td>Shall I send each word twice?</td><td>Send each word twice.</td></tr>
+              <tr class="qcode-row"><td>QTC</td><td>How many messages have you to send?</td><td>I have N messages.</td></tr>
+              <tr class="qcode-row"><td>QTH</td><td>What is your location?</td><td>My location is...</td></tr>
+              <tr class="qcode-row"><td>QTR</td><td>What is the correct time?</td><td>The correct time is...</td></tr>
+              <tr class="qcode-row"><td>QTV</td><td>Shall I stand guard for you?</td><td>Stand guard for me.</td></tr>
+              <tr class="qcode-row"><td>QTX</td><td>Will you keep your station open?</td><td>I will keep my station open.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="prosigns-heading">
@@ -218,27 +220,29 @@
           <span id="prosigns-heading">Prosigns</span>
           <span class="log-count">sent as a single concatenated Morse character &mdash; no inter-letter space</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr><th>Prosign</th><th>Morse</th><th>Meaning</th></tr>
-          </thead>
-          <tbody>
-            <tr class="qcode-row"><td>AR</td><td>di-dah-di-dah-dit</td><td>End of message</td></tr>
-            <tr class="qcode-row"><td>AS</td><td>di-dah-di-di-dit</td><td>Wait / standby</td></tr>
-            <tr class="qcode-row"><td>BT</td><td>dah-di-di-di-dah</td><td>Pause / break / new paragraph</td></tr>
-            <tr class="qcode-row"><td>CL</td><td>dah-di-dah-di-di-dah-di-dit</td><td>Closing station (going off the air)</td></tr>
-            <tr class="qcode-row"><td>CT</td><td>dah-di-dah-di-dah</td><td>Start of transmission / commence</td></tr>
-            <tr class="qcode-row"><td>HH</td><td>di-di-di-di-di-di-di-dit</td><td>Error / correction</td></tr>
-            <tr class="qcode-row"><td>K</td><td>dah-di-dah</td><td>Invitation for any station to transmit ("over")</td></tr>
-            <tr class="qcode-row"><td>KN</td><td>dah-di-dah-dah-dit</td><td>Invitation for a specific station only to transmit</td></tr>
-            <tr class="qcode-row"><td>SK</td><td>di-di-di-dah-di-dah</td><td>End of contact / clearing</td></tr>
-            <tr class="qcode-row"><td>SN / VE</td><td>di-di-di-dah-dit</td><td>Understood / acknowledged</td></tr>
-            <tr class="qcode-row"><td>SOS</td><td>di-di-di-dah-dah-dah-di-di-dit</td><td>International distress</td></tr>
-            <tr class="qcode-row"><td>BK</td><td>dah-di-di-di-dah-di-dah</td><td>Break (interrupt)</td></tr>
-            <tr class="qcode-row"><td>R</td><td>di-dah-dit</td><td>Received / acknowledged</td></tr>
-            <tr class="qcode-row"><td>AA</td><td>di-dah-di-dah</td><td>New line (typing)</td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr><th>Prosign</th><th>Morse</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr class="qcode-row"><td>AR</td><td>di-dah-di-dah-dit</td><td>End of message</td></tr>
+              <tr class="qcode-row"><td>AS</td><td>di-dah-di-di-dit</td><td>Wait / standby</td></tr>
+              <tr class="qcode-row"><td>BT</td><td>dah-di-di-di-dah</td><td>Pause / break / new paragraph</td></tr>
+              <tr class="qcode-row"><td>CL</td><td>dah-di-dah-di-di-dah-di-dit</td><td>Closing station (going off the air)</td></tr>
+              <tr class="qcode-row"><td>CT</td><td>dah-di-dah-di-dah</td><td>Start of transmission / commence</td></tr>
+              <tr class="qcode-row"><td>HH</td><td>di-di-di-di-di-di-di-dit</td><td>Error / correction</td></tr>
+              <tr class="qcode-row"><td>K</td><td>dah-di-dah</td><td>Invitation for any station to transmit ("over")</td></tr>
+              <tr class="qcode-row"><td>KN</td><td>dah-di-dah-dah-dit</td><td>Invitation for a specific station only to transmit</td></tr>
+              <tr class="qcode-row"><td>SK</td><td>di-di-di-dah-di-dah</td><td>End of contact / clearing</td></tr>
+              <tr class="qcode-row"><td>SN / VE</td><td>di-di-di-dah-dit</td><td>Understood / acknowledged</td></tr>
+              <tr class="qcode-row"><td>SOS</td><td>di-di-di-dah-dah-dah-di-di-dit</td><td>International distress</td></tr>
+              <tr class="qcode-row"><td>BK</td><td>dah-di-di-di-dah-di-dah</td><td>Break (interrupt)</td></tr>
+              <tr class="qcode-row"><td>R</td><td>di-dah-dit</td><td>Received / acknowledged</td></tr>
+              <tr class="qcode-row"><td>AA</td><td>di-dah-di-dah</td><td>New line (typing)</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="nato-heading">
@@ -246,49 +250,51 @@
           <span id="nato-heading">NATO phonetic alphabet</span>
           <span class="log-count">ICAO / ITU standard for voice operation</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr><th>Letter</th><th>NATO</th><th>Pronunciation</th></tr>
-          </thead>
-          <tbody>
-            <tr class="qcode-row"><td>A</td><td>Alpha</td><td>al-fah</td></tr>
-            <tr class="qcode-row"><td>B</td><td>Bravo</td><td>brah-voh</td></tr>
-            <tr class="qcode-row"><td>C</td><td>Charlie</td><td>char-lee</td></tr>
-            <tr class="qcode-row"><td>D</td><td>Delta</td><td>dell-tah</td></tr>
-            <tr class="qcode-row"><td>E</td><td>Echo</td><td>eck-oh</td></tr>
-            <tr class="qcode-row"><td>F</td><td>Foxtrot</td><td>foks-trot</td></tr>
-            <tr class="qcode-row"><td>G</td><td>Golf</td><td>golf</td></tr>
-            <tr class="qcode-row"><td>H</td><td>Hotel</td><td>ho-tell</td></tr>
-            <tr class="qcode-row"><td>I</td><td>India</td><td>in-dee-ah</td></tr>
-            <tr class="qcode-row"><td>J</td><td>Juliet</td><td>jew-lee-ett</td></tr>
-            <tr class="qcode-row"><td>K</td><td>Kilo</td><td>key-loh</td></tr>
-            <tr class="qcode-row"><td>L</td><td>Lima</td><td>lee-mah</td></tr>
-            <tr class="qcode-row"><td>M</td><td>Mike</td><td>mike</td></tr>
-            <tr class="qcode-row"><td>N</td><td>November</td><td>no-vem-ber</td></tr>
-            <tr class="qcode-row"><td>O</td><td>Oscar</td><td>oss-car</td></tr>
-            <tr class="qcode-row"><td>P</td><td>Papa</td><td>pah-pah</td></tr>
-            <tr class="qcode-row"><td>Q</td><td>Quebec</td><td>keh-beck</td></tr>
-            <tr class="qcode-row"><td>R</td><td>Romeo</td><td>row-me-oh</td></tr>
-            <tr class="qcode-row"><td>S</td><td>Sierra</td><td>see-air-rah</td></tr>
-            <tr class="qcode-row"><td>T</td><td>Tango</td><td>tang-go</td></tr>
-            <tr class="qcode-row"><td>U</td><td>Uniform</td><td>you-nee-form</td></tr>
-            <tr class="qcode-row"><td>V</td><td>Victor</td><td>vik-tah</td></tr>
-            <tr class="qcode-row"><td>W</td><td>Whiskey</td><td>wiss-key</td></tr>
-            <tr class="qcode-row"><td>X</td><td>X-ray</td><td>ecks-ray</td></tr>
-            <tr class="qcode-row"><td>Y</td><td>Yankee</td><td>yang-key</td></tr>
-            <tr class="qcode-row"><td>Z</td><td>Zulu</td><td>zoo-loo</td></tr>
-            <tr class="qcode-row"><td>0</td><td>Zero</td><td>zee-roh</td></tr>
-            <tr class="qcode-row"><td>1</td><td>One</td><td>wun</td></tr>
-            <tr class="qcode-row"><td>2</td><td>Two</td><td>too</td></tr>
-            <tr class="qcode-row"><td>3</td><td>Tree</td><td>tree</td></tr>
-            <tr class="qcode-row"><td>4</td><td>Fower</td><td>fow-er</td></tr>
-            <tr class="qcode-row"><td>5</td><td>Fife</td><td>fife</td></tr>
-            <tr class="qcode-row"><td>6</td><td>Six</td><td>six</td></tr>
-            <tr class="qcode-row"><td>7</td><td>Seven</td><td>sev-en</td></tr>
-            <tr class="qcode-row"><td>8</td><td>Ait</td><td>ait</td></tr>
-            <tr class="qcode-row"><td>9</td><td>Niner</td><td>nin-er</td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr><th>Letter</th><th>NATO</th><th>Pronunciation</th></tr>
+            </thead>
+            <tbody>
+              <tr class="qcode-row"><td>A</td><td>Alpha</td><td>al-fah</td></tr>
+              <tr class="qcode-row"><td>B</td><td>Bravo</td><td>brah-voh</td></tr>
+              <tr class="qcode-row"><td>C</td><td>Charlie</td><td>char-lee</td></tr>
+              <tr class="qcode-row"><td>D</td><td>Delta</td><td>dell-tah</td></tr>
+              <tr class="qcode-row"><td>E</td><td>Echo</td><td>eck-oh</td></tr>
+              <tr class="qcode-row"><td>F</td><td>Foxtrot</td><td>foks-trot</td></tr>
+              <tr class="qcode-row"><td>G</td><td>Golf</td><td>golf</td></tr>
+              <tr class="qcode-row"><td>H</td><td>Hotel</td><td>ho-tell</td></tr>
+              <tr class="qcode-row"><td>I</td><td>India</td><td>in-dee-ah</td></tr>
+              <tr class="qcode-row"><td>J</td><td>Juliet</td><td>jew-lee-ett</td></tr>
+              <tr class="qcode-row"><td>K</td><td>Kilo</td><td>key-loh</td></tr>
+              <tr class="qcode-row"><td>L</td><td>Lima</td><td>lee-mah</td></tr>
+              <tr class="qcode-row"><td>M</td><td>Mike</td><td>mike</td></tr>
+              <tr class="qcode-row"><td>N</td><td>November</td><td>no-vem-ber</td></tr>
+              <tr class="qcode-row"><td>O</td><td>Oscar</td><td>oss-car</td></tr>
+              <tr class="qcode-row"><td>P</td><td>Papa</td><td>pah-pah</td></tr>
+              <tr class="qcode-row"><td>Q</td><td>Quebec</td><td>keh-beck</td></tr>
+              <tr class="qcode-row"><td>R</td><td>Romeo</td><td>row-me-oh</td></tr>
+              <tr class="qcode-row"><td>S</td><td>Sierra</td><td>see-air-rah</td></tr>
+              <tr class="qcode-row"><td>T</td><td>Tango</td><td>tang-go</td></tr>
+              <tr class="qcode-row"><td>U</td><td>Uniform</td><td>you-nee-form</td></tr>
+              <tr class="qcode-row"><td>V</td><td>Victor</td><td>vik-tah</td></tr>
+              <tr class="qcode-row"><td>W</td><td>Whiskey</td><td>wiss-key</td></tr>
+              <tr class="qcode-row"><td>X</td><td>X-ray</td><td>ecks-ray</td></tr>
+              <tr class="qcode-row"><td>Y</td><td>Yankee</td><td>yang-key</td></tr>
+              <tr class="qcode-row"><td>Z</td><td>Zulu</td><td>zoo-loo</td></tr>
+              <tr class="qcode-row"><td>0</td><td>Zero</td><td>zee-roh</td></tr>
+              <tr class="qcode-row"><td>1</td><td>One</td><td>wun</td></tr>
+              <tr class="qcode-row"><td>2</td><td>Two</td><td>too</td></tr>
+              <tr class="qcode-row"><td>3</td><td>Tree</td><td>tree</td></tr>
+              <tr class="qcode-row"><td>4</td><td>Fower</td><td>fow-er</td></tr>
+              <tr class="qcode-row"><td>5</td><td>Fife</td><td>fife</td></tr>
+              <tr class="qcode-row"><td>6</td><td>Six</td><td>six</td></tr>
+              <tr class="qcode-row"><td>7</td><td>Seven</td><td>sev-en</td></tr>
+              <tr class="qcode-row"><td>8</td><td>Ait</td><td>ait</td></tr>
+              <tr class="qcode-row"><td>9</td><td>Niner</td><td>nin-er</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="wu-heading">
@@ -296,39 +302,41 @@
           <span id="wu-heading">Western Union phonetic alphabet</span>
           <span class="log-count">older US convention, still heard on CW nets and old-timer phone QSOs</span>
         </div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr><th>Letter</th><th>Western Union</th></tr>
-          </thead>
-          <tbody>
-            <tr class="qcode-row"><td>A</td><td>Adams</td></tr>
-            <tr class="qcode-row"><td>B</td><td>Boston</td></tr>
-            <tr class="qcode-row"><td>C</td><td>Chicago</td></tr>
-            <tr class="qcode-row"><td>D</td><td>Denver</td></tr>
-            <tr class="qcode-row"><td>E</td><td>Easy</td></tr>
-            <tr class="qcode-row"><td>F</td><td>Frank</td></tr>
-            <tr class="qcode-row"><td>G</td><td>George</td></tr>
-            <tr class="qcode-row"><td>H</td><td>Henry</td></tr>
-            <tr class="qcode-row"><td>I</td><td>Ida</td></tr>
-            <tr class="qcode-row"><td>J</td><td>John</td></tr>
-            <tr class="qcode-row"><td>K</td><td>King</td></tr>
-            <tr class="qcode-row"><td>L</td><td>Lincoln</td></tr>
-            <tr class="qcode-row"><td>M</td><td>Mary</td></tr>
-            <tr class="qcode-row"><td>N</td><td>New York</td></tr>
-            <tr class="qcode-row"><td>O</td><td>Ocean</td></tr>
-            <tr class="qcode-row"><td>P</td><td>Peter</td></tr>
-            <tr class="qcode-row"><td>Q</td><td>Queen</td></tr>
-            <tr class="qcode-row"><td>R</td><td>Roger</td></tr>
-            <tr class="qcode-row"><td>S</td><td>Sugar</td></tr>
-            <tr class="qcode-row"><td>T</td><td>Thomas</td></tr>
-            <tr class="qcode-row"><td>U</td><td>Union</td></tr>
-            <tr class="qcode-row"><td>V</td><td>Victor</td></tr>
-            <tr class="qcode-row"><td>W</td><td>William</td></tr>
-            <tr class="qcode-row"><td>X</td><td>X-ray</td></tr>
-            <tr class="qcode-row"><td>Y</td><td>Young</td></tr>
-            <tr class="qcode-row"><td>Z</td><td>Zero</td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr><th>Letter</th><th>Western Union</th></tr>
+            </thead>
+            <tbody>
+              <tr class="qcode-row"><td>A</td><td>Adams</td></tr>
+              <tr class="qcode-row"><td>B</td><td>Boston</td></tr>
+              <tr class="qcode-row"><td>C</td><td>Chicago</td></tr>
+              <tr class="qcode-row"><td>D</td><td>Denver</td></tr>
+              <tr class="qcode-row"><td>E</td><td>Easy</td></tr>
+              <tr class="qcode-row"><td>F</td><td>Frank</td></tr>
+              <tr class="qcode-row"><td>G</td><td>George</td></tr>
+              <tr class="qcode-row"><td>H</td><td>Henry</td></tr>
+              <tr class="qcode-row"><td>I</td><td>Ida</td></tr>
+              <tr class="qcode-row"><td>J</td><td>John</td></tr>
+              <tr class="qcode-row"><td>K</td><td>King</td></tr>
+              <tr class="qcode-row"><td>L</td><td>Lincoln</td></tr>
+              <tr class="qcode-row"><td>M</td><td>Mary</td></tr>
+              <tr class="qcode-row"><td>N</td><td>New York</td></tr>
+              <tr class="qcode-row"><td>O</td><td>Ocean</td></tr>
+              <tr class="qcode-row"><td>P</td><td>Peter</td></tr>
+              <tr class="qcode-row"><td>Q</td><td>Queen</td></tr>
+              <tr class="qcode-row"><td>R</td><td>Roger</td></tr>
+              <tr class="qcode-row"><td>S</td><td>Sugar</td></tr>
+              <tr class="qcode-row"><td>T</td><td>Thomas</td></tr>
+              <tr class="qcode-row"><td>U</td><td>Union</td></tr>
+              <tr class="qcode-row"><td>V</td><td>Victor</td></tr>
+              <tr class="qcode-row"><td>W</td><td>William</td></tr>
+              <tr class="qcode-row"><td>X</td><td>X-ray</td></tr>
+              <tr class="qcode-row"><td>Y</td><td>Young</td></tr>
+              <tr class="qcode-row"><td>Z</td><td>Zero</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="qcodes-notes-heading">

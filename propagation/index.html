@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -174,30 +174,32 @@
           <span id="propagation-dossier-heading">Propagation control</span>
           <span class="section-tag live">field decision surface</span>
         </div>
-        <table class="propagation-control-table">
-          <tbody>
-            <tr>
-              <th scope="row">Purpose</th>
-              <td>Pre-flight check before driving to a POTA park. Cross-checks live solar, geomagnetic, alert, and surface-weather data into one go / marginal / hold call from the home QTH.</td>
-            </tr>
-            <tr>
-              <th scope="row">Station model</th>
-              <td>Elecraft KX2 &middot; Chameleon SS-17 vertical &middot; 5&ndash;10 W SSB / FT8 &middot; primary bands 40 / 30 / 20 / 17 / 15 m &middot; DM03tu (33.85&deg;N 118.38&deg;W).</td>
-            </tr>
-            <tr>
-              <th scope="row">Decision rule</th>
-              <td>Effective SFI = observed SFI minus Kp-derived geomagnetic penalty. Bands open when effective SFI clears the band's MUF threshold for the path day / night state. Storm-class Kp (&ge; 5) holds the activation regardless of SFI.</td>
-            </tr>
-            <tr>
-              <th scope="row">Refresh</th>
-              <td>Indices pulled on page load. SWPC publishes 10 cm flux and Kp on roughly 3-hour cadence; alerts and solar wind update faster. Reload before leaving the driveway.</td>
-            </tr>
-            <tr>
-              <th scope="row">Data sources</th>
-              <td>NOAA SWPC <span class="path">products/</span> JSON feeds for SFI, Kp, A, solar wind, IMF B<sub>z</sub>, and alerts &middot; Open-Meteo forecast API for Hermosa Beach surface weather and station sunrise / sunset.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="propagation-control-table">
+            <tbody>
+              <tr>
+                <th scope="row">Purpose</th>
+                <td>Pre-flight check before driving to a POTA park. Cross-checks live solar, geomagnetic, alert, and surface-weather data into one go / marginal / hold call from the home QTH.</td>
+              </tr>
+              <tr>
+                <th scope="row">Station model</th>
+                <td>Elecraft KX2 &middot; Chameleon SS-17 vertical &middot; 5&ndash;10 W SSB / FT8 &middot; primary bands 40 / 30 / 20 / 17 / 15 m &middot; DM03tu (33.85&deg;N 118.38&deg;W).</td>
+              </tr>
+              <tr>
+                <th scope="row">Decision rule</th>
+                <td>Effective SFI = observed SFI minus Kp-derived geomagnetic penalty. Bands open when effective SFI clears the band's MUF threshold for the path day / night state. Storm-class Kp (&ge; 5) holds the activation regardless of SFI.</td>
+              </tr>
+              <tr>
+                <th scope="row">Refresh</th>
+                <td>Indices pulled on page load. SWPC publishes 10 cm flux and Kp on roughly 3-hour cadence; alerts and solar wind update faster. Reload before leaving the driveway.</td>
+              </tr>
+              <tr>
+                <th scope="row">Data sources</th>
+                <td>NOAA SWPC <span class="path">products/</span> JSON feeds for SFI, Kp, A, solar wind, IMF B<sub>z</sub>, and alerts &middot; Open-Meteo forecast API for Hermosa Beach surface weather and station sunrise / sunset.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="propagation-decision" aria-labelledby="propagation-decision-heading">
@@ -227,20 +229,22 @@
             <span id="prop-weather-summary-sub" class="stat-sub">Hermosa Beach, CA</span>
           </div>
         </div>
-        <table class="propagation-blocker-table">
-          <thead>
-            <tr>
-              <th>Concern</th>
-              <th>State</th>
-              <th>Impact on activation</th>
-            </tr>
-          </thead>
-          <tbody id="prop-blocker-tbody">
-            <tr class="propagation-loading-row">
-              <td colspan="3">Loading SWPC alerts and weather&hellip;</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="propagation-blocker-table">
+            <thead>
+              <tr>
+                <th>Concern</th>
+                <th>State</th>
+                <th>Impact on activation</th>
+              </tr>
+            </thead>
+            <tbody id="prop-blocker-tbody">
+              <tr class="propagation-loading-row">
+                <td colspan="3">Loading SWPC alerts and weather&hellip;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="propagation-indices" aria-labelledby="propagation-indices-heading">
@@ -287,23 +291,25 @@
           <span id="propagation-bands-heading">HF band outlook &middot; from DM03tu</span>
           <span id="prop-bands-stamp" class="log-count">QRP 5&ndash;10 W &middot; vertical &middot; SSB / CW</span>
         </div>
-        <table class="propagation-band-table">
-          <thead>
-            <tr>
-              <th>Band</th>
-              <th>Day</th>
-              <th>Night</th>
-              <th>Now</th>
-              <th class="propagation-reach-col">Expected reach</th>
-              <th class="propagation-wide-col">Operator note</th>
-            </tr>
-          </thead>
-          <tbody id="prop-band-tbody">
-            <tr class="propagation-loading-row">
-              <td colspan="6">Loading solar indices to compute band states&hellip;</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="propagation-band-table">
+            <thead>
+              <tr>
+                <th>Band</th>
+                <th>Day</th>
+                <th>Night</th>
+                <th>Now</th>
+                <th class="propagation-reach-col">Expected reach</th>
+                <th class="propagation-wide-col">Operator note</th>
+              </tr>
+            </thead>
+            <tbody id="prop-band-tbody">
+              <tr class="propagation-loading-row">
+                <td colspan="6">Loading solar indices to compute band states&hellip;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="propagation-activation" aria-labelledby="propagation-activation-heading">
@@ -311,23 +317,25 @@
           <span id="propagation-activation-heading">Activation window &middot; next 24 h</span>
           <span id="prop-activation-stamp" class="log-count">sunrise / sunset from Open-Meteo</span>
         </div>
-        <table class="propagation-activation-table">
-          <thead>
-            <tr>
-              <th>UTC</th>
-              <th>Local PT</th>
-              <th>Sun</th>
-              <th>Best bands</th>
-              <th>Outlook</th>
-              <th class="propagation-wide-col">Notes</th>
-            </tr>
-          </thead>
-          <tbody id="prop-activation-tbody">
-            <tr class="propagation-loading-row">
-              <td colspan="6">Loading sun times and computing per-hour band states&hellip;</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="propagation-activation-table">
+            <thead>
+              <tr>
+                <th>UTC</th>
+                <th>Local PT</th>
+                <th>Sun</th>
+                <th>Best bands</th>
+                <th>Outlook</th>
+                <th class="propagation-wide-col">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="prop-activation-tbody">
+              <tr class="propagation-loading-row">
+                <td colspan="6">Loading sun times and computing per-hour band states&hellip;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="propagation-alerts" aria-labelledby="propagation-alerts-heading">
@@ -335,20 +343,22 @@
           <span id="propagation-alerts-heading">Space weather alerts</span>
           <span id="prop-alerts-stamp" class="log-count">SWPC products/alerts.json</span>
         </div>
-        <table class="propagation-alert-table">
-          <thead>
-            <tr>
-              <th>Issued UTC</th>
-              <th>Type</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-          <tbody id="prop-alert-tbody">
-            <tr class="propagation-loading-row">
-              <td colspan="3">Loading SWPC alert feed&hellip;</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="propagation-alert-table">
+            <thead>
+              <tr>
+                <th>Issued UTC</th>
+                <th>Type</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody id="prop-alert-tbody">
+              <tr class="propagation-loading-row">
+                <td colspan="3">Loading SWPC alert feed&hellip;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="propagation-weather" aria-labelledby="propagation-weather-heading">
@@ -388,23 +398,25 @@
             <span id="prop-sunset-sub" class="stat-sub">station local</span>
           </div>
         </div>
-        <table class="propagation-hour-table">
-          <thead>
-            <tr>
-              <th>Local PT</th>
-              <th>Temp</th>
-              <th>Wind / gust</th>
-              <th>Cloud</th>
-              <th>Precip</th>
-              <th class="propagation-wide-col">Sky</th>
-            </tr>
-          </thead>
-          <tbody id="prop-weather-tbody">
-            <tr class="propagation-loading-row">
-              <td colspan="6">Loading hourly forecast&hellip;</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="propagation-hour-table">
+            <thead>
+              <tr>
+                <th>Local PT</th>
+                <th>Temp</th>
+                <th>Wind / gust</th>
+                <th>Cloud</th>
+                <th>Precip</th>
+                <th class="propagation-wide-col">Sky</th>
+              </tr>
+            </thead>
+            <tbody id="prop-weather-tbody">
+              <tr class="propagation-loading-row">
+                <td colspan="6">Loading hourly forecast&hellip;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
     </main><!-- /.main-content -->

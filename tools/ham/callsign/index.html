@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -179,20 +179,22 @@
           <label for="cs-filter" style="display:block; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Filter table (prefix or country)</label>
           <input type="search" id="cs-filter" class="log-search-input" placeholder="Filter prefix or country" autocomplete="off" spellcheck="false">
         </div>
-        <table class="data-table tools-ref-table">
-          <thead>
-            <tr>
-              <th scope="col">Prefix</th>
-              <th scope="col">Country</th>
-              <th scope="col">Continent</th>
-              <th scope="col" class="num">ITU</th>
-              <th scope="col" class="num">CQ</th>
-              <th scope="col" class="num">DXCC</th>
-            </tr>
-          </thead>
-          <tbody id="cs-ref-body">
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="data-table tools-ref-table">
+            <thead>
+              <tr>
+                <th scope="col">Prefix</th>
+                <th scope="col">Country</th>
+                <th scope="col">Continent</th>
+                <th scope="col" class="num">ITU</th>
+                <th scope="col" class="num">CQ</th>
+                <th scope="col" class="num">DXCC</th>
+              </tr>
+            </thead>
+            <tbody id="cs-ref-body">
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="cs-notes-heading">

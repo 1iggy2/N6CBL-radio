@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -183,66 +183,68 @@
           <span id="dipole-table-heading">Antenna lengths</span>
           <span class="log-count">resonant length &middot; ft and m &middot; pruning required</span>
         </div>
-        <table class="data-table tools-ref-table">
-          <thead>
-            <tr>
-              <th>Antenna</th>
-              <th class="num">Length (ft)</th>
-              <th class="num">Length (m)</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Half-wave dipole</td>
-              <td class="num" id="a-dipole-ft">&mdash;</td>
-              <td class="num" id="a-dipole-m">&mdash;</td>
-              <td>Total wire = &lambda;/2 &times; VF. Each leg <span id="a-dipole-leg">&mdash;</span>.</td>
-            </tr>
-            <tr>
-              <td>Quarter-wave vertical</td>
-              <td class="num" id="a-vert-ft">&mdash;</td>
-              <td class="num" id="a-vert-m">&mdash;</td>
-              <td>Monopole element = &lambda;/4 &times; VF. Radials cut to same length, multiple required.</td>
-            </tr>
-            <tr>
-              <td>End-fed half-wave (EFHW)</td>
-              <td class="num" id="a-efhw-ft">&mdash;</td>
-              <td class="num" id="a-efhw-m">&mdash;</td>
-              <td>Total radiator = &lambda;/2 &times; VF. Fed against a 49:1 / 64:1 unun at one end.</td>
-            </tr>
-            <tr>
-              <td>Inverted-V</td>
-              <td class="num" id="a-vee-ft">&mdash;</td>
-              <td class="num" id="a-vee-m">&mdash;</td>
-              <td>Drooping dipole + ~2% lengthening. Each leg <span id="a-vee-leg">&mdash;</span>.</td>
-            </tr>
-            <tr>
-              <td>Full-wave loop</td>
-              <td class="num" id="a-loop-ft">&mdash;</td>
-              <td class="num" id="a-loop-m">&mdash;</td>
-              <td>Perimeter = &lambda; &times; VF &times; 1.024. Square loop side <span id="a-loop-side">&mdash;</span>.</td>
-            </tr>
-            <tr>
-              <td>Folded dipole</td>
-              <td class="num" id="a-fold-ft">&mdash;</td>
-              <td class="num" id="a-fold-m">&mdash;</td>
-              <td>Total loop length = &lambda;/2 &times; VF. ~300&Omega; feedpoint.</td>
-            </tr>
-            <tr>
-              <td>J-pole radiator (&lambda;/2)</td>
-              <td class="num" id="a-jrad-ft">&mdash;</td>
-              <td class="num" id="a-jrad-m">&mdash;</td>
-              <td>Upper section of a VHF/UHF J-pole.</td>
-            </tr>
-            <tr>
-              <td>J-pole matching stub (&lambda;/4)</td>
-              <td class="num" id="a-jstub-ft">&mdash;</td>
-              <td class="num" id="a-jstub-m">&mdash;</td>
-              <td>Lower parallel stub. Feedpoint ~1/20 of stub from shorted end.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="data-table tools-ref-table">
+            <thead>
+              <tr>
+                <th>Antenna</th>
+                <th class="num">Length (ft)</th>
+                <th class="num">Length (m)</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Half-wave dipole</td>
+                <td class="num" id="a-dipole-ft">&mdash;</td>
+                <td class="num" id="a-dipole-m">&mdash;</td>
+                <td>Total wire = &lambda;/2 &times; VF. Each leg <span id="a-dipole-leg">&mdash;</span>.</td>
+              </tr>
+              <tr>
+                <td>Quarter-wave vertical</td>
+                <td class="num" id="a-vert-ft">&mdash;</td>
+                <td class="num" id="a-vert-m">&mdash;</td>
+                <td>Monopole element = &lambda;/4 &times; VF. Radials cut to same length, multiple required.</td>
+              </tr>
+              <tr>
+                <td>End-fed half-wave (EFHW)</td>
+                <td class="num" id="a-efhw-ft">&mdash;</td>
+                <td class="num" id="a-efhw-m">&mdash;</td>
+                <td>Total radiator = &lambda;/2 &times; VF. Fed against a 49:1 / 64:1 unun at one end.</td>
+              </tr>
+              <tr>
+                <td>Inverted-V</td>
+                <td class="num" id="a-vee-ft">&mdash;</td>
+                <td class="num" id="a-vee-m">&mdash;</td>
+                <td>Drooping dipole + ~2% lengthening. Each leg <span id="a-vee-leg">&mdash;</span>.</td>
+              </tr>
+              <tr>
+                <td>Full-wave loop</td>
+                <td class="num" id="a-loop-ft">&mdash;</td>
+                <td class="num" id="a-loop-m">&mdash;</td>
+                <td>Perimeter = &lambda; &times; VF &times; 1.024. Square loop side <span id="a-loop-side">&mdash;</span>.</td>
+              </tr>
+              <tr>
+                <td>Folded dipole</td>
+                <td class="num" id="a-fold-ft">&mdash;</td>
+                <td class="num" id="a-fold-m">&mdash;</td>
+                <td>Total loop length = &lambda;/2 &times; VF. ~300&Omega; feedpoint.</td>
+              </tr>
+              <tr>
+                <td>J-pole radiator (&lambda;/2)</td>
+                <td class="num" id="a-jrad-ft">&mdash;</td>
+                <td class="num" id="a-jrad-m">&mdash;</td>
+                <td>Upper section of a VHF/UHF J-pole.</td>
+              </tr>
+              <tr>
+                <td>J-pole matching stub (&lambda;/4)</td>
+                <td class="num" id="a-jstub-ft">&mdash;</td>
+                <td class="num" id="a-jstub-m">&mdash;</td>
+                <td>Lower parallel stub. Feedpoint ~1/20 of stub from shorted end.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="tools-result-grid cols-2">
           <div class="tools-readout">
             <span class="tools-readout-label">Half-wave dipole &mdash; total length</span>
@@ -262,48 +264,50 @@
           <span id="dipole-formulas-heading">Quick formulas</span>
           <span class="log-count">the constants worth memorizing</span>
         </div>
-        <table class="data-table tools-ref-table">
-          <thead>
-            <tr>
-              <th>Formula</th>
-              <th class="num">Constant</th>
-              <th class="num">Value at f</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Half-wave dipole (ft)</td>
-              <td class="num">468 / f</td>
-              <td class="num" id="f-468">&mdash;</td>
-              <td>Classic K-factor formula. Assumes VF &asymp; 0.95 and accounts for end effect.</td>
-            </tr>
-            <tr>
-              <td>Quarter-wave (ft)</td>
-              <td class="num">234 / f</td>
-              <td class="num" id="f-234">&mdash;</td>
-              <td>Half of 468. Use for verticals and radials.</td>
-            </tr>
-            <tr>
-              <td>Free-space half-wave (m)</td>
-              <td class="num">150 / f</td>
-              <td class="num" id="f-150">&mdash;</td>
-              <td>No end-effect correction. Use as an upper bound.</td>
-            </tr>
-            <tr>
-              <td>Free-space quarter-wave (m)</td>
-              <td class="num">75 / f</td>
-              <td class="num" id="f-75">&mdash;</td>
-              <td>Half of 150. Same caveat.</td>
-            </tr>
-            <tr>
-              <td>Free-space wavelength (m)</td>
-              <td class="num">300 / f</td>
-              <td class="num" id="f-300">&mdash;</td>
-              <td>Strictly c/f with c = 299.792458 m/&micro;s, rounded for headwork.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="data-table tools-ref-table">
+            <thead>
+              <tr>
+                <th>Formula</th>
+                <th class="num">Constant</th>
+                <th class="num">Value at f</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Half-wave dipole (ft)</td>
+                <td class="num">468 / f</td>
+                <td class="num" id="f-468">&mdash;</td>
+                <td>Classic K-factor formula. Assumes VF &asymp; 0.95 and accounts for end effect.</td>
+              </tr>
+              <tr>
+                <td>Quarter-wave (ft)</td>
+                <td class="num">234 / f</td>
+                <td class="num" id="f-234">&mdash;</td>
+                <td>Half of 468. Use for verticals and radials.</td>
+              </tr>
+              <tr>
+                <td>Free-space half-wave (m)</td>
+                <td class="num">150 / f</td>
+                <td class="num" id="f-150">&mdash;</td>
+                <td>No end-effect correction. Use as an upper bound.</td>
+              </tr>
+              <tr>
+                <td>Free-space quarter-wave (m)</td>
+                <td class="num">75 / f</td>
+                <td class="num" id="f-75">&mdash;</td>
+                <td>Half of 150. Same caveat.</td>
+              </tr>
+              <tr>
+                <td>Free-space wavelength (m)</td>
+                <td class="num">300 / f</td>
+                <td class="num" id="f-300">&mdash;</td>
+                <td>Strictly c/f with c = 299.792458 m/&micro;s, rounded for headwork.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="dipole-notes-heading">

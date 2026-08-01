@@ -51,11 +51,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/design/">
-              <span class="nav-path">/design/</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="/log/">
               <span class="nav-path">/log/</span>
             </a>
@@ -103,6 +98,11 @@
           <li class="nav-item nav-item-unimplemented">
             <a href="/prints/">
               <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
             </a>
           </li>
         </ul>
@@ -209,19 +209,21 @@
 
       <section aria-labelledby="band-ref-heading">
         <div class="section-label" id="band-ref-heading">US standard repeater offsets &mdash; reference</div>
-        <table class="tools-ref-table">
-          <thead>
-            <tr><th>Band</th><th>Range (MHz)</th><th>Standard offset</th><th>Notes</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>6 m</td><td class="num">50.000 &ndash; 54.000</td><td class="num">&minus;1 MHz</td><td>Typical; some regions use &minus;0.5 MHz or &plusmn;1.7 MHz.</td></tr>
-            <tr><td>2 m</td><td class="num">144.000 &ndash; 148.000</td><td class="num">&minus;600 kHz / +600 kHz</td><td>Negative below 147.000 MHz output, positive above.</td></tr>
-            <tr><td>1.25 m</td><td class="num">222.000 &ndash; 225.000</td><td class="num">&minus;1.6 MHz</td><td>Uniform across the band.</td></tr>
-            <tr><td>70 cm</td><td class="num">420.000 &ndash; 450.000</td><td class="num">&plusmn;5 MHz</td><td>Direction varies by coordinator; +5 MHz common below 445, &minus;5 MHz above.</td></tr>
-            <tr><td>33 cm</td><td class="num">902.000 &ndash; 928.000</td><td class="num">&minus;25 MHz</td><td>Uniform; uncommon outside the US.</td></tr>
-            <tr><td>23 cm</td><td class="num">1240.000 &ndash; 1300.000</td><td class="num">&minus;12 MHz</td><td>Uniform; coordinator-defined sub-bands.</td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="tools-ref-table">
+            <thead>
+              <tr><th>Band</th><th>Range (MHz)</th><th>Standard offset</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>6 m</td><td class="num">50.000 &ndash; 54.000</td><td class="num">&minus;1 MHz</td><td>Typical; some regions use &minus;0.5 MHz or &plusmn;1.7 MHz.</td></tr>
+              <tr><td>2 m</td><td class="num">144.000 &ndash; 148.000</td><td class="num">&minus;600 kHz / +600 kHz</td><td>Negative below 147.000 MHz output, positive above.</td></tr>
+              <tr><td>1.25 m</td><td class="num">222.000 &ndash; 225.000</td><td class="num">&minus;1.6 MHz</td><td>Uniform across the band.</td></tr>
+              <tr><td>70 cm</td><td class="num">420.000 &ndash; 450.000</td><td class="num">&plusmn;5 MHz</td><td>Direction varies by coordinator; +5 MHz common below 445, &minus;5 MHz above.</td></tr>
+              <tr><td>33 cm</td><td class="num">902.000 &ndash; 928.000</td><td class="num">&minus;25 MHz</td><td>Uniform; uncommon outside the US.</td></tr>
+              <tr><td>23 cm</td><td class="num">1240.000 &ndash; 1300.000</td><td class="num">&minus;12 MHz</td><td>Uniform; coordinator-defined sub-bands.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="tones-note-heading">
