@@ -780,9 +780,11 @@ footer a:hover { text-decoration: underline; }
   /* Drop only the ordinal index — the explanation column is the page. */
   .design-table th.col-idx,
   .design-table td.col-idx { display: none; }
-  .design-table th.col-term  { width: 34%; }
-  .design-table th.col-token { width: 104px; }
-  .design-table th.col-value { width: 76px; }
+  /* Narrow the left columns so the explanation column keeps usable width. */
+  .design-table th.col-term   { width: 34%; }
+  .design-table th.col-swatch { width: 34px; }
+  .design-table th.col-token  { width: 82px; }
+  .design-table th.col-value  { width: 64px; }
   .design-table th,
   .design-table td { padding: 4px 6px; }
 
@@ -887,6 +889,11 @@ footer a:hover { text-decoration: underline; }
 .design-table th.col-swatch { width: 64px; }
 .design-table th.col-token  { width: 132px; }
 .design-table th.col-value  { width: 92px; }
+
+/* Font stacks and tokens are long unbroken strings; without this they set a
+   min-content floor that pushes the table past the viewport on narrow screens. */
+.design-table td,
+.design-table th { overflow-wrap: anywhere; }
 
 /* /design/ — type specimens render in the stack they document. */
 .specimen-mono {

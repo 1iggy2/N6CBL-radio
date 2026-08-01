@@ -21,6 +21,15 @@ HOME_GRID = 'DM03TU'
 HOME_CITY = 'Hermosa Beach'
 HOME_STATE = 'CA'
 
+# Grids we can name a town for. QRZ stamps the logbook profile's station city on
+# every exported QSO, so MY_CITY reads 'Hermosa Beach' even for QSOs made in
+# Michigan and cannot be used to name the operating location. MY_GRIDSQUARE and
+# MY_STATE do vary per QSO, so the label is built from those, and a town is only
+# printed for a grid listed here.
+GRID_TOWNS = {
+    HOME_GRID: f'{HOME_CITY}, {HOME_STATE}',
+}
+
 
 def normalize_adif_text(content):
     text = str(content or '').lstrip('\ufeff')
@@ -213,21 +222,24 @@ def operator_position(qso):
 
 
 def operator_location(qso):
-    """Name where the operator was sitting: town if logged, grid square if not.
+    """Name where the operator was sitting, from fields that actually vary.
 
-    Returns (city, state, label). ADIF MY_CITY/MY_STATE are operator-side; CITY
-    and STATE belong to the station worked. Only the home QTH is named without
-    log evidence, and only when the QSO carries no operator-side location.
+    Returns (state, label). MY_STATE is operator-side and per-QSO; STATE belongs
+    to the station worked. MY_CITY is deliberately not consulted — see
+    GRID_TOWNS. A town is printed only for a grid we can vouch for; otherwise
+    the grid square stands in for it. The home QTH is named only when the QSO
+    carries no operator-side location at all.
     """
-    city = proper_name(first_value(qso.get('MY_CITY', '')))
     state = first_value(qso.get('MY_STATE', '')).upper().strip()
     grid, _, _, source = operator_position(qso)
 
-    if city:
-        return city, state, (f'{city}, {state}' if state else city)
-    if source == 'adif':
-        return '', state, (f'{grid}, {state}' if state else grid)
-    return HOME_CITY, HOME_STATE, f'{HOME_CITY}, {HOME_STATE}'
+    if source != 'adif':
+        return HOME_STATE, f'{HOME_CITY}, {HOME_STATE}'
+
+    town = GRID_TOWNS.get(grid)
+    if town:
+        return state or HOME_STATE, town
+    return state, (f'{grid}, {state}' if state else grid)
 
 
 def qso_group_key(qso, fallback):
@@ -308,7 +320,7 @@ def main():
             note = activation_notes.get(session_id, {})
 
             session_grid, _, _, session_grid_source = operator_position(first)
-            _, _, session_location = operator_location(first)
+            _, session_location = operator_location(first)
 
             session = {
                 'id': session_id,
@@ -343,7 +355,7 @@ def main():
                 elif q.get('POTA_REF'):
                     hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
                 my_grid, my_lat, my_lon, my_grid_source = operator_position(q)
-                my_city, my_state, my_location = operator_location(q)
+                my_state, my_location = operator_location(q)
                 all_qsos.append({
                     'date':       fmt_date(q.get('QSO_DATE', '')),
                     'time':       fmt_time(q.get('TIME_ON', '')),
@@ -365,7 +377,6 @@ def main():
                     'my_lat':          my_lat,
                     'my_lon':          my_lon,
                     'my_grid_source':  my_grid_source,
-                    'my_city':         my_city,
                     'my_state':        my_state,
                     'my_location':     my_location,
                     'state':      state,
