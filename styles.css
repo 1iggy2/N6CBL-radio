@@ -825,6 +825,8 @@ footer a:hover { text-decoration: underline; }
   .top-contact-table th:nth-child(2),
   .top-contact-table td:nth-child(2) { width: auto; }
   .top-contact-table .col-top-location { display: none; }
+  /* .position-table's narrow-viewport rules live with its base rules below,
+     which are declared after this block and would otherwise win. */
   .top-contact-table th:first-child,
   .top-contact-table td:first-child { width: 76px; }
   .top-contact-table th:nth-child(4),
@@ -1003,6 +1005,37 @@ footer a:hover { text-decoration: underline; }
 .top-contact-table th:last-child,
 .top-contact-table td:last-child { width: 46px; }
 .top-contact-table .qso-ref { overflow-wrap: anywhere; }
+
+/* Operating positions — where N6CBL transmitted from, not who was worked. */
+.position-table { table-layout: fixed; }
+.position-table th:first-child,
+.position-table td:first-child { width: 92px; }
+.position-table th:nth-child(2),
+.position-table td:nth-child(2) { width: 26%; }
+.position-table th:nth-child(3),
+.position-table td:nth-child(3) { width: 78px; }
+.position-table th:nth-child(4),
+.position-table td:nth-child(4) { width: 62px; }
+.position-table th:last-child,
+.position-table td:last-child { width: 88px; }
+.position-table .pos-grid { font-family: var(--mono); font-weight: bold; }
+
+@media (max-width: 768px) {
+  /* Keep grid, location, QSOs and distance. The dates are already in the log
+     and the session count is secondary; keeping all seven columns squeezes
+     "Last" to zero width and overlaps the headers. */
+  .position-table .col-pos-first,
+  .position-table .col-pos-last,
+  .position-table .col-pos-sessions { display: none; }
+  .position-table th:first-child,
+  .position-table td:first-child { width: 68px; }
+  .position-table th:nth-child(2),
+  .position-table td:nth-child(2) { width: auto; }
+  .position-table th:nth-child(4),
+  .position-table td:nth-child(4) { width: 46px; }
+  .position-table th:last-child,
+  .position-table td:last-child { width: 72px; }
+}
 
 /* WAS — Worked All States ledger */
 .was-section { border-bottom: 1px solid var(--rule); }
