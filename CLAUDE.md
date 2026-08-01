@@ -51,6 +51,13 @@ structure is always visible — it *is* the design.
 Reference: Racket language documentation guide.
 
 **Permanent sidebar navigation**
+The nav tree is generated. `/content/nav.json` is the single source of truth for
+the route list; `node scripts/build-chrome.js` rewrites the `<ul class="nav-tree">`
+block in every page from it. Never hand-edit that block — the copies drift, and
+they had already drifted (one page was missing three routes). To add, remove, or
+reorder a route: edit `nav.json`, run the script, commit the result. The rest of
+the sidebar (station facts, profiles, operator card) stays hand-written.
+
 The nav tree is always fully expanded. No accordion sections, no hover-reveal, no
 `+` expand buttons. Users see the full site structure at all times. Below the nav
 tree, the sidebar carries operator metadata, external profiles, and station info.
@@ -182,7 +189,10 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /tools/uav/uav.js        — UAV lab engine: parameter/metric registries, model, views, Monte Carlo
 /tools/uav/x/            — experimental UAV lab UI (see sanctioned exception below)
 /content/blog/           — structured blog post JSON source
+/content/nav.json        — sidebar navigator route list (source of truth)
 /scripts/build-blog.js   — static blog/home generator
+/scripts/build-chrome.js — regenerates the sidebar navigator from nav.json
+/scripts/check-widths.js — viewport overflow sweep (needs Playwright)
 /scripts/fetch-qrz-logbook.py — QRZ Logbook ADIF fetcher for scheduled QSO refresh
 /scripts/process-logs.py — derived public QSO log generator
 /styles.css              — single shared stylesheet for all pages
@@ -192,7 +202,8 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /data/                   — committed derived data (QRZ/POTA cron output)
 /worker.js               — Cloudflare Worker with assets passthrough and blog publisher
 /wrangler.jsonc          — Workers deploy config
-/.github/workflows/      — QRZ/POTA cron and deploy automation
+/.github/workflows/      — QRZ/POTA cron, deploy automation, and PR checks
+/tests/                  — unittest suite for the log-processing scripts
 ```
 
 CSS lives in a single shared stylesheet (`/styles.css`). Most pages are
@@ -209,6 +220,18 @@ static HTML so publishing does not require HTML surgery.
 - Images: compress before committing. Use WebP where possible.
 - No `!important` in CSS without a comment explaining why.
 - Commit messages: imperative mood, present tense, specific.
+
+### Checks
+
+```
+python3 -m unittest discover -s tests   # log-processing unit tests
+node scripts/build-chrome.js --check    # sidebar navigator matches content/nav.json
+node scripts/build-blog.js              # regenerate blog/home output
+node scripts/check-widths.js            # viewport overflow sweep (needs Playwright)
+python3 -m http.server 8000             # preview the site at localhost:8000
+```
+
+The first three run on every push and pull request via `.github/workflows/check.yml`.
 
 ### Repository workflow
 
@@ -228,8 +251,14 @@ Rules:
 - No table column whose content is purely decorative or navigational (e.g., a "View →"
   CTA that duplicates a section-footer link) — these are the first candidates to cut
   when a table is too wide for mobile.
-- After any table or layout change, mentally check: what happens at 390px (iPhone 15)?
-  Does any element create horizontal scroll? If yes, fix before committing.
+- After any table or layout change, check the real thing rather than guessing:
+  `node scripts/check-widths.js` loads every page across 320/390/430/768/1024/1280/1440
+  and fails with the offending element named. "Mentally check at 390px" missed a
+  5px overflow on `/station/` and a real one on `/design/`; the sweep found both.
+- Known pre-existing overflows the sweep reports (not yet fixed): `/log/` at 1024px,
+  `/propagation/` at 320px, and `/tools/ham/{balun,coax,dipole,qcodes,tones}/` at
+  320-430px. `check-widths.js` is deliberately **not** wired into CI until these are
+  cleared — a check that always fails is a check nobody reads.
 - The `<meta name="viewport" content="width=device-width, initial-scale=1.0">` tag is
   required on every page. Never omit or alter it.
 

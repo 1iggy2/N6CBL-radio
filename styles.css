@@ -1697,9 +1697,15 @@ td.bar-cell {
   width: 64px;
 }
 
-.radio-activation-table th:last-child,
-.radio-link-table th:last-child {
+.radio-activation-table th:last-child {
   width: 86px;
+  text-align: right;
+}
+
+/* Wider than the activation table's: these CTA labels ("Search log →") need
+   91px and were forcing 5px of horizontal page scroll at 1280px. */
+.radio-link-table th:last-child {
+  width: 104px;
   text-align: right;
 }
 

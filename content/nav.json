@@ -1,0 +1,17 @@
+{
+  "note": "Single source of truth for the permanent sidebar navigator. Edit this file, then run `node scripts/build-chrome.js` to regenerate the nav block in every page. Do not hand-edit <ul class=\"nav-tree\"> in HTML.",
+  "routes": [
+    { "path": "/",             "label": "/" },
+    { "path": "/design/",      "label": "/design/" },
+    { "path": "/log/",         "label": "/log/" },
+    { "path": "/log/stats/",   "label": "stats/",  "child": true },
+    { "path": "/station/",     "label": "/station/" },
+    { "path": "/propagation/", "label": "/propagation/" },
+    { "path": "/blog/",        "label": "/blog/" },
+    { "path": "/tools/",       "label": "/tools/" },
+    { "path": "/tools/ham/",   "label": "ham/",    "child": true },
+    { "path": "/tools/uav/",   "label": "uav/",    "child": true },
+    { "path": "/tools/uav/x/", "label": "uav/x/",  "child": true },
+    { "path": "/prints/",      "label": "/prints/", "unimplemented": true }
+  ]
+}

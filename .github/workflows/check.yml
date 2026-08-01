@@ -1,0 +1,36 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Fast, dependency-free checks only, so this stays cheap enough to run on every
+# push. The viewport sweep (scripts/check-widths.js) needs a browser and is run
+# locally — see CLAUDE.md.
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Navigator matches content/nav.json
+        run: node scripts/build-chrome.js --check
+
+      - name: Blog output is current
+        run: |
+          node scripts/build-blog.js
+          if ! git diff --quiet -- blog/index.html index.html; then
+            echo "Blog HTML is stale. Run: node scripts/build-blog.js"
+            git --no-pager diff --stat -- blog/index.html index.html
+            exit 1
+          fi
