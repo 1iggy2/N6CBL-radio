@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="N6CBL log statistics — analysis of the QSO log by count, band, mode, Worked All States progress, and contact map.">
+  <meta name="description" content="N6CBL log statistics — analysis of the QSO log by count, band, mode, Worked All States progress, operating positions, and contact map.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://n6cbl.radio/log/stats/">
   <meta property="og:title" content="Log Stats — N6CBL.radio">
@@ -220,8 +220,16 @@
           <span id="stat-states" class="stat-value">—</span>
         </div>
         <div class="stat">
-          <span class="stat-label">Grid Squares</span>
+          <span class="stat-label">Grids Worked</span>
           <span id="stat-grids" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Grids Operated From</span>
+          <span id="stat-my-grids" class="stat-value">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Furthest Position</span>
+          <span id="stat-my-furthest" class="stat-value">—</span>
         </div>
         <div class="stat">
           <span class="stat-label">POTA Parks</span>
@@ -325,6 +333,30 @@
           </thead>
           <tbody id="top-tbody">
             <tr><td colspan="5" style="color:var(--muted)">Loading&hellip;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ── OPERATING POSITIONS ─────────────────────────────────────── -->
+      <div class="section-label split">
+        <span>Operating Positions</span>
+        <span id="positions-count" class="log-count"></span>
+      </div>
+      <div class="table-scroll">
+        <table class="position-table">
+          <thead>
+            <tr>
+              <th>Grid</th>
+              <th class="col-pos-location">Location</th>
+              <th class="num col-pos-sessions">Sessions</th>
+              <th class="num">QSOs</th>
+              <th class="col-pos-first">First</th>
+              <th class="col-pos-last">Last</th>
+              <th class="num">From home</th>
+            </tr>
+          </thead>
+          <tbody id="positions-tbody">
+            <tr><td colspan="7" style="color:var(--muted)">Loading&hellip;</td></tr>
           </tbody>
         </table>
       </div>
@@ -468,6 +500,7 @@
         renderWAS(usWorked);
         renderHours(qsos);
         renderTopContacts(qsos, data.sessions || []);
+        renderPositions(qsos, data.sessions || []);
         renderCuriosities(qsos);
         renderMap(qsos, s.qso_count || 0);
       })
@@ -699,6 +732,99 @@
       }
       document.getElementById('hours-tbody').innerHTML =
         html || '<tr><td colspan="3" style="color:var(--muted)">No data</td></tr>';
+    }
+
+    /* Where N6CBL operated from, as opposed to who was worked. Grouped by the
+       operator-side grid so a park sitting and the home QTH are separate rows. */
+    function renderPositions(qsos, sessions) {
+      var sessionRefs = {};
+      for (var s = 0; s < sessions.length; s++) {
+        var sess = sessions[s];
+        if (sess && sess.id && sess.type === 'pota' && sess.reference) {
+          sessionRefs[sess.id] = sess.reference;
+        }
+      }
+
+      var positions = {};
+      var order = [];
+      for (var i = 0; i < qsos.length; i++) {
+        var q = qsos[i];
+        var grid = q.my_gridsquare;
+        if (!grid) continue;
+
+        if (!positions[grid]) {
+          positions[grid] = {
+            grid: grid, location: q.my_location || '', state: q.my_state || '',
+            qsos: 0, sessions: {}, first: q.date, last: q.date, refs: {},
+            miles: (isFiniteNumber(q.my_lat) && isFiniteNumber(q.my_lon))
+              ? distanceMiles(HOME_LAT, HOME_LON, q.my_lat, q.my_lon) : null
+          };
+          order.push(grid);
+        }
+
+        var p = positions[grid];
+        p.qsos++;
+        if (q.session) p.sessions[q.session] = true;
+        if (q.date && q.date < p.first) p.first = q.date;
+        if (q.date && q.date > p.last) p.last = q.date;
+        if (sessionRefs[q.session]) p.refs[sessionRefs[q.session]] = true;
+      }
+
+      var rows = order.map(function (g) { return positions[g]; });
+      rows.sort(function (a, b) { return b.qsos - a.qsos; });
+
+      var tbody = document.getElementById('positions-tbody');
+      if (!tbody) return;
+
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="color:var(--muted)">'
+          + 'No operator-side grid logged yet</td></tr>';
+        setText('positions-count', '0 positions');
+        return;
+      }
+
+      var html = '';
+      for (var r = 0; r < rows.length; r++) {
+        var pos = rows[r];
+        var refs = Object.keys(pos.refs).sort();
+        var sessionCount = Object.keys(pos.sessions).length;
+        /* Grid is already column one, so this column adds what the grid does
+           not say: the town when one is known, plus any park activated from
+           here. Falls back to the state, never to a repeat of the grid. */
+        var parts = [];
+        var townKnown = pos.location && pos.location.indexOf(pos.grid) !== 0;
+        if (townKnown) parts.push(pos.location);
+        if (refs.length) parts.push(refs.join(', '));
+        if (!parts.length) parts.push(pos.state || '—');
+        var label = parts.join(' · ');
+        html += '<tr>'
+          + '<td class="pos-grid">' + esc(pos.grid) + '</td>'
+          + '<td class="col-pos-location">' + esc(label) + '</td>'
+          + '<td class="num col-pos-sessions">' + sessionCount + '</td>'
+          + '<td class="num">' + pos.qsos + '</td>'
+          + '<td class="col-pos-first">' + esc(pos.first || '—') + '</td>'
+          + '<td class="col-pos-last">' + esc(pos.last || '—') + '</td>'
+          + '<td class="num">' + (pos.miles === null ? '—'
+              : Math.round(pos.miles).toLocaleString() + ' mi') + '</td>'
+          + '</tr>';
+      }
+      tbody.innerHTML = html;
+
+      setText('positions-count',
+        rows.length + ' position' + (rows.length === 1 ? '' : 's') + ' · '
+        + Object.keys(rows.reduce(function (acc, p) {
+            if (p.location && p.location.indexOf(', ') !== -1) {
+              acc[p.location.split(', ').pop()] = true;
+            }
+            return acc;
+          }, {})).length + ' states');
+
+      setText('stat-my-grids', String(rows.length));
+      var furthest = rows.reduce(function (best, p) {
+        return (p.miles !== null && (!best || p.miles > best.miles)) ? p : best;
+      }, null);
+      setText('stat-my-furthest',
+        furthest ? Math.round(furthest.miles).toLocaleString() + ' mi' : '—');
     }
 
     function renderTopContacts(qsos, sessions) {
