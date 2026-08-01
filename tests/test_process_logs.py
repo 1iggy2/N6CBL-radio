@@ -58,31 +58,38 @@ class OperatorPositionTests(unittest.TestCase):
 
 
 class OperatorLocationTests(unittest.TestCase):
-    def test_names_the_town_when_the_operator_city_is_logged(self):
-        qso = {'MY_GRIDSQUARE': 'EN66', 'MY_CITY': 'DETOUR VILLAGE', 'MY_STATE': 'MI'}
+    def test_does_not_name_the_home_town_for_a_qso_made_elsewhere(self):
+        """QRZ stamps the profile city on every QSO, including Michigan ones."""
+        qso = {'MY_CITY': 'Hermosa Beach', 'MY_STATE': 'MI', 'MY_GRIDSQUARE': 'EN86AA'}
 
-        city, state, label = process_logs.operator_location(qso)
+        state, label = process_logs.operator_location(qso)
 
-        self.assertEqual((city, state), ('Detour Village', 'MI'))
-        self.assertEqual(label, 'Detour Village, MI')
+        self.assertEqual(state, 'MI')
+        self.assertEqual(label, 'EN86AA, MI')
+        self.assertNotIn(process_logs.HOME_CITY, label)
 
-    def test_falls_back_to_the_grid_square_when_no_town_is_logged(self):
-        qso = {'MY_GRIDSQUARE': 'EN66'}
+    def test_names_the_town_for_a_grid_we_can_vouch_for(self):
+        qso = {'MY_CITY': 'Hermosa Beach', 'MY_STATE': 'CA', 'MY_GRIDSQUARE': process_logs.HOME_GRID}
 
-        _, _, label = process_logs.operator_location(qso)
+        _, label = process_logs.operator_location(qso)
+
+        self.assertEqual(label, f'{process_logs.HOME_CITY}, {process_logs.HOME_STATE}')
+
+    def test_falls_back_to_the_grid_square_for_an_unknown_grid(self):
+        _, label = process_logs.operator_location({'MY_GRIDSQUARE': 'EN66'})
 
         self.assertEqual(label, 'EN66')
 
-    def test_ignores_the_worked_stations_city(self):
+    def test_ignores_the_worked_stations_city_and_state(self):
         qso = {'CITY': 'Chicago', 'STATE': 'IL', 'MY_GRIDSQUARE': 'EN66'}
 
-        city, _, label = process_logs.operator_location(qso)
+        state, label = process_logs.operator_location(qso)
 
-        self.assertEqual(city, '')
+        self.assertEqual(state, '')
         self.assertEqual(label, 'EN66')
 
     def test_names_the_home_qth_only_when_nothing_operator_side_is_logged(self):
-        _, _, label = process_logs.operator_location({'GRIDSQUARE': 'FN42'})
+        _, label = process_logs.operator_location({'GRIDSQUARE': 'FN42'})
 
         self.assertEqual(label, f'{process_logs.HOME_CITY}, {process_logs.HOME_STATE}')
 

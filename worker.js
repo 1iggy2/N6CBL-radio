@@ -18,6 +18,11 @@ export default {
       return Response.redirect(url.origin + '/log/stats/', 301);
     }
 
+    // /roadmap/ was retired in 2026-08; the design language moved to /design/.
+    if (url.pathname === '/roadmap' || url.pathname === '/roadmap/') {
+      return Response.redirect(url.origin + '/', 301);
+    }
+
     const movedTool = url.pathname.match(/^\/tools\/([a-z]+)\/?$/);
     if (movedTool && MOVED_HAM_TOOLS.has(movedTool[1])) {
       return Response.redirect(url.origin + '/tools/ham/' + movedTool[1] + '/' + url.search, 301);
