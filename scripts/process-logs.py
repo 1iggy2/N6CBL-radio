@@ -16,6 +16,9 @@ import urllib.parse
 from pathlib import Path
 from datetime import datetime, timezone
 
+# Home QTH, used only when a QSO carries no operator-side grid of its own.
+HOME_GRID = 'DM03TU'
+
 
 def normalize_adif_text(content):
     text = str(content or '').lstrip('\ufeff')
@@ -191,6 +194,22 @@ def configured_adif_paths():
     return sorted(paths, key=lambda p: p.stem)
 
 
+def operator_position(qso):
+    """Return where N6CBL transmitted from, not where the worked station was.
+
+    MY_GRIDSQUARE is the operator-side grid; GRIDSQUARE belongs to the other
+    station. When a QSO carries no MY_* grid the contact is attributed to the
+    home QTH, which is what the log did unconditionally before.
+    """
+    grid = first_value(qso.get('MY_GRIDSQUARE', ''), qso.get('STATION_GRIDSQUARE', '')).upper().strip()
+    if grid:
+        lat, lon = maidenhead_to_latlon(grid)
+        if lat is not None and lon is not None:
+            return grid, lat, lon, 'adif'
+    lat, lon = maidenhead_to_latlon(HOME_GRID)
+    return HOME_GRID, lat, lon, 'home'
+
+
 def qso_group_key(qso, fallback):
     date = fmt_date(qso.get('QSO_DATE', '')) or fallback
     park_ref = first_value(
@@ -268,6 +287,8 @@ def main():
             session_modes = sorted(set(q.get('MODE', '').upper() for q in session_qsos if q.get('MODE')))
             note = activation_notes.get(session_id, {})
 
+            session_grid, _, _, session_grid_source = operator_position(first)
+
             session = {
                 'id': session_id,
                 'date': date,
@@ -276,6 +297,8 @@ def main():
                 'bands': session_bands,
                 'modes': session_modes,
                 'qso_count': len(session_qsos),
+                'my_gridsquare': session_grid,
+                'my_grid_source': session_grid_source,
             }
             for key in ('title', 'location', 'report', 'tags'):
                 if note.get(key):
@@ -297,6 +320,7 @@ def main():
                     hunted_pota_refs = split_reference_list(q.get('POTA_REF') or q.get('SIG_INFO'))
                 elif q.get('POTA_REF'):
                     hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
+                my_grid, my_lat, my_lon, my_grid_source = operator_position(q)
                 all_qsos.append({
                     'date':       fmt_date(q.get('QSO_DATE', '')),
                     'time':       fmt_time(q.get('TIME_ON', '')),
@@ -314,6 +338,10 @@ def main():
                     'gridsquare': grid,
                     'lat':        lat,
                     'lon':        lon,
+                    'my_gridsquare':   my_grid,
+                    'my_lat':          my_lat,
+                    'my_lon':          my_lon,
+                    'my_grid_source':  my_grid_source,
                     'state':      state,
                     'country':    country,
                     'county':     first_value(q.get('CNTY', ''), q.get('COUNTY', ''), qrz.get('county', '')),
@@ -338,6 +366,7 @@ def main():
     dates = [q['date'] for q in all_qsos if q['date']]
     date_range = f"{min(dates)} — {max(dates)}" if dates else ''
     unique_grids = len(set(q['gridsquare'] for q in all_qsos if q.get('gridsquare')))
+    operator_grids = sorted(set(q['my_gridsquare'] for q in all_qsos if q.get('my_gridsquare')))
     states_worked = sorted(set(q['state'] for q in all_qsos if q.get('state')))
     countries_worked = sorted(set(q['country'] for q in all_qsos if q.get('country')))
     dxcc_worked = sorted(set(q['dxcc'] for q in all_qsos if q.get('dxcc')))
@@ -360,6 +389,7 @@ def main():
             'pota_parks':    pota_parks,
             'date_range':    date_range,
             'unique_grids':  unique_grids,
+            'operator_grids': operator_grids,
             'states_worked': states_worked,
             'countries_worked': countries_worked,
             'dxcc_worked':   dxcc_worked,

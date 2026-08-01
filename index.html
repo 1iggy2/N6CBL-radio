@@ -168,12 +168,12 @@
 
       <section class="stats-map-section">
         <div class="section-label split">
-          <span>QSO Contact Map &mdash; DM03tu &mdash; Los Angeles, CA</span>
+          <span>QSO Contact Map &mdash; arcs from operating position</span>
           <span id="home-map-count" class="log-count"></span>
         </div>
         <div class="stats-map-wrap">
           <img src="/images/world-map.svg"
-               alt="World map with N6CBL contact arcs from DM03tu"
+               alt="World map with N6CBL contact arcs drawn from each operating position to the station worked"
                class="stats-map-img" width="1000" height="500">
           <svg id="home-contact-overlay"
                viewBox="0 0 1000 500"
@@ -182,7 +182,15 @@
                aria-hidden="true"></svg>
         </div>
         <div class="stats-map-bar">
-          <span>N6CBL &middot; DM03tu &middot; 33.85&deg;N 118.38&deg;W &middot; Los Angeles, CA</span>
+          <span class="map-key">
+            <span class="map-key-item">
+              <span class="map-key-dot map-key-dot-position"></span>
+              <span id="home-map-key">Operating position</span>
+            </span>
+            <span class="map-key-item">
+              <span class="map-key-dot map-key-dot-contact"></span>Station worked
+            </span>
+          </span>
           <a href="/log/stats/" style="color:inherit;text-decoration:none">Full stats &#8594;</a>
         </div>
       </section>
@@ -391,7 +399,23 @@
     }
 
     /* ── Contact map ─────────────────────────────────────────────────── */
+    /* Home QTH is the fallback origin only; QSOs logged with an operator-side
+       grid are plotted from where they were actually made. */
+    var HOME_GRID = 'DM03tu';
     var HOME_LAT = 33.8542, HOME_LON = -118.375;
+    var COLOR_CONTACT  = '#c8401a';  /* station worked     */
+    var COLOR_POSITION = '#0a0a0a';  /* operating position */
+
+    function isFiniteCoord(value) {
+      return typeof value === 'number' && isFinite(value);
+    }
+
+    function operatorPosition(q) {
+      if (isFiniteCoord(q.my_lat) && isFiniteCoord(q.my_lon)) {
+        return { grid: q.my_gridsquare || '—', lat: q.my_lat, lon: q.my_lon };
+      }
+      return { grid: HOME_GRID, lat: HOME_LAT, lon: HOME_LON };
+    }
 
     function toSVG(lat, lon) {
       return [(lon + 180) * 1000 / 360, (90 - lat) * 500 / 180];
@@ -418,25 +442,45 @@
       var svg = document.getElementById('home-contact-overlay');
       if (!svg) return;
       var qsos = data.qsos || [];
-      var seen = {}, paths = '', dots = '';
+      var seenGrid = {}, seenArc = {}, positions = {}, paths = '', dots = '';
       for (var i = 0; i < qsos.length; i++) {
         var q = qsos[i];
-        if (!q.lat || !q.lon || !q.gridsquare || seen[q.gridsquare]) continue;
-        seen[q.gridsquare] = true;
-        paths += '<path d="' + greatCirclePath(HOME_LAT, HOME_LON, q.lat, q.lon, 20)
-          + '" fill="none" stroke="#c8401a" stroke-width="0.7" stroke-opacity="0.45"/>';
-        var pt = toSVG(q.lat, q.lon);
-        dots += '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1)
-          + '" r="2.2" fill="#c8401a" fill-opacity="0.85"/>';
+        var origin = operatorPosition(q);
+        positions[origin.grid] = origin;
+
+        if (!isFiniteCoord(q.lat) || !isFiniteCoord(q.lon) || !q.gridsquare) continue;
+
+        var arcKey = origin.grid + '>' + q.gridsquare;
+        if (!seenArc[arcKey]) {
+          seenArc[arcKey] = true;
+          paths += '<path d="' + greatCirclePath(origin.lat, origin.lon, q.lat, q.lon, 20)
+            + '" fill="none" stroke="' + COLOR_CONTACT + '" stroke-width="0.7" stroke-opacity="0.45"/>';
+        }
+        if (!seenGrid[q.gridsquare]) {
+          seenGrid[q.gridsquare] = true;
+          var pt = toSVG(q.lat, q.lon);
+          dots += '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1)
+            + '" r="2.2" fill="' + COLOR_CONTACT + '" fill-opacity="0.85"/>';
+        }
       }
-      var home = toSVG(HOME_LAT, HOME_LON);
-      var hx = home[0].toFixed(1), hy = home[1].toFixed(1);
-      svg.innerHTML = paths + dots
-        + '<circle cx="'+hx+'" cy="'+hy+'" r="9" fill="none" stroke="#c8401a" stroke-width="1.5" stroke-opacity="0.6"/>'
-        + '<circle cx="'+hx+'" cy="'+hy+'" r="4" fill="#c8401a"/>';
-      var gc = Object.keys(seen).length;
+      var marks = '', positionGrids = Object.keys(positions);
+      for (var p = 0; p < positionGrids.length; p++) {
+        var pos = positions[positionGrids[p]];
+        var m = toSVG(pos.lat, pos.lon);
+        var mx = m[0].toFixed(1), my = m[1].toFixed(1);
+        marks += '<circle cx="'+mx+'" cy="'+my+'" r="7" fill="none" stroke="'
+          + COLOR_POSITION + '" stroke-width="1.2" stroke-opacity="0.7"/>'
+          + '<circle cx="'+mx+'" cy="'+my+'" r="3.2" fill="' + COLOR_POSITION + '"/>';
+      }
+      svg.innerHTML = paths + dots + marks;
+      var gc = Object.keys(seenGrid).length;
       var countEl = document.getElementById('home-map-count');
       if (countEl) countEl.textContent = gc + ' grids · ' + qsos.length + ' QSOs';
+      var keyEl = document.getElementById('home-map-key');
+      if (keyEl) {
+        keyEl.textContent = positionGrids.length + ' operating position'
+          + (positionGrids.length === 1 ? '' : 's') + ': ' + positionGrids.join(', ');
+      }
     });
 
 

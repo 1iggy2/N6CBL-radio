@@ -29,5 +29,33 @@ class QsoGroupKeyTests(unittest.TestCase):
         )
 
 
+class OperatorPositionTests(unittest.TestCase):
+    def test_uses_my_gridsquare_not_the_worked_stations_grid(self):
+        qso = {'GRIDSQUARE': 'EN51UX', 'MY_GRIDSQUARE': 'EN66'}
+
+        grid, lat, lon, source = process_logs.operator_position(qso)
+
+        self.assertEqual(grid, 'EN66')
+        self.assertEqual(source, 'adif')
+        self.assertEqual((lat, lon), process_logs.maidenhead_to_latlon('EN66'))
+
+    def test_falls_back_to_home_qth_when_no_operator_grid_logged(self):
+        qso = {'GRIDSQUARE': 'EN51UX'}
+
+        grid, lat, lon, source = process_logs.operator_position(qso)
+
+        self.assertEqual(grid, process_logs.HOME_GRID)
+        self.assertEqual(source, 'home')
+        self.assertEqual((lat, lon), process_logs.maidenhead_to_latlon(process_logs.HOME_GRID))
+
+    def test_falls_back_to_home_qth_when_operator_grid_is_unparseable(self):
+        qso = {'MY_GRIDSQUARE': 'XX'}
+
+        grid, _, _, source = process_logs.operator_position(qso)
+
+        self.assertEqual(grid, process_logs.HOME_GRID)
+        self.assertEqual(source, 'home')
+
+
 if __name__ == '__main__':
     unittest.main()
