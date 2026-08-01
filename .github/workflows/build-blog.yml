@@ -41,4 +41,18 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add blog/index.html index.html
           git commit -m "Build blog index"
-          git push
+
+          # The QRZ refresh cron pushes to main every 15 minutes, so a bare push
+          # here loses the race and the generated post never ships. Rebase and
+          # retry, the same way the deploy workflow already does.
+          for attempt in 1 2 3; do
+            echo "Push attempt ${attempt}/3"
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 2))
+          done
+
+          echo "Unable to push generated blog output after rebasing onto origin/main."
+          exit 1
