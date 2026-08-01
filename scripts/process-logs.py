@@ -16,8 +16,10 @@ import urllib.parse
 from pathlib import Path
 from datetime import datetime, timezone
 
-# Home QTH, used only when a QSO carries no operator-side grid of its own.
+# Home QTH, used only when a QSO carries no operator-side location of its own.
 HOME_GRID = 'DM03TU'
+HOME_CITY = 'Hermosa Beach'
+HOME_STATE = 'CA'
 
 
 def normalize_adif_text(content):
@@ -210,6 +212,24 @@ def operator_position(qso):
     return HOME_GRID, lat, lon, 'home'
 
 
+def operator_location(qso):
+    """Name where the operator was sitting: town if logged, grid square if not.
+
+    Returns (city, state, label). ADIF MY_CITY/MY_STATE are operator-side; CITY
+    and STATE belong to the station worked. Only the home QTH is named without
+    log evidence, and only when the QSO carries no operator-side location.
+    """
+    city = proper_name(first_value(qso.get('MY_CITY', '')))
+    state = first_value(qso.get('MY_STATE', '')).upper().strip()
+    grid, _, _, source = operator_position(qso)
+
+    if city:
+        return city, state, (f'{city}, {state}' if state else city)
+    if source == 'adif':
+        return '', state, (f'{grid}, {state}' if state else grid)
+    return HOME_CITY, HOME_STATE, f'{HOME_CITY}, {HOME_STATE}'
+
+
 def qso_group_key(qso, fallback):
     date = fmt_date(qso.get('QSO_DATE', '')) or fallback
     park_ref = first_value(
@@ -288,6 +308,7 @@ def main():
             note = activation_notes.get(session_id, {})
 
             session_grid, _, _, session_grid_source = operator_position(first)
+            _, _, session_location = operator_location(first)
 
             session = {
                 'id': session_id,
@@ -299,6 +320,7 @@ def main():
                 'qso_count': len(session_qsos),
                 'my_gridsquare': session_grid,
                 'my_grid_source': session_grid_source,
+                'my_location': session_location,
             }
             for key in ('title', 'location', 'report', 'tags'):
                 if note.get(key):
@@ -321,6 +343,7 @@ def main():
                 elif q.get('POTA_REF'):
                     hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
                 my_grid, my_lat, my_lon, my_grid_source = operator_position(q)
+                my_city, my_state, my_location = operator_location(q)
                 all_qsos.append({
                     'date':       fmt_date(q.get('QSO_DATE', '')),
                     'time':       fmt_time(q.get('TIME_ON', '')),
@@ -342,6 +365,9 @@ def main():
                     'my_lat':          my_lat,
                     'my_lon':          my_lon,
                     'my_grid_source':  my_grid_source,
+                    'my_city':         my_city,
+                    'my_state':        my_state,
+                    'my_location':     my_location,
                     'state':      state,
                     'country':    country,
                     'county':     first_value(q.get('CNTY', ''), q.get('COUNTY', ''), qrz.get('county', '')),

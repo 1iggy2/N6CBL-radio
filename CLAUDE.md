@@ -154,6 +154,7 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 ```
 /                  — splash / home, world map, station overview
 /roadmap/          — site planning ledger: route inventory, project backlog, idea voting
+/design/           — design language of record: principles, type, color, patterns, prohibitions
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
 /station/          — my station: operator profile, gear, hardware notes, modes, CW progress
@@ -170,6 +171,7 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 ```
 /index.html              — home page
 /roadmap/index.html      — roadmap and idea planning ledger
+/design/index.html       — design language reference (this doctrine, rendered)
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats
 /station/index.html      — station reference and inventory

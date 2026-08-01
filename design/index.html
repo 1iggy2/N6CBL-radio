@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The design language of N6CBL.radio — principles, typography, color, layout patterns, anti-patterns, and technical constraints that govern every page on this site.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/design/">
+  <meta property="og:title" content="Design Language — N6CBL.radio">
+  <meta property="og:description" content="Principles, typography, color, layout patterns, and prohibitions governing the design of N6CBL.radio.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Design Language — N6CBL.radio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /DESIGN/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/roadmap/">
+              <span class="nav-path">/roadmap/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/" aria-current="page">
+              <span class="nav-path">/design/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/stats/">
+              <span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/station/">
+              <span class="nav-path">/station/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/propagation/">
+              <span class="nav-path">/propagation/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+            </a>
+          </li>
+          <li class="nav-item"><a href="/tools/ham/"><span class="nav-path" aria-label="/tools/ham/">&#x21B3; ham/</span></a></li>
+          <li class="nav-item"><a href="/tools/uav/"><span class="nav-path" aria-label="/tools/uav/">&#x21B3; uav/</span></a></li>
+          <li class="nav-item"><a href="/tools/uav/x/"><span class="nav-path" aria-label="/tools/uav/x/">&#x21B3; uav/x/</span></a></li>
+          <li class="nav-item nav-item-unimplemented">
+            <a href="/prints/">
+              <span class="nav-path">/prints/</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; 20m</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">General Class &middot; DM03tu</div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main class="main-content">
+
+      <div class="section-label split">
+        <span>Design language &mdash; operating doctrine for this site</span>
+        <span class="log-count">13 principles &middot; 5 patterns</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-term">Rule</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-feature">This page is the specification</td>
+            <td class="desc">Every rule below is enforced on the page you are reading. The tables are dense, the type is system-native, the rules are lines and not shadows. If a rule and this page disagree, the page is the bug.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- PRINCIPLES -->
+      <div class="section-label split">
+        <span>Principles</span>
+        <span class="log-count">Applied, not aspirational</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-idx">Item</th>
+            <th class="col-term">Principle</th>
+            <th>Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-id col-idx">1</td>
+            <td class="roadmap-feature">Emergent over prescribed aesthetics</td>
+            <td class="desc">Don't decorate. Let structure create beauty.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">2</td>
+            <td class="roadmap-feature">Expose state and inner workings</td>
+            <td class="desc">Show metadata, timestamps, counts, status. Don't hide the machine.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">3</td>
+            <td class="roadmap-feature">Dense, not sparse</td>
+            <td class="desc">Whitespace is earned, not default. Fill space with information.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">4</td>
+            <td class="roadmap-feature">Explicit is better than implicit</td>
+            <td class="desc">Label everything. Don't make users guess.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">5</td>
+            <td class="roadmap-feature">Engineered for human vision</td>
+            <td class="desc">Use contrast, alignment, and typographic hierarchy intentionally.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">6</td>
+            <td class="roadmap-feature">Regiment functionalism</td>
+            <td class="desc">Every element has a job. No decorative elements without function.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">7</td>
+            <td class="roadmap-feature">Performance <em>is</em> design</td>
+            <td class="desc">Fast load = good design. Heavy frameworks are a design failure.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">8</td>
+            <td class="roadmap-feature">Verbosity over opacity</td>
+            <td class="desc">More words &gt; ambiguous icons. Explain the thing.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">9</td>
+            <td class="roadmap-feature">Ignore design trends</td>
+            <td class="desc">No glassmorphism, no parallax, no trendy typefaces. Timeless.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">10</td>
+            <td class="roadmap-feature">Flat, not hierarchical</td>
+            <td class="desc">Navigation should be shallow. No mega-menus, no deep nesting.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">11</td>
+            <td class="roadmap-feature">Complex as it needs to be</td>
+            <td class="desc">Don't simplify for simplicity's sake. Add complexity when it serves the user.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">12</td>
+            <td class="roadmap-feature">Driven by objective reasoning</td>
+            <td class="desc">Design choices need rationale, not vibes.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-id col-idx">13</td>
+            <td class="roadmap-feature">Don't infantilize users</td>
+            <td class="desc">Trust users to read, to scroll, to handle information.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TYPOGRAPHY -->
+      <div class="section-label split">
+        <span>Typography &mdash; three roles, no exceptions</span>
+        <span class="log-count">System stacks only &middot; 0 font requests</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-term">Role</th>
+            <th>Specimen</th>
+            <th>Stack</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-feature">Data / UI / labels</td>
+            <td class="specimen-mono">N6CBL &middot; DM03tu &middot; 14.074 MHz</td>
+            <td class="desc"><span class="path">Consolas, Menlo, Monaco, "Courier New", monospace</span> &mdash; Consolas and Menlo are clean geometric monospaces. Courier New is a last resort only; it reads as slab-serif at display sizes.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Body / prose</td>
+            <td class="specimen-sans">Worked 44 stations from US-3425 on 20 m SSB.</td>
+            <td class="desc"><span class="path">system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif</span> &mdash; whatever the reader's OS already has loaded.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Display / headings</td>
+            <td class="specimen-display">FIELD JOURNAL</td>
+            <td class="desc"><span class="path">"DIN Alternate", "Arial Narrow", "Helvetica Neue", Helvetica, Arial, sans-serif</span> &mdash; DIN Alternate ships on all Apple devices and is essentially free D-Din.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pota-footer">
+        <span>Never: Comic Sans, Papyrus, rounded typefaces, anything that reads as casual or decorative. No external font loading, ever.</span>
+      </div>
+
+      <!-- COLOR -->
+      <div class="section-label split">
+        <span>Color &mdash; high contrast, one accent</span>
+        <span class="log-count">4 values</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-swatch">Swatch</th>
+            <th class="col-token">Token</th>
+            <th class="col-value">Value</th>
+            <th>Job</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="swatch swatch-black"></span></td>
+            <td class="roadmap-feature"><span class="path">--black</span></td>
+            <td class="path">#0a0a0a</td>
+            <td class="desc">Ink. Body text, rules, and the operating-position markers on the contact map.</td>
+          </tr>
+          <tr>
+            <td><span class="swatch swatch-white"></span></td>
+            <td class="roadmap-feature"><span class="path">--white</span></td>
+            <td class="path">#f5f5f0</td>
+            <td class="desc">Paper. Page ground.</td>
+          </tr>
+          <tr>
+            <td><span class="swatch swatch-accent"></span></td>
+            <td class="roadmap-feature"><span class="path">--accent</span></td>
+            <td class="path">#c8401a</td>
+            <td class="desc">The single functional accent. Contacts, arcs, links, live status. Never decorative.</td>
+          </tr>
+          <tr>
+            <td><span class="swatch swatch-muted"></span></td>
+            <td class="roadmap-feature"><span class="path">--muted</span></td>
+            <td class="path">#555</td>
+            <td class="desc">Secondary text: descriptions, table notes, unimplemented routes.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- LAYOUT PATTERNS -->
+      <div class="section-label split">
+        <span>Layout patterns</span>
+        <span class="log-count">Canonical structures</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-term">Pattern</th>
+            <th>Specification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-feature">Two-panel layout</td>
+            <td class="desc">Permanent 220px left sidebar plus scrollable main content. The sidebar is sticky and never collapses behind a toggle. The structure is always visible &mdash; it <em>is</em> the design.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Permanent sidebar navigation</td>
+            <td class="desc">The nav tree is always fully expanded. No accordions, no hover-reveal, no expand buttons. Every public route is a peer row; implemented routes are plain text, unimplemented ones stay visible in muted text until they ship.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Reference / inventory pages</td>
+            <td class="desc">Lead with labeled data blocks and dense tables, not a billboard summary. If the section label and table headers already identify the page, no hero or lede is added above the first table. The data is the page.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Table-of-text content indexes</td>
+            <td class="desc">Archives are dense text tables: Date | Reference | Context | CTA. Dates in <span class="path">YYYY-MM-DD</span> monospace, leftmost. No card grids, no thumbnails as primary navigation. Empty state is an explicit message, not a hidden table.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">CTA conventions</td>
+            <td class="desc">Action links are inline text with an arrow: <span class="path">Read &#8594;</span>, <span class="path">View &#8594;</span>, <span class="path">Download &#8594;</span>. Never icon-only. Never a styled button with padding. The label says exactly what happens.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ANTI-PATTERNS -->
+      <div class="section-label split">
+        <span>Anti-patterns &mdash; never ship these</span>
+        <span class="log-count">7 prohibitions</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-term">Prohibited</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-feature">Centered hero with big tagline</td>
+            <td class="desc">Spends the most valuable screen real estate on the least information.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Cards with drop shadows and rounded corners</td>
+            <td class="desc">Simulated depth is decoration. Lines organize content without pretending to be physical.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Hamburger menus hiding content</td>
+            <td class="desc">Trades one tap for total loss of structural awareness.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">&ldquo;Loading&hellip;&rdquo; skeletons for static content</td>
+            <td class="desc">If it can be rendered ahead of time, rendering it late is a defect, not a transition.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Hover-only information</td>
+            <td class="desc">Invisible on touch devices and to keyboard users. If it matters, print it.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Auto-playing anything</td>
+            <td class="desc">Takes control of the page away from the reader.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Cookie banners on a site with no cookies</td>
+            <td class="desc">Ritual compliance theater. This site sets none.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TECHNICAL -->
+      <div class="section-label split">
+        <span>Technical constraints</span>
+        <span class="log-count">Performance is design</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-term">Constraint</th>
+            <th>Standard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-feature">Stylesheet</td>
+            <td class="desc">One shared <span class="path">/styles.css</span>. No CSS framework &mdash; real CSS, hand-written. No <span class="path">!important</span> without a comment explaining why.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">JavaScript</td>
+            <td class="desc">Only when it adds information value, not atmosphere. CSS must work without it; progressive enhancement only.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Build step</td>
+            <td class="desc">None required for basic pages. The blog is the narrow exception: structured JSON source under <span class="path">/content/blog/</span> is compiled to static HTML so publishing never requires hand-editing markup.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Markup</td>
+            <td class="desc">HTML must validate. Every page carries a <span class="path">&lt;title&gt;</span>, a meta description, correct <span class="path">lang</span>, and the viewport tag &mdash; the viewport tag is never omitted or altered.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Mobile width discipline</td>
+            <td class="desc">No table or fixed-width element may force <span class="path">body</span> wider than the viewport. Every layout change is checked at 390px before it ships; a column that is purely navigational is the first one cut.</td>
+          </tr>
+          <tr>
+            <td class="roadmap-feature">Images</td>
+            <td class="desc">Treated as data &mdash; captioned, dated, sourced. Compressed before commit, WebP where possible.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- EXCEPTION -->
+      <div class="section-label split">
+        <span>Sanctioned exception</span>
+        <span class="log-count">1 route</span>
+      </div>
+      <table class="design-table">
+        <thead>
+          <tr>
+            <th class="col-term">Route</th>
+            <th>Terms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="roadmap-feature"><span class="path">/tools/uav/x/</span></td>
+            <td class="desc">A deliberate experiment that opts out of this doctrine: a modern, dark, app-like interface with tabs, cards, border-radius, and accent gradients over the same engine as <span class="path">/tools/uav/</span>. It loads the shared <span class="path">uav.js</span> unchanged and exposes the same element IDs in a different shell, so the two pages stay functionally identical by construction. Its styling is not to be &ldquo;fixed,&rdquo; and its aesthetic is not to leak into the rest of the site.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pota-footer">
+        <span>Design rationale is tracked alongside route planning</span>
+        <a href="/roadmap/">Full roadmap &#8594;</a>
+      </div>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">CONTACT VIA QRZ &#8599;</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
+        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+      </svg>
+      <span>BUILT WITH CLAUDE CODE</span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+</body>
+</html>

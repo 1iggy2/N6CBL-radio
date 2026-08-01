@@ -57,5 +57,35 @@ class OperatorPositionTests(unittest.TestCase):
         self.assertEqual(source, 'home')
 
 
+class OperatorLocationTests(unittest.TestCase):
+    def test_names_the_town_when_the_operator_city_is_logged(self):
+        qso = {'MY_GRIDSQUARE': 'EN66', 'MY_CITY': 'DETOUR VILLAGE', 'MY_STATE': 'MI'}
+
+        city, state, label = process_logs.operator_location(qso)
+
+        self.assertEqual((city, state), ('Detour Village', 'MI'))
+        self.assertEqual(label, 'Detour Village, MI')
+
+    def test_falls_back_to_the_grid_square_when_no_town_is_logged(self):
+        qso = {'MY_GRIDSQUARE': 'EN66'}
+
+        _, _, label = process_logs.operator_location(qso)
+
+        self.assertEqual(label, 'EN66')
+
+    def test_ignores_the_worked_stations_city(self):
+        qso = {'CITY': 'Chicago', 'STATE': 'IL', 'MY_GRIDSQUARE': 'EN66'}
+
+        city, _, label = process_logs.operator_location(qso)
+
+        self.assertEqual(city, '')
+        self.assertEqual(label, 'EN66')
+
+    def test_names_the_home_qth_only_when_nothing_operator_side_is_logged(self):
+        _, _, label = process_logs.operator_location({'GRIDSQUARE': 'FN42'})
+
+        self.assertEqual(label, f'{process_logs.HOME_CITY}, {process_logs.HOME_STATE}')
+
+
 if __name__ == '__main__':
     unittest.main()
