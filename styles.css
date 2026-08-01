@@ -797,11 +797,6 @@ footer a:hover { text-decoration: underline; }
   /* Stats map: limit height on small screens */
   .stats-map-section .stats-map-wrap { max-height: 240px; overflow: hidden; }
 
-  /* Stats grids */
-  .stats-core-grid { grid-template-columns: repeat(2, 1fr); }
-  .stats-core-grid .stat:nth-child(even)   { border-right: none; }
-  .stats-core-grid .stat:nth-child(-n+4)   { border-bottom: 1px solid var(--rule-2); }
-
   /* Stats map bar: truncate right label on mobile */
   #map-bar-grids { display: none; }
 
@@ -959,12 +954,20 @@ footer a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--rule);
 }
 
-
 .silly-stats-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   border-bottom: 1px solid var(--rule);
 }
+
+/* Row separators are anchored to the first row, which is always one column-count
+   wide, instead of to a hard-coded tile index. Counting from the end broke as
+   soon as tiles were added: an ":nth-child(-n+4)" rule written for six tiles
+   left rows three and four of a nine-tile grid with no separator at all. */
+.stats-core-grid .stat,
+.silly-stats-grid .stat { border-top: 1px solid var(--rule-2); }
+.stats-core-grid .stat:nth-child(-n+6),
+.silly-stats-grid .stat:nth-child(-n+6) { border-top: none; }
 
 .stat-curiosity .stat-value {
   font-size: 1.55rem;
@@ -1189,8 +1192,10 @@ td.bar-cell {
   .silly-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stats-core-grid .stat:nth-child(even),
   .silly-stats-grid .stat:nth-child(even) { border-right: none; }
-  .stats-core-grid .stat:nth-child(-n+4),
-  .silly-stats-grid .stat:nth-child(-n+4) { border-bottom: 1px solid var(--rule-2); }
+  .stats-core-grid .stat:nth-child(-n+6),
+  .silly-stats-grid .stat:nth-child(-n+6) { border-top: 1px solid var(--rule-2); }
+  .stats-core-grid .stat:nth-child(-n+2),
+  .silly-stats-grid .stat:nth-child(-n+2) { border-top: none; }
 
   .stats-tables-row { grid-template-columns: 1fr; }
   .stats-table-panel { border-right: none; border-bottom: 1px solid var(--rule); }
