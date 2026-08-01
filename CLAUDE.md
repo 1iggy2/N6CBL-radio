@@ -268,8 +268,16 @@ Rules:
   `node scripts/check-widths.js` loads every page across 320/390/430/768/1024/1280/1440
   and fails with the offending element named. "Mentally check at 390px" missed a
   5px overflow on `/station/` and a real one on `/design/`; the sweep found both.
-- The sweep is clean and runs in CI, so any failure is a regression you introduced.
-  Do not merge past it.
+- The sweep checks two failure modes and both run in CI, so any failure is a
+  regression you introduced. Do not merge past it.
+  - **Overflow**: the page is wider than the viewport.
+  - **Crushed column**: the table fits but a prose cell is squeezed to a few
+    characters per line. This overflows nothing, so it is invisible to a width
+    check — `/design/` shipped a 22px "Job" column that was unreadable on a phone.
+- Declare a table's narrow-viewport rules **after** its base rules, not in an
+  earlier `@media` block. Same-specificity rules later in the file win, so mobile
+  widths written above the base rules are silently dead. That mistake shipped
+  three times (`.design-table`, `.position-table`, `.top-contact-table`).
 - The fix for a wide data table is a `<div class="table-scroll">` wrapper, which
   scrolls the table inside its own box instead of widening the page. Dense
   reference tables should keep all their columns and scroll; dropping columns is

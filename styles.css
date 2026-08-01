@@ -778,15 +778,8 @@ footer a:hover { text-decoration: underline; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule-2); }
   .stat-value { font-size: 1.7rem; }
   /* Drop only the ordinal index — the explanation column is the page. */
-  .design-table th.col-idx,
-  .design-table td.col-idx { display: none; }
-  /* Narrow the left columns so the explanation column keeps usable width. */
-  .design-table th.col-term   { width: 34%; }
-  .design-table th.col-swatch { width: 34px; }
-  .design-table th.col-token  { width: 82px; }
-  .design-table th.col-value  { width: 64px; }
-  .design-table th,
-  .design-table td { padding: 4px 6px; }
+  /* .design-table's narrow-viewport rules live with its base rules below,
+     which are declared after this block and would otherwise win. */
 
   .roadmap-control-table th { width: 96px; }
   .roadmap-design-table th:last-child,
@@ -820,19 +813,10 @@ footer a:hover { text-decoration: underline; }
   .stats-table-panel { border-right: none; border-bottom: 1px solid var(--rule); }
   .stats-table-panel:last-child { border-bottom: none; }
 
-  .top-contact-table th,
-  .top-contact-table td { padding: 4px 6px; }
-  .top-contact-table th:nth-child(2),
-  .top-contact-table td:nth-child(2) { width: auto; }
-  .top-contact-table .col-top-location { display: none; }
+  /* .top-contact-table's narrow-viewport rules live with its base rules below,
+     which are declared after this block and would otherwise win. */
   /* .position-table's narrow-viewport rules live with its base rules below,
      which are declared after this block and would otherwise win. */
-  .top-contact-table th:first-child,
-  .top-contact-table td:first-child { width: 76px; }
-  .top-contact-table th:nth-child(4),
-  .top-contact-table td:nth-child(4) { width: 80px; }
-  .top-contact-table th:last-child,
-  .top-contact-table td:last-child { width: 38px; }
 }
 
 /* ── STATS PAGE ─────────────────────────────────────────────────────────────────── */
@@ -896,6 +880,21 @@ footer a:hover { text-decoration: underline; }
    min-content floor that pushes the table past the viewport on narrow screens. */
 .design-table td,
 .design-table th { overflow-wrap: anywhere; }
+
+@media (max-width: 768px) {
+  /* Between 421px and 768px the sidebar still takes 120px, so the content box
+     is ~310px on a phone in that band. The fixed left columns must shrink or
+     the explanation column — which is the actual content — is crushed to a
+     single character per line. */
+  .design-table th.col-idx,
+  .design-table td.col-idx { display: none; }
+  .design-table th.col-term   { width: 34%; }
+  .design-table th.col-swatch { width: 54px; }  /* fits its own "Swatch" label */
+  .design-table th.col-token  { width: 74px; }
+  .design-table th.col-value  { width: 62px; }
+  .design-table th,
+  .design-table td { padding: 4px 6px; }
+}
 
 /* /design/ — type specimens render in the stack they document. */
 .specimen-mono {
@@ -1005,6 +1004,20 @@ footer a:hover { text-decoration: underline; }
 .top-contact-table th:last-child,
 .top-contact-table td:last-child { width: 46px; }
 .top-contact-table .qso-ref { overflow-wrap: anywhere; }
+
+@media (max-width: 768px) {
+  .top-contact-table th,
+  .top-contact-table td { padding: 4px 6px; }
+  .top-contact-table .col-top-location { display: none; }
+  .top-contact-table th:first-child,
+  .top-contact-table td:first-child { width: 76px; }
+  .top-contact-table th:nth-child(2),
+  .top-contact-table td:nth-child(2) { width: auto; }
+  .top-contact-table th:nth-child(4),
+  .top-contact-table td:nth-child(4) { width: 80px; }
+  .top-contact-table th:last-child,
+  .top-contact-table td:last-child { width: 38px; }
+}
 
 /* Operating positions — where N6CBL transmitted from, not who was worked. */
 .position-table { table-layout: fixed; }
@@ -2202,6 +2215,14 @@ td.tool-cta a:hover { text-decoration: underline; }
 
 /* Reference tables shared across tool pages */
 .tools-ref-table { table-layout: fixed; }
+
+@media (max-width: 768px) {
+  /* These live in a .table-scroll wrapper, but table-layout:fixed at width:100%
+     shrinks to the container instead of scrolling, so the prose columns get
+     crushed to a few characters per line. A floor makes the wrapper actually
+     scroll and keeps every column legible. */
+  .table-scroll .tools-ref-table { min-width: 460px; }
+}
 .tools-ref-table th:first-child,
 .tools-ref-table td:first-child {
   width: 96px;

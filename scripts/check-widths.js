@@ -10,9 +10,13 @@
  *   node scripts/check-widths.js            sweep the default widths
  *   node scripts/check-widths.js 390 1280   sweep specific widths
  *
- * Exits 1 on any overflow, naming the page, the width, and the widest offending
- * elements so the offender is obvious. Serves the repo over a throwaway local
- * server; nothing is written.
+ * Two failure modes are checked. Overflow is a page wider than the viewport.
+ * A crushed column is a table that fits but has squeezed a prose cell down to a
+ * few characters per line — /design/ shipped with a 22px "Job" column that
+ * overflowed nothing and was unreadable on a phone.
+ *
+ * Exits 1 on either, naming the page, the width, and the offending elements.
+ * Serves the repo over a throwaway local server; nothing is written.
  */
 const { chromium } = require('playwright');
 const http = require('http');
@@ -77,11 +81,34 @@ async function main() {
               + ` needs ${el.scrollWidth}px in ${el.clientWidth}px`);
           }
         });
-        return { body: document.body.scrollWidth, win: window.innerWidth, offenders };
+
+        /* A table can fit the viewport and still be unreadable: when fixed
+           column widths eat the space, the text column is crushed to a few
+           characters per line. That overflows nothing, so the check above
+           cannot see it. Flag prose cells squeezed below a legible width. */
+        const crushed = [];
+        /* Body cells only. A <th> wrapping onto three lines above a numeric
+           column is normal in a dense table, not a defect. */
+        document.querySelectorAll('td').forEach((cell) => {
+          if (getComputedStyle(cell).display === 'none') return;
+          const text = (cell.textContent || '').trim();
+          if (text.length < 20) return;
+          const width = cell.clientWidth;
+          if (width > 0 && width < 60) {
+            crushed.push(`${cell.tagName}.${String(cell.className).split(' ')[0] || '(none)'}`
+              + ` is ${width}px wide for ${text.length} chars: ${JSON.stringify(text.slice(0, 30))}`);
+          }
+        });
+
+        return { body: document.body.scrollWidth, win: window.innerWidth, offenders, crushed };
       });
 
       if (result.body > result.win) {
-        failures.push({ route, width, body: result.body, offenders: result.offenders.slice(0, 3) });
+        failures.push({ route, width, kind: 'overflow', body: result.body,
+                        detail: result.offenders.slice(0, 3) });
+      }
+      if (result.crushed.length) {
+        failures.push({ route, width, kind: 'crushed', detail: result.crushed.slice(0, 3) });
       }
     }
   }
@@ -91,15 +118,17 @@ async function main() {
   server.close();
 
   if (failures.length) {
-    console.error(`Horizontal overflow on ${failures.length} page/width combination(s):\n`);
+    console.error(`Layout problems on ${failures.length} page/width combination(s):\n`);
     for (const f of failures) {
-      console.error(`  ${f.route} at ${f.width}px — body is ${f.body}px`);
-      for (const o of f.offenders) console.error(`      ${o}`);
+      console.error(f.kind === 'overflow'
+        ? `  ${f.route} at ${f.width}px — OVERFLOW, body is ${f.body}px`
+        : `  ${f.route} at ${f.width}px — CRUSHED COLUMN`);
+      for (const d of f.detail) console.error(`      ${d}`);
     }
     process.exit(1);
   }
 
-  console.log(`No horizontal overflow: ${routes.length} pages x ${sweep.length} widths.`);
+  console.log(`No overflow and no crushed columns: ${routes.length} pages x ${sweep.length} widths.`);
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });
