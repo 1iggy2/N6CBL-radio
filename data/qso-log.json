@@ -1,12 +1,12 @@
 {
-  "generated": "2026-08-01T16:14:09Z",
+  "generated": "2026-08-01T17:25:52Z",
   "stats": {
-    "qso_count": 140,
-    "session_count": 11,
-    "unique_calls": 129,
-    "pota_parks": 1,
-    "date_range": "2025-07-04 \u2014 2026-05-11",
-    "unique_grids": 128,
+    "qso_count": 145,
+    "session_count": 15,
+    "unique_calls": 134,
+    "pota_parks": 5,
+    "date_range": "2025-07-04 \u2014 2026-08-01",
+    "unique_grids": 133,
     "states_worked": [
       "AB",
       "AK",
@@ -16,6 +16,7 @@
       "BC",
       "CA",
       "CO",
+      "CT",
       "GA",
       "IA",
       "ID",
@@ -23,6 +24,7 @@
       "IN",
       "KS",
       "LA",
+      "MA",
       "MB",
       "MN",
       "MO",
@@ -52,16 +54,68 @@
       "291",
       "6"
     ],
-    "qrz_enriched_calls": 127,
+    "qrz_enriched_calls": 132,
     "bands": {
-      "20m": 140
+      "20m": 145
     },
     "modes": {
-      "SSB": 139,
+      "SSB": 144,
       "FT8": 1
     }
   },
   "sessions": [
+    {
+      "id": "2026-08-01-us-0413",
+      "date": "2026-08-01",
+      "type": "pota",
+      "reference": "US-0413",
+      "bands": [
+        "20m"
+      ],
+      "modes": [
+        "SSB"
+      ],
+      "qso_count": 2
+    },
+    {
+      "id": "2026-08-01-us-1001",
+      "date": "2026-08-01",
+      "type": "pota",
+      "reference": "US-1001",
+      "bands": [
+        "20m"
+      ],
+      "modes": [
+        "SSB"
+      ],
+      "qso_count": 1
+    },
+    {
+      "id": "2026-08-01-us-1721",
+      "date": "2026-08-01",
+      "type": "pota",
+      "reference": "US-1721",
+      "bands": [
+        "20m"
+      ],
+      "modes": [
+        "SSB"
+      ],
+      "qso_count": 1
+    },
+    {
+      "id": "2026-08-01-us-2431",
+      "date": "2026-08-01",
+      "type": "pota",
+      "reference": "US-2431",
+      "bands": [
+        "20m"
+      ],
+      "modes": [
+        "SSB"
+      ],
+      "qso_count": 1
+    },
     {
       "id": "2026-05-11-us-3425",
       "date": "2026-05-11",
@@ -207,6 +261,166 @@
     }
   ],
   "qsos": [
+    {
+      "date": "2026-08-01",
+      "time": "16:31",
+      "call": "K9MSG",
+      "band": "20m",
+      "freq": "14.33",
+      "mode": "SSB",
+      "rst_sent": "59",
+      "rst_rcvd": "56",
+      "name": "Kirk Musselman",
+      "first_name": "Kirk",
+      "last_name": "Musselman",
+      "comment": "",
+      "session": "2026-08-01-us-1001",
+      "gridsquare": "EN51UX",
+      "lat": 41.9792,
+      "lon": -88.2917,
+      "state": "IL",
+      "country": "United States",
+      "county": "IL,Du Page",
+      "pota_refs": [
+        "US-1001"
+      ],
+      "dxcc": "291",
+      "cqzone": "4",
+      "ituzone": "8",
+      "lotw": true,
+      "eqsl": true,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/K9MSG",
+      "qrz_enriched": true
+    },
+    {
+      "date": "2026-08-01",
+      "time": "16:24",
+      "call": "KC1QHQ",
+      "band": "20m",
+      "freq": "14.333",
+      "mode": "SSB",
+      "rst_sent": "55",
+      "rst_rcvd": "57",
+      "name": "Fred M. Rubino",
+      "first_name": "Fred",
+      "last_name": "Rubino",
+      "comment": "",
+      "session": "2026-08-01-us-1721",
+      "gridsquare": "FN31NU",
+      "lat": 41.8542,
+      "lon": -72.875,
+      "state": "CT",
+      "country": "United States",
+      "county": "CT,New Haven",
+      "pota_refs": [
+        "US-1721"
+      ],
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": true,
+      "eqsl": true,
+      "mqsl": true,
+      "qrz_url": "https://www.qrz.com/db/KC1QHQ",
+      "qrz_enriched": true
+    },
+    {
+      "date": "2026-08-01",
+      "time": "16:17",
+      "call": "N1WW",
+      "band": "20m",
+      "freq": "14.288",
+      "mode": "SSB",
+      "rst_sent": "55",
+      "rst_rcvd": "52",
+      "name": "Mohawk Amateur Radio Club Inc",
+      "first_name": "Mohawk",
+      "last_name": "Mohawk Amateur Radio Club Inc",
+      "comment": "",
+      "session": "2026-08-01-us-2431",
+      "gridsquare": "FN42AN",
+      "lat": 42.5625,
+      "lon": -71.9583,
+      "state": "MA",
+      "country": "United States",
+      "county": "MA,Worcester",
+      "pota_refs": [
+        "US-2431"
+      ],
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": true,
+      "eqsl": false,
+      "mqsl": false,
+      "qrz_url": "https://www.qrz.com/db/N1WW",
+      "qrz_enriched": true
+    },
+    {
+      "date": "2026-08-01",
+      "time": "16:08",
+      "call": "KQ4UFE",
+      "band": "20m",
+      "freq": "14.34",
+      "mode": "SSB",
+      "rst_sent": "57",
+      "rst_rcvd": "52",
+      "name": "Andrew J. Brodersen",
+      "first_name": "Andrew",
+      "last_name": "Brodersen",
+      "comment": "",
+      "session": "2026-08-01-us-0413",
+      "gridsquare": "FM16VT",
+      "lat": 36.8125,
+      "lon": -76.2083,
+      "state": "VA",
+      "country": "United States",
+      "county": "VA,Virginia Beach City",
+      "pota_refs": [
+        "US-0413"
+      ],
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": true,
+      "eqsl": false,
+      "mqsl": true,
+      "qrz_url": "https://www.qrz.com/db/KQ4UFE",
+      "qrz_enriched": true
+    },
+    {
+      "date": "2026-08-01",
+      "time": "16:08",
+      "call": "WZ1TEX",
+      "band": "20m",
+      "freq": "14.34",
+      "mode": "SSB",
+      "rst_sent": "57",
+      "rst_rcvd": "52",
+      "name": "Billy D. Mercer",
+      "first_name": "Billy",
+      "last_name": "Mercer",
+      "comment": "",
+      "session": "2026-08-01-us-0413",
+      "gridsquare": "FM26AM",
+      "lat": 36.5208,
+      "lon": -75.9583,
+      "state": "NC",
+      "country": "United States",
+      "county": "VA,Virginia Beach City",
+      "pota_refs": [
+        "US-0413"
+      ],
+      "dxcc": "291",
+      "cqzone": "5",
+      "ituzone": "8",
+      "lotw": true,
+      "eqsl": true,
+      "mqsl": true,
+      "qrz_url": "https://www.qrz.com/db/WZ1TEX",
+      "qrz_enriched": true
+    },
     {
       "date": "2026-05-11",
       "time": "01:40",
