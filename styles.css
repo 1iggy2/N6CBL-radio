@@ -484,11 +484,6 @@ td.st {
 
 td.desc { font-family: var(--sans); }
 
-.roadmap-table { table-layout: fixed; }
-.roadmap-table th:first-child { width: 48px; }
-.roadmap-table th:nth-child(2) { width: 28%; }
-.roadmap-table th:last-child { width: 82px; }
-
 .roadmap-id {
   font-family: var(--mono);
   font-weight: bold;
@@ -510,16 +505,9 @@ td.desc { font-family: var(--sans); }
 }
 
 
-/* ── ROADMAP PAGE ───────────────────────────────────────────────────────────── */
-.roadmap-page section { border-bottom: 1px solid var(--rule); }
-.roadmap-page section:last-child { border-bottom: none; }
-
+/* ── SHARED TABLE GEOMETRY (borrowed by /tools/) ───────────────────────────────────────────────────────────── */
 .roadmap-control-table,
-.roadmap-route-table,
-.roadmap-project-table,
-.roadmap-protocol-table,
-.roadmap-design-table,
-.roadmap-decision-table {
+.roadmap-design-table {
   table-layout: fixed;
 }
 
@@ -529,49 +517,10 @@ td.desc { font-family: var(--sans); }
   color: var(--muted);
 }
 
-.roadmap-route-table th:first-child,
-.roadmap-route-table td:first-child { width: 116px; }
-.roadmap-route-table th:nth-child(2),
-.roadmap-route-table td:nth-child(2) { width: 82px; }
-.roadmap-route-table th:nth-child(3),
-.roadmap-route-table td:nth-child(3) { width: 34%; }
-
-.roadmap-project-table th:first-child,
-.roadmap-project-table td:first-child { width: 58px; }
-.roadmap-project-table th:nth-child(2),
-.roadmap-project-table td:nth-child(2) { width: 24%; }
-.roadmap-project-table th:nth-child(3),
-.roadmap-project-table td:nth-child(3) { width: 108px; }
-.roadmap-project-table th:nth-child(4),
-.roadmap-project-table td:nth-child(4) { width: 58px; }
-.roadmap-project-table th:nth-child(5),
-.roadmap-project-table td:nth-child(5) { width: 54px; }
-
-.roadmap-protocol-table th:first-child,
-.roadmap-protocol-table td:first-child { width: 82px; }
-.roadmap-protocol-table th:nth-child(2),
-.roadmap-protocol-table td:nth-child(2) { width: 34%; }
-
 .roadmap-design-table th:first-child,
 .roadmap-design-table td:first-child { width: 28%; }
 .roadmap-design-table th:last-child,
 .roadmap-design-table td:last-child { width: 30%; }
-
-.roadmap-decision-table th:first-child,
-.roadmap-decision-table td:first-child { width: 106px; }
-.roadmap-decision-table th:nth-child(2),
-.roadmap-decision-table td:nth-child(2) { width: 34%; }
-
-.roadmap-page .path,
-.roadmap-area {
-  font-family: var(--mono);
-  overflow-wrap: anywhere;
-}
-
-.roadmap-area {
-  color: var(--muted);
-  font-size: 0.7rem;
-}
 
 .roadmap-vote {
   font-family: var(--mono);
@@ -828,13 +777,6 @@ footer a:hover { text-decoration: underline; }
   .stat:nth-child(2) { border-right: none; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule-2); }
   .stat-value { font-size: 1.7rem; }
-  .roadmap-table th.col-deliverable,
-  .roadmap-table td.col-deliverable { display: none; }
-  .roadmap-table th:first-child { width: 34px; }
-  .roadmap-table th:last-child { width: 66px; }
-  .roadmap-table th,
-  .roadmap-table td { padding: 4px 6px; }
-
   /* Drop only the ordinal index — the explanation column is the page. */
   .design-table th.col-idx,
   .design-table td.col-idx { display: none; }
@@ -845,25 +787,9 @@ footer a:hover { text-decoration: underline; }
   .design-table td { padding: 4px 6px; }
 
   .roadmap-control-table th { width: 96px; }
-  .roadmap-page th,
-  .roadmap-page td { padding: 4px 6px; }
-  .roadmap-route-table th:nth-child(2),
-  .roadmap-route-table td:nth-child(2),
-  .roadmap-project-table th:nth-child(3),
-  .roadmap-project-table td:nth-child(3),
-  .roadmap-project-table th:nth-child(5),
-  .roadmap-project-table td:nth-child(5),
   .roadmap-design-table th:last-child,
   .roadmap-design-table td:last-child,
   .roadmap-wide-col { display: none; }
-  .roadmap-route-table th:first-child,
-  .roadmap-route-table td:first-child { width: 78px; }
-  .roadmap-project-table th:first-child,
-  .roadmap-project-table td:first-child { width: 48px; }
-  .roadmap-project-table th:nth-child(4),
-  .roadmap-project-table td:nth-child(4) { width: 44px; }
-  .roadmap-decision-table th:first-child,
-  .roadmap-decision-table td:first-child { width: 88px; }
 
   /* QSO table: keep Date / UTC / Call / Band — drop enrichment and detail columns. */
   .col-name, .col-qth, .col-mode, .col-freq, .col-rst,
@@ -952,9 +878,9 @@ footer a:hover { text-decoration: underline; }
 .stats-map-bar span:last-child { flex-shrink: 0; }
 
 /* ── DESIGN LANGUAGE PAGE ───────────────────────────────────────────────────── */
-/* Its own column geometry: .roadmap-table is sized for the roadmap's fixed
-   4-column shape, and its wide column is dropped on mobile. Here the wide
-   column carries the actual doctrine, so it must survive to the phone. */
+/* The wide column carries the doctrine itself, so unlike the other table
+   geometries on this site it must survive to the phone; only the ordinal
+   index column is dropped at narrow widths. */
 .design-table { table-layout: fixed; width: 100%; }
 .design-table th.col-idx    { width: 44px; }
 .design-table th.col-term   { width: 26%; }
