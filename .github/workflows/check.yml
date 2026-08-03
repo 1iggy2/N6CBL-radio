@@ -21,7 +21,7 @@ jobs:
       - name: Run tests
         run: python3 -m unittest discover -s tests -v
 
-      - name: Navigator matches content/nav.json
+      - name: Page chrome matches content/nav.json
         run: node scripts/build-chrome.js --check
 
       - name: Blog output is current

@@ -51,12 +51,22 @@ structure is always visible — it *is* the design.
 Reference: Racket language documentation guide.
 
 **Permanent sidebar navigation**
-The nav tree is generated. `/content/nav.json` is the single source of truth for
-the route list; `node scripts/build-chrome.js` rewrites the `<ul class="nav-tree">`
-block in every page from it. Never hand-edit that block — the copies drift, and
-they had already drifted (one page was missing three routes). To add, remove, or
-reorder a route: edit `nav.json`, run the script, commit the result. The rest of
-the sidebar (station facts, profiles, operator card) stays hand-written.
+The shared page chrome is generated. `/content/nav.json` is the single source of
+truth for three blocks, and `node scripts/build-chrome.js` rewrites all three in
+every page from it:
+
+- `<ul class="nav-tree">` — the route list
+- `<dl class="sidenav-dl">` — the "My Station" facts
+- `<footer>` — the site footer
+
+Never hand-edit those blocks; the copies drift, and every one of them already
+had. The navigator was missing three routes on one page. The station facts had
+split into two variants (`Chameleon SS-17` / `SSB · 20m` on eight pages,
+`CHA SS17` / `SSB · FT8 · CW study` on twenty). The footer had split along the
+same seam, down to two different inline SVGs, and `/blog/` and `/blog/compose/`
+had no footer at all. To change a route, a station fact, or the footer: edit
+`nav.json`, run the script, commit the result. The rest of the sidebar (profiles,
+operator card) stays hand-written.
 
 The nav tree is always fully expanded. No accordion sections, no hover-reveal, no
 `+` expand buttons. Users see the full site structure at all times. Below the nav
@@ -189,9 +199,9 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /tools/uav/uav.js        — UAV lab engine: parameter/metric registries, model, views, Monte Carlo
 /tools/uav/x/            — experimental UAV lab UI (see sanctioned exception below)
 /content/blog/           — structured blog post JSON source
-/content/nav.json        — sidebar navigator route list (source of truth)
+/content/nav.json        — shared chrome source: nav routes, station facts, footer
 /scripts/build-blog.js   — static blog/home generator
-/scripts/build-chrome.js — regenerates the sidebar navigator from nav.json
+/scripts/build-chrome.js — regenerates nav, station facts, and footer from nav.json
 /scripts/check-widths.js — viewport overflow sweep (needs Playwright)
 /scripts/fetch-qrz-logbook.py — QRZ Logbook ADIF fetcher for scheduled QSO refresh
 /scripts/process-logs.py — derived public QSO log generator
@@ -225,7 +235,7 @@ static HTML so publishing does not require HTML surgery.
 
 ```
 python3 -m unittest discover -s tests   # log-processing unit tests
-node scripts/build-chrome.js --check    # sidebar navigator matches content/nav.json
+node scripts/build-chrome.js --check    # page chrome matches content/nav.json
 node scripts/build-blog.js              # regenerate blog/home output
 node scripts/check-widths.js            # viewport overflow sweep (needs Playwright)
 python3 -m http.server 8000             # preview the site at localhost:8000
