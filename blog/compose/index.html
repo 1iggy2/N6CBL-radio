@@ -245,6 +245,7 @@
           <div class="composer-panel">
             <h2>Photo staging</h2>
             <p id="photo-target" class="composer-help">Select photos to see the target folder.</p>
+            <p id="photo-state" class="composer-help" aria-live="polite">Images are re-encoded to WebP at 2048&nbsp;px before staging.</p>
             <div id="photo-preview" class="photo-preview-grid"></div>
             <div id="photo-snippets" class="photo-snippet-list" aria-live="polite"></div>
           </div>
@@ -336,6 +337,21 @@
     var IMAGE_EXTENSIONS = /\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
     var imageDetails = {};
 
+    /* Photos are re-encoded in the browser before they are staged. Uploading
+       phone originals untouched put a .heic into /blog/ that only Safari could
+       render, and left images/ at 46 MB of 4032x3024 files rendered into boxes
+       at most 1220 px wide. CLAUDE.md asks for WebP, compressed before commit;
+       doing it here means it happens on every post, not when someone remembers.
+       Animated GIFs pass through — a canvas would flatten them to one frame —
+       and WebP is already the target format. */
+    var MAX_IMAGE_EDGE = 2048;
+    var WEBP_QUALITY = 0.82;
+    var PASSTHROUGH_EXTENSIONS = /\.(?:gif|webp)$/i;
+
+    /* The staged, re-encoded files. Every read goes through this rather than
+       photosEl.files, so what is previewed is what is committed. */
+    var stagedFiles = [];
+
     var dateEl = document.getElementById('post-date');
     var titleEl = document.getElementById('post-title');
     var slugEl = document.getElementById('post-slug');
@@ -348,6 +364,7 @@
     var photosEl = document.getElementById('post-photos');
     var photoTarget = document.getElementById('photo-target');
     var photoPreview = document.getElementById('photo-preview');
+    var photoState = document.getElementById('photo-state');
     var photoSnippets = document.getElementById('photo-snippets');
     var statusEl = document.getElementById('composer-status');
     var validationState = document.getElementById('validation-state');
@@ -372,8 +389,7 @@
     });
     document.getElementById('composer-form').addEventListener('input', render);
     photosEl.addEventListener('change', function () {
-      prefillCaptionLines();
-      renderPhotos();
+      stagePhotos();
     });
     previewButton.addEventListener('click', openRenderedPreview);
     submitButton.addEventListener('click', submitPost);
@@ -417,7 +433,7 @@
         tags: tagsEl.value.split(',').map(function (tag) { return tag.trim(); }).filter(Boolean),
         context: contextEl.value.trim(),
         body: bodyEl.value.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean),
-        photos: Array.prototype.map.call(photosEl.files, function (file, index) {
+        photos: stagedFiles.map(function (file, index) {
           var caption = captionForFile(file, index);
           var fileName = safeFileName(file.name);
           var detail = imageDetails[fileKey(file)] || {};
@@ -500,7 +516,7 @@
 
       revokePreviewObjectUrls();
       var objectUrlsBySrc = {};
-      Array.prototype.forEach.call(photosEl.files, function (file, index) {
+      stagedFiles.forEach(function (file, index) {
         var photo = payload.photos[index];
         if (!photo) return;
         var objectUrl = URL.createObjectURL(file);
@@ -731,7 +747,7 @@
 
     function prefillCaptionLines() {
       var existing = parseCaptionLines();
-      var nextLines = Array.prototype.map.call(photosEl.files, function (file) {
+      var nextLines = stagedFiles.map(function (file) {
         var safeName = safeFileName(file.name);
         var caption = existing.byName[file.name.toLowerCase()]
           || existing.byName[safeName.toLowerCase()]
@@ -779,7 +795,7 @@
     function renderPhotos() {
       photoPreview.innerHTML = '';
       imageDetails = {};
-      Array.prototype.forEach.call(photosEl.files, function (file) {
+      stagedFiles.forEach(function (file) {
         var item = document.createElement('figure');
         item.className = 'photo-preview-item';
         var img = document.createElement('img');
@@ -933,7 +949,75 @@
     }
 
     function totalSelectedBytes() {
-      return Array.prototype.reduce.call(photosEl.files, function (sum, file) { return sum + file.size; }, 0);
+      return stagedFiles.reduce(function (sum, file) { return sum + file.size; }, 0);
+    }
+
+    /* Re-encode the picked files, then refresh everything that reads them.
+       Files this browser cannot decode are dropped with an explicit message
+       rather than staged — a HEIC picked in Chrome or Firefox would otherwise
+       be committed as an image nothing but Safari can display. */
+    function stagePhotos() {
+      var picked = Array.prototype.slice.call(photosEl.files);
+      if (!picked.length) {
+        stagedFiles = [];
+        prefillCaptionLines();
+        renderPhotos();
+        return;
+      }
+
+      setStatus('Converting ' + picked.length + ' image' + (picked.length === 1 ? '' : 's'), 'todo');
+      photoTarget.textContent = 'Re-encoding to WebP…';
+
+      Promise.all(picked.map(function (file) {
+        return convertToWebp(file).then(
+          function (converted) { return { file: converted }; },
+          function (error) { return { error: file.name + ': ' + error.message }; }
+        );
+      })).then(function (results) {
+        stagedFiles = results.filter(function (r) { return r.file; }).map(function (r) { return r.file; });
+        var failures = results.filter(function (r) { return r.error; });
+        prefillCaptionLines();
+        renderPhotos();
+        if (failures.length) {
+          setStatus('Skipped ' + failures.length + ' image' + (failures.length === 1 ? '' : 's'), 'todo');
+          photoState.textContent = 'Not staged — ' + failures.map(function (f) { return f.error; }).join('; ');
+        } else {
+          setStatus('Ready', 'live');
+        }
+      });
+    }
+
+    function convertToWebp(file) {
+      if (PASSTHROUGH_EXTENSIONS.test(file.name)) return Promise.resolve(file);
+      if (!window.createImageBitmap || !document.createElement('canvas').toBlob) {
+        return Promise.reject(new Error('this browser cannot re-encode images'));
+      }
+      return createImageBitmap(file, { imageOrientation: 'from-image' })
+        .catch(function () {
+          throw new Error('this browser cannot decode ' + (file.type || 'that format')
+            + ' — export it as JPEG or PNG first');
+        })
+        .then(function (bitmap) {
+          var scale = Math.min(1, MAX_IMAGE_EDGE / Math.max(bitmap.width, bitmap.height));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+          canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+          canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+          bitmap.close();
+          return new Promise(function (resolve, reject) {
+            canvas.toBlob(function (blob) {
+              if (!blob) { reject(new Error('WebP encoding failed')); return; }
+              resolve(new File([blob], webpName(file.name), {
+                type: 'image/webp',
+                lastModified: file.lastModified
+              }));
+            }, 'image/webp', WEBP_QUALITY);
+          });
+        });
+    }
+
+    function webpName(name) {
+      return String(name || 'image').replace(/\.[^.]*$/, '') + '.webp';
     }
 
     function readFileBase64(file) {
