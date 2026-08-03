@@ -258,21 +258,28 @@ you decided to leave alone and why — silently expanding scope is its own defec
 
 ### Repository workflow
 
-Agents work on a branch and open a pull request. Do not push to `main` directly,
-and do not wait to be asked for the PR — finishing a task means the work is on a
-branch, pushed, and has a PR open against `main`. The operator should never have
-to request one.
+Get finished work onto `main` yourself. Do not park it on a branch, and do not
+wait to be asked — the operator should never have to request a pull request, or a
+merge, or anything else to make finished work land.
 
-If the branch you were given already has an open pull request, push your commits
-to that branch so they fold into it rather than opening a second PR for the same
-work. Open a new PR only when the branch has none, or when its PR is already
-merged — a merged PR is finished and cannot track new work, so restart the branch
-from the latest `main` and open a fresh PR.
+Push straight to `main`. That is the default and the preference: no PR, no review
+gate, no ceremony.
 
-Keep the commit discipline described above inside the PR: one commit per concern,
+Some sessions are started pinned to a feature branch and may not push to `main`.
+That is a routing constraint, not a reason to stop halfway. Push the branch, open
+a pull request, wait for checks, and merge it yourself. A pull request is a
+mechanism for getting work onto `main`, not a place to leave it. If the branch
+already has an open PR, push to that branch so the commits fold into it instead
+of opening a second PR for the same work; if its PR is already merged, restart
+the branch from the latest `main`, since a merged PR cannot track new work.
+
+Leave a PR open and unmerged only when checks fail and you cannot fix them, or
+when the change needs a decision that is genuinely the operator's to make. Say
+which, plainly, rather than leaving it sitting there unexplained.
+
+Either way, keep the commit discipline described above: one commit per concern,
 with unrelated fixes separable, so a single commit can be reverted without
-touching the rest. The PR body should say what changed and why, name anything
-fixed beyond what was asked, and state what was verified.
+touching the rest.
 
 ### Mobile width discipline
 
