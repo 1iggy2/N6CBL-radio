@@ -810,6 +810,24 @@
       "state": "KS",
       "updated": "2026-05-11T03:25:46Z"
     },
+    "KD3CZT": {
+      "call": "KD3CZT",
+      "country": "United States",
+      "county": "Saint Marys",
+      "display_name": "Dwight C Gordon",
+      "dxcc": "291",
+      "fname": "Dwight C",
+      "found": true,
+      "grid": "FM18pl",
+      "land": "United States",
+      "moddate": "2026-07-12 21:46:38",
+      "mqsl": "1",
+      "name": "Gordon",
+      "name_fmt": "Dwight C Gordon",
+      "qrz_url": "https://www.qrz.com/db/KD3CZT",
+      "state": "MD",
+      "updated": "2026-08-03T20:41:04Z"
+    },
     "KD6WXP": {
       "call": "KD6WXP",
       "country": "United States",
@@ -1344,6 +1362,29 @@
       "qrz_url": "https://www.qrz.com/db/KJ7UPY",
       "state": "OR",
       "updated": "2026-05-11T03:25:46Z"
+    },
+    "KK2WW": {
+      "call": "KK2WW",
+      "country": "United States",
+      "county": "Tompkins",
+      "cqzone": "5",
+      "display_name": "Gary C Allen",
+      "dxcc": "291",
+      "eqsl": "0",
+      "fname": "Gary C",
+      "found": true,
+      "grid": "FN12qi",
+      "image": "https://cdn-xml.qrz.com/w/kk2ww/20200902_155157.jpg",
+      "ituzone": "8",
+      "land": "United States",
+      "lotw": "1",
+      "moddate": "2026-06-28 12:16:58",
+      "mqsl": "1",
+      "name": "Allen",
+      "name_fmt": "Gary C Allen",
+      "qrz_url": "https://www.qrz.com/db/KK2WW",
+      "state": "NY",
+      "updated": "2026-08-03T20:41:04Z"
     },
     "KK7CSK": {
       "call": "KK7CSK",
@@ -2202,6 +2243,25 @@
       "state": "MN",
       "updated": "2026-05-11T03:25:46Z"
     },
+    "W1GHD": {
+      "call": "W1GHD",
+      "country": "United States",
+      "county": "Litchfield",
+      "display_name": "Glen H Dains",
+      "dxcc": "291",
+      "fname": "Glen H",
+      "found": true,
+      "grid": "FN31jn",
+      "land": "United States",
+      "lotw": "1",
+      "moddate": "2025-05-03 08:30:03",
+      "mqsl": "0",
+      "name": "Dains",
+      "name_fmt": "Glen H Dains",
+      "qrz_url": "https://www.qrz.com/db/W1GHD",
+      "state": "CT",
+      "updated": "2026-08-03T20:41:04Z"
+    },
     "W4KRN": {
       "call": "W4KRN",
       "country": "United States",
@@ -2696,7 +2756,7 @@
       "updated": "2026-08-01T17:25:50Z"
     }
   },
-  "generated": "2026-08-01T17:25:50Z",
+  "generated": "2026-08-03T20:41:04Z",
   "policy": {
     "lookup_limit": 250,
     "max_age_days": 90,
