@@ -140,17 +140,24 @@ async function fetchFeed(url) {
   }
 }
 
-// SWPC issue_datetime is "YYYY-MM-DD HH:MM:SS.sss" UTC, which sorts
+// SWPC issue timestamps are "YYYY-MM-DD HH:MM:SS.sss" UTC, which sort
 // lexicographically, so sort explicitly rather than trusting the file order.
+// The other SWPC products renamed their keys under us, so read the timestamp
+// and product id through aliases: filtering on one exact spelling would drop
+// every alert silently and read on the page as a quiet sun.
+function alertStamp(alert) {
+  return String((alert && (alert.issue_datetime || alert.issue_time || alert.time_tag)) || '');
+}
+
 function trimSpaceWeatherAlerts(data) {
   if (!Array.isArray(data)) return [];
   return data
-    .filter((alert) => alert && alert.issue_datetime)
-    .sort((a, b) => String(b.issue_datetime).localeCompare(String(a.issue_datetime)))
+    .filter((alert) => alert && typeof alert === 'object' && alertStamp(alert))
+    .sort((a, b) => alertStamp(b).localeCompare(alertStamp(a)))
     .slice(0, SPACE_WEATHER_ALERT_LIMIT)
     .map((alert) => ({
-      issue_datetime: alert.issue_datetime,
-      product_id: alert.product_id || '',
+      issue_datetime: alertStamp(alert),
+      product_id: alert.product_id || alert.product || '',
       message: String(alert.message || '').slice(0, SPACE_WEATHER_ALERT_CHARS),
     }));
 }

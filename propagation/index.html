@@ -640,57 +640,81 @@
     }
 
     function stampOf(data) {
-      var t = pickKey(data, ['TimeStamp', 'time_tag', 'time']);
+      var t = pickKey(data, ['time_tag', 'TimeStamp', 'time']);
       return t == null ? null : String(t);
     }
 
-    function extractFlux(data) {
-      var v = pickNumber(data, ['Flux', 'flux_10cm', 'f10.7']);
-      return v == null ? null : { value: v, time: stampOf(data) };
-    }
+    /* SWPC serves these products in three shapes, and has moved between them:
+       a bare object, an array of records, and an array whose first row is a
+       header for the rows beneath it. Reduce all three to the most recent
+       record so the extractors below only deal with one thing.
 
-    function headerIndex(header, names) {
-      if (!Array.isArray(header)) return -1;
-      for (var i = 0; i < names.length; i++) {
-        for (var j = 0; j < header.length; j++) {
-          if (String(header[j]).toLowerCase() === names[i].toLowerCase()) return j;
+       Pick by newest timestamp rather than by position — the products are not
+       consistently ordered, and taking the last element read the oldest
+       sample whenever a feed came back newest-first. */
+    function latestRecord(data) {
+      if (data == null) return null;
+      if (!Array.isArray(data)) return typeof data === 'object' ? data : null;
+      if (!data.length) return null;
+
+      var records = data;
+      if (Array.isArray(data[0])) {
+        /* Legacy header-row form: [[name,…],[value,…],…]. */
+        if (data.length < 2) return null;
+        var header = data[0];
+        records = [];
+        for (var r = 1; r < data.length; r++) {
+          if (!Array.isArray(data[r])) continue;
+          var obj = {};
+          for (var c = 0; c < header.length; c++) obj[String(header[c])] = data[r][c];
+          records.push(obj);
         }
       }
-      return -1;
+
+      var best = null, bestStamp = null;
+      for (var i = 0; i < records.length; i++) {
+        var rec = records[i];
+        if (!rec || typeof rec !== 'object' || Array.isArray(rec)) continue;
+        var stamp = stampOf(rec);
+        if (best === null || (stamp != null && (bestStamp == null || stamp > bestStamp))) {
+          best = rec; bestStamp = stamp;
+        }
+      }
+      return best;
+    }
+
+    function extractFlux(data) {
+      var rec = latestRecord(data);
+      var v = pickNumber(rec, ['flux', 'Flux', 'flux_10cm', 'f10.7']);
+      return v == null ? null : { value: v, time: stampOf(rec) };
     }
 
     function extractKp(data) {
-      if (!Array.isArray(data) || data.length < 2) return null;
-      var header = data[0];
-      var last = data[data.length - 1];
-      if (!Array.isArray(last)) return null;
-      var kpIdx = headerIndex(header, ['Kp', 'kp_index', 'estimated_kp']);
-      var aIdx  = headerIndex(header, ['a_running', 'A']);
-      var tIdx  = headerIndex(header, ['time_tag']);
-      /* Column 1 is Kp in every published layout, so that fallback is safe.
-         There is no safe positional guess for the A index — guessing it read
-         whatever column happened to sit at index 2. Report it missing. */
-      var kp = Number(last[kpIdx >= 0 ? kpIdx : 1]);
-      var a  = aIdx >= 0 ? Number(last[aIdx]) : NaN;
-      return {
-        kp: isNaN(kp) ? null : kp,
-        a:  isNaN(a)  ? null : a,
-        time: tIdx >= 0 ? last[tIdx] : null
-      };
+      var rec = latestRecord(data);
+      if (!rec) return null;
+      var kp = pickNumber(rec, ['Kp', 'kp_index', 'kp', 'estimated_kp']);
+      var a  = pickNumber(rec, ['a_running', 'A']);
+      return { kp: kp, a: a, time: stampOf(rec) };
     }
 
     function extractWind(data) {
-      var v = pickNumber(data, ['WindSpeed', 'wind_speed', 'speed']);
-      return v == null ? null : { value: v, time: stampOf(data) };
+      var rec = latestRecord(data);
+      var v = pickNumber(rec, ['proton_speed', 'WindSpeed', 'wind_speed', 'speed', 'bulk_speed']);
+      return v == null ? null : { value: v, time: stampOf(rec) };
     }
 
     function extractMag(data) {
-      if (!data || typeof data !== 'object') return null;
+      var rec = latestRecord(data);
+      if (!rec) return null;
       return {
-        bz: pickNumber(data, ['Bz', 'bz_gsm']),
-        bt: pickNumber(data, ['Bt', 'bt']),
-        time: stampOf(data)
+        bz: pickNumber(rec, ['bz_gsm', 'Bz', 'bz']),
+        bt: pickNumber(rec, ['bt', 'Bt']),
+        time: stampOf(rec)
       };
+    }
+
+    function alertStamp(a) {
+      return String((a && (a.issue_datetime || a.issue_time || a.time_tag || a.issued)) || '');
     }
 
     function extractAlerts(data) {
@@ -698,7 +722,7 @@
       /* The worker already sorts and trims; sort again so the direct-upstream
          fallback also honours the "most recent first" label on the section. */
       return data.slice().sort(function (a, b) {
-        return String((b && b.issue_datetime) || '').localeCompare(String((a && a.issue_datetime) || ''));
+        return alertStamp(b).localeCompare(alertStamp(a));
       }).slice(0, 6).map(function (a) {
         var msg = String(a.message || '').replace(/\r\n/g, '\n').trim();
         var firstLine = msg.split('\n').find(function (line) {
@@ -711,9 +735,9 @@
            message body before giving up on it. */
         var coded = msg.match(/Space Weather Message Code:\s*(\S+)/i);
         return {
-          issued: a.issue_datetime || a.issued || '',
+          issued: a.issue_datetime || a.issue_time || a.time_tag || a.issued || '',
           serial: a.serial_number || '',
-          type:   a.product_id || (coded && coded[1]) || a.message_type || 'Alert',
+          type:   a.product_id || a.product || (coded && coded[1]) || a.message_type || 'Alert',
           summary: firstLine || msg.slice(0, 220)
         };
       });
@@ -1131,10 +1155,17 @@
           impact: 'Storm-level Kp absorbs and refracts HF, especially on polar paths. SWPC reports ' + kpDescriptor(kp).toLowerCase() + '.' });
       } else if (kp != null && kp >= 4) {
         blockers.push({ concern: 'Active geomagnetic field', state: 'fair', label: 'Kp ' + fmtNum(kp, 1),
-          impact: 'Active field — northern paths degraded. Stay on workhorse 40 / 20 m.' });
+          impact: 'Active field — northern paths degraded. Stay on workhorse 40 / 20 m. '
+            + 'SFI penalty −' + kpPenalty(kp) + ' applied.' });
       } else if (kp != null) {
-        blockers.push({ concern: 'Geomagnetic field', state: 'good', label: 'Kp ' + fmtNum(kp, 1),
-          impact: 'Quiet field — no penalty applied.' });
+        /* State the penalty this Kp actually carries. This row read "Quiet
+           field — no penalty applied" for anything under Kp 4, while the
+           SFI_eff tile beside it showed the −10 that Kp above 2 does cost. */
+        var kpPen = kpPenalty(kp);
+        blockers.push({ concern: 'Geomagnetic field', state: kpPen ? 'fair' : 'good',
+          label: 'Kp ' + fmtNum(kp, 1),
+          impact: kpDescriptor(kp) + ' field — '
+            + (kpPen ? 'SFI penalty −' + kpPen + ' applied.' : 'no penalty applied.') });
       }
 
       if (sfi != null) {
