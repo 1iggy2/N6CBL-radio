@@ -15,9 +15,14 @@
   <meta name="twitter:site" content="@camgablex">
   <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
   <title>Design Language — N6CBL.radio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
 
   <header>
     <div class="site-id">
@@ -96,9 +101,9 @@
             </a>
           </li>
           <li class="nav-item nav-item-unimplemented">
-            <a href="/prints/">
+            <span class="nav-planned" title="Planned route, not published yet">
               <span class="nav-path">/prints/</span>
-            </a>
+            </span>
           </li>
           <li class="nav-item">
             <a href="/design/" aria-current="page">
@@ -148,7 +153,7 @@
           <dt>Power</dt>
           <dd>Bioenno LiFePO4</dd>
           <dt>Mode</dt>
-          <dd>SSB &middot; 20m</dd>
+          <dd>SSB &middot; FT8 &middot; CW study</dd>
           <dt>QTH</dt>
           <dd>DM03tu</dd>
         </dl>
@@ -164,7 +169,7 @@
 
     </nav>
 
-    <main class="main-content">
+    <main id="main" class="main-content">
 
       <div class="section-label split">
         <span>Design language</span>
@@ -363,7 +368,7 @@
           </tr>
           <tr>
             <td class="roadmap-feature">Permanent sidebar navigation</td>
-            <td class="desc">The nav tree is always fully expanded. No accordions, no hover-reveal, no expand buttons. Every public route is a peer row; implemented routes are plain text, unimplemented ones stay visible in muted text until they ship.</td>
+            <td class="desc">The nav tree is always fully expanded. No accordions, no hover-reveal, no expand buttons. Every public route is a peer row; implemented routes are plain text links, unimplemented ones stay visible in muted text until they ship &mdash; visible but not clickable, since a link to a page that does not exist is a 404 dressed as navigation.</td>
           </tr>
           <tr>
             <td class="roadmap-feature">Reference / inventory pages</td>
@@ -447,7 +452,7 @@
           </tr>
           <tr>
             <td class="roadmap-feature">Build step</td>
-            <td class="desc">None required for basic pages. The blog is the narrow exception: structured JSON source under <span class="path">/content/blog/</span> is compiled to static HTML so publishing never requires hand-editing markup.</td>
+            <td class="desc">No framework and no bundler. Two narrow generators produce committed static HTML: structured JSON under <span class="path">/content/blog/</span> is compiled into the blog so publishing never requires hand-editing markup, and the chrome repeated on every page &mdash; navigator, station facts, footer &mdash; is generated from <span class="path">/content/nav.json</span> because hand-copied chrome drifts, and all three blocks had.</td>
           </tr>
           <tr>
             <td class="roadmap-feature">Markup</td>
@@ -503,11 +508,12 @@
         <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
         <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
         <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
-        <rect x="6" y="8" width="4" height="1" fill="#0a0a0a"/>
-        <rect x="4" y="11" width="2" height="2" fill="#c8401a"/>
-        <rect x="10" y="11" width="2" height="2" fill="#c8401a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
       </svg>
-      <span>BUILT WITH CLAUDE CODE</span>
+      <span>VIBE CODED WITH <a href="https://claude.ai/code" target="_blank" rel="noopener">CLAUDE CODE</a> AND <a href="https://openai.com/codex/" target="_blank" rel="noopener">CODEX</a></span>
     </div>
   </footer>
 

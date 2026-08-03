@@ -30,6 +30,43 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+/* ── FOCUS + SKIP LINK ───────────────────────────────────────────── */
+/* The permanent sidebar puts ~16 nav rows plus four profile links ahead of the
+   content on every page, so keyboard and screen-reader users tabbed through
+   the whole navigator to reach it. The skip link is the first focusable thing
+   on the page; it is off-screen until focused, then lands in the top-left as a
+   plain black-on-accent bar. Nothing is hidden from anyone reading the page —
+   it only exists for the keyboard. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border: 2px solid var(--black);
+}
+
+.skip-link:focus { left: 0; }
+
+/* No explicit focus style existed, so the ring was whatever the browser drew
+   over a high-contrast layout. Make it the accent, offset so it reads against
+   both the light page and the black sidebar sections. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.sidenav-label :focus-visible,
+.op-card :focus-visible,
+.sidenav-section--op :focus-visible { outline-color: var(--white); }
+
 /* ── HEADER ──────────────────────────────────────────────────────── */
 header {
   border-bottom: 2px solid var(--rule);
@@ -143,7 +180,8 @@ header {
 /* nav tree */
 .nav-tree { list-style: none; }
 
-.nav-item a {
+.nav-item a,
+.nav-item .nav-planned {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -155,7 +193,8 @@ header {
   gap: 6px;
 }
 
-.nav-item:last-child a { border-bottom: none; }
+.nav-item:last-child a,
+.nav-item:last-child .nav-planned { border-bottom: none; }
 .nav-item a:hover { background: var(--tint); }
 
 .nav-item a[aria-current="page"],
@@ -166,11 +205,15 @@ header {
 
 .nav-path { font-family: var(--mono); white-space: nowrap; }
 
-.nav-item-unimplemented a {
-  color: #888;
+/* Unimplemented routes stay in the navigator but are rendered as a <span>,
+   not a link — see scripts/build-chrome.js. #888 on the page background is
+   about 2.9:1, below the 4.5:1 minimum, so muted here means #6a6a6a. */
+.nav-item-unimplemented .nav-planned {
+  color: #6a6a6a;
+  cursor: default;
 }
 
-.st-planned { color: #888; }
+.st-planned { color: #6a6a6a; }
 .st-wip     { color: var(--accent); font-weight: bold; }
 .st-live    { color: #2a7a2a; font-weight: bold; }
 .st-deferred { color: #666; font-style: italic; }
@@ -268,17 +311,18 @@ header {
 
 .section-label.split {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  overflow: hidden;
+  gap: 2px 12px;
 }
 
-.section-label.split > *:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
+/* Section labels wrap rather than clip. They used to be nowrap + ellipsis,
+   which silently ate the label on narrow viewports — "Western Union phonetic
+   alphabet" became "Western Union phonetic alpha…" on 11 pages at 390px, and
+   the map label lost its second half on / and /log/stats/. Verbosity over
+   opacity: the label is the page's structure, so it gets the extra line. */
+.section-label.split > *:first-child { min-width: 0; }
 
 .section-tag {
   font-size: 0.6rem;
@@ -747,6 +791,16 @@ footer div + div { border-left: 1px solid var(--rule); }
 footer a { color: inherit; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 
+/* The footer had no narrow-viewport rules, so its three columns kept splitting
+   a 390px viewport into ~90px boxes and every line broke after one or two
+   words. Stack it below 560px and move the dividing rules to the top edge.
+   Declared after the base rules so same-specificity ordering keeps it alive. */
+@media (max-width: 560px) {
+  footer { grid-template-columns: 1fr; }
+  footer div { flex-wrap: wrap; gap: 4px 16px; }
+  footer div + div { border-left: none; border-top: 1px solid var(--rule-2); }
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   /* Narrow the sidebar instead of stacking it — permanent sidebar is the design */
@@ -758,8 +812,10 @@ footer a:hover { text-decoration: underline; }
   .op-name     { font-size: 0.7rem; }
   .op-meta     { font-size: 0.6rem; }
   .sidenav-links a,
-  .nav-item a  { padding: 4px 8px; font-size: 0.65rem; }
-  .nav-item a  { flex-direction: column; align-items: flex-start; gap: 1px; }
+  .nav-item a,
+  .nav-item .nav-planned { padding: 4px 8px; font-size: 0.65rem; }
+  .nav-item a,
+  .nav-item .nav-planned { flex-direction: column; align-items: flex-start; gap: 1px; }
   .sidenav-label { padding: 3px 8px; }
   .page-intro h1 { font-size: 2.2rem; }
   header { grid-template-columns: auto minmax(0, 1fr); }
@@ -786,10 +842,21 @@ footer a:hover { text-decoration: underline; }
   .roadmap-design-table td:last-child,
   .roadmap-wide-col { display: none; }
 
-  /* QSO table: keep Date / UTC / Call / Band — drop enrichment and detail columns. */
-  .col-name, .col-qth, .col-mode, .col-freq, .col-rst,
-  td.qso-name, td.qso-qth, td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
+  /* QSO table: keep Date / UTC / Call / Band — drop enrichment and detail columns.
+     Scoped to the two log tables on purpose. The .qso-* classes are column types
+     shared with the stats page, so an unscoped `td.qso-mode { display: none }`
+     also blanked the mode names in /log/stats/ Bands & Modes and shifted the
+     Top Contacts body cells one column left of their headers. Hide the matching
+     <th> alongside every <td> so head and body always drop the same columns. */
+  #qso-table .col-name, #qso-table .col-qth, #qso-table .col-mode,
+  #qso-table .col-freq, #qso-table .col-rst,
+  #qso-table td.qso-name, #qso-table td.qso-qth, #qso-table td.qso-mode,
+  #qso-table td.qso-freq, #qso-table td.qso-rst { display: none; }
   #qso-table td, #qso-table th { padding: 4px 6px; }
+
+  /* Home lookup table: drop Mode (head and body together). */
+  #lookup-table th:nth-child(5),
+  #lookup-table td.qso-mode { display: none; }
 
   /* Log header: drop date range to prevent wrap on narrow screens */
   .log-header-range { display: none; }
@@ -969,18 +1036,16 @@ footer a:hover { text-decoration: underline; }
 .stats-core-grid .stat:nth-child(-n+6),
 .silly-stats-grid .stat:nth-child(-n+6) { border-top: none; }
 
+/* Curiosity cards wrap instead of clipping. At every width including 1440 the
+   ellipsis was cutting real values — "4 unique named calls · tied wi…" and
+   "AK6MB · CA · United States · D…" — which is the one thing a curiosity card
+   exists to show. The grid equalises row heights, so wrapping costs nothing. */
 .stat-curiosity .stat-value {
   font-size: 1.55rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
-.stat-curiosity .stat-sub {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.stat-curiosity .stat-sub { overflow-wrap: anywhere; }
 
 .stats-tables-row {
   display: grid;
@@ -1007,6 +1072,14 @@ footer a:hover { text-decoration: underline; }
 .top-contact-table th:last-child,
 .top-contact-table td:last-child { width: 46px; }
 .top-contact-table .qso-ref { overflow-wrap: anywhere; }
+/* Top Contacts has ten rows, not the log's hundreds, so a name gets a second
+   line rather than the log table's single-line ellipsis. */
+.top-contact-table .qso-name {
+  max-width: none;
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 
 @media (max-width: 768px) {
   .top-contact-table th,
@@ -2052,8 +2125,11 @@ td.prop-state {
 .tools-page section:last-child { border-bottom: none; }
 
 .tools-index-table { table-layout: fixed; }
+/* Wide enough for the longest route the workbenches carry. At 132px
+   /tools/ham/grayline/, /cabrillo/ and /callsign/ needed 143px and ran
+   straight into the Category column with no gap between them. */
 .tools-index-table th:first-child,
-.tools-index-table td:first-child { width: 132px; }
+.tools-index-table td:first-child { width: 156px; }
 .tools-index-table th:nth-child(2),
 .tools-index-table td:nth-child(2) { width: 110px; }
 .tools-index-table th:last-child,
@@ -2406,6 +2482,10 @@ td.tool-cta a:hover { text-decoration: underline; }
 
   .tools-index-table th:nth-child(2),
   .tools-index-table td:nth-child(2) { display: none; }
+  /* Category is gone here, so the route can go back to its tighter width and
+     leave the space to Function. */
+  .tools-index-table th:first-child,
+  .tools-index-table td:first-child { width: 132px; }
   .tools-index-table th,
   .tools-index-table td { padding: 4px 6px; }
 

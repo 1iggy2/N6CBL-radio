@@ -15,9 +15,14 @@
   <meta name="twitter:site" content="@camgablex">
   <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
   <title>Log Stats — N6CBL.radio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
 
   <header>
     <div class="site-id">
@@ -96,9 +101,9 @@
             </a>
           </li>
           <li class="nav-item nav-item-unimplemented">
-            <a href="/prints/">
+            <span class="nav-planned" title="Planned route, not published yet">
               <span class="nav-path">/prints/</span>
-            </a>
+            </span>
           </li>
           <li class="nav-item">
             <a href="/design/">
@@ -148,7 +153,7 @@
           <dt>Power</dt>
           <dd>Bioenno LiFePO4</dd>
           <dt>Mode</dt>
-          <dd>SSB &middot; 20m</dd>
+          <dd>SSB &middot; FT8 &middot; CW study</dd>
           <dt>QTH</dt>
           <dd>DM03tu</dd>
         </dl>
@@ -167,7 +172,7 @@
 
     </nav>
 
-    <div class="main-content">
+    <main id="main" class="main-content">
 
       <!-- ── MAP ─────────────────────────────────────────────────────── -->
       <section class="stats-map-section">
@@ -412,7 +417,7 @@
         <a href="/log/">Full QSO log &#8594;</a>
       </div>
 
-    </div><!-- /.main-content -->
+    </main><!-- /.main-content -->
 
   </div><!-- /.layout-body -->
 
@@ -436,7 +441,7 @@
         <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
         <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
       </svg>
-      <span>Vibe coded with <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a> and <a href="https://openai.com/codex/" target="_blank" rel="noopener">Codex</a></span>
+      <span>VIBE CODED WITH <a href="https://claude.ai/code" target="_blank" rel="noopener">CLAUDE CODE</a> AND <a href="https://openai.com/codex/" target="_blank" rel="noopener">CODEX</a></span>
     </div>
   </footer>
 
@@ -896,10 +901,29 @@
         html || '<tr><td colspan="5" style="color:var(--muted)">No contacts logged yet</td></tr>';
     }
 
+    /* QRZ returns the county as "ST,County" — the ADIF CNTY convention. Printed
+       raw next to the state it produced "CO,Park · CO · United States", with
+       the state twice and the county wearing a prefix that reads as a typo.
+       Split it into "Park, CO" and drop the standalone state when it agrees.
+       Where the two disagree — QRZ's mailing address against the logged state,
+       which happens for 8 of 139 contacts — both are kept, since collapsing
+       them would invent a fact. */
+    function formatCounty(contact) {
+      var raw = String(contact.county || '');
+      if (!raw) return null;
+      var comma = raw.indexOf(',');
+      if (comma === -1) return { text: raw, state: null };
+      var state = raw.slice(0, comma).trim();
+      var name = raw.slice(comma + 1).trim();
+      if (!name) return { text: state, state: state };
+      return { text: state ? name + ', ' + state : name, state: state || null };
+    }
+
     function formatLocation(contact) {
       var parts = [];
-      if (contact.county) parts.push(contact.county);
-      if (contact.state) parts.push(contact.state);
+      var county = formatCounty(contact);
+      if (county) parts.push(county.text);
+      if (contact.state && (!county || county.state !== contact.state)) parts.push(contact.state);
       if (contact.country && parts.indexOf(contact.country) === -1) parts.push(contact.country);
       if (contact.grid) parts.push(contact.grid);
       return parts.join(' · ') || '—';

@@ -11,3 +11,8 @@
 # python bytecode from running scripts/ and tests/
 __pycache__/
 *.py[cod]
+
+# scripts/check-widths.js needs Playwright, which is installed on demand and
+# never committed — the site itself has no npm dependencies.
+node_modules/
+package-lock.json

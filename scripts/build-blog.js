@@ -101,9 +101,12 @@ function renderHomeRow(post) {
 }
 
 function renderArticle(post) {
-  const bodyBlocks = Array.isArray(post.bodyHtml) ? post.bodyHtml : post.body;
+  const bodyBlocks = (Array.isArray(post.bodyHtml) ? post.bodyHtml : post.body)
+    .map((block) => sizeEmbeddedImages(block, post.photos));
   const photoHtml = renderPhotoGrid(photosNotEmbedded(post.photos, bodyBlocks));
-  const paragraphs = Array.isArray(post.bodyHtml) ? post.bodyHtml.map(renderHtmlBlock) : post.body.map(renderBodyBlock);
+  const paragraphs = Array.isArray(post.bodyHtml)
+    ? bodyBlocks.map(renderHtmlBlock)
+    : bodyBlocks.map(renderBodyBlock);
   return `        <article class="blog-post" id="${postId(post)}">\n          <header class="blog-post-header">\n            <div class="blog-post-date">${escapeHtml(post.date)}</div>\n            <h2>${escapeHtml(post.title)}</h2>\n            <div class="blog-post-meta">\n              <span>TYPE: ${escapeHtml(post.type.toUpperCase())}</span>\n              <span>TAGS: ${escapeHtml(post.tags.join(', ') || 'untagged')}</span>\n              <span>STATUS: LIVE</span>${renderPublishedMeta(post)}\n            </div>\n          </header>\n${photoHtml ? photoHtml + '\n' : ''}          <div class="blog-prose">\n${paragraphs.join('\n')}\n          </div>\n        </article>`;
 }
 
@@ -116,6 +119,22 @@ function formatPublishedAt(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toISOString().replace(/:\d{2}\.\d{3}Z$/, 'Z');
+}
+
+/* Figures pasted into the body carry only src/alt, while the photos array
+   already knows each image's intrinsic size. Copy the size onto the embedded
+   <img> so the browser reserves the box before the file arrives — without it
+   every lazy-loaded photo on /blog/ reflows the article below it. */
+function sizeEmbeddedImages(block, photos) {
+  if (!photos.length || !String(block).includes('<img')) return block;
+  return String(block).replace(/<img\b[^>]*>/gi, (tag) => {
+    if (/\bwidth=/i.test(tag)) return tag;
+    const src = tag.match(/\bsrc="([^"]*)"/i);
+    if (!src) return tag;
+    const photo = photos.find((p) => p.src === src[1]);
+    if (!photo || !photo.width || !photo.height) return tag;
+    return tag.replace(/\s*\/?>$/, ` width="${Number(photo.width)}" height="${Number(photo.height)}">`);
+  });
 }
 
 function photosNotEmbedded(photos, bodyBlocks) {
@@ -168,11 +187,40 @@ function renderExternalLink(url) {
   return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)} &#8599;</a>`;
 }
 
+/* Block-level elements the composer may paste into a body paragraph. These
+   cannot legally live inside <p>, so they are split out and emitted as
+   siblings instead of being wrapped. */
+const BLOCK_TAGS = 'figure|div|p|ul|ol|blockquote|pre|table|h[2-6]';
+const BLOCK_ELEMENT = new RegExp(`<(${BLOCK_TAGS})\\b[\\s\\S]*?</\\1\\s*>`, 'gi');
+
+/* A body block is one of: pure prose, a pure block element, or prose with a
+   pasted <figure> in the middle of it. The last case used to be wrapped whole
+   in <p>, producing `<p>text<figure>...</figure></p>` — invalid HTML that the
+   parser recovered from by closing the <p> early and leaving an empty one
+   behind, which is exactly what `tidy` reported on /blog/. Split the mixed
+   case into alternating prose and block siblings. */
 function renderHtmlBlock(html) {
   const value = String(html).trim();
-  if (/^<(?:figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b/i.test(value)) {
-    return indentHtmlBlock(value);
+  const pieces = [];
+  let lastIndex = 0;
+  let match;
+  BLOCK_ELEMENT.lastIndex = 0;
+  while ((match = BLOCK_ELEMENT.exec(value)) !== null) {
+    pieces.push({ block: false, text: value.slice(lastIndex, match.index) });
+    pieces.push({ block: true, text: match[0] });
+    lastIndex = match.index + match[0].length;
   }
+  pieces.push({ block: false, text: value.slice(lastIndex) });
+
+  const rendered = pieces
+    .map((piece) => (piece.block ? piece : { block: false, text: piece.text.trim() }))
+    .filter((piece) => piece.text)
+    .map((piece) => (piece.block ? indentHtmlBlock(piece.text) : wrapParagraph(piece.text)));
+
+  return rendered.length ? rendered.join('\n') : wrapParagraph(value);
+}
+
+function wrapParagraph(value) {
   return `            <p>\n              ${value}\n            </p>`;
 }
 

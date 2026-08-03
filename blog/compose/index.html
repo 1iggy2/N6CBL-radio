@@ -6,9 +6,14 @@
   <meta name="description" content="N6CBL blog composer — publish structured field reports and photo posts directly to GitHub.">
   <meta name="robots" content="noindex">
   <title>Blog Composer — N6CBL.radio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
 
   <header>
     <div class="site-id">
@@ -87,9 +92,9 @@
             </a>
           </li>
           <li class="nav-item nav-item-unimplemented">
-            <a href="/prints/">
+            <span class="nav-planned" title="Planned route, not published yet">
               <span class="nav-path">/prints/</span>
-            </a>
+            </span>
           </li>
           <li class="nav-item">
             <a href="/design/">
@@ -139,7 +144,7 @@
           <dt>Power</dt>
           <dd>Bioenno LiFePO4</dd>
           <dt>Mode</dt>
-          <dd>SSB &middot; 20m</dd>
+          <dd>SSB &middot; FT8 &middot; CW study</dd>
           <dt>QTH</dt>
           <dd>DM03tu</dd>
         </dl>
@@ -158,7 +163,7 @@
 
     </nav>
 
-    <main class="main-content">
+    <main id="main" class="main-content">
 
       <div class="section-label blog-meta">
         <span aria-label="/blog/compose/">&#x21B3; compose/ &mdash; owner publisher</span>
@@ -245,6 +250,7 @@
           <div class="composer-panel">
             <h2>Photo staging</h2>
             <p id="photo-target" class="composer-help">Select photos to see the target folder.</p>
+            <p id="photo-state" class="composer-help" aria-live="polite">Images are re-encoded to WebP at 2048&nbsp;px before staging.</p>
             <div id="photo-preview" class="photo-preview-grid"></div>
             <div id="photo-snippets" class="photo-snippet-list" aria-live="polite"></div>
           </div>
@@ -302,6 +308,30 @@
 
   </div><!-- /.layout-body -->
 
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">CONTACT VIA QRZ &#8599;</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
+      </svg>
+      <span>VIBE CODED WITH <a href="https://claude.ai/code" target="_blank" rel="noopener">CLAUDE CODE</a> AND <a href="https://openai.com/codex/" target="_blank" rel="noopener">CODEX</a></span>
+    </div>
+  </footer>
+
   <script src="/site-chrome.js"></script>
 
   <script>
@@ -311,6 +341,21 @@
     var IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];
     var IMAGE_EXTENSIONS = /\.(?:jpe?g|png|webp|gif|heic|heif)$/i;
     var imageDetails = {};
+
+    /* Photos are re-encoded in the browser before they are staged. Uploading
+       phone originals untouched put a .heic into /blog/ that only Safari could
+       render, and left images/ at 46 MB of 4032x3024 files rendered into boxes
+       at most 1220 px wide. CLAUDE.md asks for WebP, compressed before commit;
+       doing it here means it happens on every post, not when someone remembers.
+       Animated GIFs pass through — a canvas would flatten them to one frame —
+       and WebP is already the target format. */
+    var MAX_IMAGE_EDGE = 2048;
+    var WEBP_QUALITY = 0.82;
+    var PASSTHROUGH_EXTENSIONS = /\.(?:gif|webp)$/i;
+
+    /* The staged, re-encoded files. Every read goes through this rather than
+       photosEl.files, so what is previewed is what is committed. */
+    var stagedFiles = [];
 
     var dateEl = document.getElementById('post-date');
     var titleEl = document.getElementById('post-title');
@@ -324,6 +369,7 @@
     var photosEl = document.getElementById('post-photos');
     var photoTarget = document.getElementById('photo-target');
     var photoPreview = document.getElementById('photo-preview');
+    var photoState = document.getElementById('photo-state');
     var photoSnippets = document.getElementById('photo-snippets');
     var statusEl = document.getElementById('composer-status');
     var validationState = document.getElementById('validation-state');
@@ -348,8 +394,7 @@
     });
     document.getElementById('composer-form').addEventListener('input', render);
     photosEl.addEventListener('change', function () {
-      prefillCaptionLines();
-      renderPhotos();
+      stagePhotos();
     });
     previewButton.addEventListener('click', openRenderedPreview);
     submitButton.addEventListener('click', submitPost);
@@ -393,7 +438,7 @@
         tags: tagsEl.value.split(',').map(function (tag) { return tag.trim(); }).filter(Boolean),
         context: contextEl.value.trim(),
         body: bodyEl.value.split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean),
-        photos: Array.prototype.map.call(photosEl.files, function (file, index) {
+        photos: stagedFiles.map(function (file, index) {
           var caption = captionForFile(file, index);
           var fileName = safeFileName(file.name);
           var detail = imageDetails[fileKey(file)] || {};
@@ -476,7 +521,7 @@
 
       revokePreviewObjectUrls();
       var objectUrlsBySrc = {};
-      Array.prototype.forEach.call(photosEl.files, function (file, index) {
+      stagedFiles.forEach(function (file, index) {
         var photo = payload.photos[index];
         if (!photo) return;
         var objectUrl = URL.createObjectURL(file);
@@ -596,16 +641,41 @@
       return output;
     }
 
+    /* Mirrors renderHtmlBlock in scripts/build-blog.js. A paragraph with a
+       pasted <figure> in the middle of it must be split into siblings —
+       wrapping the whole thing in <p> is invalid HTML, and the preview has to
+       show the same structure the published page will get. Keep the two in
+       step when either changes. */
+    var PREVIEW_BLOCK_ELEMENT = /<(figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b[\s\S]*?<\/\1\s*>/gi;
+
     function indentPreviewHtmlBlock(html) {
       var value = String(html).trim();
-      if (/^<(?:figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b/i.test(value)) {
-        return value.split('\n').map(function (line) { return '          ' + line; }).join('\n');
+      var pieces = [];
+      var lastIndex = 0;
+      var match;
+      PREVIEW_BLOCK_ELEMENT.lastIndex = 0;
+      while ((match = PREVIEW_BLOCK_ELEMENT.exec(value)) !== null) {
+        pieces.push({ block: false, text: value.slice(lastIndex, match.index) });
+        pieces.push({ block: true, text: match[0] });
+        lastIndex = match.index + match[0].length;
       }
-      return [
-        '          <p>',
-        '            ' + value,
-        '          </p>'
-      ].join('\n');
+      pieces.push({ block: false, text: value.slice(lastIndex) });
+
+      var rendered = [];
+      pieces.forEach(function (piece) {
+        var text = piece.block ? piece.text : piece.text.trim();
+        if (!text) return;
+        rendered.push(piece.block ? indentPreviewBlock(text) : wrapPreviewParagraph(text));
+      });
+      return rendered.length ? rendered.join('\n') : wrapPreviewParagraph(value);
+    }
+
+    function indentPreviewBlock(value) {
+      return value.split('\n').map(function (line) { return '          ' + line; }).join('\n');
+    }
+
+    function wrapPreviewParagraph(value) {
+      return ['          <p>', '            ' + value, '          </p>'].join('\n');
     }
 
     function renderInlineText(text) {
@@ -682,7 +752,7 @@
 
     function prefillCaptionLines() {
       var existing = parseCaptionLines();
-      var nextLines = Array.prototype.map.call(photosEl.files, function (file) {
+      var nextLines = stagedFiles.map(function (file) {
         var safeName = safeFileName(file.name);
         var caption = existing.byName[file.name.toLowerCase()]
           || existing.byName[safeName.toLowerCase()]
@@ -730,7 +800,7 @@
     function renderPhotos() {
       photoPreview.innerHTML = '';
       imageDetails = {};
-      Array.prototype.forEach.call(photosEl.files, function (file) {
+      stagedFiles.forEach(function (file) {
         var item = document.createElement('figure');
         item.className = 'photo-preview-item';
         var img = document.createElement('img');
@@ -884,7 +954,75 @@
     }
 
     function totalSelectedBytes() {
-      return Array.prototype.reduce.call(photosEl.files, function (sum, file) { return sum + file.size; }, 0);
+      return stagedFiles.reduce(function (sum, file) { return sum + file.size; }, 0);
+    }
+
+    /* Re-encode the picked files, then refresh everything that reads them.
+       Files this browser cannot decode are dropped with an explicit message
+       rather than staged — a HEIC picked in Chrome or Firefox would otherwise
+       be committed as an image nothing but Safari can display. */
+    function stagePhotos() {
+      var picked = Array.prototype.slice.call(photosEl.files);
+      if (!picked.length) {
+        stagedFiles = [];
+        prefillCaptionLines();
+        renderPhotos();
+        return;
+      }
+
+      setStatus('Converting ' + picked.length + ' image' + (picked.length === 1 ? '' : 's'), 'todo');
+      photoTarget.textContent = 'Re-encoding to WebP…';
+
+      Promise.all(picked.map(function (file) {
+        return convertToWebp(file).then(
+          function (converted) { return { file: converted }; },
+          function (error) { return { error: file.name + ': ' + error.message }; }
+        );
+      })).then(function (results) {
+        stagedFiles = results.filter(function (r) { return r.file; }).map(function (r) { return r.file; });
+        var failures = results.filter(function (r) { return r.error; });
+        prefillCaptionLines();
+        renderPhotos();
+        if (failures.length) {
+          setStatus('Skipped ' + failures.length + ' image' + (failures.length === 1 ? '' : 's'), 'todo');
+          photoState.textContent = 'Not staged — ' + failures.map(function (f) { return f.error; }).join('; ');
+        } else {
+          setStatus('Ready', 'live');
+        }
+      });
+    }
+
+    function convertToWebp(file) {
+      if (PASSTHROUGH_EXTENSIONS.test(file.name)) return Promise.resolve(file);
+      if (!window.createImageBitmap || !document.createElement('canvas').toBlob) {
+        return Promise.reject(new Error('this browser cannot re-encode images'));
+      }
+      return createImageBitmap(file, { imageOrientation: 'from-image' })
+        .catch(function () {
+          throw new Error('this browser cannot decode ' + (file.type || 'that format')
+            + ' — export it as JPEG or PNG first');
+        })
+        .then(function (bitmap) {
+          var scale = Math.min(1, MAX_IMAGE_EDGE / Math.max(bitmap.width, bitmap.height));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+          canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+          canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+          bitmap.close();
+          return new Promise(function (resolve, reject) {
+            canvas.toBlob(function (blob) {
+              if (!blob) { reject(new Error('WebP encoding failed')); return; }
+              resolve(new File([blob], webpName(file.name), {
+                type: 'image/webp',
+                lastModified: file.lastModified
+              }));
+            }, 'image/webp', WEBP_QUALITY);
+          });
+        });
+    }
+
+    function webpName(name) {
+      return String(name || 'image').replace(/\.[^.]*$/, '') + '.webp';
     }
 
     function readFileBase64(file) {

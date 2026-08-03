@@ -1,5 +1,5 @@
 {
-  "note": "Single source of truth for the permanent sidebar navigator. Edit this file, then run `node scripts/build-chrome.js` to regenerate the nav block in every page. Do not hand-edit <ul class=\"nav-tree\"> in HTML.",
+  "note": "Single source of truth for the shared page chrome: the sidebar navigator, the sidebar station facts, and the site footer. Edit this file, then run `node scripts/build-chrome.js` to regenerate those blocks in every page. Do not hand-edit <ul class=\"nav-tree\">, <dl class=\"sidenav-dl\"> or <footer> in HTML — the copies drift.",
   "routes": [
     { "path": "/",             "label": "/" },
     { "path": "/log/",         "label": "/log/" },
@@ -13,5 +13,19 @@
     { "path": "/tools/uav/x/", "label": "uav/x/",  "child": true },
     { "path": "/prints/",      "label": "/prints/", "unimplemented": true },
     { "path": "/design/",      "label": "/design/" }
-  ]
+  ],
+  "station": [
+    { "label": "Radio",   "value": "Elecraft KX2" },
+    { "label": "Antenna", "value": "Chameleon SS-17" },
+    { "label": "Power",   "value": "Bioenno LiFePO4" },
+    { "label": "Mode",    "value": "SSB &middot; FT8 &middot; CW study" },
+    { "label": "QTH",     "value": "DM03tu" }
+  ],
+  "footer": {
+    "owner": "Cameron Gable &mdash; N6CBL.radio",
+    "rights": "ALL RIGHTS RESERVED",
+    "contactLabel": "CONTACT VIA QRZ &#8599;",
+    "contactUrl": "https://www.qrz.com/db/N6CBL",
+    "credit": "VIBE CODED WITH <a href=\"https://claude.ai/code\" target=\"_blank\" rel=\"noopener\">CLAUDE CODE</a> AND <a href=\"https://openai.com/codex/\" target=\"_blank\" rel=\"noopener\">CODEX</a>"
+  }
 }
