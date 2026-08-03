@@ -64,13 +64,19 @@ function renderNav(routes, currentRoute, indent) {
     const span = route.child
       ? `<span class="nav-path" aria-label="${route.path}">&#x21B3; ${route.label}</span>`
       : `<span class="nav-path">${route.label}</span>`;
-    return [
-      `${li}<li class="${itemClass}">`,
-      `${li}  <a href="${route.path}"${current}>`,
-      `${li}    ${span}`,
-      `${li}  </a>`,
-      `${li}</li>`,
-    ].join('\n');
+    /* An unimplemented route stays visible — CLAUDE.md requires it — but it is
+       not a link. /prints/ shipped as a live <a> to a page that does not exist,
+       so the one row on the site advertising future work was also the one row
+       that returned a 404. The muted row now says "planned" out loud instead of
+       inviting a click that fails. */
+    const body = route.unimplemented
+      ? [`${li}  <span class="nav-planned" title="Planned route, not published yet">`,
+         `${li}    ${span}`,
+         `${li}  </span>`]
+      : [`${li}  <a href="${route.path}"${current}>`,
+         `${li}    ${span}`,
+         `${li}  </a>`];
+    return [`${li}<li class="${itemClass}">`, ...body, `${li}</li>`].join('\n');
   });
   return `${indent}<ul class="nav-tree">\n${rows.join('\n')}\n${indent}</ul>`;
 }

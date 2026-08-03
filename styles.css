@@ -143,7 +143,8 @@ header {
 /* nav tree */
 .nav-tree { list-style: none; }
 
-.nav-item a {
+.nav-item a,
+.nav-item .nav-planned {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -155,7 +156,8 @@ header {
   gap: 6px;
 }
 
-.nav-item:last-child a { border-bottom: none; }
+.nav-item:last-child a,
+.nav-item:last-child .nav-planned { border-bottom: none; }
 .nav-item a:hover { background: var(--tint); }
 
 .nav-item a[aria-current="page"],
@@ -166,11 +168,15 @@ header {
 
 .nav-path { font-family: var(--mono); white-space: nowrap; }
 
-.nav-item-unimplemented a {
-  color: #888;
+/* Unimplemented routes stay in the navigator but are rendered as a <span>,
+   not a link — see scripts/build-chrome.js. #888 on the page background is
+   about 2.9:1, below the 4.5:1 minimum, so muted here means #6a6a6a. */
+.nav-item-unimplemented .nav-planned {
+  color: #6a6a6a;
+  cursor: default;
 }
 
-.st-planned { color: #888; }
+.st-planned { color: #6a6a6a; }
 .st-wip     { color: var(--accent); font-weight: bold; }
 .st-live    { color: #2a7a2a; font-weight: bold; }
 .st-deferred { color: #666; font-style: italic; }
@@ -769,8 +775,10 @@ footer a:hover { text-decoration: underline; }
   .op-name     { font-size: 0.7rem; }
   .op-meta     { font-size: 0.6rem; }
   .sidenav-links a,
-  .nav-item a  { padding: 4px 8px; font-size: 0.65rem; }
-  .nav-item a  { flex-direction: column; align-items: flex-start; gap: 1px; }
+  .nav-item a,
+  .nav-item .nav-planned { padding: 4px 8px; font-size: 0.65rem; }
+  .nav-item a,
+  .nav-item .nav-planned { flex-direction: column; align-items: flex-start; gap: 1px; }
   .sidenav-label { padding: 3px 8px; }
   .page-intro h1 { font-size: 2.2rem; }
   header { grid-template-columns: auto minmax(0, 1fr); }

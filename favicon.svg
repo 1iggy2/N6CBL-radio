@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="N6CBL">
+  <!-- Site mark: the callsign's leading letter and digit, in the site's
+       black/accent pair. Flat, no gradients, no rounding — same rules as the
+       rest of the site. Drawn as rectangles so it stays legible at 16px and
+       needs no font, matching the no-external-fonts constraint. -->
+  <rect width="32" height="32" fill="#0a0a0a"/>
+
+  <!-- N -->
+  <rect x="4"  y="7"  width="3" height="18" fill="#f5f5f0"/>
+  <rect x="12" y="7"  width="3" height="18" fill="#f5f5f0"/>
+  <rect x="7"  y="10" width="2" height="5"  fill="#f5f5f0"/>
+  <rect x="9"  y="14" width="2" height="5"  fill="#f5f5f0"/>
+  <rect x="11" y="18" width="2" height="5"  fill="#f5f5f0"/>
+
+  <!-- 6 -->
+  <rect x="18" y="7"  width="10" height="3" fill="#c8401a"/>
+  <rect x="18" y="7"  width="3"  height="18" fill="#c8401a"/>
+  <rect x="18" y="22" width="10" height="3" fill="#c8401a"/>
+  <rect x="18" y="14" width="10" height="3" fill="#c8401a"/>
+  <rect x="25" y="14" width="3"  height="11" fill="#c8401a"/>
+</svg>
