@@ -786,10 +786,21 @@ footer a:hover { text-decoration: underline; }
   .roadmap-design-table td:last-child,
   .roadmap-wide-col { display: none; }
 
-  /* QSO table: keep Date / UTC / Call / Band — drop enrichment and detail columns. */
-  .col-name, .col-qth, .col-mode, .col-freq, .col-rst,
-  td.qso-name, td.qso-qth, td.qso-mode, td.qso-freq, td.qso-rst { display: none; }
+  /* QSO table: keep Date / UTC / Call / Band — drop enrichment and detail columns.
+     Scoped to the two log tables on purpose. The .qso-* classes are column types
+     shared with the stats page, so an unscoped `td.qso-mode { display: none }`
+     also blanked the mode names in /log/stats/ Bands & Modes and shifted the
+     Top Contacts body cells one column left of their headers. Hide the matching
+     <th> alongside every <td> so head and body always drop the same columns. */
+  #qso-table .col-name, #qso-table .col-qth, #qso-table .col-mode,
+  #qso-table .col-freq, #qso-table .col-rst,
+  #qso-table td.qso-name, #qso-table td.qso-qth, #qso-table td.qso-mode,
+  #qso-table td.qso-freq, #qso-table td.qso-rst { display: none; }
   #qso-table td, #qso-table th { padding: 4px 6px; }
+
+  /* Home lookup table: drop Mode (head and body together). */
+  #lookup-table th:nth-child(5),
+  #lookup-table td.qso-mode { display: none; }
 
   /* Log header: drop date range to prevent wrap on narrow screens */
   .log-header-range { display: none; }
