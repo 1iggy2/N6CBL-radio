@@ -30,6 +30,43 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+/* ── FOCUS + SKIP LINK ───────────────────────────────────────────── */
+/* The permanent sidebar puts ~16 nav rows plus four profile links ahead of the
+   content on every page, so keyboard and screen-reader users tabbed through
+   the whole navigator to reach it. The skip link is the first focusable thing
+   on the page; it is off-screen until focused, then lands in the top-left as a
+   plain black-on-accent bar. Nothing is hidden from anyone reading the page —
+   it only exists for the keyboard. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border: 2px solid var(--black);
+}
+
+.skip-link:focus { left: 0; }
+
+/* No explicit focus style existed, so the ring was whatever the browser drew
+   over a high-contrast layout. Make it the accent, offset so it reads against
+   both the light page and the black sidebar sections. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.sidenav-label :focus-visible,
+.op-card :focus-visible,
+.sidenav-section--op :focus-visible { outline-color: var(--white); }
+
 /* ── HEADER ──────────────────────────────────────────────────────── */
 header {
   border-bottom: 2px solid var(--rule);
@@ -2088,8 +2125,11 @@ td.prop-state {
 .tools-page section:last-child { border-bottom: none; }
 
 .tools-index-table { table-layout: fixed; }
+/* Wide enough for the longest route the workbenches carry. At 132px
+   /tools/ham/grayline/, /cabrillo/ and /callsign/ needed 143px and ran
+   straight into the Category column with no gap between them. */
 .tools-index-table th:first-child,
-.tools-index-table td:first-child { width: 132px; }
+.tools-index-table td:first-child { width: 156px; }
 .tools-index-table th:nth-child(2),
 .tools-index-table td:nth-child(2) { width: 110px; }
 .tools-index-table th:last-child,
@@ -2442,6 +2482,10 @@ td.tool-cta a:hover { text-decoration: underline; }
 
   .tools-index-table th:nth-child(2),
   .tools-index-table td:nth-child(2) { display: none; }
+  /* Category is gone here, so the route can go back to its tighter width and
+     leave the space to Function. */
+  .tools-index-table th:first-child,
+  .tools-index-table td:first-child { width: 132px; }
   .tools-index-table th,
   .tools-index-table td { padding: 4px 6px; }
 
