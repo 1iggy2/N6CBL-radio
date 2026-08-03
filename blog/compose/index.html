@@ -596,16 +596,41 @@
       return output;
     }
 
+    /* Mirrors renderHtmlBlock in scripts/build-blog.js. A paragraph with a
+       pasted <figure> in the middle of it must be split into siblings —
+       wrapping the whole thing in <p> is invalid HTML, and the preview has to
+       show the same structure the published page will get. Keep the two in
+       step when either changes. */
+    var PREVIEW_BLOCK_ELEMENT = /<(figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b[\s\S]*?<\/\1\s*>/gi;
+
     function indentPreviewHtmlBlock(html) {
       var value = String(html).trim();
-      if (/^<(?:figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b/i.test(value)) {
-        return value.split('\n').map(function (line) { return '          ' + line; }).join('\n');
+      var pieces = [];
+      var lastIndex = 0;
+      var match;
+      PREVIEW_BLOCK_ELEMENT.lastIndex = 0;
+      while ((match = PREVIEW_BLOCK_ELEMENT.exec(value)) !== null) {
+        pieces.push({ block: false, text: value.slice(lastIndex, match.index) });
+        pieces.push({ block: true, text: match[0] });
+        lastIndex = match.index + match[0].length;
       }
-      return [
-        '          <p>',
-        '            ' + value,
-        '          </p>'
-      ].join('\n');
+      pieces.push({ block: false, text: value.slice(lastIndex) });
+
+      var rendered = [];
+      pieces.forEach(function (piece) {
+        var text = piece.block ? piece.text : piece.text.trim();
+        if (!text) return;
+        rendered.push(piece.block ? indentPreviewBlock(text) : wrapPreviewParagraph(text));
+      });
+      return rendered.length ? rendered.join('\n') : wrapPreviewParagraph(value);
+    }
+
+    function indentPreviewBlock(value) {
+      return value.split('\n').map(function (line) { return '          ' + line; }).join('\n');
+    }
+
+    function wrapPreviewParagraph(value) {
+      return ['          <p>', '            ' + value, '          </p>'].join('\n');
     }
 
     function renderInlineText(text) {

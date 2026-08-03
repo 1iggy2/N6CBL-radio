@@ -168,11 +168,40 @@ function renderExternalLink(url) {
   return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)} &#8599;</a>`;
 }
 
+/* Block-level elements the composer may paste into a body paragraph. These
+   cannot legally live inside <p>, so they are split out and emitted as
+   siblings instead of being wrapped. */
+const BLOCK_TAGS = 'figure|div|p|ul|ol|blockquote|pre|table|h[2-6]';
+const BLOCK_ELEMENT = new RegExp(`<(${BLOCK_TAGS})\\b[\\s\\S]*?</\\1\\s*>`, 'gi');
+
+/* A body block is one of: pure prose, a pure block element, or prose with a
+   pasted <figure> in the middle of it. The last case used to be wrapped whole
+   in <p>, producing `<p>text<figure>...</figure></p>` — invalid HTML that the
+   parser recovered from by closing the <p> early and leaving an empty one
+   behind, which is exactly what `tidy` reported on /blog/. Split the mixed
+   case into alternating prose and block siblings. */
 function renderHtmlBlock(html) {
   const value = String(html).trim();
-  if (/^<(?:figure|div|p|ul|ol|blockquote|pre|table|h[2-6])\b/i.test(value)) {
-    return indentHtmlBlock(value);
+  const pieces = [];
+  let lastIndex = 0;
+  let match;
+  BLOCK_ELEMENT.lastIndex = 0;
+  while ((match = BLOCK_ELEMENT.exec(value)) !== null) {
+    pieces.push({ block: false, text: value.slice(lastIndex, match.index) });
+    pieces.push({ block: true, text: match[0] });
+    lastIndex = match.index + match[0].length;
   }
+  pieces.push({ block: false, text: value.slice(lastIndex) });
+
+  const rendered = pieces
+    .map((piece) => (piece.block ? piece : { block: false, text: piece.text.trim() }))
+    .filter((piece) => piece.text)
+    .map((piece) => (piece.block ? indentHtmlBlock(piece.text) : wrapParagraph(piece.text)));
+
+  return rendered.length ? rendered.join('\n') : wrapParagraph(value);
+}
+
+function wrapParagraph(value) {
   return `            <p>\n              ${value}\n            </p>`;
 }
 
