@@ -368,7 +368,7 @@
           </tr>
           <tr>
             <td class="roadmap-feature">Permanent sidebar navigation</td>
-            <td class="desc">The nav tree is always fully expanded. No accordions, no hover-reveal, no expand buttons. Every public route is a peer row; implemented routes are plain text, unimplemented ones stay visible in muted text until they ship.</td>
+            <td class="desc">The nav tree is always fully expanded. No accordions, no hover-reveal, no expand buttons. Every public route is a peer row; implemented routes are plain text links, unimplemented ones stay visible in muted text until they ship &mdash; visible but not clickable, since a link to a page that does not exist is a 404 dressed as navigation.</td>
           </tr>
           <tr>
             <td class="roadmap-feature">Reference / inventory pages</td>
@@ -452,7 +452,7 @@
           </tr>
           <tr>
             <td class="roadmap-feature">Build step</td>
-            <td class="desc">None required for basic pages. The blog is the narrow exception: structured JSON source under <span class="path">/content/blog/</span> is compiled to static HTML so publishing never requires hand-editing markup.</td>
+            <td class="desc">No framework and no bundler. Two narrow generators produce committed static HTML: structured JSON under <span class="path">/content/blog/</span> is compiled into the blog so publishing never requires hand-editing markup, and the chrome repeated on every page &mdash; navigator, station facts, footer &mdash; is generated from <span class="path">/content/nav.json</span> because hand-copied chrome drifts, and all three blocks had.</td>
           </tr>
           <tr>
             <td class="roadmap-feature">Markup</td>
