@@ -9,34 +9,34 @@
   ],
   "context": "My new QSL cards have arrived",
   "body": [
-    "After receiving my first QSL card from WL7EA (Thanks Bob!) I decided to design my own QSL card to reply.\n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-07-13-new-qsl-cards/img_9289.jpeg\" alt=\"WL7EA\" loading=\"lazy\">\n  <figcaption>WL7EA</figcaption>\n</figure>",
-    "Custom design from a photo I took of a somewhat recent Starlink launch. \n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-07-13-new-qsl-cards/img_9373.jpeg\" alt=\"N6CBL FRONT\" loading=\"lazy\">\n  <figcaption>N6CBL FRONT</figcaption>\n</figure>",
+    "After receiving my first QSL card from WL7EA (Thanks Bob!) I decided to design my own QSL card to reply.\n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-07-13-new-qsl-cards/img_9289.webp\" alt=\"WL7EA\" loading=\"lazy\">\n  <figcaption>WL7EA</figcaption>\n</figure>",
+    "Custom design from a photo I took of a somewhat recent Starlink launch. \n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-07-13-new-qsl-cards/img_9373.webp\" alt=\"N6CBL FRONT\" loading=\"lazy\">\n  <figcaption>N6CBL FRONT</figcaption>\n</figure>",
     "Figured I'd post my first QSL card I'm sending back to WL7EA.",
-    "<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-07-13-new-qsl-cards/img_9374.jpeg\" alt=\"N6CBL REAR\" loading=\"lazy\">\n  <figcaption>N6CBL REAR</figcaption>\n</figure>",
+    "<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-07-13-new-qsl-cards/img_9374.webp\" alt=\"N6CBL REAR\" loading=\"lazy\">\n  <figcaption>N6CBL REAR</figcaption>\n</figure>",
     "Was such a joy to receive my first QSL card in the mail, have it pinned up in my shack. Looking forward to sending many more.",
     "73,\nCam N6CBL"
   ],
   "photos": [
     {
-      "src": "/images/blog/2026-07-13-new-qsl-cards/img_9289.jpeg",
+      "src": "/images/blog/2026-07-13-new-qsl-cards/img_9289.webp",
       "alt": "WL7EA",
       "caption": "WL7EA",
-      "width": 3024,
-      "height": 4032
+      "width": 1536,
+      "height": 2048
     },
     {
-      "src": "/images/blog/2026-07-13-new-qsl-cards/img_9373.jpeg",
+      "src": "/images/blog/2026-07-13-new-qsl-cards/img_9373.webp",
       "alt": "N6CBL FRONT",
       "caption": "N6CBL FRONT",
-      "width": 4284,
-      "height": 5712
+      "width": 1536,
+      "height": 2048
     },
     {
-      "src": "/images/blog/2026-07-13-new-qsl-cards/img_9374.jpeg",
+      "src": "/images/blog/2026-07-13-new-qsl-cards/img_9374.webp",
       "alt": "N6CBL REAR",
       "caption": "N6CBL REAR",
-      "width": 3024,
-      "height": 4032
+      "width": 1536,
+      "height": 2048
     }
   ]
 }

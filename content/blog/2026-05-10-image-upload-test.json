@@ -13,18 +13,18 @@
   ],
   "photos": [
     {
-      "src": "/images/blog/2026-05-10-image-upload-test/7026eb6e-90c0-426a-854c-697905c0bead.png",
+      "src": "/images/blog/2026-05-10-image-upload-test/7026eb6e-90c0-426a-854c-697905c0bead.webp",
       "alt": "otter contemplating life",
       "caption": "otter contemplating life",
       "width": 1024,
       "height": 1536
     },
     {
-      "src": "/images/blog/2026-05-10-image-upload-test/img_8417.jpeg",
+      "src": "/images/blog/2026-05-10-image-upload-test/img_8417.webp",
       "alt": "Hermosa beach",
       "caption": "Hermosa beach",
-      "width": 4284,
-      "height": 5712
+      "width": 1536,
+      "height": 2048
     }
   ]
 }

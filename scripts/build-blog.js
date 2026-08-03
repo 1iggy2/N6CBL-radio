@@ -101,9 +101,12 @@ function renderHomeRow(post) {
 }
 
 function renderArticle(post) {
-  const bodyBlocks = Array.isArray(post.bodyHtml) ? post.bodyHtml : post.body;
+  const bodyBlocks = (Array.isArray(post.bodyHtml) ? post.bodyHtml : post.body)
+    .map((block) => sizeEmbeddedImages(block, post.photos));
   const photoHtml = renderPhotoGrid(photosNotEmbedded(post.photos, bodyBlocks));
-  const paragraphs = Array.isArray(post.bodyHtml) ? post.bodyHtml.map(renderHtmlBlock) : post.body.map(renderBodyBlock);
+  const paragraphs = Array.isArray(post.bodyHtml)
+    ? bodyBlocks.map(renderHtmlBlock)
+    : bodyBlocks.map(renderBodyBlock);
   return `        <article class="blog-post" id="${postId(post)}">\n          <header class="blog-post-header">\n            <div class="blog-post-date">${escapeHtml(post.date)}</div>\n            <h2>${escapeHtml(post.title)}</h2>\n            <div class="blog-post-meta">\n              <span>TYPE: ${escapeHtml(post.type.toUpperCase())}</span>\n              <span>TAGS: ${escapeHtml(post.tags.join(', ') || 'untagged')}</span>\n              <span>STATUS: LIVE</span>${renderPublishedMeta(post)}\n            </div>\n          </header>\n${photoHtml ? photoHtml + '\n' : ''}          <div class="blog-prose">\n${paragraphs.join('\n')}\n          </div>\n        </article>`;
 }
 
@@ -116,6 +119,22 @@ function formatPublishedAt(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toISOString().replace(/:\d{2}\.\d{3}Z$/, 'Z');
+}
+
+/* Figures pasted into the body carry only src/alt, while the photos array
+   already knows each image's intrinsic size. Copy the size onto the embedded
+   <img> so the browser reserves the box before the file arrives — without it
+   every lazy-loaded photo on /blog/ reflows the article below it. */
+function sizeEmbeddedImages(block, photos) {
+  if (!photos.length || !String(block).includes('<img')) return block;
+  return String(block).replace(/<img\b[^>]*>/gi, (tag) => {
+    if (/\bwidth=/i.test(tag)) return tag;
+    const src = tag.match(/\bsrc="([^"]*)"/i);
+    if (!src) return tag;
+    const photo = photos.find((p) => p.src === src[1]);
+    if (!photo || !photo.width || !photo.height) return tag;
+    return tag.replace(/\s*\/?>$/, ` width="${Number(photo.width)}" height="${Number(photo.height)}">`);
+  });
 }
 
 function photosNotEmbedded(photos, bodyBlocks) {
