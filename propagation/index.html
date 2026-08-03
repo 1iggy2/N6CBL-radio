@@ -21,6 +21,8 @@
 </head>
 <body class="propagation-route">
 
+  <a class="skip-link" href="#main">Skip to main content</a>
+
   <header>
     <div class="site-id">
       <a href="/">
@@ -462,6 +464,13 @@
     var STATION = { lat: 33.8542, lon: -118.375, grid: 'DM03tu' };
     var HERMOSA = { lat: 33.8622, lon: -118.3995 };
 
+    /* Feeds come from the worker at /api/space-weather: same-origin, one
+       request, edge-cached, and it reports which upstreams failed instead of
+       swallowing them. The direct URLs stay as a fallback so the page still
+       works from `python3 -m http.server`, where there is no worker. */
+    var FEED_API = '/api/space-weather';
+    var FETCH_TIMEOUT_MS = 12000;
+
     var SWPC_FLUX  = 'https://services.swpc.noaa.gov/products/summary/10cm-flux.json';
     var SWPC_KP    = 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json';
     var SWPC_WIND  = 'https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json';
@@ -535,8 +544,15 @@
       return { state: 'poor', label: 'Closed' };
     }
 
+    /* Always time out. Without this a single stalled connection left every
+       section of the page pinned on "Loading…" indefinitely, because the whole
+       render waited on one Promise.all that could never settle. */
     function fetchJson(url) {
-      return fetch(url, { cache: 'no-store' }).then(function (r) {
+      var opts = { cache: 'no-store' };
+      if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) {
+        opts.signal = AbortSignal.timeout(FETCH_TIMEOUT_MS);
+      }
+      return fetch(url, opts).then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
       });
@@ -588,8 +604,13 @@
       return h12 + ':' + pad2(m) + ampm;
     }
 
+    /* SWPC stamps alerts "YYYY-MM-DD HH:MM:SS.sss" in UTC. `new Date()` reads
+       that space-separated form as *local* time, so the page was shifting every
+       alert by the viewer's offset and still labelling it Z. Parse the fields. */
     function fmtIsoUtcDate(iso) {
       if (!iso) return '—';
+      var m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})/);
+      if (m) return m[1] + '-' + m[2] + '-' + m[3] + ' ' + m[4] + ':' + m[5] + 'Z';
       var d = new Date(iso);
       if (isNaN(d.getTime())) return esc(iso);
       return d.getUTCFullYear() + '-' + pad2(d.getUTCMonth() + 1) + '-' + pad2(d.getUTCDate())
@@ -639,16 +660,25 @@
 
     function extractAlerts(data) {
       if (!Array.isArray(data)) return [];
-      return data.slice(0, 6).map(function (a) {
+      /* The worker already sorts and trims; sort again so the direct-upstream
+         fallback also honours the "most recent first" label on the section. */
+      return data.slice().sort(function (a, b) {
+        return String((b && b.issue_datetime) || '').localeCompare(String((a && a.issue_datetime) || ''));
+      }).slice(0, 6).map(function (a) {
         var msg = String(a.message || '').replace(/\r\n/g, '\n').trim();
         var firstLine = msg.split('\n').find(function (line) {
           return /SUMMARY|ALERT|WARNING|WATCH|EVENT|FORECAST/i.test(line);
         }) || msg.split('\n')[0] || '';
         firstLine = firstLine.replace(/^(?:SUMMARY|ALERT|WARNING|WATCH|EVENT|FORECAST)\s*:\s*/i, '').trim();
+        /* alerts.json carries product_id ("ALTK05", "WARK04", "SUMXM5"); it has
+           no space_weather_message_code field, so the Type column used to read
+           "Alert" on every single row. Fall back to the code embedded in the
+           message body before giving up on it. */
+        var coded = msg.match(/Space Weather Message Code:\s*(\S+)/i);
         return {
           issued: a.issue_datetime || a.issued || '',
-          serial: a.serial_number || a.product_id || '',
-          type:   a.space_weather_message_code || a.message_type || a.product || 'Alert',
+          serial: a.serial_number || '',
+          type:   a.product_id || (coded && coded[1]) || a.message_type || 'Alert',
           summary: firstLine || msg.slice(0, 220)
         };
       });
@@ -695,7 +725,8 @@
       var stamps = [];
       if (state.flux && state.flux.time) stamps.push('SFI ' + esc(state.flux.time));
       if (state.kp && state.kp.time)     stamps.push('Kp '  + esc(state.kp.time));
-      setHtml('prop-indices-stamp', stamps.length ? stamps.join(' &middot; ') : 'NOAA SWPC unreachable');
+      stamps.push(esc(transportLabel(state)));
+      setHtml('prop-indices-stamp', stamps.join(' &middot; '));
     }
 
     /* ── Band table ────────────────────────────────────────────────── */
@@ -854,9 +885,14 @@
     function renderAlerts(state) {
       var alerts = state.alerts || [];
       if (!alerts.length) {
-        setHtml('prop-alert-tbody',
-          '<tr class="propagation-empty-row"><td colspan="3">No recent SWPC alerts retrieved.</td></tr>');
-        setText('prop-alerts-stamp', 'SWPC products/alerts.json · unavailable');
+        /* A quiet sun and a dead feed are different states; say which. */
+        var down = (state.failures || []).some(function (f) { return f.label === FEED_LABELS.alerts; });
+        setHtml('prop-alert-tbody', '<tr class="propagation-empty-row"><td colspan="3">'
+          + (down ? 'SWPC alert feed unavailable.' : 'No SWPC alerts in the current window.')
+          + '</td></tr>');
+        setText('prop-alerts-stamp', down
+          ? 'SWPC products/alerts.json · unavailable'
+          : 'SWPC products/alerts.json · no active messages');
         return alerts;
       }
       var rows = alerts.map(function (a) {
@@ -979,7 +1015,7 @@
       var outlookState = 'unknown', outlookLabel = '—', outlookSub = 'Awaiting SWPC';
       if (sfi == null && kp == null) {
         outlookState = 'unknown'; outlookLabel = 'No data';
-        outlookSub = 'NOAA SWPC unreachable from this client';
+        outlookSub = 'No solar or geomagnetic data — see the data-feed row below';
       } else if (kp != null && kp >= 5) {
         outlookState = 'poor'; outlookLabel = 'Hold';
         outlookSub = 'Geomagnetic storm (Kp ' + fmtNum(kp, 1) + ') — defer activation';
@@ -1009,12 +1045,13 @@
            bandSummary.marginal.length ? bandSummary.marginal.slice(0, 4).join(' / ') : '—')
         : '—';
       setText('prop-bands-now', picks);
-      setText('prop-bands-now-sub', bandSummary
-        ? (bandSummary.isDay ? 'Day path · ' : 'Night path · ') + 'SFI<sub>eff</sub> ' + fmtNum(bandSummary.eff, 0)
-        : 'Awaiting solar indices');
-      var bnSub = document.getElementById('prop-bands-now-sub');
-      if (bnSub && bandSummary) {
-        bnSub.innerHTML = (bandSummary.isDay ? 'Day path &middot; ' : 'Night path &middot; ') + 'SFI<sub>eff</sub> ' + fmtNum(bandSummary.eff, 0);
+      /* Only claim a day/night path and an SFI_eff once there is one — this
+         read "Day path · SFI_eff —" with no solar data at all. */
+      if (bandSummary && bandSummary.eff != null) {
+        setHtml('prop-bands-now-sub', (bandSummary.isDay ? 'Day path &middot; ' : 'Night path &middot; ')
+          + 'SFI<sub>eff</sub> ' + fmtNum(bandSummary.eff, 0));
+      } else {
+        setText('prop-bands-now-sub', 'Awaiting solar indices');
       }
 
       if (bestHour) {
@@ -1039,8 +1076,21 @@
         setText('prop-weather-summary-sub', 'Hermosa Beach — weather feed unavailable');
       }
 
-      /* Blocker table */
+      /* Blocker table. A dead feed is itself a blocker — the page used to go
+         silently blank instead of naming the upstream that failed. */
       var blockers = [];
+      var failures = state.failures || [];
+      if (failures.length) {
+        blockers.push({
+          concern: 'Data feeds',
+          state: failures.length >= FEED_ORDER.length ? 'poor' : 'fair',
+          label: (FEED_ORDER.length - failures.length) + ' of ' + FEED_ORDER.length + ' live',
+          impact: 'Unavailable: ' + failures.map(function (f) {
+            return esc(f.label) + ' (' + esc(f.error) + ')';
+          }).join('; ') + '. Every figure below is computed only from the feeds that answered.'
+        });
+      }
+
       if (kp != null && kp >= 5) {
         blockers.push({ concern: 'Geomagnetic storm', state: 'poor', label: 'Kp ' + fmtNum(kp, 1),
           impact: 'Storm-level Kp absorbs and refracts HF, especially on polar paths. SWPC reports ' + kpDescriptor(kp).toLowerCase() + '.' });
@@ -1083,10 +1133,16 @@
         }
       }
 
-      if ((alerts || []).some(function (a) { return /WARNING|ALERT/i.test(a.type || ''); })) {
-        var hit = alerts.find(function (a) { return /WARNING|ALERT/i.test(a.type || ''); });
-        blockers.push({ concern: 'SWPC alert', state: 'fair', label: hit.type,
-          impact: hit.summary });
+      /* SWPC product ids are prefixed by kind: ALT* alert, WAR* warning,
+         WAT* watch, SUM* summary. Only the first three are actionable before
+         an activation — summaries are after-the-fact reports. */
+      function actionableAlert(a) {
+        return /^(?:ALT|WAR|WAT)/i.test(a.type || '') || /WARNING|ALERT|WATCH/i.test(a.type || '');
+      }
+      if ((alerts || []).some(actionableAlert)) {
+        var hit = alerts.find(actionableAlert);
+        blockers.push({ concern: 'SWPC alert', state: 'fair', label: esc(hit.type),
+          impact: esc(hit.summary) });
       }
 
       if (!blockers.length) {
@@ -1106,39 +1162,109 @@
       setText('prop-decision-stamp', stamp);
     }
 
-    /* ── Boot ──────────────────────────────────────────────────────── */
-    function init() {
-      Promise.all([
-        fetchJson(SWPC_FLUX).catch(function () { return null; }),
-        fetchJson(SWPC_KP).catch(function () { return null; }),
-        fetchJson(SWPC_WIND).catch(function () { return null; }),
-        fetchJson(SWPC_MAG).catch(function () { return null; }),
-        fetchJson(SWPC_ALERT).catch(function () { return null; }),
-        fetchJson(OPEN_METEO).catch(function () { return null; })
-      ]).then(function (results) {
-        var state = {
-          flux:    extractFlux(results[0]),
-          kp:      extractKp(results[1]),
-          wind:    extractWind(results[2]),
-          mag:     extractMag(results[3]),
-          alerts:  extractAlerts(results[4]),
-          weather: results[5]
-        };
-        var sunTimes = extractSunTimes(state.weather);
+    /* ── Feed transport ────────────────────────────────────────────── */
+    var FEED_ORDER = ['flux', 'kp', 'wind', 'mag', 'alerts', 'weather'];
+    var FEED_LABELS = {
+      flux:    'SWPC 10 cm flux',
+      kp:      'SWPC planetary Kp',
+      wind:    'SWPC solar wind speed',
+      mag:     'SWPC IMF magnetometer',
+      alerts:  'SWPC alerts',
+      weather: 'Open-Meteo forecast'
+    };
 
-        var isDayNow = isDayAtInstant(new Date(), sunTimes);
-        if (isDayNow == null) {
-          var u = new Date().getUTCHours();
-          isDayNow = (u >= 13 || u < 3);
-        }
+    function loadFeeds() {
+      var opts = { cache: 'no-store' };
+      if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) {
+        opts.signal = AbortSignal.timeout(FETCH_TIMEOUT_MS);
+      }
+      return fetch(FEED_API, opts).then(function (r) {
+        /* A 502 still carries the per-feed errors, so keep its body. Only a
+           transport failure or a non-JSON response — an asset 404 under
+           `python3 -m http.server` — sends us to the direct fallback. */
+        if (r.status !== 200 && r.status !== 502) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }).then(function (payload) {
+        if (!payload || !payload.feeds) throw new Error('unexpected payload');
+        return { transport: 'worker', generated: payload.generated || null, feeds: payload.feeds };
+      }).catch(loadFeedsDirect);
+    }
 
-        renderIndices(state);
-        var bandSummary = renderBands(state, isDayNow);
-        var bestHour = renderActivation(state, sunTimes);
-        var alerts = renderAlerts(state);
-        var weatherSummary = renderWeather(state, sunTimes);
-        renderDecision(state, bandSummary, bestHour, weatherSummary, alerts);
+    function loadFeedsDirect() {
+      var urls = [SWPC_FLUX, SWPC_KP, SWPC_WIND, SWPC_MAG, SWPC_ALERT, OPEN_METEO];
+      return Promise.all(urls.map(function (url) {
+        return fetchJson(url).then(
+          function (data) { return { ok: true, data: data }; },
+          function (err) { return { ok: false, error: (err && err.message) || 'unreachable' }; }
+        );
+      })).then(function (results) {
+        var feeds = {};
+        for (var i = 0; i < FEED_ORDER.length; i++) feeds[FEED_ORDER[i]] = results[i];
+        return { transport: 'direct', generated: null, feeds: feeds };
       });
+    }
+
+    function feedData(feeds, name) {
+      var feed = feeds && feeds[name];
+      return feed && feed.ok ? feed.data : null;
+    }
+
+    function feedFailures(feeds) {
+      var out = [];
+      for (var i = 0; i < FEED_ORDER.length; i++) {
+        var name = FEED_ORDER[i];
+        var feed = feeds && feeds[name];
+        if (!feed || !feed.ok) {
+          out.push({ label: FEED_LABELS[name], error: (feed && feed.error) || 'no response' });
+        }
+      }
+      return out;
+    }
+
+    function transportLabel(state) {
+      if (state.failures && state.failures.length === FEED_ORDER.length) return 'no feed reachable';
+      if (state.transport === 'worker') return 'via n6cbl.radio edge cache';
+      return 'direct from upstream';
+    }
+
+    /* ── Boot ──────────────────────────────────────────────────────── */
+    function render(payload) {
+      var feeds = payload.feeds || {};
+      var state = {
+        flux:      extractFlux(feedData(feeds, 'flux')),
+        kp:        extractKp(feedData(feeds, 'kp')),
+        wind:      extractWind(feedData(feeds, 'wind')),
+        mag:       extractMag(feedData(feeds, 'mag')),
+        alerts:    extractAlerts(feedData(feeds, 'alerts')),
+        weather:   feedData(feeds, 'weather'),
+        transport: payload.transport,
+        generated: payload.generated,
+        failures:  feedFailures(feeds)
+      };
+      var sunTimes = extractSunTimes(state.weather);
+
+      var isDayNow = isDayAtInstant(new Date(), sunTimes);
+      if (isDayNow == null) {
+        var u = new Date().getUTCHours();
+        isDayNow = (u >= 13 || u < 3);
+      }
+
+      renderIndices(state);
+      var bandSummary = renderBands(state, isDayNow);
+      var bestHour = renderActivation(state, sunTimes);
+      var alerts = renderAlerts(state);
+      var weatherSummary = renderWeather(state, sunTimes);
+      renderDecision(state, bandSummary, bestHour, weatherSummary, alerts);
+    }
+
+    function init() {
+      loadFeeds().catch(function (err) {
+        /* Render the failure rather than leaving every table on "Loading…". */
+        var feeds = {};
+        var reason = (err && err.message) || 'unreachable';
+        for (var i = 0; i < FEED_ORDER.length; i++) feeds[FEED_ORDER[i]] = { ok: false, error: reason };
+        return { transport: 'none', generated: null, feeds: feeds };
+      }).then(render);
     }
 
     if (document.readyState === 'loading') {

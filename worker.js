@@ -10,6 +10,35 @@ const MOVED_HAM_TOOLS = new Set([
   'grayline', 'grid', 'match', 'morse', 'qcodes', 'swr', 'tones', 'utc',
 ]);
 
+// /propagation/ used to fetch these six feeds cross-origin from the browser.
+// Every number on the page came from that, with no timeout and a single
+// Promise.all, so one unreachable or slow upstream blanked the whole page or
+// pinned it on "Loading…" forever. Fetch them here instead: same-origin for the
+// client, one request instead of six, per-feed errors reported rather than
+// swallowed, and an edge cache in front of SWPC.
+const SPACE_WEATHER_FEEDS = {
+  flux:   'https://services.swpc.noaa.gov/products/summary/10cm-flux.json',
+  kp:     'https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json',
+  wind:   'https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json',
+  mag:    'https://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json',
+  alerts: 'https://services.swpc.noaa.gov/products/alerts.json',
+  weather: 'https://api.open-meteo.com/v1/forecast'
+    + '?latitude=33.8622&longitude=-118.3995'
+    + '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover,precipitation,weather_code'
+    + '&hourly=temperature_2m,precipitation_probability,precipitation,wind_speed_10m,wind_gusts_10m,cloud_cover,weather_code'
+    + '&daily=sunrise,sunset'
+    + '&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch'
+    + '&timezone=America%2FLos_Angeles&forecast_days=2',
+};
+// SWPC publishes 10 cm flux and Kp on a ~3 hour cadence, so a 5 minute edge
+// cache costs the operator no freshness and keeps the page off SWPC per view.
+const SPACE_WEATHER_TTL = 300;
+const SPACE_WEATHER_TIMEOUT_MS = 8000;
+// products/alerts.json is the last 30 days of messages — roughly a megabyte.
+// The page shows six rows, so trim here rather than shipping all of it.
+const SPACE_WEATHER_ALERT_LIMIT = 12;
+const SPACE_WEATHER_ALERT_CHARS = 1200;
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -35,6 +64,10 @@ export default {
       return publishOwnerUpload(request, env);
     }
 
+    if (url.pathname === '/api/space-weather') {
+      return spaceWeather();
+    }
+
     if (url.pathname === '/api/pota-activations') {
       try {
         const resp = await fetch('https://api.pota.app/activation/N6CBL', {
@@ -58,6 +91,69 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+
+// Collect every propagation feed into one response. A feed that fails becomes
+// { ok: false, error } instead of taking the response down with it, so the page
+// can render what did arrive and name what did not.
+async function spaceWeather() {
+  const names = Object.keys(SPACE_WEATHER_FEEDS);
+  const results = await Promise.all(names.map((name) => fetchFeed(SPACE_WEATHER_FEEDS[name])));
+
+  const feeds = {};
+  names.forEach((name, i) => {
+    const result = results[i];
+    feeds[name] = result.ok && name === 'alerts'
+      ? { ok: true, data: trimSpaceWeatherAlerts(result.data) }
+      : result;
+  });
+
+  const live = names.filter((name) => feeds[name].ok).length;
+  return json(
+    {
+      generated: new Date().toISOString(),
+      feeds_total: names.length,
+      feeds_live: live,
+      feeds,
+    },
+    live ? 200 : 502,
+    { 'Cache-Control': `public, max-age=${SPACE_WEATHER_TTL}` },
+  );
+}
+
+async function fetchFeed(url) {
+  try {
+    const resp = await fetch(url, {
+      headers: {
+        'User-Agent': 'N6CBL.radio/1.0 (+https://n6cbl.radio/propagation/)',
+        Accept: 'application/json',
+      },
+      signal: AbortSignal.timeout(SPACE_WEATHER_TIMEOUT_MS),
+      cf: { cacheTtl: SPACE_WEATHER_TTL, cacheEverything: true },
+    });
+    if (!resp.ok) return { ok: false, error: `upstream HTTP ${resp.status}` };
+    return { ok: true, data: await resp.json() };
+  } catch (err) {
+    if (err && err.name === 'TimeoutError') {
+      return { ok: false, error: `upstream timeout after ${SPACE_WEATHER_TIMEOUT_MS} ms` };
+    }
+    return { ok: false, error: (err && err.message) || 'upstream unreachable' };
+  }
+}
+
+// SWPC issue_datetime is "YYYY-MM-DD HH:MM:SS.sss" UTC, which sorts
+// lexicographically, so sort explicitly rather than trusting the file order.
+function trimSpaceWeatherAlerts(data) {
+  if (!Array.isArray(data)) return [];
+  return data
+    .filter((alert) => alert && alert.issue_datetime)
+    .sort((a, b) => String(b.issue_datetime).localeCompare(String(a.issue_datetime)))
+    .slice(0, SPACE_WEATHER_ALERT_LIMIT)
+    .map((alert) => ({
+      issue_datetime: alert.issue_datetime,
+      product_id: alert.product_id || '',
+      message: String(alert.message || '').slice(0, SPACE_WEATHER_ALERT_CHARS),
+    }));
+}
 
 async function publishOwnerUpload(request, env) {
   const payloadResult = await readPublisherPayload(request, env);

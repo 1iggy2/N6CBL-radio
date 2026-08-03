@@ -258,7 +258,21 @@ you decided to leave alone and why — silently expanding scope is its own defec
 
 ### Repository workflow
 
-Agents should always push directly to `main` without opening a pull request.
+Agents work on a branch and open a pull request. Do not push to `main` directly,
+and do not wait to be asked for the PR — finishing a task means the work is on a
+branch, pushed, and has a PR open against `main`. The operator should never have
+to request one.
+
+If the branch you were given already has an open pull request, push your commits
+to that branch so they fold into it rather than opening a second PR for the same
+work. Open a new PR only when the branch has none, or when its PR is already
+merged — a merged PR is finished and cannot track new work, so restart the branch
+from the latest `main` and open a fresh PR.
+
+Keep the commit discipline described above inside the PR: one commit per concern,
+with unrelated fixes separable, so a single commit can be reverted without
+touching the rest. The PR body should say what changed and why, name anything
+fixed beyond what was asked, and state what was verified.
 
 ### Mobile width discipline
 

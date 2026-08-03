@@ -39,6 +39,21 @@ body {
 }
 a { color: var(--grn); text-decoration: none; }
 a:hover { text-decoration: underline; }
+/* Same affordance as the rest of the site, drawn in this page's palette. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10;
+  padding: 8px 12px;
+  background: var(--grn);
+  color: var(--bg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.skip-link:focus { left: 0; }
 h2 {
   font-family: var(--mono);
   font-size: 0.9rem;
