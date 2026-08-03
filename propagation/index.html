@@ -618,10 +618,45 @@
     }
 
     /* ── Parse SWPC payloads ───────────────────────────────────────── */
+    /* SWPC is inconsistent about case across products, so match keys case
+       insensitively rather than pinning one spelling. A missing value returns
+       null and is reported as a bad feed, not silently rendered as a dash. */
+    function pickKey(data, names) {
+      if (!data || typeof data !== 'object') return null;
+      var keys = Object.keys(data);
+      for (var i = 0; i < names.length; i++) {
+        for (var j = 0; j < keys.length; j++) {
+          if (keys[j].toLowerCase() === names[i].toLowerCase() && data[keys[j]] != null) return data[keys[j]];
+        }
+      }
+      return null;
+    }
+
+    function pickNumber(data, names) {
+      var raw = pickKey(data, names);
+      if (raw == null) return null;
+      var v = Number(raw);
+      return isNaN(v) ? null : v;
+    }
+
+    function stampOf(data) {
+      var t = pickKey(data, ['TimeStamp', 'time_tag', 'time']);
+      return t == null ? null : String(t);
+    }
+
     function extractFlux(data) {
-      if (!data || data.Flux == null) return null;
-      var v = Number(data.Flux);
-      return isNaN(v) ? null : { value: v, time: data.TimeStamp || null };
+      var v = pickNumber(data, ['Flux', 'flux_10cm', 'f10.7']);
+      return v == null ? null : { value: v, time: stampOf(data) };
+    }
+
+    function headerIndex(header, names) {
+      if (!Array.isArray(header)) return -1;
+      for (var i = 0; i < names.length; i++) {
+        for (var j = 0; j < header.length; j++) {
+          if (String(header[j]).toLowerCase() === names[i].toLowerCase()) return j;
+        }
+      }
+      return -1;
     }
 
     function extractKp(data) {
@@ -629,11 +664,14 @@
       var header = data[0];
       var last = data[data.length - 1];
       if (!Array.isArray(last)) return null;
-      var kpIdx = header.indexOf('Kp');
-      var aIdx  = header.indexOf('a_running');
-      var tIdx  = header.indexOf('time_tag');
+      var kpIdx = headerIndex(header, ['Kp', 'kp_index', 'estimated_kp']);
+      var aIdx  = headerIndex(header, ['a_running', 'A']);
+      var tIdx  = headerIndex(header, ['time_tag']);
+      /* Column 1 is Kp in every published layout, so that fallback is safe.
+         There is no safe positional guess for the A index — guessing it read
+         whatever column happened to sit at index 2. Report it missing. */
       var kp = Number(last[kpIdx >= 0 ? kpIdx : 1]);
-      var a  = Number(last[aIdx  >= 0 ? aIdx  : 2]);
+      var a  = aIdx >= 0 ? Number(last[aIdx]) : NaN;
       return {
         kp: isNaN(kp) ? null : kp,
         a:  isNaN(a)  ? null : a,
@@ -642,19 +680,16 @@
     }
 
     function extractWind(data) {
-      if (!data || data.WindSpeed == null) return null;
-      var v = Number(data.WindSpeed);
-      return isNaN(v) ? null : { value: v, time: data.TimeStamp || null };
+      var v = pickNumber(data, ['WindSpeed', 'wind_speed', 'speed']);
+      return v == null ? null : { value: v, time: stampOf(data) };
     }
 
     function extractMag(data) {
-      if (!data) return null;
-      var bz = data.Bz != null ? Number(data.Bz) : null;
-      var bt = data.Bt != null ? Number(data.Bt) : null;
+      if (!data || typeof data !== 'object') return null;
       return {
-        bz: bz != null && !isNaN(bz) ? bz : null,
-        bt: bt != null && !isNaN(bt) ? bt : null,
-        time: data.TimeStamp || null
+        bz: pickNumber(data, ['Bz', 'bz_gsm']),
+        bt: pickNumber(data, ['Bt', 'bt']),
+        time: stampOf(data)
       };
     }
 
@@ -1209,22 +1244,52 @@
       return feed && feed.ok ? feed.data : null;
     }
 
-    function feedFailures(feeds) {
+    /* Describe a payload we could not read, so a schema change upstream names
+       itself instead of showing as an unexplained row of dashes. */
+    function describePayload(data) {
+      if (data == null) return 'empty body';
+      if (Array.isArray(data)) {
+        if (!data.length) return 'empty array';
+        var head = data[0];
+        if (Array.isArray(head)) return 'array[' + data.length + '], header: ' + head.join(',');
+        if (head && typeof head === 'object') return 'array[' + data.length + '] of objects, keys: ' + Object.keys(head).join(',');
+        return 'array[' + data.length + '] of ' + typeof head;
+      }
+      if (typeof data === 'object') {
+        var keys = Object.keys(data);
+        return keys.length ? 'object, keys: ' + keys.join(',') : 'empty object';
+      }
+      return typeof data;
+    }
+
+    /* A feed that answers 200 with a body we cannot parse is a failure too.
+       Treating "responded" as "healthy" is what left the page showing dashes
+       under a reassuring "edge cache" label with nothing to explain it. */
+    function feedFailures(feeds, usable) {
       var out = [];
       for (var i = 0; i < FEED_ORDER.length; i++) {
         var name = FEED_ORDER[i];
         var feed = feeds && feeds[name];
         if (!feed || !feed.ok) {
           out.push({ label: FEED_LABELS[name], error: (feed && feed.error) || 'no response' });
+        } else if (usable && !usable[name]) {
+          out.push({
+            label: FEED_LABELS[name],
+            error: 'HTTP 200, but no usable value — ' + describePayload(feed.data)
+          });
         }
       }
       return out;
     }
 
     function transportLabel(state) {
-      if (state.failures && state.failures.length === FEED_ORDER.length) return 'no feed reachable';
-      if (state.transport === 'worker') return 'via n6cbl.radio edge cache';
-      return 'direct from upstream';
+      var failed = (state.failures || []).length;
+      var base = failed === FEED_ORDER.length && state.transport === 'none' ? 'no feed reachable'
+        : state.transport === 'worker' ? 'via n6cbl.radio edge cache'
+        : 'direct from upstream';
+      if (!failed) return base;
+      /* Escaped by the caller, so use the character, not the entity. */
+      return base + ' · ' + (FEED_ORDER.length - failed) + ' of ' + FEED_ORDER.length + ' feeds usable';
     }
 
     /* ── Boot ──────────────────────────────────────────────────────── */
@@ -1238,9 +1303,18 @@
         alerts:    extractAlerts(feedData(feeds, 'alerts')),
         weather:   feedData(feeds, 'weather'),
         transport: payload.transport,
-        generated: payload.generated,
-        failures:  feedFailures(feeds)
+        generated: payload.generated
       };
+      /* An empty alert list is a legitimate quiet-sun answer, so alerts count
+         as usable whenever the feed really is a list. */
+      state.failures = feedFailures(feeds, {
+        flux:    state.flux != null,
+        kp:      state.kp != null && state.kp.kp != null,
+        wind:    state.wind != null,
+        mag:     state.mag != null && (state.mag.bz != null || state.mag.bt != null),
+        alerts:  Array.isArray(feedData(feeds, 'alerts')),
+        weather: !!(state.weather && state.weather.current)
+      });
       var sunTimes = extractSunTimes(state.weather);
 
       var isDayNow = isDayAtInstant(new Date(), sunTimes);
