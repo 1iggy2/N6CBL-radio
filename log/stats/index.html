@@ -898,10 +898,29 @@
         html || '<tr><td colspan="5" style="color:var(--muted)">No contacts logged yet</td></tr>';
     }
 
+    /* QRZ returns the county as "ST,County" — the ADIF CNTY convention. Printed
+       raw next to the state it produced "CO,Park · CO · United States", with
+       the state twice and the county wearing a prefix that reads as a typo.
+       Split it into "Park, CO" and drop the standalone state when it agrees.
+       Where the two disagree — QRZ's mailing address against the logged state,
+       which happens for 8 of 139 contacts — both are kept, since collapsing
+       them would invent a fact. */
+    function formatCounty(contact) {
+      var raw = String(contact.county || '');
+      if (!raw) return null;
+      var comma = raw.indexOf(',');
+      if (comma === -1) return { text: raw, state: null };
+      var state = raw.slice(0, comma).trim();
+      var name = raw.slice(comma + 1).trim();
+      if (!name) return { text: state, state: state };
+      return { text: state ? name + ', ' + state : name, state: state || null };
+    }
+
     function formatLocation(contact) {
       var parts = [];
-      if (contact.county) parts.push(contact.county);
-      if (contact.state) parts.push(contact.state);
+      var county = formatCounty(contact);
+      if (county) parts.push(county.text);
+      if (contact.state && (!county || county.state !== contact.state)) parts.push(contact.state);
       if (contact.country && parts.indexOf(contact.country) === -1) parts.push(contact.country);
       if (contact.grid) parts.push(contact.grid);
       return parts.join(' · ') || '—';
