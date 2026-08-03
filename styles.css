@@ -268,17 +268,18 @@ header {
 
 .section-label.split {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  overflow: hidden;
+  gap: 2px 12px;
 }
 
-.section-label.split > *:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
+/* Section labels wrap rather than clip. They used to be nowrap + ellipsis,
+   which silently ate the label on narrow viewports — "Western Union phonetic
+   alphabet" became "Western Union phonetic alpha…" on 11 pages at 390px, and
+   the map label lost its second half on / and /log/stats/. Verbosity over
+   opacity: the label is the page's structure, so it gets the extra line. */
+.section-label.split > *:first-child { min-width: 0; }
 
 .section-tag {
   font-size: 0.6rem;
@@ -747,6 +748,16 @@ footer div + div { border-left: 1px solid var(--rule); }
 footer a { color: inherit; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 
+/* The footer had no narrow-viewport rules, so its three columns kept splitting
+   a 390px viewport into ~90px boxes and every line broke after one or two
+   words. Stack it below 560px and move the dividing rules to the top edge.
+   Declared after the base rules so same-specificity ordering keeps it alive. */
+@media (max-width: 560px) {
+  footer { grid-template-columns: 1fr; }
+  footer div { flex-wrap: wrap; gap: 4px 16px; }
+  footer div + div { border-left: none; border-top: 1px solid var(--rule-2); }
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   /* Narrow the sidebar instead of stacking it — permanent sidebar is the design */
@@ -980,18 +991,16 @@ footer a:hover { text-decoration: underline; }
 .stats-core-grid .stat:nth-child(-n+6),
 .silly-stats-grid .stat:nth-child(-n+6) { border-top: none; }
 
+/* Curiosity cards wrap instead of clipping. At every width including 1440 the
+   ellipsis was cutting real values — "4 unique named calls · tied wi…" and
+   "AK6MB · CA · United States · D…" — which is the one thing a curiosity card
+   exists to show. The grid equalises row heights, so wrapping costs nothing. */
 .stat-curiosity .stat-value {
   font-size: 1.55rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
-.stat-curiosity .stat-sub {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.stat-curiosity .stat-sub { overflow-wrap: anywhere; }
 
 .stats-tables-row {
   display: grid;
@@ -1018,6 +1027,14 @@ footer a:hover { text-decoration: underline; }
 .top-contact-table th:last-child,
 .top-contact-table td:last-child { width: 46px; }
 .top-contact-table .qso-ref { overflow-wrap: anywhere; }
+/* Top Contacts has ten rows, not the log's hundreds, so a name gets a second
+   line rather than the log table's single-line ellipsis. */
+.top-contact-table .qso-name {
+  max-width: none;
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 
 @media (max-width: 768px) {
   .top-contact-table th,
