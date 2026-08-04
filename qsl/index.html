@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="N6CBL QSL card — Falcon 9 front artwork, the confirmation fields printed on the back, accepted confirmation routes, and the QSL reach of every station worked.">
+  <meta name="description" content="N6CBL QSL card — Falcon 9 front artwork, card specification, accepted confirmation routes, and the QSL reach of every station worked.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://n6cbl.radio/qsl/">
   <meta property="og:title" content="QSL Card — N6CBL.radio">
-  <meta property="og:description" content="The N6CBL QSL card: Falcon 9 front artwork, the confirmation form on the back, and how contacts with N6CBL are confirmed.">
+  <meta property="og:description" content="The N6CBL QSL card: Falcon 9 front artwork, card specification, and how contacts with N6CBL are confirmed.">
   <meta property="og:image" content="https://n6cbl.radio/images/qsl/n6cbl-qsl-front.webp">
   <meta property="og:image:width" content="1600">
   <meta property="og:image:height" content="1081">
@@ -181,7 +181,7 @@
 
       <div class="section-label radio-meta">
         <span>/qsl/ &mdash; qsl card</span>
-        <span>card / fields / confirmation routes</span>
+        <span>card / specification / confirmation routes</span>
       </div>
 
       <section class="qsl-card-section" aria-labelledby="qsl-front-heading">
@@ -232,7 +232,7 @@
             <tr>
               <td class="path">Back</td>
               <td class="radio-value">QSO confirmation form</td>
-              <td class="desc radio-note-col">Nine printed fields, a return-address block, and a handwritten message area &mdash; field list below</td>
+              <td class="desc radio-note-col">Callsign, date, UTC, frequency, mode, both signal reports, and both POTA references, beside a return-address block and a handwritten message area</td>
             </tr>
             <tr>
               <td class="path">In hand since</td>
@@ -248,74 +248,6 @@
               <td class="path">Sending practice</td>
               <td class="radio-value">Reply to cards received</td>
               <td class="desc radio-note-col">A card that arrives gets a card back; the mailing address is the one published on QRZ</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="qsl-fields" aria-labelledby="qsl-fields-heading">
-        <div class="section-label split">
-          <span id="qsl-fields-heading">Card back &mdash; printed confirmation fields</span>
-          <span class="log-count">9 fields + message area</span>
-        </div>
-        <table class="radio-reference-table">
-          <thead>
-            <tr>
-              <th>Printed field</th>
-              <th>Filled from</th>
-              <th class="radio-note-col">Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="path">Confirming QSO with</td>
-              <td class="radio-value">Callsign worked</td>
-              <td class="desc radio-note-col">The station being confirmed, written across the top of the form</td>
-            </tr>
-            <tr>
-              <td class="path">Date</td>
-              <td class="radio-value">QSO date</td>
-              <td class="desc radio-note-col">Written YYYY-MM-DD, matching the published log</td>
-            </tr>
-            <tr>
-              <td class="path">UTC</td>
-              <td class="radio-value">Time on, Zulu</td>
-              <td class="desc radio-note-col">Contact time in UTC, not local &mdash; the log column of the same name</td>
-            </tr>
-            <tr>
-              <td class="path">MHz</td>
-              <td class="radio-value">Dial frequency</td>
-              <td class="desc radio-note-col">Exact frequency rather than band alone, so the card is checkable against the log</td>
-            </tr>
-            <tr>
-              <td class="path">Mode</td>
-              <td class="radio-value">SSB / FT8 / CW</td>
-              <td class="desc radio-note-col">Current station modes; every card mailed so far reads SSB</td>
-            </tr>
-            <tr>
-              <td class="path">RST sent</td>
-              <td class="radio-value">Report given</td>
-              <td class="desc radio-note-col">Signal report N6CBL passed to the other station</td>
-            </tr>
-            <tr>
-              <td class="path">RST rcvd</td>
-              <td class="radio-value">Report received</td>
-              <td class="desc radio-note-col">Signal report the other station passed back</td>
-            </tr>
-            <tr>
-              <td class="path">My park</td>
-              <td class="radio-value">POTA reference</td>
-              <td class="desc radio-note-col">Park N6CBL was activating, when the contact was made from one &mdash; US-3425 on the first card</td>
-            </tr>
-            <tr>
-              <td class="path">Your park</td>
-              <td class="radio-value">POTA reference</td>
-              <td class="desc radio-note-col">Park the other station was activating, which makes the contact park-to-park</td>
-            </tr>
-            <tr>
-              <td class="path">Message area</td>
-              <td class="radio-value">Handwritten</td>
-              <td class="desc radio-note-col">Addressee block, note, and the front-image credit line share the right half of the back</td>
             </tr>
           </tbody>
         </table>
@@ -367,33 +299,6 @@
         <div class="pota-footer">
           <span>Flags read from each worked station&rsquo;s QRZ profile, cached in /data/qso-log.json</span>
           <a href="/log/stats/">Full stats &#8594;</a>
-        </div>
-      </section>
-
-      <section class="qsl-candidates" aria-labelledby="qsl-candidates-heading">
-        <div class="section-label split">
-          <span id="qsl-candidates-heading">Paper-card candidates &mdash; worked stations whose QRZ profile accepts a mailed card</span>
-          <span id="qsl-cand-count" class="log-count">&mdash;</span>
-        </div>
-        <div class="table-scroll">
-          <table class="qsl-cand-table">
-            <thead>
-              <tr>
-                <th>Call</th>
-                <th>Operator</th>
-                <th>Last worked</th>
-                <th>Also confirms</th>
-                <th>QRZ</th>
-              </tr>
-            </thead>
-            <tbody id="qsl-cand-tbody">
-              <tr><td colspan="5" style="color:var(--muted)">Loading&hellip;</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pota-footer">
-          <span id="qsl-cand-meta">Sorted by most recent contact</span>
-          <a href="/log/">Full QSO log &#8594;</a>
         </div>
       </section>
 
@@ -461,9 +366,6 @@
   (function () {
     var reachTbody = document.getElementById('qsl-reach-tbody');
     var reachCount = document.getElementById('qsl-reach-count');
-    var candTbody  = document.getElementById('qsl-cand-tbody');
-    var candCount  = document.getElementById('qsl-cand-count');
-    var candMeta   = document.getElementById('qsl-cand-meta');
 
     function esc(s) {
       return String(s)
@@ -529,58 +431,12 @@
       reachCount.textContent = total + ' of ' + stations.length + ' worked stations carry a QRZ record';
     }
 
-    function renderCandidates(stations, sessions) {
-      var sessMap = {};
-      (sessions || []).forEach(function (s) { sessMap[s.id] = s; });
-
-      var mail = stations.filter(function (q) { return q.mqsl; });
-      mail.sort(function (a, b) {
-        var ka = (a.date || '') + ' ' + (a.time || '');
-        var kb = (b.date || '') + ' ' + (b.time || '');
-        return kb < ka ? -1 : kb > ka ? 1 : 0;
-      });
-
-      if (!mail.length) {
-        candTbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">No worked station lists a mail QSL route.</td></tr>';
-        candCount.textContent = '0 stations';
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < mail.length; i++) {
-        var q = mail[i];
-        var s = sessMap[q.session];
-        var when = q.date || '—';
-        if (s && s.type === 'pota' && s.reference) when += ' · ' + s.reference;
-
-        var also = [];
-        if (q.lotw) also.push('LoTW');
-        if (q.eqsl) also.push('eQSL');
-
-        html += '<tr>'
-          + '<td class="qso-call">' + esc(q.call) + '</td>'
-          + '<td class="desc">' + esc(q.name || '—') + '</td>'
-          + '<td class="qso-date">' + esc(when) + '</td>'
-          + '<td class="desc">' + (also.length ? esc(also.join(' · ')) : 'Card only') + '</td>'
-          + '<td class="blog-cta"><a href="' + esc(q.qrz_url || ('https://www.qrz.com/db/' + q.call))
-          + '" target="_blank" rel="noopener">QRZ &#8599;</a></td>'
-          + '</tr>';
-      }
-      candTbody.innerHTML = html;
-      candCount.textContent = mail.length + ' station' + (mail.length === 1 ? '' : 's');
-      candMeta.textContent = mail.length + ' of ' + stations.length
-        + ' worked stations accept a mailed card · sorted by most recent contact';
-    }
-
     window.N6CBLChrome.loadQsoLog()
       .then(function (data) {
-        var stations = latestByCall(data.qsos || []);
-        renderReach(stations);
-        renderCandidates(stations, data.sessions);
+        renderReach(latestByCall(data.qsos || []));
       })
       .catch(function () {
         reachTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Log data unavailable.</td></tr>';
-        candTbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Log data unavailable.</td></tr>';
       });
   })();
   </script>
