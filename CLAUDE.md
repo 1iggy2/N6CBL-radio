@@ -174,7 +174,7 @@ serves. Do not add runtime Markdown rendering or a client-side CMS for core post
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
 /station/          — my station: operator profile, gear, hardware notes, modes, CW progress
-/qsl/              — QSL card: front artwork, printed card fields, confirmation routes, QSL reach of worked stations
+/qsl/              — QSL card: front artwork, card specification, confirmation routes, QSL reach of worked stations
 /propagation/      — pre-activation command station: NOAA SWPC indices, per-band reach, 24 h window, Hermosa Beach weather
 /blog/             — posts: technical, radio, misc
 /tools/            — workbench index: one route per tool discipline
