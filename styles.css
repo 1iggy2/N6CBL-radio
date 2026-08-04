@@ -1827,6 +1827,18 @@ td.bar-cell {
   color: var(--muted);
 }
 
+/* The kit table is a review table now, so the operator's own words are the
+   one column set in full-contrast prose — the spec and status columns stay
+   muted behind it. An unwritten review says so out loud rather than showing
+   an empty cell, the same rule the content indexes follow for empty tables. */
+.radio-review {
+  font-family: var(--sans);
+}
+
+.radio-review-pending {
+  color: #888;
+}
+
 .radio-activation-table th:first-child,
 .radio-activation-table th:nth-child(2),
 .radio-band-table th:first-child,
@@ -1865,6 +1877,14 @@ td.bar-cell {
 
   .radio-compact-table th:first-child,
   .radio-compact-table td:first-child {
+    display: none;
+  }
+
+  /* On a phone the kit table is down to the item and the review — the two
+     columns the section exists for. Dropping the spec column too keeps the
+     review readable instead of squeezing three prose columns into 390px. */
+  .radio-kit-table th.radio-role-col,
+  .radio-kit-table td.radio-role-col {
     display: none;
   }
 
