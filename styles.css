@@ -389,6 +389,30 @@ header {
   letter-spacing: 0.03em;
 }
 
+.photo-caption a { color: inherit; }
+
+/* ── QSL CARD ──────────────────────────────────────────────────────────
+   The card is a document, not scenery: it is reproduced whole rather than
+   cropped to a band like the station photo, because cropping it cuts the
+   callsign and the QTH line off the artwork. The black mat spans the content
+   column so the section still reads full-width, and the card holds a printable
+   size on a wide screen instead of blowing up to 1200px.
+─────────────────────────────────────────────────────────────────────── */
+.qsl-card-section { border-bottom: 1px solid var(--rule); }
+
+.qsl-card-wrap {
+  margin: 0;
+  background: var(--black);
+}
+
+.qsl-card-wrap img {
+  display: block;
+  width: 100%;
+  max-width: 860px;
+  height: auto;
+  margin: 0 auto;
+}
+
 /* ── PAGE INTRO / HERO ─────────────────────────────────────────────── */
 .page-intro {
   padding: 22px 14px 18px;
@@ -1873,6 +1897,33 @@ td.bar-cell {
 .radio-mode {
   font-family: var(--mono);
   font-size: 0.8rem;
+}
+
+/* ── QSL PAGE TABLES ────────────────────────────────────────────────────
+   Two derived tables: the QSL reach of every worked station (bar rows, same
+   shape as the band/mode tables on /log/stats/) and the paper-card candidate
+   list. The candidate list keeps all five columns on a phone and scrolls in
+   its .table-scroll wrapper — dropping the operator name or the QRZ link
+   would leave a list you cannot act on.
+─────────────────────────────────────────────────────────────────────── */
+.qsl-route-table,
+.qsl-cand-table {
+  table-layout: fixed;
+}
+
+.qsl-route-table th:nth-child(2),
+.qsl-route-table th:last-child { width: 78px; }
+
+.qsl-cand-table th:first-child { width: 92px; }
+.qsl-cand-table th:nth-child(3) { width: 176px; }
+.qsl-cand-table th:nth-child(4) { width: 116px; }
+.qsl-cand-table th:last-child { width: 66px; text-align: right; }
+
+/* Declared after the base widths so the narrow-viewport rules actually win. */
+@media (max-width: 768px) {
+  .table-scroll .qsl-cand-table { min-width: 560px; }
+  .qsl-route-table th:nth-child(2),
+  .qsl-route-table th:last-child { width: 58px; }
 }
 
 /* ── PROPAGATION PAGE ────────────────────────────────────────────────────

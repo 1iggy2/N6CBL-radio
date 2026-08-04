@@ -22,6 +22,7 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | `/log/` | QSO log and contact records |
 | `/log/stats/` | QSO analysis and statistics |
 | `/station/` | My station: operator profile, gear, hardware notes, modes |
+| `/qsl/` | QSL card: front artwork, card fields, confirmation routes, QSL reach of worked stations |
 | `/blog/` | Posts |
 | `/tools/` | Workbench index |
 | `/tools/ham/` | Amateur radio utilities (17 tools) |
