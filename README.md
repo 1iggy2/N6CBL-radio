@@ -21,7 +21,7 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 | `/design/` | Design language: principles, type, color, layout patterns, prohibitions |
 | `/log/` | QSO log and contact records |
 | `/log/stats/` | QSO analysis and statistics |
-| `/station/` | My station: operator profile, gear, hardware notes, modes |
+| `/station/` | My station: operator profile, hardware reviews, gear, modes |
 | `/qsl/` | QSL card: front artwork, card specification, confirmation routes, QSL reach of worked stations |
 | `/propagation/` | Live propagation dashboard: NOAA SWPC indices, per-band reach, local weather |
 | `/blog/` | Posts |
