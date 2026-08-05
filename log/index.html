@@ -218,7 +218,7 @@
 
       <div class="log-footer">
         <span id="log-updated"></span>
-        <span>Every row is a QRZ Logbook record, published as fetched &middot; Confirmed reads QRZ&rsquo;s own status</span>
+        <span>Every row is a QRZ Logbook record, published as fetched &middot; Confirmed marks LoTW, eQSL, and card confirmations carried on the contact</span>
         <span><a href="/log/stats/">Log stats &#8594;</a> &middot; <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">POTA profile &#8599;</a></span>
       </div>
 
@@ -274,7 +274,7 @@
           hdrStatsEl.textContent = s.qso_count + ' QSOs · '
             + s.unique_calls + ' calls · '
             + s.pota_parks + ' park' + (s.pota_parks !== 1 ? 's' : '')
-            + (typeof s.confirmed_total === 'number' ? ' · ' + s.confirmed_total + ' confirmed' : '');
+            + (typeof s.qrz_confirmed === 'number' ? ' · ' + s.qrz_confirmed + ' confirmed on QRZ' : '');
           if (s.date_range) hdrRangeEl.textContent = s.date_range;
         }
         renderQSOs(data.qsos, data.sessions, '');
@@ -404,21 +404,20 @@
       return haystack.indexOf(filter) !== -1;
     }
 
-    /* Confirmation routes as QRZ exported them. Contacts logged before the site
-       started publishing confirmation status carry no field at all, which is
-       not the same as unconfirmed — those rows read '?' rather than claiming
-       either answer. */
+    /* Confirmation routes marked on the contact itself in the QRZ export. QRZ's
+       own confirmations are counted book-wide and are not marked per record, so
+       a blank cell means "no confirmation recorded on this contact", not "QRZ
+       has not confirmed it" — the header line carries QRZ's number. */
     function confirmedRoutes(q) {
       return Array.isArray(q.confirmed_by) ? q.confirmed_by : [];
     }
 
-    var ROUTE_LABELS = { qrz: 'QRZ', lotw: 'LoTW', eqsl: 'eQSL', card: 'Card' };
+    var ROUTE_LABELS = { lotw: 'LoTW', eqsl: 'eQSL', card: 'Card' };
 
     function confirmedLabel(q) {
-      if (typeof q.confirmed !== 'boolean') return '<span class="qso-cfm-unknown" title="Not published yet">?</span>';
-      if (!q.confirmed) return '—';
       var routes = confirmedRoutes(q).map(function (r) { return ROUTE_LABELS[r] || r; });
-      return '<span class="qso-cfm-yes">✓ ' + esc(routes.join(' · ') || 'yes') + '</span>';
+      if (!routes.length) return '—';
+      return '<span class="qso-cfm-yes">✓ ' + esc(routes.join(' · ')) + '</span>';
     }
 
     function formatQth(q) {
