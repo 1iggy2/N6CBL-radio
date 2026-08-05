@@ -4,15 +4,14 @@
     { "path": "/",             "label": "/" },
     { "path": "/log/",         "label": "/log/" },
     { "path": "/log/stats/",   "label": "stats/",  "child": true },
+    { "path": "/blog/",        "label": "/blog/" },
     { "path": "/station/",     "label": "/station/" },
     { "path": "/qsl/",         "label": "/qsl/" },
     { "path": "/propagation/", "label": "/propagation/" },
-    { "path": "/blog/",        "label": "/blog/" },
     { "path": "/tools/",       "label": "/tools/" },
     { "path": "/tools/ham/",   "label": "ham/",    "child": true },
     { "path": "/tools/uav/",   "label": "uav/",    "child": true },
     { "path": "/tools/uav/x/", "label": "uav/x/",  "child": true },
-    { "path": "/prints/",      "label": "/prints/", "unimplemented": true },
     { "path": "/design/",      "label": "/design/" }
   ],
   "station": [
