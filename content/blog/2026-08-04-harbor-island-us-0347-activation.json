@@ -1,0 +1,50 @@
+{
+  "date": "2026-08-04",
+  "publishedAt": "2026-08-05T03:49:08.746Z",
+  "title": "Harbor Island (US-0347) Activation",
+  "slug": "harbor-island-us-0347-activation",
+  "type": "FIELD REPORT",
+  "tags": [
+    "POTA",
+    "KX2",
+    "Boat"
+  ],
+  "context": "Maritime POTA activation",
+  "body": [
+    "Activated harbor island national wildlife refuge today. Became the eight unique activator all time for the park, and for good reason. It's a challenging park to get to. It's a little shy of ten miles from the detour state harbor (where I hope to activate soon). Conditions were fair today, very mild one foot waves, not too challenging a crossing of the passage. \n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9528.webp\" alt=\"Harbor island sign\" loading=\"lazy\">\n  <figcaption>Harbor island sign</figcaption>\n</figure>",
+    "Set up my radioddity vertical HF-010 in the bow of the boat. Nearly lost it to the waves a few times with my cobbled together setup. Fortunately managed to catch it while it tipped. \n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9659.webp\" alt=\"Janky antenna setup\" loading=\"lazy\">\n  <figcaption>Janky antenna setup</figcaption>\n</figure>",
+    "Conditions were poor, but my reception was the best I'd ever had. Practically no noise floor, I was handing out 59s left and right. However with my compromised antenna my received signal reports were not as good. The KX2 really is an exceptional radio though. \n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9661.webp\" alt=\"KX2 on the boat\" loading=\"lazy\">\n  <figcaption>KX2 on the boat</figcaption>\n</figure>",
+    "I managed to get 17 contacts, although the last 7 came after I started telling myself \"just one more CQ then I'll pack it up\". Funny how that happens, but I'm very thankful for the ~5 new states. Much easier to reach the east coast when you're much closer than California.  First year bringing my radio to detour and activations like today make it worth the effort to get the radio across the country. Beautiful weather, beautiful harbor, beautiful island. \n<figure class=\"blog-photo\">\n  <img src=\"/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9527.webp\" alt=\"Harbor island\" loading=\"lazy\">\n  <figcaption>Harbor island</figcaption>\n</figure>",
+    "Thanks for hunting and 73,\nCam (N6CBL)"
+  ],
+  "photos": [
+    {
+      "src": "/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9661.webp",
+      "alt": "KX2 on the boat",
+      "caption": "KX2 on the boat",
+      "width": 2048,
+      "height": 1536
+    },
+    {
+      "src": "/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9659.webp",
+      "alt": "Janky antenna setup",
+      "caption": "Janky antenna setup",
+      "width": 2048,
+      "height": 1536
+    },
+    {
+      "src": "/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9528.webp",
+      "alt": "Harbor island sign",
+      "caption": "Harbor island sign",
+      "width": 2048,
+      "height": 1536
+    },
+    {
+      "src": "/images/blog/2026-08-04-harbor-island-us-0347-activation/img_9527.webp",
+      "alt": "Harbor island",
+      "caption": "Harbor island",
+      "width": 2048,
+      "height": 1536
+    }
+  ]
+}
