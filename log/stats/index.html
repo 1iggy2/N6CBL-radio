@@ -656,10 +656,11 @@
 
     function degToRad(deg) { return deg * Math.PI / 180; }
 
-    /* QRZ reports confirmations as a book-wide total, not per contact, so this
-       tile is that total and says so. When QRZ does not report it the tile is
-       removed rather than showing a dash: an empty stat in the core grid is
-       worse than one fewer stat. */
+    /* Contacts QRZ reports confirmed, counted from the status it marks on each
+       exported record. QRZ's book-wide total is counted separately by QRZ and
+       should agree; when it does not, the tile says so instead of presenting one
+       number as settled. With no confirmation data at all the tile is removed —
+       an empty stat in the core grid is worse than one fewer stat. */
     function renderConfirmed(s) {
       var tile = document.getElementById('stat-confirmed-tile');
       var n = s.qrz_confirmed;
@@ -669,9 +670,12 @@
       }
       var total = s.qso_count || 0;
       var pct = total ? Math.round(n / total * 100) : 0;
+      var book = s.qrz_book_confirmed;
       document.getElementById('stat-confirmed').textContent = n;
       document.getElementById('stat-confirmed-sub').textContent =
-        pct + '% of ' + total + ' · QRZ logbook total';
+        typeof book === 'number' && book !== n
+          ? pct + '% of ' + total + ' · QRZ book says ' + book
+          : pct + '% of ' + total + ' · per-contact QRZ status';
     }
 
     function renderBandsTable(bands, total) {

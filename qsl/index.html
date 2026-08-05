@@ -390,6 +390,7 @@
     var cfmNote    = document.getElementById('qsl-confirmed-note');
 
     var CONFIRMATION_ROUTES = [
+      { key: 'qrz',  label: 'QRZ Logbook' },
       { key: 'lotw', label: 'Logbook of The World' },
       { key: 'eqsl', label: 'eQSL.cc' },
       { key: 'card', label: 'Paper card received' }
@@ -442,7 +443,7 @@
       var rows = CONFIRMATION_ROUTES.map(function (route) {
         return { label: route.label, n: counts[route.key] || 0 };
       });
-      rows.push({ label: 'No confirmation recorded on the contact', n: total - confirmed });
+      rows.push({ label: 'Not confirmed by anyone yet', n: total - confirmed });
 
       var max = 0;
       for (var i = 0; i < rows.length; i++) max = Math.max(max, rows[i].n);
@@ -454,13 +455,19 @@
       cfmTbody.innerHTML = html;
       cfmCount.textContent = confirmed + ' of ' + total + ' QSOs';
 
-      /* QRZ's own confirmations are counted book-wide, not marked on the
-         exported records, so they cannot be broken out by contact. The total is
-         stated beside the table rather than mixed into it. */
-      cfmNote.textContent = typeof stats.qrz_confirmed === 'number'
-        ? 'Read per contact from the QRZ Logbook export. QRZ separately reports '
-          + stats.qrz_confirmed + ' of ' + total + ' contacts confirmed in the logbook, without saying which.'
-        : 'Read per contact from the QRZ Logbook export.';
+      /* QRZ counts its confirmations book-wide as well as marking them on each
+         record. Two counts of the same thing by different means: report the
+         cross-check either way, since a silent disagreement is the failure this
+         table is most likely to have. */
+      var book = stats.qrz_book_confirmed;
+      var note = 'Read per contact from the QRZ Logbook export; a QSO can be confirmed by more than one route.';
+      if (typeof book === 'number') {
+        note += book === (stats.confirmations || {}).qrz
+          ? ' QRZ’s own book total agrees at ' + book + '.'
+          : ' QRZ’s book total says ' + book + ', which does not match the ' +
+            ((stats.confirmations || {}).qrz || 0) + ' marked on the records.';
+      }
+      cfmNote.textContent = note;
     }
 
     function renderReach(stations) {

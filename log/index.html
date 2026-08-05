@@ -218,7 +218,7 @@
 
       <div class="log-footer">
         <span id="log-updated"></span>
-        <span>Every row is a QRZ Logbook record, published as fetched &middot; Confirmed marks LoTW, eQSL, and card confirmations carried on the contact</span>
+        <span>Every row is a QRZ Logbook record, published as fetched &middot; Confirmed reads the confirmation status QRZ exports on the contact</span>
         <span><a href="/log/stats/">Log stats &#8594;</a> &middot; <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">POTA profile &#8599;</a></span>
       </div>
 
@@ -274,7 +274,7 @@
           hdrStatsEl.textContent = s.qso_count + ' QSOs · '
             + s.unique_calls + ' calls · '
             + s.pota_parks + ' park' + (s.pota_parks !== 1 ? 's' : '')
-            + (typeof s.qrz_confirmed === 'number' ? ' · ' + s.qrz_confirmed + ' confirmed on QRZ' : '');
+            + (typeof s.confirmed_qsos === 'number' ? ' · ' + s.confirmed_qsos + ' confirmed' : '');
           if (s.date_range) hdrRangeEl.textContent = s.date_range;
         }
         renderQSOs(data.qsos, data.sessions, '');
@@ -404,15 +404,14 @@
       return haystack.indexOf(filter) !== -1;
     }
 
-    /* Confirmation routes marked on the contact itself in the QRZ export. QRZ's
-       own confirmations are counted book-wide and are not marked per record, so
-       a blank cell means "no confirmation recorded on this contact", not "QRZ
-       has not confirmed it" — the header line carries QRZ's number. */
+    /* Confirmation routes marked on the contact itself in the QRZ export:
+       APP_QRZLOG_STATUS for QRZ's own confirmation, plus the received-QSL fields
+       for the other routes. A dash is a contact nobody has confirmed. */
     function confirmedRoutes(q) {
       return Array.isArray(q.confirmed_by) ? q.confirmed_by : [];
     }
 
-    var ROUTE_LABELS = { lotw: 'LoTW', eqsl: 'eQSL', card: 'Card' };
+    var ROUTE_LABELS = { qrz: 'QRZ', lotw: 'LoTW', eqsl: 'eQSL', card: 'Card' };
 
     function confirmedLabel(q) {
       var routes = confirmedRoutes(q).map(function (r) { return ROUTE_LABELS[r] || r; });

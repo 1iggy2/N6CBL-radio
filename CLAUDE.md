@@ -175,11 +175,11 @@ should appear on the site, it belongs in QRZ first.
 
 Two data sources meet in `data/qso-log.json` and must not be conflated:
 
-- **The QSO**, from the logbook export. Per-contact confirmations live here
-  (`LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, `QSL_RCVD`), alongside QRZ's book-wide
-  confirmed count from the separate `ACTION=STATUS` call. These are the only
-  things the site may call confirmed, and the book total is always labelled as
-  one because the export does not say which contacts it covers.
+- **The QSO**, from the logbook export. Confirmations live here
+  (`APP_QRZLOG_STATUS=C` for QRZ's own, plus `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`,
+  `QSL_RCVD`), and are the only thing the site may call confirmed. The book-wide
+  count from the separate `ACTION=STATUS` call is kept as an independent check on
+  them, not as a second answer.
 - **The worked station's QRZ profile**, from the XML callsign lookup. It fills
   gaps in a record's name/grid/state/county/DXCC/zone fields and carries the
   `lotw`/`eqsl`/`mqsl` flags, which say what routes that operator *accepts*.
@@ -189,12 +189,19 @@ figures as reach, never as confirmations, and never present a lookup-coverage
 count ("QRZ enriched") as though it were an operating statistic.
 
 Before trusting an ADIF field that sounds like confirmation, check its
-distribution. `APP_QRZLOG_STATUS` shipped as one, and it marked all 163 QSOs
-confirmed while QRZ's own book status said 99. Every run now prints a value
-histogram of each confirmation-shaped field and flags any that is uniform across
-the export; read it rather than assuming from the field name. When a figure
-cannot be sourced, drop it from the page — do not print a dash where a statistic
-was promised.
+distribution. `QRZCOM_QSO_DOWNLOAD_STATUS` shipped as one; it is `Y` on every
+record — it records that the QSO came from QRZ — and it marked all 163 QSOs
+confirmed while QRZ's own book status said 99. A field carrying one value across
+the whole export distinguishes nothing, whatever its name promises. Every run
+prints a value histogram of each confirmation-shaped field and flags the uniform
+ones; read it rather than assuming from the field name. When a figure cannot be
+sourced, drop it from the page — do not print a dash where a statistic was
+promised.
+
+Cross-check derived counts against whatever the source system reports
+independently. The bad field shipped because nothing compared the site's number
+to QRZ's own; the `ACTION=STATUS` total now does, and a disagreement is printed
+on the page rather than resolved silently.
 
 ## Site Structure
 
