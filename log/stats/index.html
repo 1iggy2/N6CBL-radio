@@ -245,8 +245,9 @@
           <span id="stat-sessions" class="stat-value">—</span>
         </div>
         <div class="stat">
-          <span class="stat-label">QRZ Enriched</span>
-          <span id="stat-qrz" class="stat-value">—</span>
+          <span class="stat-label">QRZ Confirmed</span>
+          <span id="stat-confirmed" class="stat-value">—</span>
+          <span id="stat-confirmed-sub" class="stat-sub">Waiting for QSOs</span>
         </div>
       </div>
 
@@ -490,7 +491,7 @@
         document.getElementById('stat-grids').textContent    = s.unique_grids  || 0;
         document.getElementById('stat-parks').textContent    = s.pota_parks    || 0;
         document.getElementById('stat-sessions').textContent = s.session_count || 0;
-        document.getElementById('stat-qrz').textContent = s.qrz_enriched_calls || 0;
+        renderConfirmed(s);
 
         if (s.date_range) {
           document.getElementById('stats-date-range').textContent = s.date_range;
@@ -654,6 +655,31 @@
     }
 
     function degToRad(deg) { return deg * Math.PI / 180; }
+
+    /* Confirmations are a property of the QSO, read from the QRZ Logbook export.
+       Three states are distinguishable and all three are shown as themselves:
+       counted per QSO, taken from QRZ's book-wide total when the export carries
+       no per-QSO status, or unknown because neither was available. */
+    function renderConfirmed(s) {
+      var valueEl = document.getElementById('stat-confirmed');
+      var subEl   = document.getElementById('stat-confirmed-sub');
+      var total   = s.qso_count || 0;
+      var n       = s.confirmed_total;
+
+      if (typeof n !== 'number') {
+        valueEl.textContent = '—';
+        subEl.textContent = s.confirmed_source === 'none'
+          ? 'QRZ export carries no confirmation status'
+          : 'Waiting for the next QRZ refresh';
+        return;
+      }
+
+      valueEl.textContent = n;
+      var pct = total ? Math.round(n / total * 100) : 0;
+      subEl.textContent = s.confirmed_source === 'book'
+        ? pct + '% of ' + total + ' · QRZ logbook total'
+        : pct + '% of ' + total + ' · per-QSO QRZ status';
+    }
 
     function renderBandsTable(bands, total) {
       var sorted = Object.keys(bands).sort(function (a, b) { return bands[b] - bands[a]; });

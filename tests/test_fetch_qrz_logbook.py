@@ -77,5 +77,55 @@ class FetchQrzLogbookTests(unittest.TestCase):
         self.assertEqual(responses[1], 'TYPE:ADIF,MAX:2,AFTERLOGID:102')
 
 
+class BookStatusTests(unittest.TestCase):
+    def test_parses_book_totals_including_confirmed_count(self):
+        fields, _ = fetch_qrz_logbook.parse_response(
+            b'RESULT=OK&COUNT=163&CONFIRMED=97&DXCC_COUNT=3&BOOKNAME=N6CBL'
+        )
+
+        status = fetch_qrz_logbook.parse_book_status(fields)
+
+        self.assertEqual(status, {
+            'count': 163, 'confirmed': 97, 'dxcc_count': 3, 'book_name': 'N6CBL',
+        })
+
+    def test_omits_counts_qrz_did_not_report_rather_than_guessing_zero(self):
+        fields, _ = fetch_qrz_logbook.parse_response(b'RESULT=OK&COUNT=163&CONFIRMED=')
+
+        status = fetch_qrz_logbook.parse_book_status(fields)
+
+        self.assertEqual(status, {'count': 163})
+        self.assertNotIn('confirmed', status)
+
+    def test_status_call_sends_no_fetch_option(self):
+        sent = {}
+
+        def fake_post(key, option=None, action='FETCH'):
+            sent['key'], sent['option'], sent['action'] = key, option, action
+            return b'RESULT=OK&COUNT=1&CONFIRMED=1'
+
+        original_post = fetch_qrz_logbook.post_qrz_logbook
+        fetch_qrz_logbook.post_qrz_logbook = fake_post
+        try:
+            status = fetch_qrz_logbook.fetch_book_status('key')
+        finally:
+            fetch_qrz_logbook.post_qrz_logbook = original_post
+
+        self.assertEqual(sent, {'key': 'key', 'option': None, 'action': 'STATUS'})
+        self.assertEqual(status['confirmed'], 1)
+
+    def test_status_failure_is_reported_not_swallowed(self):
+        def fake_post(_key, option=None, action='FETCH'):
+            return b'RESULT=FAIL&REASON=invalid api key'
+
+        original_post = fetch_qrz_logbook.post_qrz_logbook
+        fetch_qrz_logbook.post_qrz_logbook = fake_post
+        try:
+            with self.assertRaises(RuntimeError):
+                fetch_qrz_logbook.fetch_book_status('key')
+        finally:
+            fetch_qrz_logbook.post_qrz_logbook = original_post
+
+
 if __name__ == '__main__':
     unittest.main()

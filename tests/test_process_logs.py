@@ -94,5 +94,39 @@ class OperatorLocationTests(unittest.TestCase):
         self.assertEqual(label, f'{process_logs.HOME_CITY}, {process_logs.HOME_STATE}')
 
 
+class ConfirmationTests(unittest.TestCase):
+    def test_reads_qrz_logbook_confirmation_status(self):
+        qso = {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'C'}
+
+        self.assertEqual(process_logs.qso_confirmed_by(qso), ['qrz'])
+
+    def test_unconfirmed_qrz_status_is_not_a_confirmation(self):
+        qso = {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'N'}
+
+        self.assertEqual(process_logs.qso_confirmed_by(qso), [])
+
+    def test_reads_lotw_eqsl_and_card_confirmations(self):
+        qso = {'LOTW_QSL_RCVD': 'Y', 'EQSL_QSL_RCVD': 'V', 'QSL_RCVD': 'Y'}
+
+        self.assertEqual(process_logs.qso_confirmed_by(qso), ['lotw', 'eqsl', 'card'])
+
+    def test_requested_card_is_not_a_received_card(self):
+        qso = {'QSL_RCVD': 'R', 'QSL_SENT': 'Y'}
+
+        self.assertEqual(process_logs.qso_confirmed_by(qso), [])
+
+    def test_does_not_infer_confirmation_from_the_stations_qrz_profile(self):
+        """A station that uses LoTW has not thereby confirmed the contact."""
+        qso = {'CALL': 'W1AW'}
+
+        self.assertEqual(process_logs.qso_confirmed_by(qso), [])
+        self.assertTrue(process_logs.qrz_flag({'lotw': '1'}, 'lotw'))
+
+    def test_distinguishes_no_confirmation_from_no_confirmation_data(self):
+        self.assertFalse(process_logs.carries_confirmation_fields({'CALL': 'W1AW'}))
+        self.assertTrue(process_logs.carries_confirmation_fields({'APP_QRZLOG_STATUS': 'N'}))
+        self.assertTrue(process_logs.carries_confirmation_fields({'QSL_RCVD': 'N'}))
+
+
 if __name__ == '__main__':
     unittest.main()

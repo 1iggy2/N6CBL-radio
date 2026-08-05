@@ -273,6 +273,30 @@
         </table>
       </section>
 
+      <section class="qsl-confirmed" aria-labelledby="qsl-confirmed-heading">
+        <div class="section-label split">
+          <span id="qsl-confirmed-heading">Confirmations received</span>
+          <span id="qsl-confirmed-count" class="log-count">&mdash;</span>
+        </div>
+        <table class="qsl-route-table">
+          <thead>
+            <tr>
+              <th>Route that confirmed the contact</th>
+              <th class="num">QSOs</th>
+              <th></th>
+              <th class="num">%</th>
+            </tr>
+          </thead>
+          <tbody id="qsl-confirmed-tbody">
+            <tr><td colspan="4" style="color:var(--muted)">Loading&hellip;</td></tr>
+          </tbody>
+        </table>
+        <div class="pota-footer">
+          <span id="qsl-confirmed-note">Confirmation status read per QSO from the QRZ Logbook export</span>
+          <a href="/log/">Search log &#8594;</a>
+        </div>
+      </section>
+
       <section class="qsl-reach" aria-labelledby="qsl-reach-heading">
         <div class="section-label split">
           <span id="qsl-reach-heading">QSL reach of stations worked</span>
@@ -292,7 +316,7 @@
           </tbody>
         </table>
         <div class="pota-footer">
-          <span>Flags read from each worked station&rsquo;s QRZ profile, cached in /data/qso-log.json</span>
+          <span>Routes each station advertises on its QRZ profile &mdash; what it accepts, not what it has confirmed</span>
           <a href="/log/stats/">Full stats &#8594;</a>
         </div>
       </section>
@@ -361,6 +385,16 @@
   (function () {
     var reachTbody = document.getElementById('qsl-reach-tbody');
     var reachCount = document.getElementById('qsl-reach-count');
+    var cfmTbody   = document.getElementById('qsl-confirmed-tbody');
+    var cfmCount   = document.getElementById('qsl-confirmed-count');
+    var cfmNote    = document.getElementById('qsl-confirmed-note');
+
+    var CONFIRMATION_ROUTES = [
+      { key: 'qrz',  label: 'QRZ Logbook' },
+      { key: 'lotw', label: 'Logbook of The World' },
+      { key: 'eqsl', label: 'eQSL.cc' },
+      { key: 'card', label: 'Paper card received' }
+    ];
 
     function esc(s) {
       return String(s)
@@ -385,8 +419,63 @@
       return Object.keys(byCall).map(function (call) { return byCall[call].qso; });
     }
 
+    function barRow(label, n, total, max) {
+      var pct = total ? Math.round(n / total * 100) : 0;
+      var w   = max ? Math.round(n / max * 100) : 0;
+      return '<tr>'
+        + '<td>' + esc(label) + '</td>'
+        + '<td class="hour-count">' + n + '</td>'
+        + '<td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div></td>'
+        + '<td class="hour-count" style="color:var(--muted)">' + pct + '%</td>'
+        + '</tr>';
+    }
+
+    /* Counts QSOs, not stations: a confirmation belongs to one contact, and two
+       contacts with the same operator can differ. The reach table below counts
+       stations instead, because a profile flag belongs to the operator. */
+    function renderConfirmations(data) {
+      var qsos  = data.qsos || [];
+      var stats = data.stats || {};
+      var total = qsos.length;
+
+      if (stats.confirmed_source !== 'adif') {
+        var reason = 'Waiting for the next QRZ refresh to publish confirmation status.';
+        if (stats.confirmed_source === 'book') {
+          reason = 'QRZ reports ' + stats.confirmed_total + ' confirmed contacts, but the export carries no per-QSO status to break them out.';
+        } else if (stats.confirmed_source === 'none') {
+          reason = 'The QRZ Logbook export carries no confirmation status.';
+        }
+        cfmTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">' + esc(reason) + '</td></tr>';
+        cfmCount.textContent = typeof stats.confirmed_total === 'number'
+          ? stats.confirmed_total + ' of ' + total + ' confirmed'
+          : 'not reported';
+        cfmNote.textContent = stats.confirmed_source
+          ? 'Source: QRZ Logbook, ' + (stats.confirmed_source === 'book' ? 'book totals' : 'no confirmation data')
+          : 'Source: QRZ Logbook, refreshed every 15 minutes';
+        return;
+      }
+
+      var counts = stats.confirmations || {};
+      var confirmed = stats.confirmed_qsos || 0;
+      var rows = CONFIRMATION_ROUTES.map(function (route) {
+        return { label: route.label, n: counts[route.key] || 0 };
+      });
+      rows.push({ label: 'Not confirmed yet', n: total - confirmed });
+
+      var max = 0;
+      for (var i = 0; i < rows.length; i++) max = Math.max(max, rows[i].n);
+
+      var html = '';
+      for (var j = 0; j < rows.length; j++) {
+        html += barRow(rows[j].label, rows[j].n, total, max);
+      }
+      cfmTbody.innerHTML = html;
+      cfmCount.textContent = confirmed + ' of ' + total + ' QSOs confirmed';
+      cfmNote.textContent = 'Confirmation status read per QSO from the QRZ Logbook export; a QSO can be confirmed by more than one route';
+    }
+
     function renderReach(stations) {
-      var known = stations.filter(function (q) { return q.qrz_enriched; });
+      var known = stations.filter(function (q) { return q.qrz_profile; });
       var rows = [
         { label: 'Logbook of The World', n: 0, note: 'lotw' },
         { label: 'Paper card by mail',   n: 0, note: 'mqsl' },
@@ -405,22 +494,14 @@
       var max = 0;
       for (var r = 0; r < rows.length; r++) max = Math.max(max, rows[r].n);
       if (!total) {
-        reachTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No QRZ-enriched stations in the log yet.</td></tr>';
+        reachTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No worked station carries a QRZ profile record yet.</td></tr>';
         reachCount.textContent = '0 stations';
         return;
       }
 
       var html = '';
       for (var j = 0; j < rows.length; j++) {
-        var row = rows[j];
-        var pct = Math.round(row.n / total * 100);
-        var w   = max ? Math.round(row.n / max * 100) : 0;
-        html += '<tr>'
-          + '<td>' + esc(row.label) + '</td>'
-          + '<td class="hour-count">' + row.n + '</td>'
-          + '<td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div></td>'
-          + '<td class="hour-count" style="color:var(--muted)">' + pct + '%</td>'
-          + '</tr>';
+        html += barRow(rows[j].label, rows[j].n, total, max);
       }
       reachTbody.innerHTML = html;
       reachCount.textContent = total + ' of ' + stations.length + ' worked stations carry a QRZ record';
@@ -428,9 +509,11 @@
 
     window.N6CBLChrome.loadQsoLog()
       .then(function (data) {
+        renderConfirmations(data);
         renderReach(latestByCall(data.qsos || []));
       })
       .catch(function () {
+        cfmTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Log data unavailable.</td></tr>';
         reachTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Log data unavailable.</td></tr>';
       });
   })();
