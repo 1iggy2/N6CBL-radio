@@ -166,6 +166,26 @@ The blog build step is intentionally narrow: `scripts/build-blog.js` reads
 `/content/blog/*.json` and regenerates the static blog/home HTML that Cloudflare
 serves. Do not add runtime Markdown rendering or a client-side CMS for core posts.
 
+### Log fidelity
+
+The published QSO log mirrors QRZ Logbook one-to-one. Every row is one ADIF
+record from the scheduled fetch; there is no second source of contacts, no
+hand-entered QSO, and no derived or estimated row. Do not add one — if a contact
+should appear on the site, it belongs in QRZ first.
+
+Two data sources meet in `data/qso-log.json` and must not be conflated:
+
+- **The QSO**, from the logbook export. Confirmation status lives here
+  (`APP_QRZLOG_STATUS`, `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, `QSL_RCVD`) and is the
+  only thing the site may call confirmed.
+- **The worked station's QRZ profile**, from the XML callsign lookup. It fills
+  gaps in a record's name/grid/state/county/DXCC/zone fields and carries the
+  `lotw`/`eqsl`/`mqsl` flags, which say what routes that operator *accepts*.
+
+A station that has LoTW is not a contact that is confirmed. Label profile-derived
+figures as reach, never as confirmations, and never present a lookup-coverage
+count ("QRZ enriched") as though it were an operating statistic.
+
 ## Site Structure
 
 Listed in navigator order. The navigator is ordered by operational importance —

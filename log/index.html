@@ -209,6 +209,7 @@
               <th class="col-freq">Freq</th>
               <th class="col-rst">Sent</th>
               <th class="col-rst">Rcvd</th>
+              <th class="col-cfm">Confirmed</th>
             </tr>
           </thead>
           <tbody id="qso-tbody"></tbody>
@@ -217,6 +218,7 @@
 
       <div class="log-footer">
         <span id="log-updated"></span>
+        <span>Every row is a QRZ Logbook record, published as fetched &middot; Confirmed reads QRZ&rsquo;s own status</span>
         <span><a href="/log/stats/">Log stats &#8594;</a> &middot; <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">POTA profile &#8599;</a></span>
       </div>
 
@@ -271,7 +273,8 @@
           var s = data.stats;
           hdrStatsEl.textContent = s.qso_count + ' QSOs · '
             + s.unique_calls + ' calls · '
-            + s.pota_parks + ' park' + (s.pota_parks !== 1 ? 's' : '');
+            + s.pota_parks + ' park' + (s.pota_parks !== 1 ? 's' : '')
+            + (typeof s.confirmed_total === 'number' ? ' · ' + s.confirmed_total + ' confirmed' : '');
           if (s.date_range) hdrRangeEl.textContent = s.date_range;
         }
         renderQSOs(data.qsos, data.sessions, '');
@@ -371,6 +374,7 @@
             + '<td class="qso-freq">' + esc(q.freq     || '—') + '</td>'
             + '<td class="qso-rst">'  + esc(q.rst_sent || '—') + '</td>'
             + '<td class="qso-rst">'  + esc(q.rst_rcvd || '—') + '</td>'
+            + '<td class="qso-cfm">'  + confirmedLabel(q) + '</td>'
             + '</tr>';
         }
       }
@@ -394,9 +398,27 @@
     function qsoMatches(q, filter) {
       var haystack = [
         q.call, q.name, q.gridsquare, q.state, q.country, q.county,
-        q.dxcc, q.cqzone, q.ituzone, q.band, q.mode, q.session
+        q.dxcc, q.cqzone, q.ituzone, q.band, q.mode, q.session,
+        confirmedRoutes(q).join(' '), q.confirmed ? 'CONFIRMED' : 'UNCONFIRMED'
       ].join(' ').toUpperCase();
       return haystack.indexOf(filter) !== -1;
+    }
+
+    /* Confirmation routes as QRZ exported them. Contacts logged before the site
+       started publishing confirmation status carry no field at all, which is
+       not the same as unconfirmed — those rows read '?' rather than claiming
+       either answer. */
+    function confirmedRoutes(q) {
+      return Array.isArray(q.confirmed_by) ? q.confirmed_by : [];
+    }
+
+    var ROUTE_LABELS = { qrz: 'QRZ', lotw: 'LoTW', eqsl: 'eQSL', card: 'Card' };
+
+    function confirmedLabel(q) {
+      if (typeof q.confirmed !== 'boolean') return '<span class="qso-cfm-unknown" title="Not published yet">?</span>';
+      if (!q.confirmed) return '—';
+      var routes = confirmedRoutes(q).map(function (r) { return ROUTE_LABELS[r] || r; });
+      return '<span class="qso-cfm-yes">✓ ' + esc(routes.join(' · ') || 'yes') + '</span>';
     }
 
     function formatQth(q) {

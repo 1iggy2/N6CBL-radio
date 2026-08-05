@@ -6,19 +6,39 @@ QRZ's Logbook API uses a per-logbook access key, not the XML username/password
 session used by callsign lookups. The key must be supplied as QRZ_LOGBOOK_KEY and
 must never be committed. The fetched ADIF is written to an ignored working file so
 only the public-safe derived JSON is committed.
+
+A second call asks QRZ for the book status (record count, confirmed count, DXCC
+count) and writes it beside the ADIF. process-logs.py falls back to that confirmed
+count if an export ever arrives without per-QSO confirmation status.
 """
 import html
+import json
 import os
 import re
 import sys
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 ENDPOINT = 'https://logbook.qrz.com/api'
 AGENT = 'N6CBL.radio QRZ log fetch/1.0 (N6CBL)'
 DEFAULT_OUTPUT = '.cache/qrz-logbook.adi'
+DEFAULT_STATUS_OUTPUT = '.cache/qrz-logbook-status.json'
 DEFAULT_FETCH_OPTION = 'ALL'
+
+# Book-wide totals from ACTION=STATUS. QRZ counts its own confirmations here, so
+# the site can report a confirmed total even if an ADIF export ever comes back
+# without per-QSO status. Integer fields are kept as integers; everything else
+# is dropped rather than guessed at.
+STATUS_FIELDS = {
+    'COUNT':      ('count', int),
+    'CONFIRMED':  ('confirmed', int),
+    'DXCC_COUNT': ('dxcc_count', int),
+    'BOOKNAME':   ('book_name', str),
+    'START_DATE': ('start_date', str),
+    'END_DATE':   ('end_date', str),
+}
 ADIF_LOGID_RE = re.compile(r'<APP_QRZLOG_LOGID:\d+[^>]*>(\d+)', re.IGNORECASE)
 ADIF_EOR_RE = re.compile(r'<EOR>', re.IGNORECASE)
 ADIF_TAG_RE = re.compile(r'<(?:EOH|[A-Z][A-Z0-9_]*:\d+(?::[^>]*)?)>', re.IGNORECASE)
@@ -89,12 +109,11 @@ def adif_fetch_option(option):
     return ','.join(parts)
 
 
-def post_qrz_logbook(key, option):
-    data = urllib.parse.urlencode({
-        'KEY': key,
-        'ACTION': 'FETCH',
-        'OPTION': adif_fetch_option(option),
-    }).encode('utf-8')
+def post_qrz_logbook(key, option=None, action='FETCH'):
+    form = {'KEY': key, 'ACTION': action}
+    if option is not None:
+        form['OPTION'] = adif_fetch_option(option)
+    data = urllib.parse.urlencode(form).encode('utf-8')
     request = urllib.request.Request(
         ENDPOINT,
         data=data,
@@ -107,6 +126,30 @@ def post_qrz_logbook(key, option):
     )
     with urllib.request.urlopen(request, timeout=60) as response:
         return response.read()
+
+
+def parse_book_status(fields):
+    status = {}
+    for source, (name, cast) in STATUS_FIELDS.items():
+        value = str(fields.get(source, '')).strip()
+        if not value:
+            continue
+        if cast is int:
+            if value.lstrip('-').isdigit():
+                status[name] = int(value)
+        else:
+            status[name] = value
+    return status
+
+
+def fetch_book_status(key):
+    """Book-wide totals, including QRZ's own confirmed count."""
+    fields, raw_text = parse_response(post_qrz_logbook(key, action='STATUS'))
+    result = fields.get('RESULT', '').upper()
+    if result != 'OK':
+        reason = fields.get('REASON') or raw_text[:200]
+        raise RuntimeError(f'QRZ Logbook status failed: RESULT={result or "(missing)"} REASON={reason}')
+    return parse_book_status(fields)
 
 
 def max_qrz_logid(adif):
@@ -227,6 +270,24 @@ def main():
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(adif, encoding='utf-8')
     print(f'Fetched QRZ Logbook ADIF: {count} record(s) -> {output_path}')
+
+    # The book status is a secondary read: the log itself is already written, so
+    # a failure here is reported and survived rather than losing the fetch.
+    status_path = Path(os.environ.get('QRZ_LOGBOOK_STATUS_PATH', DEFAULT_STATUS_OUTPUT)).resolve()
+    try:
+        status = fetch_book_status(key)
+    except (RuntimeError, OSError) as exc:
+        print(f'QRZ Logbook status unavailable ({exc}); continuing without book totals.', file=sys.stderr)
+        return 0
+
+    status['fetched'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    status_path.parent.mkdir(parents=True, exist_ok=True)
+    status_path.write_text(json.dumps(status, indent=2), encoding='utf-8')
+    confirmed = status.get('confirmed')
+    print(
+        f'QRZ Logbook status: {status.get("count", "unknown")} record(s), '
+        f'{confirmed if confirmed is not None else "no"} confirmed -> {status_path}'
+    )
     return 0
 
 

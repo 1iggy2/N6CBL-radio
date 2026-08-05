@@ -57,6 +57,19 @@ logbook as ADIF into an ignored working file, enriches callsigns with QRZ XML
 subscriber data, regenerates `data/qso-log.json`, and commits only the public-safe
 JSON/cache output when something changed.
 
+Every published QSO is one ADIF record from that fetch — there is no second
+source of contacts and no hand-entered row. QSO fields are taken from the record
+as QRZ exported it; only when a record omits a field (name, grid, state, county,
+DXCC, zones) does the worked station's cached QRZ profile fill the gap.
+
+Confirmation status is read per QSO from the same export — `APP_QRZLOG_STATUS`
+for QRZ's own confirmation, plus `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, and
+`QSL_RCVD`. It is never inferred from the other station's QRZ profile: a station
+that uses LoTW has not thereby confirmed the contact. The fetch also records the
+book-wide totals (`.cache/qrz-logbook-status.json`) so the site can still report
+QRZ's confirmed count if an export ever arrives without per-QSO status; the pages
+say which of the two they are showing.
+
 ### Owner setup
 
 1. In QRZ Logbook, create/copy the API access key for the N6CBL logbook.
@@ -92,6 +105,7 @@ Optional environment controls:
 | Variable | Default | Purpose |
 |---|---:|---|
 | `QRZ_LOGBOOK_ADIF_PATH` | `.cache/qrz-logbook.adi` | Ignored working-file path for fetched ADIF. |
+| `QRZ_LOGBOOK_STATUS_PATH` | `.cache/qrz-logbook-status.json` | Ignored working-file path for QRZ book totals, including the confirmed count. |
 | `QRZ_LOGBOOK_FETCH_OPTION` | `ALL` | QRZ Logbook `FETCH` option. The default asks QRZ for the entire book in one export; use options such as `TYPE:ADIF,MAX:250,AFTERLOGID:0` only when a logbook is large enough to need QRZ logid paging. |
 | `QRZ_CACHE_MAX_AGE_DAYS` | `90` | Refresh cached calls older than this many days. |
 | `QRZ_LOOKUP_LIMIT` | `250` | Maximum QRZ XML callsign lookups per run. |

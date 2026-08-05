@@ -652,6 +652,13 @@ td.pota-cta a:hover { text-decoration: underline; }
 .qso-ref   { font-family: var(--mono); font-size: 0.8rem; }
 .qso-muted { font-size: 0.8rem; color: var(--muted); }
 
+/* Confirmation state, straight from the QRZ Logbook export. Confirmed rows are
+   marked in the accent colour because a confirmed contact is the exceptional
+   state worth spotting down a column of dashes. */
+.qso-cfm   { font-family: var(--mono); font-size: 0.78rem; white-space: nowrap; width: 96px; color: var(--muted); }
+.qso-cfm-yes { color: var(--accent); font-weight: bold; }
+.qso-cfm-unknown { color: var(--rule-2); }
+
 /* Session divider rows within the QSO table */
 .log-session-hdr td {
   background: var(--tint);
@@ -748,6 +755,8 @@ td.pota-cta a:hover { text-decoration: underline; }
 
 .log-footer {
   display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
   justify-content: space-between;
   font-size: 0.72rem;
   color: var(--muted);
@@ -873,6 +882,9 @@ footer a:hover { text-decoration: underline; }
   #qso-table td.qso-name, #qso-table td.qso-qth, #qso-table td.qso-mode,
   #qso-table td.qso-freq, #qso-table td.qso-rst { display: none; }
   #qso-table td, #qso-table th { padding: 4px 6px; }
+  /* Confirmed survives the cut: it is the state the log is asked about most,
+     and the label is four characters wide. */
+  #qso-table .col-cfm, #qso-table td.qso-cfm { width: 62px; }
 
   /* Home lookup table: drop Mode (head and body together). */
   #lookup-table th:nth-child(5),
@@ -880,6 +892,12 @@ footer a:hover { text-decoration: underline; }
 
   /* Log header: drop date range to prevent wrap on narrow screens */
   .log-header-range { display: none; }
+
+  /* The stats line grew a confirmed count, and as an unshrinkable nowrap flex
+     item it pushed the page 3px past a 430px viewport. It wraps under the page
+     label instead of forcing the body wider. */
+  .log-meta { flex-wrap: wrap; }
+  .log-header-stats { white-space: normal; flex-shrink: 1; }
 
   /* Stats map: limit height on small screens */
   .stats-map-section .stats-map-wrap { max-height: 240px; overflow: hidden; }
@@ -1916,8 +1934,9 @@ td.bar-cell {
 }
 
 /* ── QSL PAGE TABLES ────────────────────────────────────────────────────
-   The QSL reach of every worked station: bar rows, same shape as the
-   band/mode tables on /log/stats/.
+   Two bar-row tables share this shape, same as the band/mode tables on
+   /log/stats/: confirmations actually received per QSO, and the QSL reach
+   each worked station advertises on its QRZ profile.
 ─────────────────────────────────────────────────────────────────────── */
 .qsl-route-table { table-layout: fixed; }
 

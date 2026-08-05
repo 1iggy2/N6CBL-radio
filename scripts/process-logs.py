@@ -16,6 +16,27 @@ import urllib.parse
 from pathlib import Path
 from datetime import datetime, timezone
 
+# Confirmation state belongs to the QSO, not to the worked station's QRZ profile.
+# QRZ marks a contact confirmed when the other operator's logbook entry matches
+# ours and exports that as APP_QRZLOG_STATUS; the standard ADIF received-QSL
+# fields ride along for the operators who also confirm by LoTW, eQSL, or card.
+# Nothing here is inferred from a callsign lookup — a station that *has* LoTW is
+# not a contact that *is* confirmed, and the log must not conflate the two.
+CONFIRMATION_ROUTES = (
+    ('qrz',  ('APP_QRZLOG_STATUS', 'QRZCOM_QSO_DOWNLOAD_STATUS'), ('C', 'Y', 'V')),
+    ('lotw', ('LOTW_QSL_RCVD',),                                  ('Y', 'V')),
+    ('eqsl', ('EQSL_QSL_RCVD',),                                  ('Y', 'V')),
+    ('card', ('QSL_RCVD',),                                       ('Y', 'V')),
+)
+CONFIRMATION_FIELDS = tuple(
+    field for _, fields, _ in CONFIRMATION_ROUTES for field in fields
+)
+
+# Book-wide totals from the QRZ Logbook STATUS call, written by
+# scripts/fetch-qrz-logbook.py. Used only as a fallback headline count when the
+# ADIF export carries no per-QSO confirmation status at all.
+DEFAULT_BOOK_STATUS_PATH = '.cache/qrz-logbook-status.json'
+
 # Home QTH, used only when a QSO carries no operator-side location of its own.
 HOME_GRID = 'DM03TU'
 HOME_CITY = 'Hermosa Beach'
@@ -171,6 +192,40 @@ def qrz_flag(record, key):
     value = str(record.get(key, '')).strip().lower()
     return value in ('1', 'true', 'yes', 'y')
 
+
+def qso_confirmed_by(qso):
+    """Routes reporting this QSO confirmed, QRZ first, straight from the export."""
+    routes = []
+    for route, fields, accepted in CONFIRMATION_ROUTES:
+        for field in fields:
+            if str(qso.get(field, '')).strip().upper() in accepted:
+                routes.append(route)
+                break
+    return routes
+
+
+def carries_confirmation_fields(qso):
+    """True when the record carries any confirmation field, confirmed or not.
+
+    A logbook where nothing is confirmed yet and a logbook export that omits
+    confirmation status entirely both produce zero confirmed QSOs. They are not
+    the same fact, so the pages must be able to tell them apart.
+    """
+    return any(str(qso.get(field, '')).strip() for field in CONFIRMATION_FIELDS)
+
+
+def load_book_status():
+    """Book-wide QRZ Logbook totals, if the fetch step recorded them."""
+    path = Path(os.environ.get('QRZ_LOGBOOK_STATUS_PATH', '').strip() or DEFAULT_BOOK_STATUS_PATH)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except json.JSONDecodeError as exc:
+        print(f"  {path}: invalid QRZ logbook status JSON ({exc}), skipping")
+        return {}
+    return data if isinstance(data, dict) else {}
+
 def load_activation_notes():
     notes_dir = Path('content/activations')
     notes = {}
@@ -279,6 +334,7 @@ def main():
 
     sessions = []
     all_qsos = []
+    confirmation_fields_seen = False
 
     for path in paths:
         raw_qsos = parse_adif_file(path)
@@ -356,6 +412,9 @@ def main():
                     hunted_pota_refs = split_reference_list(q.get('POTA_REF'))
                 my_grid, my_lat, my_lon, my_grid_source = operator_position(q)
                 my_state, my_location = operator_location(q)
+                confirmed_by = qso_confirmed_by(q)
+                if carries_confirmation_fields(q):
+                    confirmation_fields_seen = True
                 all_qsos.append({
                     'date':       fmt_date(q.get('QSO_DATE', '')),
                     'time':       fmt_time(q.get('TIME_ON', '')),
@@ -386,11 +445,15 @@ def main():
                     'dxcc':       first_value(q.get('DXCC', ''), qrz.get('dxcc', '')),
                     'cqzone':     first_value(q.get('CQZ', ''), qrz.get('cqzone', '')),
                     'ituzone':    first_value(q.get('ITUZ', ''), qrz.get('ituzone', '')),
+                    'confirmed':    bool(confirmed_by),
+                    'confirmed_by': confirmed_by,
+                    # Routes the *station* advertises on its QRZ profile. Not a
+                    # confirmation — see 'confirmed' above for that.
                     'lotw':       qrz_flag(qrz, 'lotw'),
                     'eqsl':       qrz_flag(qrz, 'eqsl'),
                     'mqsl':       qrz_flag(qrz, 'mqsl'),
                     'qrz_url':    first_value(qrz.get('qrz_url', ''), f"https://www.qrz.com/db/{call}" if call else ''),
-                    'qrz_enriched': bool(qrz),
+                    'qrz_profile': bool(qrz),
                 })
 
             print(f"  {path.name}#{session_id}: {len(session_qsos)} QSOs, type={('pota' if is_pota else 'general')}, ref={park_ref or '—'}")
@@ -407,7 +470,28 @@ def main():
     states_worked = sorted(set(q['state'] for q in all_qsos if q.get('state')))
     countries_worked = sorted(set(q['country'] for q in all_qsos if q.get('country')))
     dxcc_worked = sorted(set(q['dxcc'] for q in all_qsos if q.get('dxcc')))
-    qrz_enriched = len(set(q['call'] for q in all_qsos if q.get('qrz_enriched') and q.get('call')))
+    confirmation_counts = {route: 0 for route, _, _ in CONFIRMATION_ROUTES}
+    for q in all_qsos:
+        for route in q['confirmed_by']:
+            confirmation_counts[route] += 1
+    confirmed_qsos = sum(1 for q in all_qsos if q['confirmed'])
+    confirmed_calls = len(set(q['call'] for q in all_qsos if q['confirmed'] and q['call']))
+
+    # Prefer the per-QSO status, which is the only source that can mark a row in
+    # the log. The book-wide total is a fallback for the case where QRZ exports
+    # no confirmation status at all, so the site reports QRZ's own number rather
+    # than a zero it cannot justify.
+    book_status = load_book_status()
+    book_confirmed = book_status.get('confirmed')
+    if confirmation_fields_seen:
+        confirmed_source = 'adif'
+        confirmed_total = confirmed_qsos
+    elif isinstance(book_confirmed, int):
+        confirmed_source = 'book'
+        confirmed_total = book_confirmed
+    else:
+        confirmed_source = 'none'
+        confirmed_total = None
     band_counts = {}
     for q in all_qsos:
         if q['band']:
@@ -430,7 +514,12 @@ def main():
             'states_worked': states_worked,
             'countries_worked': countries_worked,
             'dxcc_worked':   dxcc_worked,
-            'qrz_enriched_calls': qrz_enriched,
+            'confirmed_qsos':   confirmed_qsos,
+            'confirmed_calls':  confirmed_calls,
+            'confirmations':    confirmation_counts,
+            'confirmed_total':  confirmed_total,
+            'confirmed_source': confirmed_source,
+            'qrz_book':         book_status,
             'bands':         band_counts,
             'modes':         mode_counts,
         },
@@ -440,6 +529,17 @@ def main():
 
     out_path.parent.mkdir(exist_ok=True)
     out_path.write_text(json.dumps(output, indent=2))
+
+    if confirmed_source == 'adif':
+        routes = ', '.join(f'{route}={confirmation_counts[route]}' for route, _, _ in CONFIRMATION_ROUTES)
+        print(f"Confirmations: {confirmed_qsos}/{len(all_qsos)} QSOs from ADIF status ({routes})")
+    elif confirmed_source == 'book':
+        print(f"Confirmations: no per-QSO status in the export; QRZ book reports {confirmed_total} confirmed")
+    else:
+        print(
+            'Confirmations: the QRZ export carries no confirmation status and no book total was recorded. '
+            f'Looked for {", ".join(CONFIRMATION_FIELDS)}.'
+        )
     print(f"Written {len(all_qsos)} QSOs, {len(sessions)} sessions → {out_path}")
 
 
