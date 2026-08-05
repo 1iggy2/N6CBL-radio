@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-05T19:37:21Z",
+  "generated": "2026-08-05T19:48:56Z",
   "stats": {
     "qso_count": 163,
     "session_count": 14,
@@ -69,23 +69,21 @@
       "291",
       "6"
     ],
-    "confirmed_qsos": 163,
-    "confirmed_calls": 151,
+    "confirmed_qsos": 42,
+    "confirmed_calls": 36,
     "confirmations": {
-      "qrz": 163,
       "lotw": 42,
       "eqsl": 0,
       "card": 0
     },
-    "confirmed_total": 163,
-    "confirmed_source": "adif",
+    "qrz_confirmed": 99,
     "qrz_book": {
       "count": 163,
       "confirmed": 99,
       "dxcc_count": 3,
       "start_date": "2025-06-01",
       "end_date": "2035-05-31",
-      "fetched": "2026-08-05T19:37:21Z"
+      "fetched": "2026-08-05T19:48:56Z"
     },
     "bands": {
       "20m": 163
@@ -356,10 +354,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -396,10 +392,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -436,10 +430,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -476,10 +468,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
@@ -516,10 +506,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -556,10 +544,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -596,10 +582,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -636,10 +620,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
@@ -676,10 +658,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -716,10 +696,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -758,10 +736,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -800,10 +776,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -842,10 +816,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -882,10 +854,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -922,10 +892,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -964,10 +932,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -1006,10 +972,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -1048,10 +1012,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -1090,10 +1052,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
@@ -1132,10 +1092,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -1174,10 +1132,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -1216,10 +1172,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -1258,10 +1212,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -1300,10 +1252,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
@@ -1342,10 +1292,8 @@
       "dxcc": "1",
       "cqzone": "4",
       "ituzone": "3",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1382,10 +1330,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -1422,10 +1368,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1462,10 +1406,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1502,10 +1444,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1542,10 +1482,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -1582,10 +1520,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1624,10 +1560,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1664,10 +1598,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -1704,10 +1636,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1744,10 +1674,8 @@
       "dxcc": "1",
       "cqzone": "3",
       "ituzone": "2",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1784,10 +1712,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -1826,10 +1752,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -1868,10 +1792,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
@@ -1910,10 +1832,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1954,10 +1874,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -1999,7 +1917,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2042,7 +1959,6 @@
       "ituzone": "8",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -2083,10 +1999,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2125,10 +2039,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -2167,10 +2079,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2211,7 +2121,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2252,10 +2161,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -2296,7 +2203,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -2339,7 +2245,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2378,10 +2283,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -2418,10 +2321,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2462,7 +2363,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -2501,10 +2401,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -2543,7 +2441,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2584,7 +2481,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -2623,10 +2519,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -2663,10 +2557,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2708,7 +2600,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2749,10 +2640,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2791,10 +2680,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2835,7 +2722,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2876,10 +2762,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2920,7 +2804,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -2959,10 +2842,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -2999,10 +2880,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3039,10 +2918,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3079,10 +2956,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -3119,10 +2994,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3163,7 +3036,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3204,7 +3076,6 @@
       "ituzone": "1",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3247,7 +3118,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3289,10 +3159,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -3329,10 +3197,8 @@
       "dxcc": "1",
       "cqzone": "4",
       "ituzone": "3",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3371,7 +3237,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3410,10 +3275,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -3450,10 +3313,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3490,10 +3351,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -3532,7 +3391,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3573,7 +3431,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3612,10 +3469,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3652,10 +3507,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
@@ -3692,10 +3545,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": false,
@@ -3734,7 +3585,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -3773,10 +3623,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3813,10 +3661,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -3853,10 +3699,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3893,10 +3737,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -3933,10 +3775,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -3975,7 +3815,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -4016,10 +3855,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -4056,10 +3893,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4096,10 +3931,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4136,10 +3969,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -4176,10 +4007,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
@@ -4218,10 +4047,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -4258,10 +4085,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4300,7 +4125,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -4339,10 +4163,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -4379,10 +4201,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4419,10 +4239,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4459,10 +4277,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -4501,7 +4317,6 @@
       "ituzone": "8",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -4540,10 +4355,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -4580,10 +4393,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -4622,7 +4433,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -4661,10 +4471,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -4701,10 +4509,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -4741,10 +4547,8 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4783,7 +4587,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -4822,10 +4625,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4864,10 +4665,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
@@ -4906,10 +4705,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -4949,10 +4746,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -4991,10 +4786,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
@@ -5035,7 +4828,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5080,7 +4872,6 @@
       "ituzone": "8",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -5124,7 +4915,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5166,10 +4956,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -5208,7 +4996,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -5247,10 +5034,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -5287,10 +5072,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -5329,7 +5112,6 @@
       "ituzone": "2",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5370,7 +5152,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5409,10 +5190,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -5453,7 +5232,6 @@
       "ituzone": "2",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5492,10 +5270,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -5534,10 +5310,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -5576,10 +5350,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": false,
@@ -5616,10 +5388,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -5658,10 +5428,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
@@ -5698,10 +5466,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -5740,7 +5506,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5779,10 +5544,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -5821,7 +5584,6 @@
       "ituzone": "7",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -5862,10 +5624,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -5904,10 +5664,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": false,
@@ -5946,10 +5704,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
@@ -5988,10 +5744,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6028,10 +5782,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6068,10 +5820,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6108,10 +5858,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -6150,10 +5898,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -6192,7 +5938,6 @@
       "ituzone": "8",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6234,10 +5979,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6278,7 +6021,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6317,10 +6059,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
@@ -6357,10 +6097,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6397,10 +6135,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6439,7 +6175,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6478,10 +6213,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6520,7 +6253,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6563,7 +6295,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": false,
@@ -6606,7 +6337,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6645,10 +6375,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6687,7 +6415,6 @@
       "ituzone": "8",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6728,10 +6455,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6768,10 +6493,8 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
@@ -6808,10 +6531,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
@@ -6850,7 +6571,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6891,7 +6611,6 @@
       "ituzone": "6",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -6932,10 +6651,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
@@ -6974,7 +6691,6 @@
       "ituzone": "",
       "confirmed": true,
       "confirmed_by": [
-        "qrz",
         "lotw"
       ],
       "lotw": true,
@@ -7013,10 +6729,8 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": true,
-      "confirmed_by": [
-        "qrz"
-      ],
+      "confirmed": false,
+      "confirmed_by": [],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
