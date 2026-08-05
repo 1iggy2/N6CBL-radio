@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-05T19:11:57Z",
+  "generated": "2026-08-05T19:37:21Z",
   "stats": {
     "qso_count": 163,
     "session_count": 14,
@@ -69,7 +69,24 @@
       "291",
       "6"
     ],
-    "qrz_enriched_calls": 149,
+    "confirmed_qsos": 163,
+    "confirmed_calls": 151,
+    "confirmations": {
+      "qrz": 163,
+      "lotw": 42,
+      "eqsl": 0,
+      "card": 0
+    },
+    "confirmed_total": 163,
+    "confirmed_source": "adif",
+    "qrz_book": {
+      "count": 163,
+      "confirmed": 99,
+      "dxcc_count": 3,
+      "start_date": "2025-06-01",
+      "end_date": "2035-05-31",
+      "fetched": "2026-08-05T19:37:21Z"
+    },
     "bands": {
       "20m": 163
     },
@@ -339,11 +356,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KR4CCW",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -375,11 +396,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N1ECT",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -411,11 +436,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WF5TV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -447,11 +476,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KT4ZG",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -483,11 +516,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WX4JEL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -519,11 +556,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KE9BV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -555,11 +596,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KC1VIO",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -591,11 +636,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KD4TTP",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -627,11 +676,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K3SNO",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -663,11 +716,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K5SVC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -701,11 +758,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N3NTJ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -739,11 +800,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N6OBW",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -777,11 +842,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KC1VLH",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -813,11 +882,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K3ATA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-04",
@@ -849,11 +922,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/NU4N",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-03",
@@ -887,11 +964,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KK2WW",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-03",
@@ -925,11 +1006,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KD3CZT",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-03",
@@ -963,11 +1048,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W1GHD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-01",
@@ -1001,11 +1090,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K9MSG",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-01",
@@ -1039,11 +1132,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KC1QHQ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-01",
@@ -1077,11 +1174,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N1WW",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-01",
@@ -1115,11 +1216,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KQ4UFE",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-08-01",
@@ -1153,11 +1258,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WZ1TEX",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1191,11 +1300,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KJ7QYK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1229,11 +1342,15 @@
       "dxcc": "1",
       "cqzone": "4",
       "ituzone": "3",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/VA4ADM/M",
-      "qrz_enriched": false
+      "qrz_profile": false
     },
     {
       "date": "2026-05-11",
@@ -1265,11 +1382,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KC7AVA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1301,11 +1422,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KK7HAK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1337,11 +1462,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KE5YYC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1373,11 +1502,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KK7YQY",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1409,11 +1542,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/NR9Q",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1445,11 +1582,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WA8J",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1483,11 +1624,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KQ4ZIP",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1519,11 +1664,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KG7LLN",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1555,11 +1704,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N6FFA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1591,11 +1744,15 @@
       "dxcc": "1",
       "cqzone": "3",
       "ituzone": "2",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/VA7DGF",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1627,11 +1784,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N7CRD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1665,11 +1826,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KK7MWI",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-05-11",
@@ -1703,11 +1868,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/W5JWZ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1741,11 +1910,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KK7CSK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1781,11 +1954,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KK8C",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1820,11 +1997,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KE5AQD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1858,11 +2040,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K8OJR",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1896,11 +2083,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KI5ZAW",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1934,11 +2125,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KB0TTL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -1972,11 +2167,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KD0JTR",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -2010,11 +2209,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N7EEL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -2048,11 +2252,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WD5BPC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-21",
@@ -2086,11 +2294,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KF0QGT",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2124,11 +2337,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/AE0YK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2160,11 +2378,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KC0DGR",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2196,11 +2418,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K0KLB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2234,11 +2460,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7OM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2270,11 +2501,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KE9BV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2306,11 +2541,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WD5MAT",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2342,11 +2582,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7RTA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2378,11 +2623,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N9EAJ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2414,11 +2663,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KE5YYC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2453,11 +2706,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KE5AQD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2491,11 +2749,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KF8DYB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2529,11 +2791,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KF8FGA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-20",
@@ -2567,11 +2833,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/AE0YK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2605,11 +2876,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K5WPI",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2643,11 +2918,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/AE0YK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2679,11 +2959,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KF7HSS",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2715,11 +2999,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KN6KI",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2751,11 +3039,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KI7PXR",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2787,11 +3079,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KD6WXP",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2823,11 +3119,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K7PGL/P",
-      "qrz_enriched": false
+      "qrz_profile": false
     },
     {
       "date": "2026-03-19",
@@ -2861,11 +3161,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7HFV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2897,11 +3202,16 @@
       "dxcc": "6",
       "cqzone": "1",
       "ituzone": "1",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/NL7V",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2935,11 +3245,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WG7MM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-19",
@@ -2974,11 +3289,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N7KPL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3010,11 +3329,15 @@
       "dxcc": "1",
       "cqzone": "4",
       "ituzone": "3",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/VA5KDM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3046,11 +3369,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KF5ITM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3082,11 +3410,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K7SWS",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3118,11 +3450,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KF0MYC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3154,11 +3490,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/AF4DN",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3190,11 +3530,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WS5ADV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3226,11 +3571,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WD5EEI",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3262,11 +3612,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KI5MM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3298,11 +3652,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N4BQQ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3334,11 +3692,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N7CHS",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3370,11 +3732,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/AC7SV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3406,11 +3773,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KC0ZIC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3442,11 +3813,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N5VYS",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3478,11 +3853,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/AA7BB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3514,11 +3893,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K7ACN",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3550,11 +3933,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KI7ONQ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3586,11 +3973,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K0YO",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3624,11 +4016,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/W7IMC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3660,11 +4056,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/AI7MO",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3696,11 +4096,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K7YMM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3732,11 +4136,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/W4KRN",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3768,11 +4176,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WD5AFR",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3806,11 +4218,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/AB2SG",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3842,11 +4258,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ7HJB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3878,11 +4298,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KC0KYN",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3914,11 +4339,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KI7NWC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3950,11 +4379,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KG7UUJ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -3986,11 +4419,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KO4GSM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4022,11 +4459,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N0RZ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4058,11 +4499,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K8GQ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4094,11 +4540,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/W0KEG",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4130,11 +4580,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WI0M",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4166,11 +4620,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7OM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4202,11 +4661,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/AL7KC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4238,11 +4701,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WB7ULD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4274,11 +4741,15 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KC4ZUA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4310,11 +4781,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KB7FMS",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4346,11 +4822,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KC5MJE",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4384,11 +4864,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K5WZS",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4422,11 +4906,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KB0PVB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4461,11 +4949,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N7MES",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4499,11 +4991,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K5MEC",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4537,11 +5033,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WT0RJ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-17",
@@ -4577,11 +5078,16 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/NZ2S",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4616,11 +5122,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KK7OJK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4655,11 +5166,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K7MGK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4691,11 +5206,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7JRF",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4727,11 +5247,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K7WA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4763,11 +5287,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K9KDA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4799,11 +5327,16 @@
       "dxcc": "1",
       "cqzone": "3",
       "ituzone": "2",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/VA7LTX",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4835,11 +5368,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KK7UIA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4871,11 +5409,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ7RPL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4909,11 +5451,16 @@
       "dxcc": "1",
       "cqzone": "4",
       "ituzone": "2",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/VA6DM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4945,11 +5492,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ5JBD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -4983,11 +5534,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K6YUQ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -5021,11 +5576,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KG7MAV",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -5057,11 +5616,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KG7LLN",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-15",
@@ -5095,11 +5658,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7OSU",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5131,11 +5698,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K8LF",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5167,11 +5738,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N5HME",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5203,11 +5779,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ5MPL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5239,11 +5819,16 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N0UB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5277,11 +5862,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KM5EM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5315,11 +5904,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ5GVQ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5353,11 +5946,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/WX5SKY",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5391,11 +5988,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ5NTJ",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5427,11 +6028,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/AK6MB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-14",
@@ -5463,11 +6068,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KE8DIE",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5499,11 +6108,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WL7EA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5537,11 +6150,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/W6ECK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5573,11 +6190,16 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N3MRA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5612,11 +6234,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K7MGK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5650,11 +6276,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KK7PZE",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5686,11 +6317,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/N5SKT",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5722,11 +6357,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KK7DWD",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5758,11 +6397,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7EDY",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5794,11 +6437,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N7LL",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-03-01",
@@ -5830,11 +6478,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/AK6MB",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -5866,11 +6518,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ7UPY",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -5904,11 +6561,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7OM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -5942,11 +6604,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KK7OJK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -5978,11 +6645,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "7",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/NM5RF",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6014,11 +6685,16 @@
       "dxcc": "291",
       "cqzone": "5",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/N4TZR",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6052,11 +6728,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KC8YEK",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6088,11 +6768,15 @@
       "dxcc": "291",
       "cqzone": "4",
       "ituzone": "8",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WV8SM",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6124,11 +6808,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/NC6A",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6160,11 +6848,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WL7EA",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6196,11 +6889,16 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K7MJF",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2026-02-28",
@@ -6234,11 +6932,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/AG7FU",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2025-11-11",
@@ -6270,11 +6972,16 @@
       "dxcc": "291",
       "cqzone": "",
       "ituzone": "",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz",
+        "lotw"
+      ],
       "lotw": true,
       "eqsl": true,
       "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/K6CVH",
-      "qrz_enriched": true
+      "qrz_profile": true
     },
     {
       "date": "2025-07-04",
@@ -6306,11 +7013,15 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/K6ZI",
-      "qrz_enriched": true
+      "qrz_profile": true
     }
   ]
 }
