@@ -24,3 +24,10 @@ wrangler.jsonc
 
 # Raw source logs are processed into /data/qso-log.json for the public site.
 logs/
+
+# QRZ fetch working files. The deploy job creates .cache/qrz-logbook.adi in the
+# workspace before building assets, so Wrangler was uploading the raw logbook
+# export — every field QRZ holds, including the QSL_VIA lines carrying other
+# operators' postal addresses and email, none of which the public log publishes.
+# It is gitignored, which kept it out of the repository and not off the CDN.
+.cache/

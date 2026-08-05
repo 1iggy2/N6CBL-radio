@@ -95,14 +95,18 @@ class OperatorLocationTests(unittest.TestCase):
 
 
 class ConfirmationTests(unittest.TestCase):
-    def test_ignores_app_qrzlog_status(self):
+    def test_reads_qrz_confirmation_from_app_qrzlog_status(self):
+        self.assertEqual(process_logs.qso_confirmed_by({'APP_QRZLOG_STATUS': 'C'}), ['qrz'])
+        self.assertEqual(process_logs.qso_confirmed_by({'APP_QRZLOG_STATUS': 'N'}), [])
+
+    def test_ignores_qrzcom_qso_download_status(self):
         """It reads as a confirmation flag and is not one.
 
-        The live export carried a matching value on every record while QRZ's own
-        book status reported 99 of 163 confirmed, so honouring it marked the
-        whole log confirmed.
+        It is Y on every exported record — it records that the QSO came from
+        QRZ, not that anyone confirmed it. Honouring it marked all 163 QSOs
+        confirmed against QRZ's own count of 99.
         """
-        qso = {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'C'}
+        qso = {'CALL': 'W1AW', 'QRZCOM_QSO_DOWNLOAD_STATUS': 'Y', 'QRZCOM_QSO_UPLOAD_STATUS': 'Y'}
 
         self.assertEqual(process_logs.qso_confirmed_by(qso), [])
 
@@ -125,16 +129,16 @@ class ConfirmationTests(unittest.TestCase):
 
     def test_field_report_counts_every_value_of_a_confirmation_shaped_field(self):
         raw = [
-            {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'C', 'LOTW_QSL_RCVD': 'Y'},
-            {'CALL': 'K1ZZ', 'APP_QRZLOG_STATUS': 'C', 'LOTW_QSL_RCVD': 'N'},
-            {'CALL': 'N0AA', 'APP_QRZLOG_STATUS': 'C'},
+            {'CALL': 'W1AW', 'QRZCOM_QSO_DOWNLOAD_STATUS': 'Y', 'LOTW_QSL_RCVD': 'Y'},
+            {'CALL': 'K1ZZ', 'QRZCOM_QSO_DOWNLOAD_STATUS': 'Y', 'LOTW_QSL_RCVD': 'N'},
+            {'CALL': 'N0AA', 'QRZCOM_QSO_DOWNLOAD_STATUS': 'Y'},
         ]
 
         report = process_logs.confirmation_field_report(raw)
 
         # One value across every record is the signature of a field that is not
         # a confirmation; the run prints this so it is caught before the site.
-        self.assertEqual(report['APP_QRZLOG_STATUS'], {'C': 3})
+        self.assertEqual(report['QRZCOM_QSO_DOWNLOAD_STATUS'], {'Y': 3})
         self.assertEqual(report['LOTW_QSL_RCVD'], {'Y': 1, 'N': 1})
         self.assertNotIn('CALL', report)
 

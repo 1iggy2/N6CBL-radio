@@ -18,30 +18,31 @@ from datetime import datetime, timezone
 
 # Confirmation state belongs to the QSO, not to the worked station's QRZ profile.
 # QRZ marks a contact confirmed when the other operator's logbook entry matches
-# ours and exports that as APP_QRZLOG_STATUS; the standard ADIF received-QSL
+# ours and exports that as APP_QRZLOG_STATUS=C; the standard ADIF received-QSL
 # fields ride along for the operators who also confirm by LoTW, eQSL, or card.
 # Nothing here is inferred from a callsign lookup — a station that *has* LoTW is
 # not a contact that *is* confirmed, and the log must not conflate the two.
 #
-# APP_QRZLOG_STATUS is deliberately not read here. It looks like a confirmation
-# flag and is not one: the export carried a matching value on all 163 records
-# while QRZ's own book status reported 99 confirmed, so treating it as one
-# marked the whole log confirmed. QRZ's per-contact confirmation is not in the
-# ADIF export; the book-wide total below is what QRZ does report, and it is
-# labelled as a book total everywhere it is shown.
+# One field per route, and only fields that discriminate. QRZCOM_QSO_DOWNLOAD_-
+# STATUS was briefly read as a QRZ confirmation and is not one: it is Y on every
+# record, recording that the QSO came from QRZ, so it marked the whole log
+# confirmed. The run below prints a value histogram of every confirmation-shaped
+# field for exactly this reason — APP_QRZLOG_STATUS reads C=99 / N=64 against
+# QRZ's own book total of 99, which is what a real confirmation flag looks like.
 CONFIRMATION_ROUTES = (
-    ('lotw', ('LOTW_QSL_RCVD',), ('Y', 'V')),
-    ('eqsl', ('EQSL_QSL_RCVD',), ('Y', 'V')),
-    ('card', ('QSL_RCVD',),      ('Y', 'V')),
+    ('qrz',  ('APP_QRZLOG_STATUS',), ('C',)),
+    ('lotw', ('LOTW_QSL_RCVD',),     ('Y', 'V')),
+    ('eqsl', ('EQSL_QSL_RCVD',),     ('Y', 'V')),
+    ('card', ('QSL_RCVD',),          ('Y', 'V')),
 )
 CONFIRMATION_FIELDS = tuple(
     field for _, fields, _ in CONFIRMATION_ROUTES for field in fields
 )
 
 # Every ADIF field whose name suggests confirmation state, reported as a value
-# histogram on each run. This is how the APP_QRZLOG_STATUS mistake was caught,
-# and it is the only way to notice that QRZ started (or stopped) exporting a
-# field without reading a logbook export by hand.
+# histogram on each run. This is how the QRZCOM_QSO_DOWNLOAD_STATUS mistake was
+# caught, and it is the only way to notice that QRZ started (or stopped)
+# exporting a field without reading a logbook export by hand.
 CONFIRMATION_FIELD_PATTERN = re.compile(r'QSL|CONFIRM|STATUS|LOTW|EQSL|CLUBLOG|HRDLOG', re.IGNORECASE)
 
 # Book-wide totals from the QRZ Logbook STATUS call, written by
@@ -500,13 +501,13 @@ def main():
     confirmed_qsos = sum(1 for q in all_qsos if q['confirmed'])
     confirmed_calls = len(set(q['call'] for q in all_qsos if q['confirmed'] and q['call']))
 
-    # Two different facts, kept apart. The routes above are per-contact and can
-    # mark a row in the log; QRZ's own confirmed count is book-wide only, and is
-    # None when QRZ did not report it — in which case the pages drop the figure
-    # rather than print a number they cannot source.
+    # QRZ's book-wide confirmed count, kept as an independent check on the
+    # per-contact count above: the two are counted by different systems from
+    # different data and should agree. When they do not, the pages say so rather
+    # than quietly picking one.
     book_status = load_book_status()
     book_confirmed = book_status.get('confirmed')
-    qrz_confirmed = book_confirmed if isinstance(book_confirmed, int) else None
+    qrz_book_confirmed = book_confirmed if isinstance(book_confirmed, int) else None
     band_counts = {}
     for q in all_qsos:
         if q['band']:
@@ -531,9 +532,10 @@ def main():
             'dxcc_worked':   dxcc_worked,
             'confirmed_qsos':   confirmed_qsos,
             'confirmed_calls':  confirmed_calls,
-            'confirmations':    confirmation_counts,
-            'qrz_confirmed':    qrz_confirmed,
-            'qrz_book':         book_status,
+            'confirmations':       confirmation_counts,
+            'qrz_confirmed':       confirmation_counts.get('qrz', 0),
+            'qrz_book_confirmed':  qrz_book_confirmed,
+            'qrz_book':            book_status,
             'bands':         band_counts,
             'modes':         mode_counts,
         },
@@ -546,9 +548,15 @@ def main():
 
     routes = ', '.join(f'{route}={confirmation_counts[route]}' for route, _, _ in CONFIRMATION_ROUTES)
     print(f"Per-contact confirmations: {confirmed_qsos}/{len(all_qsos)} QSOs ({routes})")
-    print(
-        f'QRZ book confirmed: {qrz_confirmed if qrz_confirmed is not None else "not reported by QRZ"}'
-    )
+    marked_qrz = confirmation_counts.get('qrz', 0)
+    if qrz_book_confirmed is None:
+        print('QRZ book confirmed: not reported by QRZ')
+    elif qrz_book_confirmed == marked_qrz:
+        print(f'QRZ book confirmed: {qrz_book_confirmed}, agrees with the {marked_qrz} marked in the export')
+    else:
+        print(
+            f'QRZ book confirmed: {qrz_book_confirmed}, but the export marks {marked_qrz} — the two disagree'
+        )
     for field, values in sorted(field_report.items()):
         spread = ', '.join(
             f'{value}={count}' for value, count in sorted(values.items(), key=lambda kv: -kv[1])[:6]

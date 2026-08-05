@@ -62,22 +62,20 @@ source of contacts and no hand-entered row. QSO fields are taken from the record
 as QRZ exported it; only when a record omits a field (name, grid, state, county,
 DXCC, zones) does the worked station's cached QRZ profile fill the gap.
 
-Confirmations come from two places, and the site keeps them apart:
+Confirmation status is read per contact from the export: `APP_QRZLOG_STATUS=C`
+for QRZ's own confirmation, plus `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, and
+`QSL_RCVD` for the other routes. The fetch separately asks QRZ for the book
+status (`.cache/qrz-logbook-status.json`), whose confirmed count is kept as an
+independent check on the per-contact count — two systems counting the same thing.
+The pages report the disagreement if the two ever diverge.
 
-- **Per contact**, from `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, and `QSL_RCVD` on the
-  exported record. These mark the `Confirmed` column in `/log/` and fill the
-  breakdown table on `/qsl/`.
-- **Book-wide**, from the QRZ Logbook `ACTION=STATUS` call the fetch also makes
-  (`.cache/qrz-logbook-status.json`). QRZ's own confirmed count lives here and
-  nowhere else — the export does not mark which contacts they are, so the number
-  is shown as a logbook total and never broken down by contact. If QRZ stops
-  reporting it, the pages drop the figure instead of substituting one.
-
-`APP_QRZLOG_STATUS` is deliberately not read: it looks like a confirmation flag,
-but the live export carried the same value on all 163 records while QRZ reported
-99 confirmed. Every run now prints a value histogram of each confirmation-shaped
-ADIF field, flagging any field that is uniform across the export, so a
-lookalike is caught in the workflow log rather than on the site.
+`QRZCOM_QSO_DOWNLOAD_STATUS` is deliberately not read. It looks like a
+confirmation flag and is not one: it is `Y` on every record, recording that the
+QSO came from QRZ, and honouring it marked all 163 QSOs confirmed against QRZ's
+own count of 99. Every run now prints a value histogram of each
+confirmation-shaped ADIF field and flags any field that is uniform across the
+export, so the next lookalike shows up in the workflow log rather than on the
+site.
 
 Nothing is ever inferred from the other station's QRZ profile: a station that
 uses LoTW has not thereby confirmed the contact.
