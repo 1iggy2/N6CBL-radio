@@ -175,9 +175,11 @@ should appear on the site, it belongs in QRZ first.
 
 Two data sources meet in `data/qso-log.json` and must not be conflated:
 
-- **The QSO**, from the logbook export. Confirmation status lives here
-  (`APP_QRZLOG_STATUS`, `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, `QSL_RCVD`) and is the
-  only thing the site may call confirmed.
+- **The QSO**, from the logbook export. Per-contact confirmations live here
+  (`LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, `QSL_RCVD`), alongside QRZ's book-wide
+  confirmed count from the separate `ACTION=STATUS` call. These are the only
+  things the site may call confirmed, and the book total is always labelled as
+  one because the export does not say which contacts it covers.
 - **The worked station's QRZ profile**, from the XML callsign lookup. It fills
   gaps in a record's name/grid/state/county/DXCC/zone fields and carries the
   `lotw`/`eqsl`/`mqsl` flags, which say what routes that operator *accepts*.
@@ -185,6 +187,14 @@ Two data sources meet in `data/qso-log.json` and must not be conflated:
 A station that has LoTW is not a contact that is confirmed. Label profile-derived
 figures as reach, never as confirmations, and never present a lookup-coverage
 count ("QRZ enriched") as though it were an operating statistic.
+
+Before trusting an ADIF field that sounds like confirmation, check its
+distribution. `APP_QRZLOG_STATUS` shipped as one, and it marked all 163 QSOs
+confirmed while QRZ's own book status said 99. Every run now prints a value
+histogram of each confirmation-shaped field and flags any that is uniform across
+the export; read it rather than assuming from the field name. When a figure
+cannot be sourced, drop it from the page — do not print a dash where a statistic
+was promised.
 
 ## Site Structure
 

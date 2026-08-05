@@ -244,7 +244,7 @@
           <span class="stat-label">Sessions</span>
           <span id="stat-sessions" class="stat-value">—</span>
         </div>
-        <div class="stat">
+        <div class="stat" id="stat-confirmed-tile">
           <span class="stat-label">QRZ Confirmed</span>
           <span id="stat-confirmed" class="stat-value">—</span>
           <span id="stat-confirmed-sub" class="stat-sub">Waiting for QSOs</span>
@@ -656,29 +656,22 @@
 
     function degToRad(deg) { return deg * Math.PI / 180; }
 
-    /* Confirmations are a property of the QSO, read from the QRZ Logbook export.
-       Three states are distinguishable and all three are shown as themselves:
-       counted per QSO, taken from QRZ's book-wide total when the export carries
-       no per-QSO status, or unknown because neither was available. */
+    /* QRZ reports confirmations as a book-wide total, not per contact, so this
+       tile is that total and says so. When QRZ does not report it the tile is
+       removed rather than showing a dash: an empty stat in the core grid is
+       worse than one fewer stat. */
     function renderConfirmed(s) {
-      var valueEl = document.getElementById('stat-confirmed');
-      var subEl   = document.getElementById('stat-confirmed-sub');
-      var total   = s.qso_count || 0;
-      var n       = s.confirmed_total;
-
+      var tile = document.getElementById('stat-confirmed-tile');
+      var n = s.qrz_confirmed;
       if (typeof n !== 'number') {
-        valueEl.textContent = '—';
-        subEl.textContent = s.confirmed_source === 'none'
-          ? 'QRZ export carries no confirmation status'
-          : 'Waiting for the next QRZ refresh';
+        tile.remove();
         return;
       }
-
-      valueEl.textContent = n;
+      var total = s.qso_count || 0;
       var pct = total ? Math.round(n / total * 100) : 0;
-      subEl.textContent = s.confirmed_source === 'book'
-        ? pct + '% of ' + total + ' · QRZ logbook total'
-        : pct + '% of ' + total + ' · per-QSO QRZ status';
+      document.getElementById('stat-confirmed').textContent = n;
+      document.getElementById('stat-confirmed-sub').textContent =
+        pct + '% of ' + total + ' · QRZ logbook total';
     }
 
     function renderBandsTable(bands, total) {

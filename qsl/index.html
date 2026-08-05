@@ -390,7 +390,6 @@
     var cfmNote    = document.getElementById('qsl-confirmed-note');
 
     var CONFIRMATION_ROUTES = [
-      { key: 'qrz',  label: 'QRZ Logbook' },
       { key: 'lotw', label: 'Logbook of The World' },
       { key: 'eqsl', label: 'eQSL.cc' },
       { key: 'card', label: 'Paper card received' }
@@ -437,30 +436,13 @@
       var qsos  = data.qsos || [];
       var stats = data.stats || {};
       var total = qsos.length;
-
-      if (stats.confirmed_source !== 'adif') {
-        var reason = 'Waiting for the next QRZ refresh to publish confirmation status.';
-        if (stats.confirmed_source === 'book') {
-          reason = 'QRZ reports ' + stats.confirmed_total + ' confirmed contacts, but the export carries no per-QSO status to break them out.';
-        } else if (stats.confirmed_source === 'none') {
-          reason = 'The QRZ Logbook export carries no confirmation status.';
-        }
-        cfmTbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">' + esc(reason) + '</td></tr>';
-        cfmCount.textContent = typeof stats.confirmed_total === 'number'
-          ? stats.confirmed_total + ' of ' + total + ' confirmed'
-          : 'not reported';
-        cfmNote.textContent = stats.confirmed_source
-          ? 'Source: QRZ Logbook, ' + (stats.confirmed_source === 'book' ? 'book totals' : 'no confirmation data')
-          : 'Source: QRZ Logbook, refreshed every 15 minutes';
-        return;
-      }
-
       var counts = stats.confirmations || {};
       var confirmed = stats.confirmed_qsos || 0;
+
       var rows = CONFIRMATION_ROUTES.map(function (route) {
         return { label: route.label, n: counts[route.key] || 0 };
       });
-      rows.push({ label: 'Not confirmed yet', n: total - confirmed });
+      rows.push({ label: 'No confirmation recorded on the contact', n: total - confirmed });
 
       var max = 0;
       for (var i = 0; i < rows.length; i++) max = Math.max(max, rows[i].n);
@@ -470,8 +452,15 @@
         html += barRow(rows[j].label, rows[j].n, total, max);
       }
       cfmTbody.innerHTML = html;
-      cfmCount.textContent = confirmed + ' of ' + total + ' QSOs confirmed';
-      cfmNote.textContent = 'Confirmation status read per QSO from the QRZ Logbook export; a QSO can be confirmed by more than one route';
+      cfmCount.textContent = confirmed + ' of ' + total + ' QSOs';
+
+      /* QRZ's own confirmations are counted book-wide, not marked on the
+         exported records, so they cannot be broken out by contact. The total is
+         stated beside the table rather than mixed into it. */
+      cfmNote.textContent = typeof stats.qrz_confirmed === 'number'
+        ? 'Read per contact from the QRZ Logbook export. QRZ separately reports '
+          + stats.qrz_confirmed + ' of ' + total + ' contacts confirmed in the logbook, without saying which.'
+        : 'Read per contact from the QRZ Logbook export.';
     }
 
     function renderReach(stations) {

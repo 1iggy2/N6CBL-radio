@@ -22,19 +22,30 @@ from datetime import datetime, timezone
 # fields ride along for the operators who also confirm by LoTW, eQSL, or card.
 # Nothing here is inferred from a callsign lookup — a station that *has* LoTW is
 # not a contact that *is* confirmed, and the log must not conflate the two.
+#
+# APP_QRZLOG_STATUS is deliberately not read here. It looks like a confirmation
+# flag and is not one: the export carried a matching value on all 163 records
+# while QRZ's own book status reported 99 confirmed, so treating it as one
+# marked the whole log confirmed. QRZ's per-contact confirmation is not in the
+# ADIF export; the book-wide total below is what QRZ does report, and it is
+# labelled as a book total everywhere it is shown.
 CONFIRMATION_ROUTES = (
-    ('qrz',  ('APP_QRZLOG_STATUS', 'QRZCOM_QSO_DOWNLOAD_STATUS'), ('C', 'Y', 'V')),
-    ('lotw', ('LOTW_QSL_RCVD',),                                  ('Y', 'V')),
-    ('eqsl', ('EQSL_QSL_RCVD',),                                  ('Y', 'V')),
-    ('card', ('QSL_RCVD',),                                       ('Y', 'V')),
+    ('lotw', ('LOTW_QSL_RCVD',), ('Y', 'V')),
+    ('eqsl', ('EQSL_QSL_RCVD',), ('Y', 'V')),
+    ('card', ('QSL_RCVD',),      ('Y', 'V')),
 )
 CONFIRMATION_FIELDS = tuple(
     field for _, fields, _ in CONFIRMATION_ROUTES for field in fields
 )
 
+# Every ADIF field whose name suggests confirmation state, reported as a value
+# histogram on each run. This is how the APP_QRZLOG_STATUS mistake was caught,
+# and it is the only way to notice that QRZ started (or stopped) exporting a
+# field without reading a logbook export by hand.
+CONFIRMATION_FIELD_PATTERN = re.compile(r'QSL|CONFIRM|STATUS|LOTW|EQSL|CLUBLOG|HRDLOG', re.IGNORECASE)
+
 # Book-wide totals from the QRZ Logbook STATUS call, written by
-# scripts/fetch-qrz-logbook.py. Used only as a fallback headline count when the
-# ADIF export carries no per-QSO confirmation status at all.
+# scripts/fetch-qrz-logbook.py. QRZ's own confirmed count lives here.
 DEFAULT_BOOK_STATUS_PATH = '.cache/qrz-logbook-status.json'
 
 # Home QTH, used only when a QSO carries no operator-side location of its own.
@@ -194,7 +205,7 @@ def qrz_flag(record, key):
 
 
 def qso_confirmed_by(qso):
-    """Routes reporting this QSO confirmed, QRZ first, straight from the export."""
+    """Routes reporting this QSO confirmed, straight from the export."""
     routes = []
     for route, fields, accepted in CONFIRMATION_ROUTES:
         for field in fields:
@@ -204,14 +215,23 @@ def qso_confirmed_by(qso):
     return routes
 
 
-def carries_confirmation_fields(qso):
-    """True when the record carries any confirmation field, confirmed or not.
+def confirmation_field_report(raw_qsos):
+    """Value histogram for every confirmation-shaped field in the export.
 
-    A logbook where nothing is confirmed yet and a logbook export that omits
-    confirmation status entirely both produce zero confirmed QSOs. They are not
-    the same fact, so the pages must be able to tell them apart.
+    A field that carries the same value on every record cannot be a
+    confirmation, however much its name suggests otherwise. Printing the
+    distribution makes that obvious on the run that introduces it instead of on
+    the site.
     """
-    return any(str(qso.get(field, '')).strip() for field in CONFIRMATION_FIELDS)
+    report = {}
+    for qso in raw_qsos:
+        for field, value in qso.items():
+            if not CONFIRMATION_FIELD_PATTERN.search(field):
+                continue
+            value = str(value).strip().upper() or '(empty)'
+            report.setdefault(field, {})
+            report[field][value] = report[field].get(value, 0) + 1
+    return report
 
 
 def load_book_status():
@@ -334,13 +354,18 @@ def main():
 
     sessions = []
     all_qsos = []
-    confirmation_fields_seen = False
+    field_report = {}
 
     for path in paths:
         raw_qsos = parse_adif_file(path)
         if not raw_qsos:
             print(f"  {path.name}: no QSOs found, skipping")
             continue
+
+        for field, values in confirmation_field_report(raw_qsos).items():
+            merged = field_report.setdefault(field, {})
+            for value, count in values.items():
+                merged[value] = merged.get(value, 0) + count
 
         qso_groups = {path.stem: raw_qsos}
         if should_sessionize(path):
@@ -413,8 +438,6 @@ def main():
                 my_grid, my_lat, my_lon, my_grid_source = operator_position(q)
                 my_state, my_location = operator_location(q)
                 confirmed_by = qso_confirmed_by(q)
-                if carries_confirmation_fields(q):
-                    confirmation_fields_seen = True
                 all_qsos.append({
                     'date':       fmt_date(q.get('QSO_DATE', '')),
                     'time':       fmt_time(q.get('TIME_ON', '')),
@@ -477,21 +500,13 @@ def main():
     confirmed_qsos = sum(1 for q in all_qsos if q['confirmed'])
     confirmed_calls = len(set(q['call'] for q in all_qsos if q['confirmed'] and q['call']))
 
-    # Prefer the per-QSO status, which is the only source that can mark a row in
-    # the log. The book-wide total is a fallback for the case where QRZ exports
-    # no confirmation status at all, so the site reports QRZ's own number rather
-    # than a zero it cannot justify.
+    # Two different facts, kept apart. The routes above are per-contact and can
+    # mark a row in the log; QRZ's own confirmed count is book-wide only, and is
+    # None when QRZ did not report it — in which case the pages drop the figure
+    # rather than print a number they cannot source.
     book_status = load_book_status()
     book_confirmed = book_status.get('confirmed')
-    if confirmation_fields_seen:
-        confirmed_source = 'adif'
-        confirmed_total = confirmed_qsos
-    elif isinstance(book_confirmed, int):
-        confirmed_source = 'book'
-        confirmed_total = book_confirmed
-    else:
-        confirmed_source = 'none'
-        confirmed_total = None
+    qrz_confirmed = book_confirmed if isinstance(book_confirmed, int) else None
     band_counts = {}
     for q in all_qsos:
         if q['band']:
@@ -517,8 +532,7 @@ def main():
             'confirmed_qsos':   confirmed_qsos,
             'confirmed_calls':  confirmed_calls,
             'confirmations':    confirmation_counts,
-            'confirmed_total':  confirmed_total,
-            'confirmed_source': confirmed_source,
+            'qrz_confirmed':    qrz_confirmed,
             'qrz_book':         book_status,
             'bands':         band_counts,
             'modes':         mode_counts,
@@ -530,16 +544,20 @@ def main():
     out_path.parent.mkdir(exist_ok=True)
     out_path.write_text(json.dumps(output, indent=2))
 
-    if confirmed_source == 'adif':
-        routes = ', '.join(f'{route}={confirmation_counts[route]}' for route, _, _ in CONFIRMATION_ROUTES)
-        print(f"Confirmations: {confirmed_qsos}/{len(all_qsos)} QSOs from ADIF status ({routes})")
-    elif confirmed_source == 'book':
-        print(f"Confirmations: no per-QSO status in the export; QRZ book reports {confirmed_total} confirmed")
-    else:
-        print(
-            'Confirmations: the QRZ export carries no confirmation status and no book total was recorded. '
-            f'Looked for {", ".join(CONFIRMATION_FIELDS)}.'
+    routes = ', '.join(f'{route}={confirmation_counts[route]}' for route, _, _ in CONFIRMATION_ROUTES)
+    print(f"Per-contact confirmations: {confirmed_qsos}/{len(all_qsos)} QSOs ({routes})")
+    print(
+        f'QRZ book confirmed: {qrz_confirmed if qrz_confirmed is not None else "not reported by QRZ"}'
+    )
+    for field, values in sorted(field_report.items()):
+        spread = ', '.join(
+            f'{value}={count}' for value, count in sorted(values.items(), key=lambda kv: -kv[1])[:6]
         )
+        # A field carried by every record with one single value distinguishes
+        # nothing, whatever its name promises. Say so where it is printed.
+        uniform = len(values) == 1 and sum(values.values()) == len(all_qsos)
+        flag = ' (same value on every record — not a confirmation)' if uniform else ''
+        print(f'  ADIF {field}: {spread}{flag}')
     print(f"Written {len(all_qsos)} QSOs, {len(sessions)} sessions → {out_path}")
 
 

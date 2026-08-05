@@ -95,13 +95,14 @@ class OperatorLocationTests(unittest.TestCase):
 
 
 class ConfirmationTests(unittest.TestCase):
-    def test_reads_qrz_logbook_confirmation_status(self):
+    def test_ignores_app_qrzlog_status(self):
+        """It reads as a confirmation flag and is not one.
+
+        The live export carried a matching value on every record while QRZ's own
+        book status reported 99 of 163 confirmed, so honouring it marked the
+        whole log confirmed.
+        """
         qso = {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'C'}
-
-        self.assertEqual(process_logs.qso_confirmed_by(qso), ['qrz'])
-
-    def test_unconfirmed_qrz_status_is_not_a_confirmation(self):
-        qso = {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'N'}
 
         self.assertEqual(process_logs.qso_confirmed_by(qso), [])
 
@@ -122,10 +123,20 @@ class ConfirmationTests(unittest.TestCase):
         self.assertEqual(process_logs.qso_confirmed_by(qso), [])
         self.assertTrue(process_logs.qrz_flag({'lotw': '1'}, 'lotw'))
 
-    def test_distinguishes_no_confirmation_from_no_confirmation_data(self):
-        self.assertFalse(process_logs.carries_confirmation_fields({'CALL': 'W1AW'}))
-        self.assertTrue(process_logs.carries_confirmation_fields({'APP_QRZLOG_STATUS': 'N'}))
-        self.assertTrue(process_logs.carries_confirmation_fields({'QSL_RCVD': 'N'}))
+    def test_field_report_counts_every_value_of_a_confirmation_shaped_field(self):
+        raw = [
+            {'CALL': 'W1AW', 'APP_QRZLOG_STATUS': 'C', 'LOTW_QSL_RCVD': 'Y'},
+            {'CALL': 'K1ZZ', 'APP_QRZLOG_STATUS': 'C', 'LOTW_QSL_RCVD': 'N'},
+            {'CALL': 'N0AA', 'APP_QRZLOG_STATUS': 'C'},
+        ]
+
+        report = process_logs.confirmation_field_report(raw)
+
+        # One value across every record is the signature of a field that is not
+        # a confirmation; the run prints this so it is caught before the site.
+        self.assertEqual(report['APP_QRZLOG_STATUS'], {'C': 3})
+        self.assertEqual(report['LOTW_QSL_RCVD'], {'Y': 1, 'N': 1})
+        self.assertNotIn('CALL', report)
 
 
 if __name__ == '__main__':

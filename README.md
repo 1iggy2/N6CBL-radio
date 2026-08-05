@@ -62,13 +62,25 @@ source of contacts and no hand-entered row. QSO fields are taken from the record
 as QRZ exported it; only when a record omits a field (name, grid, state, county,
 DXCC, zones) does the worked station's cached QRZ profile fill the gap.
 
-Confirmation status is read per QSO from the same export — `APP_QRZLOG_STATUS`
-for QRZ's own confirmation, plus `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, and
-`QSL_RCVD`. It is never inferred from the other station's QRZ profile: a station
-that uses LoTW has not thereby confirmed the contact. The fetch also records the
-book-wide totals (`.cache/qrz-logbook-status.json`) so the site can still report
-QRZ's confirmed count if an export ever arrives without per-QSO status; the pages
-say which of the two they are showing.
+Confirmations come from two places, and the site keeps them apart:
+
+- **Per contact**, from `LOTW_QSL_RCVD`, `EQSL_QSL_RCVD`, and `QSL_RCVD` on the
+  exported record. These mark the `Confirmed` column in `/log/` and fill the
+  breakdown table on `/qsl/`.
+- **Book-wide**, from the QRZ Logbook `ACTION=STATUS` call the fetch also makes
+  (`.cache/qrz-logbook-status.json`). QRZ's own confirmed count lives here and
+  nowhere else — the export does not mark which contacts they are, so the number
+  is shown as a logbook total and never broken down by contact. If QRZ stops
+  reporting it, the pages drop the figure instead of substituting one.
+
+`APP_QRZLOG_STATUS` is deliberately not read: it looks like a confirmation flag,
+but the live export carried the same value on all 163 records while QRZ reported
+99 confirmed. Every run now prints a value histogram of each confirmation-shaped
+ADIF field, flagging any field that is uniform across the export, so a
+lookalike is caught in the workflow log rather than on the site.
+
+Nothing is ever inferred from the other station's QRZ profile: a station that
+uses LoTW has not thereby confirmed the contact.
 
 ### Owner setup
 
