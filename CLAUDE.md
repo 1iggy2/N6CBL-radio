@@ -166,22 +166,31 @@ The blog build step is intentionally narrow: `scripts/build-blog.js` reads
 `/content/blog/*.json` and regenerates the static blog/home HTML that Cloudflare
 serves. Do not add runtime Markdown rendering or a client-side CMS for core posts.
 
-## Site Structure (planned)
+## Site Structure
+
+Listed in navigator order. The navigator is ordered by operational importance —
+the log first, then the writing about it, then the station behind it, then the
+tooling — not alphabetically and not by build date. `content/nav.json` holds the
+order; keep this list and that file in the same sequence.
 
 ```
 /                  — splash / home, world map, station overview
-/design/           — design language of record: principles, type, color, patterns, prohibitions
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
+/blog/             — posts: technical, radio, misc
 /station/          — my station: operator profile, hardware reviews, gear, modes, CW progress
 /qsl/              — QSL card: front artwork, card specification, confirmation routes, QSL reach of worked stations
 /propagation/      — pre-activation command station: NOAA SWPC indices, per-band reach, 24 h window, Hermosa Beach weather
-/blog/             — posts: technical, radio, misc
 /tools/            — workbench index: one route per tool discipline
 /tools/ham/        — amateur radio workbench: 17 client-side utilities
 /tools/uav/        — fixed-wing UAV design lab: parametric sizing, Monte Carlo, 3-view
-/prints/           — 3D print catalog with files
+/design/           — design language of record: principles, type, color, patterns, prohibitions
 ```
+
+A 3D print catalog at `/prints/` is still wanted, but it is not a planned route
+until it has content: it shipped as a muted navigator row for long enough that
+the row was only advertising an empty promise. Add it back to `content/nav.json`
+— and here — in the same change that publishes the page.
 
 ## File Layout
 

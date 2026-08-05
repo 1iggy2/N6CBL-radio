@@ -15,20 +15,24 @@ timeless. See [CLAUDE.md](./CLAUDE.md) for the full doctrine.
 
 ## Structure
 
+In navigator order — the sidebar is ordered by operational importance, not
+alphabetically.
+
 | Path | Content |
 |---|---|
 | `/` | Home / current splash |
-| `/design/` | Design language: principles, type, color, layout patterns, prohibitions |
 | `/log/` | QSO log and contact records |
 | `/log/stats/` | QSO analysis and statistics |
+| `/blog/` | Posts |
 | `/station/` | My station: operator profile, hardware reviews, gear, modes |
 | `/qsl/` | QSL card: front artwork, card specification, confirmation routes, QSL reach of worked stations |
 | `/propagation/` | Live propagation dashboard: NOAA SWPC indices, per-band reach, local weather |
-| `/blog/` | Posts |
 | `/tools/` | Workbench index |
 | `/tools/ham/` | Amateur radio utilities (17 tools) |
 | `/tools/uav/` | Fixed-wing UAV design lab |
-| `/prints/` | 3D print catalog |
+| `/design/` | Design language: principles, type, color, layout patterns, prohibitions |
+
+A 3D print catalog is still planned; it gets a navigator row when the page ships.
 
 ## Development
 
