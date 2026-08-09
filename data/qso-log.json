@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09T02:01:19Z",
+  "generated": "2026-08-09T03:53:44Z",
   "stats": {
     "qso_count": 163,
     "session_count": 14,
@@ -85,7 +85,7 @@
       "dxcc_count": 3,
       "start_date": "2025-06-01",
       "end_date": "2035-05-31",
-      "fetched": "2026-08-09T02:01:19Z"
+      "fetched": "2026-08-09T03:52:59Z"
     },
     "bands": {
       "20m": 163
@@ -1700,7 +1700,7 @@
       "rst_sent": "58",
       "rst_rcvd": "56",
       "name": "Man C. Chan",
-      "first_name": "Man",
+      "first_name": "Rob",
       "last_name": "Chan",
       "comment": "",
       "session": "2026-05-11-us-3425",
@@ -5888,7 +5888,7 @@
       ],
       "lotw": false,
       "eqsl": false,
-      "mqsl": false,
+      "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KJ5NTJ",
       "qrz_profile": true
     },
