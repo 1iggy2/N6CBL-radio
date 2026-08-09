@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09T20:04:50Z",
+  "generated": "2026-08-09T20:52:20Z",
   "stats": {
     "qso_count": 163,
     "session_count": 14,
@@ -69,15 +69,15 @@
       "291",
       "6"
     ],
-    "confirmed_qsos": 99,
-    "confirmed_calls": 89,
+    "confirmed_qsos": 100,
+    "confirmed_calls": 90,
     "confirmations": {
-      "qrz": 99,
+      "qrz": 100,
       "lotw": 42,
       "eqsl": 0,
       "card": 0
     },
-    "qrz_confirmed": 99,
+    "qrz_confirmed": 100,
     "qrz_book_confirmed": 99,
     "qrz_book": {
       "count": 163,
@@ -85,7 +85,7 @@
       "dxcc_count": 3,
       "start_date": "2025-06-01",
       "end_date": "2035-05-31",
-      "fetched": "2026-08-09T20:04:50Z"
+      "fetched": "2026-08-09T20:52:20Z"
     },
     "bands": {
       "20m": 163
@@ -792,8 +792,10 @@
       "dxcc": "291",
       "cqzone": "3",
       "ituzone": "6",
-      "confirmed": false,
-      "confirmed_by": [],
+      "confirmed": true,
+      "confirmed_by": [
+        "qrz"
+      ],
       "lotw": false,
       "eqsl": false,
       "mqsl": false,
