@@ -341,7 +341,7 @@
       "name_fmt": "Timothy K Crossland",
       "qrz_url": "https://www.qrz.com/db/K6CVH",
       "state": "CA",
-      "updated": "2026-05-14T08:07:47Z"
+      "updated": "2026-08-12T08:53:32Z"
     },
     "K6YUQ": {
       "call": "K6YUQ",
@@ -377,7 +377,7 @@
       "nickname": "Ben",
       "qrz_url": "https://www.qrz.com/db/K6ZI",
       "state": "CA",
-      "updated": "2026-05-14T08:07:47Z"
+      "updated": "2026-08-12T08:53:32Z"
     },
     "K7ACN": {
       "call": "K7ACN",
@@ -3045,7 +3045,7 @@
       "updated": "2026-08-01T17:25:50Z"
     }
   },
-  "generated": "2026-08-09T03:52:59Z",
+  "generated": "2026-08-12T08:53:32Z",
   "policy": {
     "lookup_limit": 250,
     "max_age_days": 90,
