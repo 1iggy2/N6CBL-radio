@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12T23:58:56Z",
+  "generated": "2026-08-13T02:38:21Z",
   "stats": {
     "qso_count": 163,
     "session_count": 14,
@@ -85,7 +85,7 @@
       "dxcc_count": 3,
       "start_date": "2025-06-01",
       "end_date": "2035-05-31",
-      "fetched": "2026-08-12T23:58:56Z"
+      "fetched": "2026-08-13T02:38:21Z"
     },
     "bands": {
       "20m": 163
