@@ -413,7 +413,7 @@
       <section aria-labelledby="desk-notes-heading">
         <div class="section-label" id="desk-notes-heading">Method notes</div>
         <div class="tools-note">
-          <strong>Grayline.</strong> Sun latitude is the usual declination approximation (−23.44°·cos(2π(DOY+10)/365.24)). Sun longitude is 180° − 15°·UTC hours. Night is the hemisphere whose ECEF normal dots the sun vector negative. The globe is an orthographic projection; land is a compact polygon set, not NASA imagery.
+          <strong>Grayline.</strong> Sun latitude is the usual declination approximation (−23.44°·cos(2π(DOY+10)/365.24)). Sun longitude is 180° − 15°·UTC hours. The globe is an orthographic projection of <code>/images/world-map.svg</code> — the same equirectangular basemap as the homepage — sampled onto the sphere. Night is a twilight band where the ECEF normal dots the sun vector through zero, not a fillRect hatch.
           <strong>Skip.</strong> Great-circle interpolation in ECEF. Hop count is ceil(distance / band hop-km), with 80 m treated as NVIS under 600 km. It is a planning sketch, not VOACAP.
           <strong>S-meter.</strong> A model: RF gain sets the floor; a published QSO within 3.2 kHz of the VFO raises the needle; the paddle pins it near S9. It is not connected to a radio.
           <strong>Paddle.</strong> Iambic A on Z/X, straight key on Space. Decoder uses 1.2/WPM dit timing with 1.8 / 2.1 / 6.2 dit thresholds for dah, letter gap, and word gap. Sidetone is a 600 Hz sine with a 4–8 ms envelope.

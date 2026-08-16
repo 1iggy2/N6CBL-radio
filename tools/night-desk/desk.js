@@ -22,23 +22,6 @@
     { id: '6m', label: '6 m', lo: 50000, hi: 54000, center: 50125, hopKm: 2200, nvis: false }
   ];
 
-  var LAND = [
-    [[-168,65],[-141,70],[-128,71],[-105,73],[-88,74],[-80,62],[-70,58],[-56,51],[-55,47],[-67,44],[-70,41],[-76,35],[-81,25],[-97,16],[-106,22],[-111,24],[-117,32],[-125,40],[-124,48],[-130,55],[-153,58],[-166,64]],
-    [[-73,78],[-60,82],[-22,81],[-20,70],[-44,60],[-58,61],[-70,70]],
-    [[-81,12],[-68,12],[-60,8],[-50,0],[-35,-5],[-35,-20],[-40,-32],[-62,-55],[-75,-50],[-74,-18],[-81,-5]],
-    [[-10,36],[-9,43],[-5,48],[-5,58],[8,63],[16,69],[30,70],[30,60],[28,45],[20,40],[10,38],[3,43],[-2,43]],
-    [[-10,51],[-6,55],[-1,58],[1,52],[-5,50],[-10,51.4]],
-    [[-17,15],[-5,36],[10,37],[25,32],[32,31],[43,12],[51,12],[40,-3],[40,-15],[32,-30],[20,-35],[18,-34],[12,-6],[9,4],[-5,5],[-15,10]],
-    [[43,-12],[50,-13],[47,-25],[43,-25]],
-    [[28,41],[36,36],[44,40],[48,30],[56,27],[62,25],[68,23],[73,22],[77,8],[80,6],[99,6],[109,14],[109,22],[122,30],[122,40],[130,43],[135,45],[142,53],[160,60],[180,66],[170,70],[140,72],[100,76],[80,72],[60,70],[44,68],[40,60],[40,48]],
-    [[68,23],[72,21],[77,8],[80,15],[88,22],[80,26],[70,28]],
-    [[95,6],[104,2],[118,-4],[130,-8],[140,-8],[150,-2],[131,0],[120,5],[105,12]],
-    [[130,32],[131,34],[136,35],[141,39],[145,43],[142,45],[140,41],[135,34]],
-    [[114,-22],[114,-34],[136,-35],[153,-28],[153,-12],[142,-11],[136,-14],[128,-14],[122,-18]],
-    [[166,-41],[174,-35],[178,-37],[175,-41],[168,-47],[166,-46]],
-    [[-180,-72],[-90,-68],[0,-70],[90,-72],[180,-75],[180,-90],[-180,-90]]
-  ];
-
   var MORSE = {
     A:'.-', B:'-...', C:'-.-.', D:'-..', E:'.', F:'..-.', G:'--.', H:'....',
     I:'..', J:'.---', K:'-.-', L:'.-..', M:'--', N:'-.', O:'---', P:'.--.',
@@ -477,15 +460,132 @@
   }
 
   /* ── globe ──────────────────────────────────────────────────────── */
+  /* Orthographic sphere textured from /images/world-map.svg (same
+     equirectangular basemap as the homepage). Rotation is Y then X;
+     night is a smooth twilight from the sun vector, not fillRects. */
+  var globeMap = { ready: false, w: 0, h: 0, data: null };
+  var globeScratch = { canvas: null, ctx: null, w: 0, h: 0 };
+  var globeDrag = false;
+
+  function loadGlobeMap() {
+    var img = new Image();
+    img.onload = function () {
+      var c = document.createElement('canvas');
+      var tw = 1600;
+      var th = 800;
+      c.width = tw;
+      c.height = th;
+      var g = c.getContext('2d');
+      g.drawImage(img, 0, 0, tw, th);
+      try {
+        var id = g.getImageData(0, 0, tw, th);
+        globeMap.w = tw;
+        globeMap.h = th;
+        globeMap.data = id.data;
+        globeMap.ready = true;
+      } catch (err) {
+        globeMap.ready = false;
+      }
+      drawGlobe();
+    };
+    img.onerror = function () { drawGlobe(); };
+    img.src = '/images/world-map.svg';
+  }
+
+  function sampleMap(lon, lat) {
+    /* Default ocean if the SVG has not arrived (or canvas taint). */
+    var land = 0;
+    var r = 184, g = 208, b = 230;
+    if (globeMap.ready) {
+      var u = ((lon + 180) / 360);
+      u = u - Math.floor(u);
+      var v = clamp((90 - lat) / 180, 0, 1);
+      var x = u * (globeMap.w - 1);
+      var y = v * (globeMap.h - 1);
+      var x0 = Math.floor(x);
+      var y0 = Math.floor(y);
+      var x1 = (x0 + 1) % globeMap.w;
+      var y1 = Math.min(y0 + 1, globeMap.h - 1);
+      var fx = x - x0;
+      var fy = y - y0;
+      var data = globeMap.data;
+      var mw = globeMap.w;
+      var o00 = (y0 * mw + x0) * 4;
+      var o10 = (y0 * mw + x1) * 4;
+      var o01 = (y1 * mw + x0) * 4;
+      var o11 = (y1 * mw + x1) * 4;
+      var w00 = (1 - fx) * (1 - fy);
+      var w10 = fx * (1 - fy);
+      var w01 = (1 - fx) * fy;
+      var w11 = fx * fy;
+      r = data[o00] * w00 + data[o10] * w10 + data[o01] * w01 + data[o11] * w11;
+      g = data[o00 + 1] * w00 + data[o10 + 1] * w10 + data[o01 + 1] * w01 + data[o11 + 1] * w11;
+      b = data[o00 + 2] * w00 + data[o10 + 2] * w10 + data[o01 + 2] * w01 + data[o11 + 2] * w11;
+    }
+    /* Cream land (#f0ede8) vs steel ocean (#b8d0e6) on the site map. */
+    land = clamp((r - 200) / 36, 0, 1);
+    return { r: r, g: g, b: b, land: land };
+  }
+
   function project(lat, lon, R) {
     var la = lat * DEG;
-    var lo = (lon - state.rotLon) * DEG;
+    var lo = lon * DEG;
     var cl = Math.cos(la);
-    return {
-      x: R * cl * Math.sin(lo),
-      y: -R * Math.sin(la - state.rotLat * DEG),
-      z: cl * Math.cos(lo)
-    };
+    var x = cl * Math.sin(lo);
+    var y = Math.sin(la);
+    var z = cl * Math.cos(lo);
+    var rl = state.rotLon * DEG;
+    var rb = state.rotLat * DEG;
+    var cosL = Math.cos(rl), sinL = Math.sin(rl);
+    var cosB = Math.cos(rb), sinB = Math.sin(rb);
+    var x1 = x * cosL - z * sinL;
+    var z1 = x * sinL + z * cosL;
+    var y2 = y * cosB - z1 * sinB;
+    var z2 = y * sinB + z1 * cosB;
+    return { x: R * x1, y: -R * y2, z: z2 };
+  }
+
+  function ensureScratch(bw, bh) {
+    if (!globeScratch.canvas) {
+      globeScratch.canvas = document.createElement('canvas');
+      globeScratch.ctx = globeScratch.canvas.getContext('2d');
+    }
+    if (globeScratch.w !== bw || globeScratch.h !== bh) {
+      globeScratch.canvas.width = bw;
+      globeScratch.canvas.height = bh;
+      globeScratch.w = bw;
+      globeScratch.h = bh;
+      globeScratch.img = globeScratch.ctx.createImageData(bw, bh);
+    }
+    return globeScratch;
+  }
+
+  function drawMeridian(ctx, cx, cy, R, lon, color, width) {
+    ctx.beginPath();
+    var pen = false;
+    for (var lat = -90; lat <= 90; lat += 3) {
+      var pt = project(lat, lon, R);
+      if (pt.z <= 0.02) { pen = false; continue; }
+      if (!pen) { ctx.moveTo(cx + pt.x, cy + pt.y); pen = true; }
+      else ctx.lineTo(cx + pt.x, cy + pt.y);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
+
+  function drawParallel(ctx, cx, cy, R, lat, color, width) {
+    ctx.beginPath();
+    var pen = false;
+    for (var lon = -180; lon <= 180; lon += 4) {
+      var pt = project(lat, lon, R);
+      if (pt.z <= 0.02) { pen = false; continue; }
+      if (!pen) { ctx.moveTo(cx + pt.x, cy + pt.y); pen = true; }
+      else ctx.lineTo(cx + pt.x, cy + pt.y);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
   }
 
   function drawGlobe() {
@@ -506,63 +606,117 @@
     ctx.fillStyle = '#0e1114';
     ctx.fillRect(0, 0, w, h);
 
-    var cx = w * 0.38;
-    var cy = h * 0.52;
-    var R = Math.min(w * 0.34, h * 0.46);
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.fillStyle = '#1a2430';
-    ctx.fill();
+    var cx = w >= 700 ? w * 0.38 : w * 0.5;
+    var cy = h * 0.51;
+    var R = Math.min(w >= 700 ? w * 0.38 : w * 0.46, h * 0.48);
 
     var sun = sunLatLon(new Date());
-    var sunV = latLonToVec(sun.lat, sun.lon);
+    var sla = sun.lat * DEG;
+    var slo = sun.lon * DEG;
+    var sunX = Math.cos(sla) * Math.sin(slo);
+    var sunY = Math.sin(sla);
+    var sunZ = Math.cos(sla) * Math.cos(slo);
 
-    /* night cap */
+    var rl = state.rotLon * DEG;
+    var rb = state.rotLat * DEG;
+    var cosL = Math.cos(rl), sinL = Math.sin(rl);
+    var cosB = Math.cos(rb), sinB = Math.sin(rb);
+
+    var scale = globeDrag ? 0.5 : 1.8;
+    var bw = Math.max(32, Math.round(2 * R * scale));
+    var bh = bw;
+    var scratch = ensureScratch(bw, bh);
+    var pix = scratch.img.data;
+    var i, j, o;
+    for (i = 0; i < pix.length; i++) pix[i] = 0;
+
+    for (j = 0; j < bh; j++) {
+      for (i = 0; i < bw; i++) {
+        var nx = (i + 0.5) / bw * 2 - 1;
+        var ny = (j + 0.5) / bh * 2 - 1;
+        var rr = nx * nx + ny * ny;
+        if (rr > 1) continue;
+        var zp = Math.sqrt(1 - rr);
+        /* Inverse X(rotLat) then inverse Y(-rotLon) back to ECEF. */
+        var y1 = (-ny) * cosB + zp * sinB;
+        var z1 = -(-ny) * sinB + zp * cosB;
+        var x1 = nx;
+        var xw = x1 * cosL + z1 * sinL;
+        var yw = y1;
+        var zw = -x1 * sinL + z1 * cosL;
+        var lat = Math.asin(clamp(yw, -1, 1)) / DEG;
+        var lon = Math.atan2(xw, zw) / DEG;
+        var samp = sampleMap(lon, lat);
+        var illum = xw * sunX + yw * sunY + zw * sunZ;
+        var land = samp.land;
+        var dayR = 40 + land * 118;
+        var dayG = 54 + land * 90;
+        var dayB = 68 + land * 48;
+        var nightR = 8 + land * 24;
+        var nightG = 11 + land * 17;
+        var nightB = 16 + land * 8;
+        var t = clamp(illum / 0.22 + 0.5, 0, 1);
+        t = t * t * (3 - 2 * t);
+        var cr = nightR + (dayR - nightR) * t;
+        var cg = nightG + (dayG - nightG) * t;
+        var cb = nightB + (dayB - nightB) * t;
+        var term = 1 - Math.abs(illum) / 0.2;
+        if (term > 0) {
+          term = term * term;
+          cr += 32 * term;
+          cg += 18 * term;
+          cb += 4 * term;
+        }
+        var limb = 0.52 + 0.48 * Math.pow(zp, 0.55);
+        cr *= limb;
+        cg *= limb;
+        cb *= limb;
+        if (land < 0.35 && illum > 0.62) {
+          var spec = Math.pow(illum, 14) * (1 - land) * 36;
+          cr += spec;
+          cg += spec;
+          cb += spec * 1.15;
+        }
+        o = (j * bw + i) * 4;
+        pix[o] = cr < 0 ? 0 : cr > 255 ? 255 : cr;
+        pix[o + 1] = cg < 0 ? 0 : cg > 255 ? 255 : cg;
+        pix[o + 2] = cb < 0 ? 0 : cb > 255 ? 255 : cb;
+        pix[o + 3] = 255;
+      }
+    }
+    scratch.ctx.putImageData(scratch.img, 0, 0);
+
+    /* Soft atmosphere just outside the limb. */
+    var halo = ctx.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.08);
+    halo.addColorStop(0, 'rgba(160,180,200,0)');
+    halo.addColorStop(0.55, 'rgba(160,180,200,0.16)');
+    halo.addColorStop(1, 'rgba(160,180,200,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 1.08, 0, Math.PI * 2);
+    ctx.arc(cx, cy, R, 0, Math.PI * 2, true);
+    ctx.fillStyle = halo;
+    ctx.fill();
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(scratch.canvas, cx - R, cy - R, 2 * R, 2 * R);
+
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
     ctx.clip();
-    ctx.fillStyle = 'rgba(4,6,10,0.55)';
-    var step = 4;
-    for (var yy = -R; yy <= R; yy += step) {
-      for (var xx = -R; xx <= R; xx += step) {
-        var rr = xx * xx + yy * yy;
-        if (rr > R * R) continue;
-        var z = Math.sqrt(Math.max(0, 1 - rr / (R * R)));
-        var xN = xx / R;
-        var yN = -yy / R;
-        /* invert project roughly: this is a cheap disk sample against sun */
-        var lat = Math.asin(clamp(yN, -1, 1)) / DEG + state.rotLat;
-        var lon = Math.atan2(xN, z) / DEG + state.rotLon;
-        var p = latLonToVec(lat, lon);
-        var day = p.x * sunV.x + p.y * sunV.y + p.z * sunV.z;
-        if (day < 0.04) {
-          ctx.fillRect(cx + xx, cy + yy, step, step);
-        }
+    if (!globeDrag) {
+      var gi;
+      for (gi = -150; gi <= 180; gi += 30) {
+        if (gi === 0) continue;
+        drawMeridian(ctx, cx, cy, R, gi, 'rgba(245,245,240,0.08)', 0.6);
       }
-    }
-    ctx.restore();
-
-    function strokePoly(ring, fill) {
-      var started = false;
-      ctx.beginPath();
-      for (var i = 0; i < ring.length; i++) {
-        var pt = project(ring[i][1], ring[i][0], R);
-        if (pt.z <= 0) { started = false; continue; }
-        if (!started) { ctx.moveTo(cx + pt.x, cy + pt.y); started = true; }
-        else ctx.lineTo(cx + pt.x, cy + pt.y);
+      for (gi = -60; gi <= 60; gi += 30) {
+        if (gi === 0) continue;
+        drawParallel(ctx, cx, cy, R, gi, 'rgba(245,245,240,0.08)', 0.6);
       }
-      ctx.fillStyle = fill;
-      ctx.fill();
+      drawMeridian(ctx, cx, cy, R, 0, 'rgba(245,245,240,0.18)', 0.8);
+      drawParallel(ctx, cx, cy, R, 0, 'rgba(245,245,240,0.18)', 0.8);
     }
-    for (var li = 0; li < LAND.length; li++) strokePoly(LAND[li], '#6a7a52');
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.strokeStyle = '#0a0a0a';
-    ctx.lineWidth = 1.25;
-    ctx.stroke();
 
     /* QSO dots */
     for (var qi = 0; qi < state.log.length; qi++) {
@@ -571,9 +725,9 @@
       var qp = project(q.lat, q.lon, R);
       if (qp.z <= 0) continue;
       var sel = state.selected && state.selected.id === q.id;
-      ctx.fillStyle = sel ? '#c8401a' : 'rgba(200,64,26,0.55)';
+      ctx.fillStyle = sel ? '#c8401a' : 'rgba(200,64,26,0.62)';
       ctx.beginPath();
-      ctx.arc(cx + qp.x, cy + qp.y, sel ? 3.2 : 1.6, 0, Math.PI * 2);
+      ctx.arc(cx + qp.x, cy + qp.y, sel ? 3.2 : 1.55, 0, Math.PI * 2);
       ctx.fill();
     }
 
@@ -584,6 +738,7 @@
       ctx.arc(cx + home.x, cy + home.y, 3.4, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = '#0a0a0a';
+      ctx.lineWidth = 1;
       ctx.stroke();
     }
 
@@ -597,7 +752,7 @@
       ctx.beginPath();
       var pen = false;
       for (var pi = 0; pi < path.length; pi++) {
-        var pp = project(path[pi].lat, path[pi].lon, R * 1.01);
+        var pp = project(path[pi].lat, path[pi].lon, R * 1.012);
         if (pp.z <= 0) { pen = false; continue; }
         if (!pen) { ctx.moveTo(cx + pp.x, cy + pp.y); pen = true; }
         else ctx.lineTo(cx + pp.x, cy + pp.y);
@@ -606,6 +761,13 @@
       ctx.lineWidth = 1.6;
       ctx.stroke();
     }
+    ctx.restore();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = '#0a0a0a';
+    ctx.lineWidth = 1.25;
+    ctx.stroke();
 
     if (w >= 700) {
       ctx.fillStyle = '#f5f5f0';
@@ -615,6 +777,7 @@
       ctx.fillStyle = '#9aa';
       ctx.fillText(state.log.length + ' QSO dots', w * 0.72, 50);
       ctx.fillText('drag to rotate', w * 0.72, 66);
+      ctx.fillText(globeMap.ready ? 'MAP /images/world-map.svg' : 'MAP loading…', w * 0.72, 82);
     }
   }
 
@@ -905,6 +1068,7 @@
     var lastY = 0;
     canvas.addEventListener('pointerdown', function (e) {
       dragging = true;
+      globeDrag = true;
       lastX = e.clientX;
       lastY = e.clientY;
       canvas.setPointerCapture(e.pointerId);
@@ -912,13 +1076,20 @@
     canvas.addEventListener('pointermove', function (e) {
       if (!dragging) return;
       state.rotLon -= (e.clientX - lastX) * 0.35;
+      state.rotLon = ((state.rotLon + 180) % 360 + 360) % 360 - 180;
       state.rotLat = clamp(state.rotLat + (e.clientY - lastY) * 0.2, -50, 50);
       lastX = e.clientX;
       lastY = e.clientY;
       drawGlobe();
     });
-    canvas.addEventListener('pointerup', function () { dragging = false; });
-    canvas.addEventListener('pointercancel', function () { dragging = false; });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      globeDrag = false;
+      drawGlobe();
+    }
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
   }
 
   function onKeyDown(e) {
@@ -1047,6 +1218,7 @@
     renderPaddle();
     renderPath();
     renderMeta();
+    loadGlobeMap();
     drawGlobe();
     loadLog();
 

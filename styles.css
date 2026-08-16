@@ -2936,7 +2936,7 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
 .desk-globe {
   display: block;
   width: 100%;
-  height: 280px;
+  height: 340px;
   touch-action: none;
   cursor: grab;
 }
@@ -3038,7 +3038,7 @@ section .uav-fig:last-of-type { margin-bottom: 12px; }
   .desk-path-facts { grid-template-columns: repeat(2, 1fr); }
   .desk-path-facts > div:nth-child(4n) { border-right: 1px solid var(--rule-2); }
   .desk-path-facts > div:nth-child(2n) { border-right: none; }
-  .desk-globe { height: 220px; }
+  .desk-globe { height: 260px; }
   .desk-hide-md, .desk-hide-lg { display: none; }
   .table-scroll .desk-log-table { min-width: 420px; }
   .desk-wpm-label { width: 100%; }
