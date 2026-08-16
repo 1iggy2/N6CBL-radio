@@ -10,6 +10,7 @@
     { "path": "/propagation/", "label": "/propagation/" },
     { "path": "/tools/",       "label": "/tools/" },
     { "path": "/tools/ham/",   "label": "ham/",    "child": true },
+    { "path": "/tools/night-desk/", "label": "night-desk/", "child": true },
     { "path": "/tools/uav/",   "label": "uav/",    "child": true },
     { "path": "/tools/uav/x/", "label": "uav/x/",  "child": true },
     { "path": "/design/",      "label": "/design/" }

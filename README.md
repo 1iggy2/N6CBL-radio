@@ -29,6 +29,7 @@ alphabetically.
 | `/propagation/` | Live propagation dashboard: NOAA SWPC indices, per-band reach, local weather |
 | `/tools/` | Workbench index |
 | `/tools/ham/` | Amateur radio utilities (17 tools) |
+| `/tools/night-desk/` | Night-ops console: VFO, S-meter, Morse paddle, grayline globe, QRZ log |
 | `/tools/uav/` | Fixed-wing UAV design lab |
 | `/design/` | Design language: principles, type, color, layout patterns, prohibitions |
 

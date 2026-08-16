@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL Night Desk &mdash; night-ops console: analog VFO and S-meter, Web Audio Morse paddle with decode, grayline globe with HF skip paths, and the published QRZ QSO log. Static, client-side, no accounts.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/tools/night-desk/">
+  <meta property="og:title" content="Night Desk &mdash; N6CBL.radio Tools">
+  <meta property="og:description" content="Night-ops console for N6CBL / DM03tu: analog VFO, S-meter, Morse paddle, grayline globe, HF skip paths, and the published QRZ log.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>Night Desk &mdash; N6CBL.radio Tools</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /TOOLS/NIGHT-DESK/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/stats/">
+              <span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/station/">
+              <span class="nav-path">/station/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/qsl/">
+              <span class="nav-path">/qsl/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/propagation/">
+              <span class="nav-path">/propagation/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/ham/">
+              <span class="nav-path" aria-label="/tools/ham/">&#x21B3; ham/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/night-desk/" aria-current="page">
+              <span class="nav-path" aria-label="/tools/night-desk/">&#x21B3; night-desk/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/uav/">
+              <span class="nav-path" aria-label="/tools/uav/">&#x21B3; uav/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/uav/x/">
+              <span class="nav-path" aria-label="/tools/uav/x/">&#x21B3; uav/x/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
+          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main id="main" class="main-content tools-page desk-page">
+
+      <div class="section-label radio-meta">
+        <span>/tools/night-desk/ &mdash; night-ops console</span>
+        <span>VFO · S-meter · paddle · grayline · QRZ log</span>
+      </div>
+
+      <section aria-labelledby="desk-dossier-heading">
+        <div class="section-label" id="desk-dossier-heading">Console dossier</div>
+        <table class="roadmap-control-table">
+          <tbody>
+            <tr>
+              <th scope="row">Purpose</th>
+              <td>A night-ops instrument for N6CBL / DM03tu. Tune a VFO, read an S-meter, key Morse, watch the grayline, and plot skip from the published QRZ book.</td>
+            </tr>
+            <tr>
+              <th scope="row">Delivery</th>
+              <td>Static HTML/CSS with vanilla JS. No build step. No telemetry. No external scripts. No cookies. No accounts. Web Audio starts on the first click or key.</td>
+            </tr>
+            <tr>
+              <th scope="row">Log source</th>
+              <td>The paper log is <span class="path">/data/qso-log.json</span> &mdash; the same QRZ Logbook cache served by <a href="/log/">/log/</a>. This page does not invent contacts. Click a row to park the VFO and draw the hop.</td>
+            </tr>
+            <tr>
+              <th scope="row">Trust boundary</th>
+              <td>Everything runs in your browser. The S-meter is a model (tuned-QSO proximity + RF gain + paddle), not an SDR. Sidetone is synthesized locally.</td>
+            </tr>
+            <tr>
+              <th scope="row">Last reviewed</th>
+              <td><time datetime="2026-08-16">2026-08-16</time></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="desk-status-heading">
+        <div class="section-label split">
+          <span id="desk-status-heading">Clock / audio / sun</span>
+          <span class="log-count">live UTC · first click unlocks Web Audio</span>
+        </div>
+        <div class="tools-result-grid cols-4">
+          <div class="tools-readout">
+            <span class="tools-readout-label">UTC</span>
+            <span class="tools-readout-value mono" id="desk-utc">--:--:--</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Date</span>
+            <span class="tools-readout-value mono" id="desk-date">---- -- --</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Audio</span>
+            <span class="tools-readout-value mono" id="desk-audio">LOCKED</span>
+          </div>
+          <div class="tools-readout">
+            <span class="tools-readout-label">Sun lon</span>
+            <span class="tools-readout-value mono" id="desk-sun">—</span>
+          </div>
+        </div>
+        <div class="tools-controls">
+          <button class="tools-button primary" id="desk-unlock" type="button">Unlock audio</button>
+          <span class="tools-controls-spacer"></span>
+          <span class="desk-hint">Z dit · X dah · Space straight key · arrows VFO · 1–6 band · C/S/F mode · M mute</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="desk-rx-heading">
+        <div class="section-label split">
+          <span id="desk-rx-heading">Receiver</span>
+          <span class="log-count">VFO A · 100 Hz arrows · Shift 1 kHz</span>
+        </div>
+        <div class="desk-rx">
+          <div class="desk-vfo">
+            <p class="stat-label">VFO A · <span id="desk-band-read">20m</span></p>
+            <p class="desk-freq" id="desk-freq">14.175</p>
+            <p class="desk-freq-unit">MHz</p>
+            <canvas id="desk-knob" class="desk-knob" width="112" height="112" aria-label="VFO knob"></canvas>
+            <div class="desk-steps">
+              <button type="button" class="tools-button" data-step="-1">−1</button>
+              <button type="button" class="tools-button" data-step="-0.1">−0.1</button>
+              <button type="button" class="tools-button" data-step="0.1">+0.1</button>
+              <button type="button" class="tools-button" data-step="1">+1</button>
+            </div>
+          </div>
+          <div class="desk-meter">
+            <p class="stat-label">S-meter · model</p>
+            <svg viewBox="0 0 200 96" class="desk-meter-svg" aria-hidden="true">
+              <path d="M16 82 A 84 84 0 0 1 184 82" fill="none" stroke="#1a1812" stroke-width="1.5"/>
+              <line x1="32.0" y1="82.0" x2="20.0" y2="82.0" stroke="#1a1812" stroke-width="1"/>
+              <text x="44.0" y="85.0" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">0</text>
+              <line x1="36.1" y1="58.7" x2="24.8" y2="54.6" stroke="#1a1812" stroke-width="1"/>
+              <text x="47.4" y="65.8" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">1</text>
+              <line x1="47.9" y1="38.3" x2="38.7" y2="30.6" stroke="#1a1812" stroke-width="1"/>
+              <text x="57.1" y="49.0" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">2</text>
+              <line x1="66.0" y1="23.1" x2="60.0" y2="12.7" stroke="#1a1812" stroke-width="1"/>
+              <text x="72.0" y="36.5" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">3</text>
+              <line x1="88.2" y1="15.0" x2="86.1" y2="3.2" stroke="#1a1812" stroke-width="1"/>
+              <text x="90.3" y="29.9" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">4</text>
+              <line x1="111.8" y1="15.0" x2="113.9" y2="3.2" stroke="#1a1812" stroke-width="1"/>
+              <text x="109.7" y="29.9" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">5</text>
+              <line x1="134.0" y1="23.1" x2="140.0" y2="12.7" stroke="#1a1812" stroke-width="1"/>
+              <text x="128.0" y="36.5" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">6</text>
+              <line x1="152.1" y1="38.3" x2="161.3" y2="30.6" stroke="#1a1812" stroke-width="1"/>
+              <text x="142.9" y="49.0" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">7</text>
+              <line x1="163.9" y1="58.7" x2="175.2" y2="54.6" stroke="#1a1812" stroke-width="1"/>
+              <text x="152.6" y="65.8" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">8</text>
+              <line x1="168.0" y1="82.0" x2="180.0" y2="82.0" stroke="#1a1812" stroke-width="1"/>
+              <text x="156.0" y="85.0" font-size="8" text-anchor="middle" fill="#1a1812" font-family="Consolas,monospace">9</text>
+              <line x1="100" y1="82" x2="34" y2="82" id="desk-needle" stroke="#c8401a" stroke-width="2"/>
+            </svg>
+            <p class="desk-sread" id="desk-sread">S1</p>
+            <p class="desk-heard" id="desk-heard">Noise floor</p>
+          </div>
+          <div class="desk-rx-side">
+            <div class="section-label">Band</div>
+            <div class="desk-keyrow">
+              <button type="button" class="desk-key" data-band="80m">80</button>
+              <button type="button" class="desk-key" data-band="40m">40</button>
+              <button type="button" class="desk-key" data-band="20m">20</button>
+              <button type="button" class="desk-key" data-band="15m">15</button>
+              <button type="button" class="desk-key" data-band="10m">10</button>
+              <button type="button" class="desk-key" data-band="6m">6</button>
+            </div>
+            <div class="section-label">Mode</div>
+            <div class="desk-keyrow desk-keyrow-3">
+              <button type="button" class="desk-key" data-mode="CW">CW</button>
+              <button type="button" class="desk-key" data-mode="SSB">SSB</button>
+              <button type="button" class="desk-key" data-mode="FT8">FT8</button>
+            </div>
+            <label class="desk-slider">
+              <span class="stat-label">AF gain <span id="desk-af-read">55</span></span>
+              <input id="desk-af" type="range" min="0" max="1" step="0.01" value="0.55" aria-label="AF gain">
+            </label>
+            <label class="desk-slider">
+              <span class="stat-label">RF gain <span id="desk-rf-read">70</span></span>
+              <input id="desk-rf" type="range" min="0" max="1" step="0.01" value="0.70" aria-label="RF gain">
+            </label>
+            <button type="button" class="desk-mute" id="desk-mute">Mute audio</button>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="desk-globe-heading">
+        <div class="section-label split">
+          <span id="desk-globe-heading">Grayline globe · HF skip</span>
+          <span class="log-count">orthographic · terminator from UTC · drag to rotate</span>
+        </div>
+        <div class="desk-globe-wrap">
+          <canvas id="desk-globe" class="desk-globe" aria-label="Orthographic Earth with grayline and skip paths"></canvas>
+        </div>
+        <p class="desk-path-empty" id="desk-path-empty">Select a row in the log. Skip draws from that QSO&rsquo;s operating position (or DM03tu if the record has no my-grid) to the worked station.</p>
+        <dl class="desk-path-facts" id="desk-path-facts" hidden>
+          <div><dt>DX</dt><dd id="desk-dx-call">—</dd></div>
+          <div><dt>Name</dt><dd id="desk-dx-name">—</dd></div>
+          <div><dt>QTH</dt><dd id="desk-dx-qth">—</dd></div>
+          <div><dt>Grid</dt><dd id="desk-dx-grid">—</dd></div>
+          <div><dt>Dist</dt><dd id="desk-dx-km">—</dd></div>
+          <div><dt>Az</dt><dd id="desk-dx-az">—</dd></div>
+          <div><dt>Hops</dt><dd id="desk-dx-hops">—</dd></div>
+          <div><dt>RST rcvd</dt><dd id="desk-dx-rst">—</dd></div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="desk-cw-heading">
+        <div class="section-label split">
+          <span id="desk-cw-heading">CW paddle</span>
+          <span class="log-count" id="desk-wpm-read">18 WPM</span>
+        </div>
+        <div class="desk-tape" id="desk-tape"><span class="desk-muted">send…</span></div>
+        <div class="desk-pads">
+          <button type="button" class="desk-pad" id="desk-dit" data-pad="dit">Dit Z</button>
+          <button type="button" class="desk-pad" id="desk-key" data-pad="key">Key Space</button>
+          <button type="button" class="desk-pad" id="desk-dah" data-pad="dah">Dah X</button>
+        </div>
+        <div class="tools-controls">
+          <label class="desk-wpm-label">
+            <span>Speed</span>
+            <input id="desk-wpm" type="range" min="12" max="30" value="18" aria-label="Paddle speed WPM">
+          </label>
+          <button type="button" class="tools-button" id="desk-clear">Clear</button>
+          <button type="button" class="tools-button" id="desk-cq">Send CQ N6CBL</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="desk-keys-heading">
+        <div class="section-label" id="desk-keys-heading">Keys</div>
+        <div class="table-scroll">
+          <table class="tools-ref-table desk-keys-table">
+            <thead>
+              <tr><th>Key</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Space / hold Key</td><td>Straight key</td></tr>
+              <tr><td>Z / X</td><td>Iambic A dit / dah. Squeeze alternates.</td></tr>
+              <tr><td>← →</td><td>VFO ±100 Hz</td></tr>
+              <tr><td>Shift ← →</td><td>VFO ±1 kHz</td></tr>
+              <tr><td>1–6</td><td>80 / 40 / 20 / 15 / 10 / 6 m</td></tr>
+              <tr><td>C / S / F</td><td>CW / SSB / FT8</td></tr>
+              <tr><td>M</td><td>Mute</td></tr>
+              <tr><td>?</td><td>Toggle this reminder in the status line</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="desk-log-heading">
+        <div class="section-label split">
+          <span id="desk-log-heading">Paper log</span>
+          <span class="log-count" id="desk-log-count">loading</span>
+        </div>
+        <p class="desk-log-source" id="desk-log-source">Fetching /data/qso-log.json</p>
+        <div class="tools-form">
+          <label>
+            <span>Band filter</span>
+            <select id="desk-filter-band">
+              <option value="">All bands</option>
+              <option value="80m">80 m</option>
+              <option value="40m">40 m</option>
+              <option value="20m">20 m</option>
+              <option value="15m">15 m</option>
+              <option value="10m">10 m</option>
+              <option value="6m">6 m</option>
+            </select>
+          </label>
+          <label>
+            <span>Mode filter</span>
+            <select id="desk-filter-mode">
+              <option value="">All modes</option>
+              <option value="CW">CW</option>
+              <option value="SSB">SSB</option>
+              <option value="FT8">FT8</option>
+            </select>
+          </label>
+        </div>
+        <div class="table-scroll">
+          <table class="tools-ref-table desk-log-table">
+            <thead>
+              <tr>
+                <th>UTC</th>
+                <th>Call</th>
+                <th class="desk-hide-sm">QTH</th>
+                <th>Band</th>
+                <th>Mode</th>
+                <th class="desk-hide-md">MHz</th>
+                <th class="desk-hide-lg">km</th>
+              </tr>
+            </thead>
+            <tbody id="desk-log-body">
+              <tr><td colspan="7">Loading QRZ log…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="desk-notes-heading">
+        <div class="section-label" id="desk-notes-heading">Method notes</div>
+        <div class="tools-note">
+          <strong>Grayline.</strong> Sun latitude is the usual declination approximation (−23.44°·cos(2π(DOY+10)/365.24)). Sun longitude is 180° − 15°·UTC hours. Night is the hemisphere whose ECEF normal dots the sun vector negative. The globe is an orthographic projection; land is a compact polygon set, not NASA imagery.
+          <strong>Skip.</strong> Great-circle interpolation in ECEF. Hop count is ceil(distance / band hop-km), with 80 m treated as NVIS under 600 km. It is a planning sketch, not VOACAP.
+          <strong>S-meter.</strong> A model: RF gain sets the floor; a published QSO within 3.2 kHz of the VFO raises the needle; the paddle pins it near S9. It is not connected to a radio.
+          <strong>Paddle.</strong> Iambic A on Z/X, straight key on Space. Decoder uses 1.2/WPM dit timing with 1.8 / 2.1 / 6.2 dit thresholds for dah, letter gap, and word gap. Sidetone is a 600 Hz sine with a 4–8 ms envelope.
+          <strong>Log fidelity.</strong> Every row is one ADIF record from the scheduled QRZ fetch. If a contact should appear here, it belongs in QRZ first. See <a href="/log/">/log/</a>.
+        </div>
+      </section>
+
+    </main><!-- /.main-content -->
+
+  </div><!-- /.layout-body -->
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">CONTACT VIA QRZ &#8599;</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
+      </svg>
+      <span>VIBE CODED WITH <a href="https://claude.ai/code" target="_blank" rel="noopener">CLAUDE CODE</a> AND <a href="https://openai.com/codex/" target="_blank" rel="noopener">CODEX</a></span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script src="/tools/night-desk/desk.js"></script>
+</body>
+</html>
