@@ -7,12 +7,13 @@
  *
  * Marker pairs in news/index.html:
  *   NEWS_COUNT_START/END     latest desk count + date
- *   NEWS_DESK_START/END      latest digest table (or empty-state copy)
+ *   NEWS_DESK_START/END      latest digest as a blog-like article
  *   NEWS_ARCHIVE_START/END   prior days as Date | N items | Read →
- *   NEWS_HISTORY_START/END   older desks as full tables, newest first
+ *   NEWS_HISTORY_START/END   older desks as full articles, newest first
  *
- * The latest desk table is the first full table. Prior days are indexed in
- * the archive and repeated as full tables below it, matching /blog/.
+ * The latest desk is the first article. Prior days are indexed in the
+ * archive and repeated as full articles below it. The latest day is not
+ * repeated in history.
  */
 const fs = require('fs');
 const path = require('path');
@@ -81,14 +82,16 @@ function validateDesk(desk) {
   }
 
   desk.items.forEach((item, index) => {
-    const required = ['topic', 'title', 'source', 'url', 'blurb'];
+    const required = ['title', 'source', 'url', 'blurb'];
     for (const key of required) {
       if (!item[key] || typeof item[key] !== 'string') {
         throw new Error(`${file} item ${index} missing string field: ${key}`);
       }
     }
-    if (!TOPICS.has(item.topic)) {
-      throw new Error(`${file} item ${index} has invalid topic: ${item.topic}`);
+    if (item.topic != null && item.topic !== '') {
+      if (typeof item.topic !== 'string' || !TOPICS.has(item.topic)) {
+        throw new Error(`${file} item ${index} has invalid topic: ${item.topic}`);
+      }
     }
     if (!/^https?:\/\//i.test(item.url)) {
       throw new Error(`${file} item ${index} url must be http(s)`);
@@ -106,7 +109,7 @@ function renderPage(html, desks) {
   html = replaceBetween(html, 'NEWS_COUNT_START', 'NEWS_COUNT_END', countText);
   html = replaceBetween(html, 'NEWS_DESK_START', 'NEWS_DESK_END', '\n' + renderLatest(latest) + '\n      ');
   html = replaceBetween(html, 'NEWS_ARCHIVE_START', 'NEWS_ARCHIVE_END', '\n' + renderArchive(prior) + (prior.length ? '\n      ' : '      '));
-  html = replaceBetween(html, 'NEWS_HISTORY_START', 'NEWS_HISTORY_END', '\n' + renderHistory(desks) + (desks.length ? '\n      ' : '      '));
+  html = replaceBetween(html, 'NEWS_HISTORY_START', 'NEWS_HISTORY_END', '\n' + renderHistory(prior) + (prior.length ? '\n      ' : '      '));
   return html;
 }
 
@@ -114,22 +117,11 @@ function renderLatest(desk) {
   if (!desk) {
     return '      <p class="news-empty">No ham desk has been compiled yet. Add a <span class="path">content/news/YYYY-MM-DD.json</span> file and run <span class="path">node scripts/build-news.js</span>.</p>';
   }
-  if (!desk.items.length) {
-    return [
-      `      <section class="news-desk" id="desk-${desk.date}" aria-label="Latest desk ${desk.date}">`,
-      `        <p class="news-empty">Desk ${escapeHtml(desk.date)} is empty. No items were filed this day.</p>`,
-      '      </section>',
-    ].join('\n');
-  }
   return [
-    `      <section class="news-desk" id="desk-${desk.date}" aria-label="Latest desk ${desk.date}">`,
-    '        <div class="table-scroll">',
-    renderTable(desk.items, '          '),
-    '        </div>',
-    '        <div class="pota-footer">',
-    '          <span>Desk compiled from public ham sources. Not a wire service. Links go to the original.</span>',
-    '        </div>',
-    '      </section>',
+    renderArticle(desk, '      '),
+    '      <div class="pota-footer">',
+    '        <span>Desk compiled from public ham sources. Not a wire service. Links go to the original.</span>',
+    '      </div>',
   ].join('\n');
 }
 
@@ -140,7 +132,7 @@ function renderArchive(desks) {
     const count = `${n} ${n === 1 ? 'item' : 'items'}`;
     return [
       '            <tr>',
-      `              <td class="blog-date">${escapeHtml(desk.date)}</td>`,
+      `              <td class="blog-date"><a href="#desk-${desk.date}">${escapeHtml(desk.date)}</a></td>`,
       `              <td class="news-archive-count">${count}</td>`,
       `              <td class="blog-cta"><a href="#desk-${desk.date}">Read &#8594;</a></td>`,
       '            </tr>',
@@ -152,83 +144,87 @@ function renderArchive(desks) {
     '          <span id="news-archive-heading">Prior desks</span>',
     `          <span class="log-count">${desks.length} ${desks.length === 1 ? 'day' : 'days'}</span>`,
     '        </div>',
-    '        <div class="table-scroll">',
-    '          <table class="news-archive-table">',
-    '            <thead>',
-    '              <tr>',
-    '                <th>Date</th>',
-    '                <th>Items</th>',
-    '                <th>CTA</th>',
-    '              </tr>',
-    '            </thead>',
-    '            <tbody>',
+    '        <table class="news-archive-table">',
+    '          <thead>',
+    '            <tr>',
+    '              <th>Date</th>',
+    '              <th>Items</th>',
+    '              <th>CTA</th>',
+    '            </tr>',
+    '          </thead>',
+    '          <tbody>',
     ...rows,
-    '            </tbody>',
-    '          </table>',
-    '        </div>',
+    '          </tbody>',
+    '        </table>',
     '      </section>',
   ].join('\n');
 }
 
 function renderHistory(desks) {
   if (!desks.length) return '';
-  return desks.map((desk, index) => renderHistoryDesk(desk, index === 0)).join('\n');
+  return desks.map((desk) => renderArticle(desk, '      ')).join('\n');
 }
 
-function renderHistoryDesk(desk, isLatest) {
+function renderArticle(desk, indent) {
   const n = desk.items.length;
-  const count = `${n} ${n === 1 ? 'item' : 'items'}`;
-  const headingId = `desk-${desk.date}-label`;
-  /* Latest desk already has id="desk-DATE" on the index table. History
-     repeats that day as the first full table and must not duplicate the id. */
-  const idAttr = isLatest ? '' : ` id="desk-${desk.date}"`;
+  const sources = uniqueInOrder(desk.items.map((item) => item.source));
+  const topics = uniqueInOrder(desk.items.map(itemTopic).filter(Boolean));
+  const meta = [`${indent}      <span>${n} ${n === 1 ? 'ITEM' : 'ITEMS'}</span>`];
+  if (sources.length) {
+    meta.push(`${indent}      <span>SOURCES: ${escapeHtml(sources.join(', '))}</span>`);
+  }
+  if (topics.length) {
+    meta.push(`${indent}      <span>TOPICS: ${escapeHtml(topics.join(', '))}</span>`);
+  }
+
   const body = desk.items.length
-    ? [
-        '        <div class="table-scroll">',
-        renderTable(desk.items, '          '),
-        '        </div>',
-      ]
-    : [
-        `        <p class="news-empty">Desk ${escapeHtml(desk.date)} is empty. No items were filed this day.</p>`,
-      ];
+    ? desk.items.map((item) => renderItem(item, `${indent}    `)).join('\n')
+    : `${indent}    <p class="news-empty">Desk ${escapeHtml(desk.date)} is empty. No items were filed this day.</p>`;
+
   return [
-    `      <section class="news-history"${idAttr} aria-labelledby="${headingId}">`,
-    '        <div class="section-label split">',
-    `          <span id="${headingId}">Desk ${escapeHtml(desk.date)}</span>`,
-    `          <span class="log-count">${count}</span>`,
-    '        </div>',
-    ...body,
-    '      </section>',
+    `${indent}<article class="blog-post" id="desk-${desk.date}">`,
+    `${indent}  <header class="blog-post-header">`,
+    `${indent}    <div class="blog-post-date">${escapeHtml(desk.date)}</div>`,
+    `${indent}    <h2>Ham desk</h2>`,
+    `${indent}    <div class="blog-post-meta">`,
+    ...meta,
+    `${indent}    </div>`,
+    `${indent}  </header>`,
+    `${indent}  <div class="blog-prose">`,
+    body,
+    `${indent}  </div>`,
+    `${indent}</article>`,
   ].join('\n');
 }
 
-function renderTable(items, indent) {
-  const rows = items.map((item) => [
-    `${indent}  <tr>`,
-    `${indent}    <td class="path">${escapeHtml(item.topic)}</td>`,
-    `${indent}    <td class="news-item">`,
-    `${indent}      <div class="news-item-title">${escapeHtml(item.title)}</div>`,
-    `${indent}      <div class="news-item-blurb">${escapeHtml(item.blurb)}</div>`,
-    `${indent}    </td>`,
-    `${indent}    <td class="news-source">${escapeHtml(item.source)}</td>`,
-    `${indent}    <td class="blog-cta"><a href="${escapeAttribute(item.url)}" target="_blank" rel="noopener">Source &#8599;</a></td>`,
-    `${indent}  </tr>`,
-  ].join('\n'));
+function renderItem(item, indent) {
+  const topic = itemTopic(item);
+  const topicTag = topic ? `\n${indent}    <span>${escapeHtml(topic)}</span>` : '';
   return [
-    `${indent}<table class="news-table">`,
-    `${indent}  <thead>`,
-    `${indent}    <tr>`,
-    `${indent}      <th>Topic</th>`,
-    `${indent}      <th>Item</th>`,
-    `${indent}      <th>Source</th>`,
-    `${indent}      <th>CTA</th>`,
-    `${indent}    </tr>`,
-    `${indent}  </thead>`,
-    `${indent}  <tbody>`,
-    ...rows,
-    `${indent}  </tbody>`,
-    `${indent}</table>`,
+    `${indent}<div class="news-item">`,
+    `${indent}  <h3 class="news-item-title"><a href="${escapeAttribute(item.url)}" target="_blank" rel="noopener">${escapeHtml(item.title)}</a></h3>`,
+    `${indent}  <div class="news-item-meta">`,
+    `${indent}    <span>${escapeHtml(item.source)}</span>`,
+    `${indent}    <a href="${escapeAttribute(item.url)}" target="_blank" rel="noopener">Source &#8599;</a>${topicTag}`,
+    `${indent}  </div>`,
+    `${indent}  <p>${escapeHtml(item.blurb)}</p>`,
+    `${indent}</div>`,
   ].join('\n');
+}
+
+function itemTopic(item) {
+  return item.topic && TOPICS.has(item.topic) ? item.topic : '';
+}
+
+function uniqueInOrder(values) {
+  const seen = new Set();
+  const out = [];
+  for (const value of values) {
+    if (!value || seen.has(value)) continue;
+    seen.add(value);
+    out.push(value);
+  }
+  return out;
 }
 
 function replaceBetween(source, startName, endName, replacement) {
