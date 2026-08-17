@@ -94,6 +94,21 @@ class OperatorLocationTests(unittest.TestCase):
         self.assertEqual(label, f'{process_logs.HOME_CITY}, {process_logs.HOME_STATE}')
 
 
+class QsoQrzUrlTests(unittest.TestCase):
+    def test_links_the_worked_call_not_a_later_vanity(self):
+        """QRZ's profile for KI5OWP now lives at K5WPI; the QSO is still KI5OWP."""
+        self.assertEqual(
+            process_logs.qso_qrz_url('KI5OWP'),
+            'https://www.qrz.com/db/KI5OWP',
+        )
+
+    def test_ignores_a_cached_profile_url_for_a_different_call(self):
+        self.assertNotEqual(
+            process_logs.qso_qrz_url('KI5OWP'),
+            'https://www.qrz.com/db/K5WPI',
+        )
+
+
 class ConfirmationTests(unittest.TestCase):
     def test_reads_qrz_confirmation_from_app_qrzlog_status(self):
         self.assertEqual(process_logs.qso_confirmed_by({'APP_QRZLOG_STATUS': 'C'}), ['qrz'])

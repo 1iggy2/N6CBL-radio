@@ -193,6 +193,18 @@ def first_token(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return proper_name(text.split(' ')[0]) if text else ''
 
+def qso_qrz_url(call):
+    """Link the worked call, not a later vanity the QRZ profile now uses.
+
+    QRZ's XML lookup for KI5OWP returns the current call K5WPI and a URL
+    built from that current call. The log row is still KI5OWP.
+    """
+    call = str(call or '').upper().strip()
+    if not call:
+        return ''
+    return f'https://www.qrz.com/db/{urllib.parse.quote(call, safe="")}'
+
+
 def qrz_record_for(qrz_cache, call):
     record = qrz_cache.get(str(call or '').upper().strip(), {})
     if record.get('found'):
@@ -476,7 +488,7 @@ def main():
                     'lotw':       qrz_flag(qrz, 'lotw'),
                     'eqsl':       qrz_flag(qrz, 'eqsl'),
                     'mqsl':       qrz_flag(qrz, 'mqsl'),
-                    'qrz_url':    first_value(qrz.get('qrz_url', ''), f"https://www.qrz.com/db/{call}" if call else ''),
+                    'qrz_url':    qso_qrz_url(call),
                     'qrz_profile': bool(qrz),
                 })
 
