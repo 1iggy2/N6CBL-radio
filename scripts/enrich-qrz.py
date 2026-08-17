@@ -160,12 +160,15 @@ def compact(value):
 
 
 def public_record(call, fields, now_iso):
+    looked_up = normalize_call(call)
     record = {
         'found': True,
         'updated': now_iso,
         'call': normalize_call(fields.get('call') or call),
         'display_name': display_name(fields),
-        'qrz_url': f'https://www.qrz.com/db/{urllib.parse.quote(normalize_call(fields.get("call") or call))}',
+        # URL the call we looked up, not the current vanity QRZ returns.
+        # KI5OWP's profile now lives at K5WPI; the log row is still KI5OWP.
+        'qrz_url': f'https://www.qrz.com/db/{urllib.parse.quote(looked_up)}',
     }
     for key in SAFE_FIELDS:
         value = compact(fields.get(key, ''))

@@ -88,9 +88,25 @@ export default {
       }
     }
 
-    return env.ASSETS.fetch(request);
+    const assetResponse = await env.ASSETS.fetch(request);
+    if (assetResponse.status !== 404) return assetResponse;
+    return notFoundPage(env, request, assetResponse);
   },
 };
+
+// Browser navigations never reach this Worker (compat date ≥ 2025-04-01), so
+// unknown paths are served by assets `not_found_handling: "404-page"` from
+// /404.html. Non-navigation fetches (curl, fetch()) still land here; without
+// this fallback they used to get HTTP 404 with an empty body.
+async function notFoundPage(env, request, assetResponse) {
+  const notFound = await env.ASSETS.fetch(new URL('/404.html', request.url));
+  if (!notFound.ok) return assetResponse;
+  return new Response(notFound.body, {
+    status: 404,
+    statusText: 'Not Found',
+    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  });
+}
 
 // Collect every propagation feed into one response. A feed that fails becomes
 // { ok: false, error } instead of taking the response down with it, so the page

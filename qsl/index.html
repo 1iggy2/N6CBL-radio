@@ -467,10 +467,14 @@
       var book = stats.qrz_book_confirmed;
       var note = 'Read per contact from the QRZ Logbook export; a QSO can be confirmed by more than one route.';
       if (typeof book === 'number') {
-        note += book === (stats.confirmations || {}).qrz
-          ? ' QRZ’s own book total agrees at ' + book + '.'
-          : ' QRZ’s book total says ' + book + ', which does not match the ' +
+        if (book === (stats.confirmations || {}).qrz) {
+          note += ' QRZ’s own book total agrees at ' + book + '.';
+        } else if (stats.qrz_book_note) {
+          note += ' ' + stats.qrz_book_note;
+        } else {
+          note += ' QRZ’s book total says ' + book + ', which does not match the ' +
             ((stats.confirmations || {}).qrz || 0) + ' marked on the records.';
+        }
       }
       cfmNote.textContent = note;
     }
