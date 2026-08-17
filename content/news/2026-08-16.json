@@ -1,0 +1,55 @@
+{
+  "date": "2026-08-16",
+  "updatedAt": "2026-08-17T05:00:00.000Z",
+  "items": [
+    {
+      "topic": "OPS",
+      "title": "Colombian amateurs in earthquake response; keep emergency frequencies clear",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/colombian-amateurs-help-in-earthquake-response-clear-frequencies-requested",
+      "blurb": "After the 10 August 2026 earthquake in Colombia, LCRA and club stations have been restoring repeaters and supporting rescue comms. IARU R2 asks stations to stay off 3985, 7060, 7240, 7275, 14300, and 21360 kHz, plus 146.520 MHz in VHF range of Colombia."
+    },
+    {
+      "topic": "POLICY",
+      "title": "FCC cites GMRS licensee for a linked repeater network",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/fcc-cites-gmrs-licensee-for-illegal-linked-repeater-network",
+      "blurb": "Enforcement Bureau issued a Notice of Violation to the licensee of WQYU407 for internet-linking nearly two dozen GMRS repeaters. Linking is legal in amateur radio; the FCC says it is not in GMRS because the service has only eight shared repeater pairs."
+    },
+    {
+      "topic": "OPS",
+      "title": "ARRL National Convention with Huntsville Hamfest, 21–23 August",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/registration-is-open-for-the-2026-arrl-national-convention-in-huntsville",
+      "blurb": "Training tracks and a National Convention dinner at the U.S. Space & Rocket Center on Friday; Huntsville Hamfest Saturday–Sunday at the Von Braun Center, including W1AW America250."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "HRWB 269 — AllStarLink with Jason McCormick, N8EI",
+      "source": "Ham Radio Workbench",
+      "url": "https://radioandpodcast.com/podcast/ham-radio-workbench-podcast/episode/hrwb-269-allstarlink-with-jason-mccormick-n8ei-36404106",
+      "blurb": "George KJ6VU talks with one of the AllStarLink developers about radio-over-IP linking of repeaters and individual stations. Published 12 August 2026."
+    },
+    {
+      "topic": "DX",
+      "title": "A50QO — satellite DXpedition to Bhutan, 15–20 August",
+      "source": "Ham Radio World",
+      "url": "https://www.hamradioworld.org/post/a50qo-bhutan-satellite-dxpedition",
+      "blurb": "Feng BA7LVG and Taka JK2XXK are QRV from Thimphu as A50QO, aimed at QO-100 and LEO satellites, with a possible 70 cm EME attempt. QSL via LoTW."
+    },
+    {
+      "topic": "POTA",
+      "title": "State of POTA 2026 — W8TAM on the next platform",
+      "source": "Q5 Worldwide Ham Radio",
+      "url": "https://worldwidehamradio.podbean.com/e/w8tam-pota/",
+      "blurb": "POTA co-founder Thom Martin W8TAM talks growth to about 90,000 participants and a public beta of a next-generation POTA platform. Also park boundaries, N-Fers, and keeping the rules simple."
+    },
+    {
+      "topic": "GEAR",
+      "title": "2026 ARRL Repeater Directory now shipping",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/now-shipping-the-2026-edition-of-the-arrl-repeater-directory-powered-by-repeaterbook",
+      "blurb": "The new edition is still powered by RepeaterBook and adds a City Quick Find index. About 22,000 US/Canada listings, digital modes, and band plans. ARRL item 2332."
+    }
+  ]
+}
