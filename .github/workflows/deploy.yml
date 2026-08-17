@@ -60,10 +60,11 @@ jobs:
             sleep $((attempt * 2))
           done
 
-          echo "Unable to push refreshed QRZ log data after rebasing onto origin/main."
-          exit 1
+          echo "QRZ log push lost the race after 3 rebase attempts; continuing so deploy still runs."
+          exit 0
 
       - name: Deploy via Wrangler
+        if: success() || failure()
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
