@@ -349,10 +349,14 @@
       var modeEl = document.getElementById('atlas-mode-filters');
       var wrap = document.getElementById('atlas-filters');
       if (!bands.length && !modes.length) return;
-      bandEl.innerHTML = '<span class="atlas-filter-label">Band</span>' + filterButtons('band', bands);
-      modeEl.innerHTML = '<span class="atlas-filter-label">Mode</span>' + filterButtons('mode', modes);
+      bandEl.innerHTML = filterLabel('Band') + filterButtons('band', bands);
+      modeEl.innerHTML = filterLabel('Mode') + filterButtons('mode', modes);
       wrap.hidden = false;
       wrap.addEventListener('click', onFilterClick);
+    }
+
+    function filterLabel(text) {
+      return '<span class="atlas-filter-label">' + esc(text) + '</span>';
     }
 
     function filterButtons(kind, values) {
