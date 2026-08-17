@@ -5,6 +5,7 @@
     { "path": "/log/",         "label": "/log/" },
     { "path": "/log/stats/",   "label": "stats/",  "child": true },
     { "path": "/blog/",        "label": "/blog/" },
+    { "path": "/news/",        "label": "/news/" },
     { "path": "/station/",     "label": "/station/" },
     { "path": "/qsl/",         "label": "/qsl/" },
     { "path": "/propagation/", "label": "/propagation/" },

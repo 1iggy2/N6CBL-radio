@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="HTTP 404 — the requested path is not a published page on N6CBL.radio. The navigator lists every public route.">
-  <meta name="robots" content="noindex">
+  <meta name="description" content="N6CBL ham desk — a daily digest of public amateur-radio news, compiled as a table of sources.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://n6cbl.radio/404.html">
-  <meta property="og:title" content="404 — path not found — N6CBL.radio">
-  <meta property="og:description" content="The requested path is not a published page on N6CBL.radio.">
+  <meta property="og:url" content="https://n6cbl.radio/news/">
+  <meta property="og:title" content="Ham News — N6CBL.radio">
+  <meta property="og:description" content="Daily ham-radio news desk for N6CBL: operations, policy, POTA, gear, and DX, linked to the original sources.">
   <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
   <meta property="og:image:width" content="1536">
   <meta property="og:image:height" content="1024">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@camgablex">
   <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
-  <title>404 — path not found — N6CBL.radio</title>
+  <title>Ham News — N6CBL.radio</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
@@ -40,7 +39,7 @@
     </div>
     <div class="header-meta">
       <span id="header-stat">LAST ACTIVATION &mdash;</span>
-      <span>N6CBL.radio &mdash; 404</span>
+      <span>N6CBL.radio &mdash; /NEWS/</span>
     </div>
   </header>
 
@@ -72,7 +71,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/news/">
+            <a href="/news/" aria-current="page">
               <span class="nav-path">/news/</span>
             </a>
           </li>
@@ -127,10 +126,30 @@
       <div class="sidenav-section">
         <div class="sidenav-label">Profiles</div>
         <ul class="sidenav-links">
-          <li><a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener"><span class="link-label">QRZ.com/N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
-          <li><a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener"><span class="link-label">POTA / N6CBL</span><span class="link-arrow">&#8599;</span></a></li>
-          <li><a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener"><span class="link-label">Thingiverse / 1iggy2</span><span class="link-arrow">&#8599;</span></a></li>
-          <li><a href="https://x.com/camgablex" target="_blank" rel="noopener"><span class="link-label">X / @camgablex</span><span class="link-arrow">&#8599;</span></a></li>
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -163,36 +182,22 @@
 
     </nav>
 
-    <main id="main" class="main-content">
+    <main id="main" class="main-content radio-page">
 
-      <div class="section-label radio-meta">
-        <span>HTTP 404 &mdash; path not found</span>
-        <span>not a published route</span>
+      <div class="section-label split">
+        <span>/news/ &mdash; ham desk</span>
+        <span class="log-count"><!-- NEWS_COUNT_START -->0 items<!-- NEWS_COUNT_END --></span>
       </div>
 
-      <section aria-labelledby="not-found-heading">
-        <div class="section-label" id="not-found-heading">Request</div>
-        <table class="roadmap-control-table">
-          <tbody>
-            <tr>
-              <th scope="row">Status</th>
-              <td>404 Not Found. This path is not a page on N6CBL.radio.</td>
-            </tr>
-            <tr>
-              <th scope="row">Path</th>
-              <td><code id="missing-path">the requested path</code></td>
-            </tr>
-            <tr>
-              <th scope="row">What this is</th>
-              <td>Unknown and retired URLs stay 404. They are not rewritten to the home page, and they are not added to the navigator as live routes.</td>
-            </tr>
-            <tr>
-              <th scope="row">Way back</th>
-              <td>The navigator lists every public route. Use it. Planned pages stay visible there as muted text until they ship.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <!-- NEWS_DESK_START -->
+      <p class="news-empty">No ham desk has been compiled yet. Add a <span class="path">content/news/YYYY-MM-DD.json</span> file and run <span class="path">node scripts/build-news.js</span>.</p>
+      <!-- NEWS_DESK_END -->
+
+      <!-- NEWS_ARCHIVE_START -->
+      <!-- NEWS_ARCHIVE_END -->
+
+      <!-- NEWS_HISTORY_START -->
+      <!-- NEWS_HISTORY_END -->
 
     </main><!-- /.main-content -->
 
@@ -223,12 +228,6 @@
   </footer>
 
   <script src="/site-chrome.js"></script>
-  <script>
-    (function () {
-      var el = document.getElementById('missing-path');
-      if (!el) return;
-      el.textContent = location.pathname + location.search;
-    }());
-  </script>
+
 </body>
 </html>

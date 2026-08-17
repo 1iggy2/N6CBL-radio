@@ -32,6 +32,9 @@ jobs:
             exit 1
           fi
 
+      - name: News output is current
+        run: node scripts/build-news.js --check
+
   # Viewport overflow sweep. Needs a browser, so it runs as its own job rather
   # than slowing the fast checks. Playwright is installed ad hoc — the repo
   # itself stays dependency-free with no package.json or lockfile.

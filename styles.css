@@ -1802,6 +1802,46 @@ td.bar-cell {
   max-width: none;
 }
 
+/* ── NEWS / HAM DESK ──────────────────────────────────────────────── */
+.news-table { table-layout: fixed; }
+.news-table th:first-child { width: 104px; }
+.news-table th:nth-child(3) { width: 160px; }
+.news-table th:last-child { width: 88px; text-align: right; }
+
+.news-item-title {
+  font-family: var(--sans);
+  font-weight: bold;
+}
+
+.news-item-blurb {
+  font-family: var(--sans);
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.news-source {
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+.news-archive-table { table-layout: fixed; }
+.news-archive-table th:first-child { width: 104px; }
+.news-archive-table th:last-child { width: 72px; text-align: right; }
+
+.news-archive-count {
+  font-family: var(--mono);
+}
+
+.news-empty {
+  padding: 10px 12px;
+  font-family: var(--sans);
+  color: var(--muted);
+}
+
+/* Keep every column; scroll the table instead of widening the page. */
+.table-scroll .news-table { min-width: 560px; }
+.table-scroll .news-archive-table { min-width: 320px; }
+
 /* ── RADIO PAGE ─────────────────────────────────────────────────────── */
 .radio-page section {
   border-bottom: 1px solid var(--rule);

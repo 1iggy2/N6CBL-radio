@@ -164,7 +164,9 @@ classic UAV page.
 
 The blog build step is intentionally narrow: `scripts/build-blog.js` reads
 `/content/blog/*.json` and regenerates the static blog/home HTML that Cloudflare
-serves. Do not add runtime Markdown rendering or a client-side CMS for core posts.
+serves. The ham desk is the same shape: `scripts/build-news.js` reads
+`/content/news/*.json` and rewrites `/news/index.html`. Do not add runtime
+Markdown rendering or a client-side CMS for core posts or the digest.
 
 ### Log fidelity
 
@@ -215,6 +217,7 @@ order; keep this list and that file in the same sequence.
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
 /blog/             — posts: technical, radio, misc
+/news/             — daily ham-radio news digest
 /station/          — my station: operator profile, hardware reviews, gear, modes, CW progress
 /qsl/              — QSL card: front artwork, card specification, confirmation routes, QSL reach of worked stations
 /propagation/      — pre-activation command station: NOAA SWPC indices, per-band reach, 24 h window, Hermosa Beach weather
@@ -243,6 +246,7 @@ the row was only advertising an empty promise. Add it back to `content/nav.json`
 /propagation/index.html  — live propagation dashboard (NOAA SWPC + Open-Meteo, client-fetched)
 /blog/index.html         — generated field journal running list
 /blog/compose/index.html — owner-only browser publisher for structured blog source
+/news/index.html         — generated ham desk digest
 /tools/index.html        — workbench index (ham + night-desk + uav)
 /tools/ham/*/index.html  — amateur radio utilities (one directory per tool)
 /tools/night-desk/       — night-ops console page + desk.js engine
@@ -250,8 +254,10 @@ the row was only advertising an empty promise. Add it back to `content/nav.json`
 /tools/uav/uav.js        — UAV lab engine: parameter/metric registries, model, views, Monte Carlo
 /tools/uav/x/            — experimental UAV lab UI (see sanctioned exception below)
 /content/blog/           — structured blog post JSON source
+/content/news/           — one JSON file per ham-desk day
 /content/nav.json        — shared chrome source: nav routes, station facts, footer
 /scripts/build-blog.js   — static blog/home generator
+/scripts/build-news.js   — static ham-desk generator
 /scripts/build-chrome.js — regenerates nav, station facts, and footer from nav.json
 /scripts/check-widths.js — viewport overflow sweep (needs Playwright)
 /scripts/fetch-qrz-logbook.py — QRZ Logbook ADIF fetcher for scheduled QSO refresh
@@ -269,9 +275,10 @@ the row was only advertising an empty promise. Add it back to `content/nav.json`
 ```
 
 CSS lives in a single shared stylesheet (`/styles.css`). Most pages are
-hand-written HTML files that link it. Blog posts are the exception: structured JSON
-source is committed under `/content/blog/`, then `scripts/build-blog.js` regenerates
-static HTML so publishing does not require HTML surgery.
+hand-written HTML files that link it. Blog posts and the ham desk are the
+exception: structured JSON source is committed under `/content/blog/` and
+`/content/news/`, then the matching builder regenerates static HTML so
+publishing does not require HTML surgery.
 
 ## Development Guidelines
 
@@ -289,11 +296,12 @@ static HTML so publishing does not require HTML surgery.
 python3 -m unittest discover -s tests   # log-processing unit tests
 node scripts/build-chrome.js --check    # page chrome matches content/nav.json
 node scripts/build-blog.js              # regenerate blog/home output
+node scripts/build-news.js --check      # news HTML matches content/news
 node scripts/check-widths.js            # viewport overflow sweep (needs Playwright)
 python3 -m http.server 8000             # preview the site at localhost:8000
 ```
 
-All four run on every push and pull request via `.github/workflows/check.yml`.
+These run on every push via `.github/workflows/check.yml`.
 
 ### Fix what you find
 
