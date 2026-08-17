@@ -142,6 +142,15 @@ class ConfirmationTests(unittest.TestCase):
         self.assertEqual(process_logs.qso_confirmed_by(qso), [])
         self.assertTrue(process_logs.qrz_flag({'lotw': '1'}, 'lotw'))
 
+    def test_book_mismatch_note_does_not_pick_a_winner(self):
+        note = process_logs.qrz_book_mismatch_note(100, 99)
+
+        self.assertIn('APP_QRZLOG_STATUS=C', note)
+        self.assertIn('100', note)
+        self.assertIn('99', note)
+        self.assertEqual(process_logs.qrz_book_mismatch_note(99, 99), '')
+        self.assertEqual(process_logs.qrz_book_mismatch_note(99, None), '')
+
     def test_field_report_counts_every_value_of_a_confirmation_shaped_field(self):
         raw = [
             {'CALL': 'W1AW', 'QRZCOM_QSO_DOWNLOAD_STATUS': 'Y', 'LOTW_QSL_RCVD': 'Y'},

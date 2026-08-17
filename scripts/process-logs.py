@@ -27,8 +27,12 @@ from datetime import datetime, timezone
 # STATUS was briefly read as a QRZ confirmation and is not one: it is Y on every
 # record, recording that the QSO came from QRZ, so it marked the whole log
 # confirmed. The run below prints a value histogram of every confirmation-shaped
-# field for exactly this reason — APP_QRZLOG_STATUS reads C=99 / N=64 against
-# QRZ's own book total of 99, which is what a real confirmation flag looks like.
+# field for exactly this reason. APP_QRZLOG_STATUS is the field that actually
+# splits (C vs N). QRZ's ACTION=STATUS book total is an independent check on
+# that count, not a second source of per-contact marks, and the two can
+# disagree: N6OBW 2026-08-04 19:06 flipped to C on 2026-08-09 while the book
+# stayed at 99. When they disagree, print both numbers. Do not overwrite the
+# export marks with the book total.
 CONFIRMATION_ROUTES = (
     ('qrz',  ('APP_QRZLOG_STATUS',), ('C',)),
     ('lotw', ('LOTW_QSL_RCVD',),     ('Y', 'V')),
@@ -245,6 +249,17 @@ def confirmation_field_report(raw_qsos):
             report.setdefault(field, {})
             report[field][value] = report[field].get(value, 0) + 1
     return report
+
+
+def qrz_book_mismatch_note(export_count, book_count):
+    """Explain a book-vs-export disagreement without picking a winner."""
+    if book_count is None or book_count == export_count:
+        return ''
+    return (
+        f'QRZ ACTION=STATUS says {book_count}; the export marks {export_count} '
+        'APP_QRZLOG_STATUS=C. STATUS returns a book total only, so the extra '
+        'record cannot be named from the book side. The per-contact C marks stand.'
+    )
 
 
 def load_book_status():
@@ -548,6 +563,9 @@ def main():
             'qrz_confirmed':       confirmation_counts.get('qrz', 0),
             'qrz_book_confirmed':  qrz_book_confirmed,
             'qrz_book':            book_status,
+            'qrz_book_note':       qrz_book_mismatch_note(
+                confirmation_counts.get('qrz', 0), qrz_book_confirmed
+            ) or None,
             'bands':         band_counts,
             'modes':         mode_counts,
         },
@@ -569,6 +587,7 @@ def main():
         print(
             f'QRZ book confirmed: {qrz_book_confirmed}, but the export marks {marked_qrz} — the two disagree'
         )
+        print(f'  {qrz_book_mismatch_note(marked_qrz, qrz_book_confirmed)}')
     for field, values in sorted(field_report.items()):
         spread = ', '.join(
             f'{value}={count}' for value, count in sorted(values.items(), key=lambda kv: -kv[1])[:6]

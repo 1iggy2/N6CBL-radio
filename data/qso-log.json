@@ -79,6 +79,7 @@
     },
     "qrz_confirmed": 100,
     "qrz_book_confirmed": 99,
+    "qrz_book_note": "QRZ ACTION=STATUS says 99; the export marks 100 APP_QRZLOG_STATUS=C. STATUS returns a book total only, so the extra record cannot be named from the book side. The per-contact C marks stand.",
     "qrz_book": {
       "count": 163,
       "confirmed": 99,
