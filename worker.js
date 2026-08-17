@@ -47,6 +47,10 @@ export default {
       return Response.redirect(url.origin + '/log/stats/', 301);
     }
 
+    if (url.pathname === '/tools/night-desk' || url.pathname === '/tools/night-desk/') {
+      return Response.redirect(url.origin + '/log/atlas/', 301);
+    }
+
     // /roadmap/ was retired in 2026-08; the design language moved to /design/.
     if (url.pathname === '/roadmap' || url.pathname === '/roadmap/') {
       return Response.redirect(url.origin + '/', 301);

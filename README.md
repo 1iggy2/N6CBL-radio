@@ -23,13 +23,13 @@ alphabetically.
 | `/` | Home / current splash |
 | `/log/` | QSO log and contact records |
 | `/log/stats/` | QSO analysis and statistics |
+| `/log/atlas/` | QSO atlas: hops from the published book and a short season |
 | `/blog/` | Posts |
 | `/station/` | My station: operator profile, hardware reviews, gear, modes |
 | `/qsl/` | QSL card: front artwork, card specification, confirmation routes, QSL reach of worked stations |
 | `/propagation/` | Live propagation dashboard: NOAA SWPC indices, per-band reach, local weather |
 | `/tools/` | Workbench index |
 | `/tools/ham/` | Amateur radio utilities (17 tools) |
-| `/tools/night-desk/` | Night-ops console: VFO, S-meter, Morse paddle, grayline globe, QRZ log |
 | `/tools/uav/` | Fixed-wing UAV design lab |
 | `/design/` | Design language: principles, type, color, layout patterns, prohibitions |
 

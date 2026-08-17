@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N6CBL QSO Atlas — the published QRZ log as hops from each operating position, plus a short season from the book.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://n6cbl.radio/log/atlas/">
+  <meta property="og:title" content="QSO Atlas — N6CBL.radio">
+  <meta property="og:description" content="The N6CBL QRZ log drawn as real hops. No invented contacts.">
+  <meta property="og:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@camgablex">
+  <meta name="twitter:image" content="https://n6cbl.radio/images/n6cbl-logo-full.JPG">
+  <title>QSO Atlas — N6CBL.radio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="site-id">
+      <a href="/">
+        <div class="callsign-row">
+          <div class="callsign">N6CBL</div>
+          <img src="/flag-us.svg" alt="United States flag" class="flag" width="72" height="38">
+        </div>
+        <div class="site-sub">
+          <span class="domain">N6CBL.radio</span>
+          <span class="grid-sq">DM03tu</span>
+        </div>
+      </a>
+    </div>
+    <div class="header-meta">
+      <span id="header-stat">LAST ACTIVATION &mdash;</span>
+      <span>N6CBL.radio &mdash; /LOG/ATLAS/</span>
+    </div>
+  </header>
+
+  <div class="layout-body">
+
+    <nav class="sidenav" aria-label="Site navigation">
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Navigation</div>
+        <ul class="nav-tree">
+          <li class="nav-item">
+            <a href="/">
+              <span class="nav-path">/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/">
+              <span class="nav-path">/log/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/stats/">
+              <span class="nav-path" aria-label="/log/stats/">&#x21B3; stats/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/log/atlas/" aria-current="page">
+              <span class="nav-path" aria-label="/log/atlas/">&#x21B3; atlas/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/blog/">
+              <span class="nav-path">/blog/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/news/">
+              <span class="nav-path">/news/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/station/">
+              <span class="nav-path">/station/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/qsl/">
+              <span class="nav-path">/qsl/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/propagation/">
+              <span class="nav-path">/propagation/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/">
+              <span class="nav-path">/tools/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/ham/">
+              <span class="nav-path" aria-label="/tools/ham/">&#x21B3; ham/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/uav/">
+              <span class="nav-path" aria-label="/tools/uav/">&#x21B3; uav/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/tools/uav/x/">
+              <span class="nav-path" aria-label="/tools/uav/x/">&#x21B3; uav/x/</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/design/">
+              <span class="nav-path">/design/</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">Profiles</div>
+        <ul class="sidenav-links">
+          <li>
+            <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">QRZ.com/N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://pota.app/#/profile/N6CBL" target="_blank" rel="noopener">
+              <span class="link-label">POTA / N6CBL</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/1iggy2/designs" target="_blank" rel="noopener">
+              <span class="link-label">Thingiverse / 1iggy2</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://x.com/camgablex" target="_blank" rel="noopener">
+              <span class="link-label">X / @camgablex</span>
+              <span class="link-arrow">&#8599;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidenav-section">
+        <div class="sidenav-label">My Station</div>
+        <dl class="sidenav-dl">
+          <dt>Radio</dt>
+          <dd>Elecraft KX2</dd>
+          <dt>Antenna</dt>
+          <dd>Chameleon SS-17</dd>
+          <dt>Power</dt>
+          <dd>Bioenno LiFePO4</dd>
+          <dt>Mode</dt>
+          <dd>SSB &middot; FT8 &middot; CW study</dd>
+          <dt>QTH</dt>
+          <dd>DM03tu</dd>
+        </dl>
+      </div>
+
+      <div class="sidenav-section sidenav-section--op">
+        <div class="op-card">
+          <div class="op-callsign">N6CBL</div>
+          <div class="op-name">Cameron Gable</div>
+          <div class="op-meta">
+            <span>FCC General Class</span>
+            <span>DM03tu &middot; Los Angeles, CA</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <main id="main" class="main-content">
+
+      <div class="section-label split">
+        <span>/log/atlas/ &mdash; QSO Atlas</span>
+        <span class="log-count">Last reviewed <time datetime="2026-08-17">2026-08-17</time></span>
+      </div>
+
+      <div class="atlas-filters" id="atlas-filters" hidden>
+        <div class="atlas-filter-group" id="atlas-band-filters">
+          <span class="atlas-filter-label">Band</span>
+        </div>
+        <div class="atlas-filter-group" id="atlas-mode-filters">
+          <span class="atlas-filter-label">Mode</span>
+        </div>
+      </div>
+
+      <section class="stats-map-section" aria-labelledby="atlas-map-heading">
+        <div class="section-label split">
+          <span id="atlas-map-heading">Hops from the operating position</span>
+          <span id="atlas-map-count" class="log-count"></span>
+        </div>
+        <div class="stats-map-wrap">
+          <img src="/images/world-map.svg"
+               alt="World map with N6CBL contact arcs drawn from each operating position to the station worked"
+               class="stats-map-img"
+               width="1000" height="500">
+          <svg id="atlas-overlay"
+               viewBox="0 0 1000 500"
+               class="stats-map-overlay"
+               preserveAspectRatio="xMidYMid meet"
+               aria-hidden="true"></svg>
+        </div>
+        <div class="stats-map-bar">
+          <span class="map-key">
+            <span class="map-key-item">
+              <span class="map-key-dot map-key-dot-position"></span>Operating position
+            </span>
+            <span class="map-key-item">
+              <span class="map-key-dot map-key-dot-contact"></span>Station worked
+            </span>
+          </span>
+          <span id="atlas-map-note">Waiting for the book</span>
+        </div>
+      </section>
+
+      <section class="atlas-season-section" aria-labelledby="atlas-season-heading">
+        <div class="section-label split">
+          <span id="atlas-season-heading">The year in the book</span>
+          <span id="atlas-season-range" class="log-count"></span>
+        </div>
+        <div id="atlas-season" class="atlas-season">
+          <p>Loading the published QRZ book&hellip;</p>
+        </div>
+      </section>
+
+      <div class="log-footer">
+        <span id="atlas-updated"></span>
+        <span>Arcs are QRZ Logbook hops with a worked-station grid. No invented far end.</span>
+        <span><a href="/log/">QSO log &#8594;</a> &middot; <a href="/log/stats/">Log stats &#8594;</a></span>
+      </div>
+
+    </main>
+
+  </div>
+
+  <footer>
+    <div>
+      <span>Cameron Gable &mdash; N6CBL.radio</span>
+      <span>ALL RIGHTS RESERVED</span>
+    </div>
+    <div>
+      <a href="https://www.qrz.com/db/N6CBL" target="_blank" rel="noopener">CONTACT VIA QRZ &#8599;</a>
+    </div>
+    <div class="footer-claude">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13" width="18" height="15" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="7" fill="#c8401a"/>
+        <rect x="0" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="14" y="3" width="2" height="3" fill="#c8401a"/>
+        <rect x="5" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="9" y="2" width="2" height="3" fill="#0a0a0a"/>
+        <rect x="3" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="6" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="9" y="8" width="2" height="5" fill="#c8401a"/>
+        <rect x="12" y="8" width="2" height="5" fill="#c8401a"/>
+      </svg>
+      <span>VIBE CODED WITH <a href="https://claude.ai/code" target="_blank" rel="noopener">CLAUDE CODE</a> AND <a href="https://openai.com/codex/" target="_blank" rel="noopener">CODEX</a></span>
+    </div>
+  </footer>
+
+  <script src="/site-chrome.js"></script>
+  <script>
+  (function () {
+    /* Home QTH is the fallback origin only. A QSO with my_* plots from there.
+       A QSO without a worked-station grid does not get an invented far end. */
+    var HOME_GRID = 'DM03tu';
+    var HOME_LAT = 33.8542, HOME_LON = -118.375;
+    var COLOR_CONTACT  = '#c8401a';
+    var COLOR_POSITION = '#0a0a0a';
+    var bandFilter = '';
+    var modeFilter = '';
+    var logData = null;
+
+    function isFiniteNumber(n) {
+      return typeof n === 'number' && isFinite(n);
+    }
+
+    function hasFarEnd(q) {
+      return !!(q.gridsquare && isFiniteNumber(q.lat) && isFiniteNumber(q.lon));
+    }
+
+    function operatorPosition(q) {
+      if (isFiniteNumber(q.my_lat) && isFiniteNumber(q.my_lon)) {
+        return { grid: q.my_gridsquare || '—', lat: q.my_lat, lon: q.my_lon };
+      }
+      return { grid: HOME_GRID, lat: HOME_LAT, lon: HOME_LON };
+    }
+
+    function toSVG(lat, lon) {
+      return [(lon + 180) * 1000 / 360, (90 - lat) * 500 / 180];
+    }
+
+    function greatCirclePath(lat1, lon1, lat2, lon2, steps) {
+      var r = Math.PI / 180;
+      var pts = [];
+      for (var i = 0; i <= steps; i++) {
+        var f = i / steps;
+        var d = Math.acos(Math.min(1, Math.max(-1,
+          Math.sin(lat1 * r) * Math.sin(lat2 * r) +
+          Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.cos((lon2 - lon1) * r)
+        )));
+        if (d < 0.0001) { pts.push(toSVG(lat2, lon2)); continue; }
+        var A = Math.sin((1 - f) * d) / Math.sin(d);
+        var B = Math.sin(f * d) / Math.sin(d);
+        var x = A * Math.cos(lat1 * r) * Math.cos(lon1 * r) + B * Math.cos(lat2 * r) * Math.cos(lon2 * r);
+        var y = A * Math.cos(lat1 * r) * Math.sin(lon1 * r) + B * Math.cos(lat2 * r) * Math.sin(lon2 * r);
+        var z = A * Math.sin(lat1 * r) + B * Math.sin(lat2 * r);
+        pts.push(toSVG(
+          Math.atan2(z, Math.sqrt(x * x + y * y)) / r,
+          Math.atan2(y, x) / r
+        ));
+      }
+      return 'M ' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L ');
+    }
+
+    function selectedQsos(qsos) {
+      return qsos.filter(function (q) {
+        if (bandFilter && q.band !== bandFilter) return false;
+        if (modeFilter && q.mode !== modeFilter) return false;
+        return true;
+      });
+    }
+
+    function uniqueSorted(qsos, key) {
+      var seen = {};
+      for (var i = 0; i < qsos.length; i++) {
+        var v = qsos[i][key];
+        if (v) seen[v] = true;
+      }
+      return Object.keys(seen).sort();
+    }
+
+    function renderFilters(qsos) {
+      var bands = uniqueSorted(qsos, 'band');
+      var modes = uniqueSorted(qsos, 'mode');
+      var bandEl = document.getElementById('atlas-band-filters');
+      var modeEl = document.getElementById('atlas-mode-filters');
+      var wrap = document.getElementById('atlas-filters');
+      if (!bands.length && !modes.length) return;
+      bandEl.innerHTML = '<span class="atlas-filter-label">Band</span>' + filterButtons('band', bands);
+      modeEl.innerHTML = '<span class="atlas-filter-label">Mode</span>' + filterButtons('mode', modes);
+      wrap.hidden = false;
+      wrap.addEventListener('click', onFilterClick);
+    }
+
+    function filterButtons(kind, values) {
+      var html = buttonHtml(kind, '', 'All', true);
+      for (var i = 0; i < values.length; i++) {
+        html += buttonHtml(kind, values[i], values[i], false);
+      }
+      return html;
+    }
+
+    function buttonHtml(kind, value, label, pressed) {
+      return '<button type="button" class="atlas-filter" data-kind="' + kind
+        + '" data-value="' + esc(value) + '" aria-pressed="' + (pressed ? 'true' : 'false') + '">'
+        + esc(label) + '</button>';
+    }
+
+    function onFilterClick(ev) {
+      var btn = ev.target.closest('button[data-kind]');
+      if (!btn) return;
+      var kind = btn.getAttribute('data-kind');
+      var value = btn.getAttribute('data-value') || '';
+      if (kind === 'band') bandFilter = value;
+      if (kind === 'mode') modeFilter = value;
+      var group = btn.parentNode;
+      var buttons = group.querySelectorAll('button[data-kind]');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute('aria-pressed', buttons[i] === btn ? 'true' : 'false');
+      }
+      draw();
+    }
+
+    function renderSeason(data, qsos) {
+      var el = document.getElementById('atlas-season');
+      var rangeEl = document.getElementById('atlas-season-range');
+      var paragraphs = (data.atlas && data.atlas.paragraphs) || [];
+      if (!paragraphs.length) paragraphs = buildSeason(qsos, data.sessions || [], data.stats || {});
+      if (data.stats && data.stats.date_range) rangeEl.textContent = data.stats.date_range;
+      if (!paragraphs.length) {
+        el.innerHTML = '<p>The published book is empty.</p>';
+        return;
+      }
+      el.innerHTML = paragraphs.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+    }
+
+    /* Fallback if this JSON predates the process-logs atlas block.
+       Keep the sentences on facts in the file. Next QRZ pull writes data.atlas. */
+    function buildSeason(qsos, sessions, stats) {
+      if (!qsos.length) {
+        return ['The published book is empty. The scheduled QRZ Logbook refresh has not landed a contact yet.'];
+      }
+      var dates = qsos.map(function (q) { return q.date; }).filter(Boolean).sort();
+      var first = dates[0], last = dates[dates.length - 1];
+      var n = qsos.length;
+      var calls = stats.unique_calls || uniqueSorted(qsos, 'call').length;
+      var months = {};
+      var days = {};
+      var i;
+      for (i = 0; i < qsos.length; i++) {
+        if (!qsos[i].date) continue;
+        var m = qsos[i].date.slice(0, 7);
+        months[m] = (months[m] || 0) + 1;
+        days[qsos[i].date] = (days[qsos[i].date] || 0) + 1;
+      }
+      var heavyMonth = '', heavyN = 0;
+      Object.keys(months).forEach(function (k) {
+        if (months[k] > heavyN) { heavyN = months[k]; heavyMonth = k; }
+      });
+      var heavyDay = '', heavyDayN = 0;
+      Object.keys(days).forEach(function (k) {
+        if (days[k] > heavyDayN) { heavyDayN = days[k]; heavyDay = k; }
+      });
+      var early = qsos.filter(function (q) { return q.date && q.date < '2026-01-01'; })
+        .sort(function (a, b) { return (a.date + a.time).localeCompare(b.date + b.time); });
+      var parks = {};
+      for (i = 0; i < sessions.length; i++) {
+        if (sessions[i].reference) parks[sessions[i].reference] = (parks[sessions[i].reference] || 0) + 1;
+      }
+      var fields = {};
+      var unplotted = 0;
+      for (i = 0; i < qsos.length; i++) {
+        var grid = String(qsos[i].my_gridsquare || '').toUpperCase();
+        var field = grid.length >= 4 ? grid.slice(0, 4) : (grid || '—');
+        fields[field] = (fields[field] || 0) + 1;
+        if (!hasFarEnd(qsos[i])) unplotted++;
+      }
+      var bands = stats.bands || {};
+      var modes = stats.modes || {};
+      var countries = uniqueSorted(qsos, 'country');
+      var out = [];
+
+      var p1 = 'The book runs ' + first + ' to ' + last + '. ' + n + ' contacts, ' + calls + ' calls.';
+      if (early.length && early.length <= 3) {
+        p1 += ' It opens thin: ' + early.map(function (q) {
+          return (q.mode || 'a contact') + ' from ' + (q.my_location || q.my_gridsquare || 'the operating position') + ' on ' + q.date;
+        }).join('; ') + '. That is the whole first half of the file.';
+      } else if (n < 30) {
+        p1 += ' The file is still thin.';
+      }
+      out.push(p1);
+
+      var p2 = [];
+      var parkKeys = Object.keys(parks).sort();
+      if (parkKeys.length) {
+        p2.push('Parks in the export: ' + parkKeys.map(function (ref) {
+          return ref + ' (' + parks[ref] + ' session' + (parks[ref] === 1 ? '' : 's') + ')';
+        }).join(', ') + '.');
+      }
+      if (heavyN) p2.push(heavyMonth + ' carried ' + heavyN + ' of the ' + n + '.');
+      if (heavyDayN >= 10) p2.push(heavyDayN + ' of them on ' + heavyDay + '.');
+      var later = Object.keys(months).sort().filter(function (m) { return m > heavyMonth; });
+      if (later.length) {
+        p2.push('After that the file thins: ' + later.map(function (m) { return m + ' ' + months[m]; }).join(', ') + '.');
+      }
+      if (p2.length) out.push(p2.join(' '));
+
+      var p3 = [];
+      var bandKeys = Object.keys(bands);
+      if (bandKeys.length === 1) p3.push('Every contact is ' + bandKeys[0] + '.');
+      else if (bandKeys.length) {
+        p3.push('Bands: ' + bandKeys.sort(function (a, b) { return bands[b] - bands[a]; }).map(function (b) {
+          return b + ' ' + bands[b];
+        }).join(', ') + '.');
+      }
+      var modeKeys = Object.keys(modes);
+      if (modeKeys.length === 1) p3.push('All of them ' + modeKeys[0] + '.');
+      else if (modeKeys.length) {
+        var topMode = modeKeys.sort(function (a, b) { return modes[b] - modes[a]; })[0];
+        if (n - modes[topMode] === 1) {
+          var other = modeKeys.filter(function (m) { return m !== topMode; })[0];
+          p3.push('All but one are ' + topMode + '. The other is ' + other + '.');
+        } else {
+          p3.push('Modes: ' + modeKeys.map(function (m) { return m + ' ' + modes[m]; }).join(', ') + '.');
+        }
+      }
+      if (countries.length) {
+        p3.push('The far end is ' + countries.join(', ') + '.');
+        var onlyNa = countries.every(function (c) {
+          return c === 'United States' || c === 'Canada' || c === 'Alaska';
+        });
+        if (onlyNa) p3.push('No DXCC pile.');
+      }
+      var fieldKeys = Object.keys(fields).sort(function (a, b) { return fields[b] - fields[a]; });
+      if (fieldKeys.length) {
+        p3.push('Operating fields: ' + fieldKeys.map(function (g) { return g + ' ' + fields[g]; }).join(', ') + '.');
+      }
+      if (unplotted === 1) p3.push('One hop has no worked-station grid, so that arc is not drawn.');
+      else if (unplotted > 1) p3.push(unplotted + ' hops have no worked-station grid, so those arcs are not drawn.');
+      if (p3.length) out.push(p3.join(' '));
+      return out;
+    }
+
+    function draw() {
+      if (!logData) return;
+      var qsos = selectedQsos(logData.qsos || []);
+      var svg = document.getElementById('atlas-overlay');
+      var seenGrid = {};
+      var seenArc = {};
+      var positions = {};
+      var paths = '';
+      var dots = '';
+      var plotted = 0;
+      var unplotted = 0;
+
+      for (var i = 0; i < qsos.length; i++) {
+        var q = qsos[i];
+        var origin = operatorPosition(q);
+        positions[origin.grid] = origin;
+        if (!hasFarEnd(q)) { unplotted++; continue; }
+        plotted++;
+        var arcKey = origin.grid + '>' + q.gridsquare;
+        if (!seenArc[arcKey]) {
+          seenArc[arcKey] = true;
+          paths += '<path d="' + greatCirclePath(origin.lat, origin.lon, q.lat, q.lon, 20)
+            + '" fill="none" stroke="' + COLOR_CONTACT + '" stroke-width="0.7" stroke-opacity="0.45"/>';
+        }
+        if (!seenGrid[q.gridsquare]) {
+          seenGrid[q.gridsquare] = true;
+          var pt = toSVG(q.lat, q.lon);
+          dots += '<circle cx="' + pt[0].toFixed(1) + '" cy="' + pt[1].toFixed(1)
+            + '" r="2.2" fill="' + COLOR_CONTACT + '" fill-opacity="0.85"/>';
+        }
+      }
+
+      var marks = '';
+      var positionGrids = Object.keys(positions);
+      for (var p = 0; p < positionGrids.length; p++) {
+        var pos = positions[positionGrids[p]];
+        var m = toSVG(pos.lat, pos.lon);
+        var mx = m[0].toFixed(1);
+        var my = m[1].toFixed(1);
+        marks += '<circle cx="' + mx + '" cy="' + my + '" r="7" fill="none" stroke="'
+          + COLOR_POSITION + '" stroke-width="1.2" stroke-opacity="0.7"/>'
+          + '<circle cx="' + mx + '" cy="' + my + '" r="3.2" fill="' + COLOR_POSITION + '"/>';
+      }
+      svg.innerHTML = paths + dots + marks;
+
+      var hopCount = Object.keys(seenArc).length;
+      document.getElementById('atlas-map-count').textContent =
+        hopCount + ' hops · ' + qsos.length + ' QSO' + (qsos.length === 1 ? '' : 's');
+      var note = hopCount + ' unique path' + (hopCount === 1 ? '' : 's') + ' plotted';
+      if (unplotted === 1) note += ' · 1 without a far-end grid';
+      else if (unplotted > 1) note += ' · ' + unplotted + ' without a far-end grid';
+      document.getElementById('atlas-map-note').textContent = note;
+    }
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    window.N6CBLChrome.loadQsoLog()
+      .then(function (data) {
+        logData = data;
+        var qsos = data.qsos || [];
+        renderFilters(qsos);
+        renderSeason(data, qsos);
+        draw();
+        if (data.generated) {
+          document.getElementById('atlas-updated').textContent = 'Data as of ' + data.generated.slice(0, 10);
+        }
+      })
+      .catch(function () {
+        document.getElementById('atlas-season').innerHTML = '<p>Log data unavailable.</p>';
+        document.getElementById('atlas-map-note').textContent = 'Log data unavailable';
+      });
+  })();
+  </script>
+
+</body>
+</html>

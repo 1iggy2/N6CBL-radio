@@ -167,5 +167,35 @@ class ConfirmationTests(unittest.TestCase):
         self.assertNotIn('CALL', report)
 
 
+class AtlasSeasonTests(unittest.TestCase):
+    def test_empty_book_says_so(self):
+        atlas = process_logs.build_atlas_season([], [], {})
+        self.assertEqual(atlas['plotted'], 0)
+        self.assertIn('empty', atlas['paragraphs'][0].lower())
+
+    def test_season_uses_parks_bands_and_skips_ungridded_hops(self):
+        qsos = [
+            {
+                'date': '2026-03-17', 'call': 'W1AW', 'band': '20m', 'mode': 'SSB',
+                'country': 'United States', 'gridsquare': 'FN31', 'lat': 41.5, 'lon': -72.7,
+                'my_gridsquare': 'DM03SW', 'my_location': 'DM03SW, CA',
+            },
+            {
+                'date': '2026-03-17', 'call': 'K7PGL/P', 'band': '20m', 'mode': 'SSB',
+                'country': 'United States', 'my_gridsquare': 'DM03SW', 'my_location': 'DM03SW, CA',
+            },
+        ]
+        sessions = [{'reference': 'US-3425', 'date': '2026-03-17'}]
+        atlas = process_logs.build_atlas_season(qsos, sessions, {
+            'bands': {'20m': 2}, 'modes': {'SSB': 2}, 'unique_calls': 2,
+        })
+        text = ' '.join(atlas['paragraphs'])
+        self.assertEqual(atlas['plotted'], 1)
+        self.assertEqual(atlas['unplotted'], 1)
+        self.assertIn('US-3425', text)
+        self.assertIn('20m', text)
+        self.assertIn('not drawn', text)
+
+
 if __name__ == '__main__':
     unittest.main()

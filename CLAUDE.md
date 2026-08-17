@@ -80,7 +80,7 @@ Key rules:
   visible navigation list. Do not hide public subpages only inside parent-page body
   links. Exception: individual utilities inside a workbench (`/tools/ham/grid/`,
   `/tools/ham/swr/`, …) are indexed from their workbench page, not the navigator —
-  the navigator lists one row per workbench (`↳ ham/`, `↳ night-desk/`, `↳ uav/`) so the visible
+  the navigator lists one row per workbench (`↳ ham/`, `↳ uav/`) so the visible
   list stays readable as the tool inventory grows.
 - Owner-only operational routes, such as `/blog/compose/`, may be omitted from the
   public navigator when protected by Cloudflare Access and used only as publishing
@@ -216,6 +216,7 @@ order; keep this list and that file in the same sequence.
 /                  — splash / home, world map, station overview
 /log/              — QSO log: primary source of contact/session records
 /log/stats/        — analysis of the QSO log: maps, counts, WAS, bands, modes
+/log/atlas/        — QSO atlas: year-from-the-book map and season from the published QRZ log
 /blog/             — posts: technical, radio, misc
 /news/             — daily ham-radio news digest
 /station/          — my station: operator profile, hardware reviews, gear, modes, CW progress
@@ -223,7 +224,6 @@ order; keep this list and that file in the same sequence.
 /propagation/      — pre-activation command station: NOAA SWPC indices, per-band reach, 24 h window, Hermosa Beach weather
 /tools/            — workbench index: one route per tool discipline
 /tools/ham/        — amateur radio workbench: 17 client-side utilities
-/tools/night-desk/ — night-ops console: analog VFO, S-meter, Morse paddle, grayline globe, QRZ log
 /tools/uav/        — fixed-wing UAV design lab: parametric sizing, Monte Carlo, 3-view
 /design/           — design language of record: principles, type, color, patterns, prohibitions
 ```
@@ -241,15 +241,15 @@ the row was only advertising an empty promise. Add it back to `content/nav.json`
 /design/index.html       — design language reference (this doctrine, rendered)
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats
+/log/atlas/index.html    — QSO atlas: hops from the book plus a written season
 /station/index.html      — station reference and inventory
 /qsl/index.html          — QSL card reference; card artwork plus log-derived QSL reach
 /propagation/index.html  — live propagation dashboard (NOAA SWPC + Open-Meteo, client-fetched)
 /blog/index.html         — generated field journal running list
 /blog/compose/index.html — owner-only browser publisher for structured blog source
 /news/index.html         — generated ham desk digest
-/tools/index.html        — workbench index (ham + night-desk + uav)
+/tools/index.html        — workbench index (ham + uav)
 /tools/ham/*/index.html  — amateur radio utilities (one directory per tool)
-/tools/night-desk/       — night-ops console page + desk.js engine
 /tools/uav/index.html    — fixed-wing UAV design lab page
 /tools/uav/uav.js        — UAV lab engine: parameter/metric registries, model, views, Monte Carlo
 /tools/uav/x/            — experimental UAV lab UI (see sanctioned exception below)
