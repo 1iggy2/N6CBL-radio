@@ -37,6 +37,8 @@ function pageRoutes(dir = ROOT, found = []) {
     else if (entry.name === 'index.html') {
       const rel = path.relative(ROOT, path.dirname(full));
       found.push(rel === '' ? '/' : `/${rel.split(path.sep).join('/')}/`);
+    } else if (entry.name === '404.html' && path.relative(ROOT, dir) === '') {
+      found.push('/404.html');
     }
   }
   return found;

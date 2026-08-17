@@ -234,6 +234,7 @@ the row was only advertising an empty promise. Add it back to `content/nav.json`
 
 ```
 /index.html              — home page
+/404.html                — HTTP 404 page for unknown paths (Workers assets not_found_handling)
 /design/index.html       — design language reference (this doctrine, rendered)
 /log/index.html          — QSO log
 /log/stats/index.html    — QSO log analysis and stats

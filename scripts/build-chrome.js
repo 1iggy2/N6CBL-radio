@@ -37,6 +37,9 @@ const LAYOUT_END = /([ \t]*)<\/div><!-- \/\.layout-body -->/;
 /* Pages that deliberately have no sidebar. /tools/uav/x/ is the sanctioned
    design-doctrine exception and ships its own app-like shell. */
 const NO_SIDEBAR = new Set(['tools/uav/x/index.html']);
+/* 404.html is served for every unknown path. Highlighting `/` as the current
+   page would be a lie — no published route matches. */
+const NO_CURRENT_ROUTE = new Set(['404.html']);
 
 function htmlFiles(dir, found = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -157,7 +160,9 @@ function main() {
       continue;
     }
 
-    let updated = original.replace(NAV_BLOCK, renderNav(routes, routeForFile(rel), match[1]));
+    const relPosix = rel.split(path.sep).join('/');
+    const currentRoute = NO_CURRENT_ROUTE.has(relPosix) ? '' : routeForFile(rel);
+    let updated = original.replace(NAV_BLOCK, renderNav(routes, currentRoute, match[1]));
     updated = applyBlock(updated, STATION_BLOCK, (indent) => renderStation(station, indent));
     updated = applyBlock(updated, FOOTER_BLOCK, (indent) => renderFooter(footer, indent));
     if (updated === original) continue;

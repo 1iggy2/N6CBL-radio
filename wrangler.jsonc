@@ -17,7 +17,10 @@
   },
   "assets": {
     "directory": ".",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Without this, unknown paths return HTTP 404 with an empty body. The
+    // nearest 404.html is served instead; status stays 404.
+    "not_found_handling": "404-page"
   },
   "compatibility_flags": [
     "nodejs_compat"
