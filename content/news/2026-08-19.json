@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-19",
+  "updatedAt": "2026-08-19T14:10:00.000Z",
+  "items": [
+    {
+      "topic": "OPS",
+      "title": "Kopernik Observatory balloon today: APRS K2ZRO-11 and SSTV on 145.600",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/kopernik-observatory-seeks-amateur-radio-operators-to-track-august-19-balloon-flight",
+      "blurb": "Drew Deskur KA1M at Kopernik Observatory in Vestal, New York, planned a 19 August launch at 10 AM Eastern (1400 UTC). About 2.5 hours aloft, past 100,000 feet, APRS as K2ZRO-11 plus SSTV on 145.600 MHz Martin 1. Northeast stations are asked to send images and signal reports to k2zro@kopernik.org. Last year SSTV reports came in from New England, Canada, Pennsylvania, Ohio, and Maryland."
+    },
+    {
+      "topic": "SPACE",
+      "title": "C6AUB on FM LEO from the Bahamas, 19–23 August",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-228-amsat-news-service-weekly-bulletins/",
+      "blurb": "Philippe EA4NF is C6AUB from Providence and Discovery Islands, grid FL15, IOTA NA-001. Full-duplex FM LEO, portable, Arrow plus a whip. QSL via LoTW as C6AUB. ANS-228 also had ARISS radios scheduled back on at 19 August 10:45 UTC after the USOS EVA."
+    },
+    {
+      "topic": "DX",
+      "title": "3B9/SQ9UM Rodrigues, 18–20 August",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/3b9-sq9um-rodrigues-island/",
+      "blurb": "Alex SQ9UM is QRV from Rodrigues as 3B9/SQ9UM 18–20 August. 40–10 m, CW, FT8/FT4, maybe SSB. QSL via SQ9UM. Short window."
+    },
+    {
+      "topic": "GEAR",
+      "title": "Helioclock debuts at Huntsville, booth V55",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/08/helioclock-debut-hunstville-hamfest-next-generation-display-sdr/",
+      "blurb": "Anthony Watts KA9NWM is showing Helioclock at the hamfest 22–23 August: a shack dashboard that ranks HF bands from cluster and RBN spots, with optional RTL-SDR for NCDXF beacons and a live receiver. Raspberry Pi 4/5 images, Live USB, and small PCs. No subscription. Best Band Now has to lead for 20 minutes before it says CONFIRMED."
+    },
+    {
+      "topic": "SPACE",
+      "title": "CubeSatSim in September QST",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-228-amsat-news-service-weekly-bulletins/",
+      "blurb": "Mark Samis KD2XS wrote Meet the CubeSatSim in September QST, page 54. ARRL members get it in the magazine; AMSAT posted a PDF at CubeSatSim.org with ARRL permission. Lite and full kits are in the AMSAT store. Same bulletin: Steve Greene KS1G took GridMaster #80."
+    },
+    {
+      "topic": "SPACE",
+      "title": "Oslo amateurs voice-commanded OPS-SAT PRETTY to run DOOM",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-228-amsat-news-service-weekly-bulletins/",
+      "blurb": "On 27 July, NRRL Oslo Group (LA4O) sent a 23 cm voice command from the club roof. Graz’s OPS-SAT PRETTY transcribed it on board and launched DOOM, then downlinked a postcard of the game. ESA ESOC coordinated. The SEPP experiment computer is receive-only; data came back hours later. Writeup at tanagraspace.com/opssat-pretty-doomed/."
+    }
+  ]
+}
