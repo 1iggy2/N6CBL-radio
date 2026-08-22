@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-22",
+  "updatedAt": "2026-08-22T14:15:00.000Z",
+  "items": [
+    {
+      "topic": "OPS",
+      "title": "Huntsville Hamfest floor is open today as ARRL National Convention",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/expo",
+      "blurb": "Saturday and Sunday, 22–23 August, at the Von Braun Center South Hall in Huntsville. Indoor flea market, manufacturers, ARRL EXPO, forums, exams, and W1AW America250. Friday's training tracks and Saturn V dinner already ran. Hamfest tickets are separate from the Friday program. Free ARRL Events app has the forum list, exhibitor map, and hourly prizes."
+    },
+    {
+      "topic": "POLICY",
+      "title": "W8WTS gives ARRL $1 million for STEM, spectrum, and the endowment",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/entrepreneur-and-amateur-radio-operator-invests-in-the-next-generation-of-problem-solvers",
+      "blurb": "Dr. James M. Galm, W8WTS, of Chardon, Ohio, a 50-year ARRL member and PJ2T contest op, announced a $1 million gift on 21 August. It funds the Education and Technology Program / Teachers Institute, the Spectrum Defense Fund, unrestricted Diamond Club support, and the Second Century endowment. He is inducted into the Maxim Society at Millennium Class, joining Margaret Valentine at that giving level."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJL landed on Heiss Island; unpacking, first signals soon",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "RUDXT reached Franz Josef Land after the storm and a dead FT-891 on the voyage. 21 August 1100Z they were 2 hours from a landing attempt depending on ice in the channel. A 0600Z note says they are ashore and unpacking at the Krenkel observatory on Heiss Island. Watch for the first island signals; they planned 15 days, five high-power stations, 160–10 m."
+    },
+    {
+      "topic": "OPS",
+      "title": "Colombia emergency frequencies released after 124 hours",
+      "source": "IARU",
+      "url": "https://www.iaru-r1.org/2026/colombian-amateur-radio-league-frees-up-emergency-frequencies/",
+      "blurb": "LCRA's national emergency net stood down the IARU R2 watch freqs after 124 hours supporting the 10 August earthquake. 3985, 7060, 7240, 7275, 14300, 18160, and 21360 kHz are clear again. Clubs stay active locally. IARU R2 emergency coordinator CO2JC reports a Starlink node in Pereira, meal drops with Asorec and Scouts, and help putting Radio Reloj back on the air in Risaralda."
+    },
+    {
+      "topic": "POLICY",
+      "title": "FCC proposes commercial satellite use overlapping 900 MHz, 2.4, and 5.7 GHz",
+      "source": "RSGB",
+      "url": "https://rsgb.org/main/blog/news/gb2rs/headlines/2026/08/21/also-in-gb2rs-this-week-533/",
+      "blurb": "GB2RS (21 August) reports a further FCC proposal for commercial satellite allocations that overlap amateur spectrum, this time 900 MHz, 2.4 GHz, and 5.7 GHz. ARRL has already filed an initial response. RSGB points members at rsgb.org/spectrum-forum. This follows last year's 70 cm telemetry grant to a commercial constellation."
+    },
+    {
+      "topic": "OPS",
+      "title": "Ohio and Hawaii QSO Parties start 1600Z today",
+      "source": "WA7BNM",
+      "url": "https://www.contestcalendar.com/weeklycont.php",
+      "blurb": "Ohio QSO Party is 1600Z 22 August to 0400Z 23 August, CW and SSB, exchange OH county or SPC. Hawaii QSO Party runs 1600Z 22 August to 0400Z 24 August, CW, phone, and digital, HI district exchange. Also on the clock: YO DX HF and ARSI VU DX from 1200Z, and CVA DX SSB from 1800Z. Rules at ohqp.org and hawaiiqsoparty.org."
+    }
+  ]
+}
