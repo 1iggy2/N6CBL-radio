@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-23",
+  "updatedAt": "2026-08-23T14:15:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJL DIGI site is up on Heiss Island; CW/SSB later today",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "Vasily R7AL, 0900Z from the Krenkel observatory: fog delayed the landing until late on 21 August, then they hauled about 1,000 kg of gear ashore. Yesterday they built the DIGI site in the main building with two Spiderbeams for 30–10 m. CW and SSB go in an old barn farther out. Team is tired, cold, and windy; first phone/CW hoped later today. SAT internet is slow, email only. Watch the call RI1FJL, not the RI1JFL showing on 14.095 FT8."
+    },
+    {
+      "topic": "OPS",
+      "title": "Huntsville last day: POTA forum at noon, doors 9 AM, close 2 PM",
+      "source": "KE2YK",
+      "url": "https://ke2yk.com/2026/08/14/ham-radios-next-generation-is-gathering-in-rocket-city/",
+      "blurb": "Sunday 23 August is the last floor of the ARRL National Convention at the Von Braun Center. Doors 9 AM. Room 1: Ham Radio 2.0 YouTubers at 10, POTA with James Mon KE8PZN at noon, Huntsville YL club at 1. Room 2 is Adult Soldering 101 through 2 PM. Closing ceremony 2 PM. Official program also at arrl.org/expo."
+    },
+    {
+      "topic": "DX",
+      "title": "VY0ZOO due Coral Harbour, Southampton Island, today",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/vy0zoo-southampton-island-na-007/",
+      "blurb": "Mike VE2XB is expected to arrive Coral Harbour, NA-007, on 23 August for about a month. VY0ZOO on 80–10 m, CW and SSB. QSL via VE2XB. After Southampton he plans Igloolik, NA-174, 29 September–26 October, a rarer IOTA."
+    },
+    {
+      "topic": "GEAR",
+      "title": "RepeaterLive: a directory that ages listings when nobody hears them",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/",
+      "blurb": "Daniel Régis VE2DRG launched RepeaterLive with 9,500-plus machines in the US, Canada, UK, France, and South Korea. Operators tap a field check-in and optional 1–5 signal report; a 90-day silence flag drops unverified listings. Oregon aligned 238 additions and 52 corrections to ORRC this week. Map and CHIRP export are free. Club tier does CSV bulk import."
+    },
+    {
+      "topic": "SPACE",
+      "title": "C6AUB last day on FM LEO from the Bahamas",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-228-amsat-news-service-weekly-bulletins/",
+      "blurb": "Philippe EA4NF is C6AUB from Providence and Discovery Islands through 23 August. Grid FL15, IOTA NA-001. Full-duplex FM LEO, Arrow plus a whip. QSL via LoTW as C6AUB. Updates on @EA4NF_SAT."
+    },
+    {
+      "topic": "DX",
+      "title": "V51WH back on from Omaruru 25 August–10 October",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/v51wh-v55y-namibia/",
+      "blurb": "Gunter DK2WH returns to a farm near Omaruru, Namibia, as V51WH from 25 August through 10 October. 160–6 m including 60 m, Optibeam 9-5 on a 15 m mast from last April. V55Y for CQWW RTTY. QSL via DK2WH."
+    }
+  ]
+}
