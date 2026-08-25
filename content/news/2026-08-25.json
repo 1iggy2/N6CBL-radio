@@ -1,0 +1,41 @@
+{
+  "date": "2026-08-25",
+  "updatedAt": "2026-08-25T14:10:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJL is the real call; grid LR90ao; CW/SSB logs coming",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "2145Z 23 August: the RI1JFL FT8 spots were operator error. The station is RI1FJL from Ernst Krenkel Observatory, Heiss Island, grid LR90ao. First CW and SSB logs go to Club Log soon. Comments 24–25 August: FT8 is loud (Kentucky 20 m, 3-band QSOs); SSB still requested as of 1130Z today."
+    },
+    {
+      "topic": "DX",
+      "title": "FR/ZS6AJG Reunion Island, 25–27 August",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/fr-zs6ajg-reunion-island/",
+      "blurb": "Andre ZS6AJG is FR/ZS6AJG from Saint-Gilles, Reunion, 25–27 August. HF, vertical, Xiegu G90. QSL via home call and eQSL. Three-day window starting today."
+    },
+    {
+      "topic": "GEAR",
+      "title": "HFPilot: offline HF propagation estimates for the desktop",
+      "source": "Hearham",
+      "url": "https://hearham.com/HFPilot",
+      "blurb": "Hearham's HFPilot estimates point-to-point HF openings offline, the same job RepeaterSTART did for VHF. Free and open source for Windows and Linux. Band conditions, worldwide paths, and a topo map. Know which hour to tune before you sit down."
+    },
+    {
+      "topic": "OPS",
+      "title": "WW Digi DX Contest this weekend; 48-hour logs, no bots",
+      "source": "WWROF",
+      "url": "https://ww-digi.com/",
+      "blurb": "World Wide Digi DX Contest runs 1200Z Saturday 29 August through 1159Z Sunday 30 August. FT4 and FT8, all HF, 4-character grid exchange. Two 2026 changes: logs due in 48 hours, autonomous operation prohibited. WWROF and Slovenia Contest Club."
+    },
+    {
+      "topic": "DX",
+      "title": "KH8WW American Samoa, 10–24 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/kh8ww-american-samoa/",
+      "blurb": "Yuris YL2GM and Eugene EA5EL will be KH8WW from Aunuʻu Island, American Samoa, 10–24 September. Various bands and modes. Full website after 1 September."
+    }
+  ]
+}
