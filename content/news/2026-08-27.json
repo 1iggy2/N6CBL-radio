@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-27",
+  "updatedAt": "2026-08-27T14:20:00.000Z",
+  "items": [
+    {
+      "topic": "GEAR",
+      "title": "DXChrono Desktop: shack-wall globe with spots, SOTA, POTA, and contests",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/08/dxchrono-desktop-shack-wall-display-amateur-radio/",
+      "blurb": "Peter Goodhall MM9SQL shipped DXChrono Desktop from Elgin, Scotland. Grey line, solar indices, DX Cluster, PSK Reporter, RBN skimmers, SOTA, POTA, satellites, logging, and contest context on one full-screen 3D globe or 2D map. SES mode turns it into a club open-day display with branding and a last-worked banner; Cloudlog or N1MM feeds. Windows, macOS, Linux, Pi 4/5; one-time £15 licence covers five machines. The free web app at dxchrono.com stays free."
+    },
+    {
+      "topic": "DX",
+      "title": "HK0/PY8WW San Andres, 3–7 September, holiday portable",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/hk0-py8ww-san-andres-island/",
+      "blurb": "Renato PY8WW posts today: San Andres Island, Colombia, 3–7 September as HK0/PY8WW. Holiday op, not a full DXpedition. Small portable vertical near the beach. Planned 6, 10, 12, 15, 17, and 20 m; SSB, CW, and digital; no fixed schedule. LoTW daily when possible, Club Log Live Stream, cards via Club Log OQRS."
+    },
+    {
+      "topic": "OPS",
+      "title": "A43KD on air now from Oman’s first Amateur Radio Forum",
+      "source": "Ham Radio World",
+      "url": "https://www.hamradioworld.org/post/a43kd-special-event-oman",
+      "blurb": "Special event A43KD is QRV 26–28 August from Dhofar Governorate (grid LK77FA) for the Royal Omani Amateur Radio Society’s first Amateur Radio Forum. HF plus QO-100; SSB, CW, and digital. Five certificates available. Details and awards at qrz.com/db/A43KD."
+    },
+    {
+      "topic": "DX",
+      "title": "HB040A Liechtenstein returns this weekend for AFVL 40th",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/hb040a-liechtenstein/",
+      "blurb": "Local ops celebrate 40 years of the Liechtenstein Radio Amateur Association (AFVL) as HB040A on 28–30 August (they also ran 17–19 July). SSB and FT8/FT4. QSL via LoTW."
+    },
+    {
+      "topic": "DX",
+      "title": "H49A Solomon Islands: ACOM amps landed in Croatia",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/h49a-solomon-islands/",
+      "blurb": "October ’26 Guadalcanal team (9A3MR lead) says the ACOM amps arrived in Croatia last week. Three stations as airline luggage; two 20–10 m VDAs tested on the Adriatic; QTH Dolphin View Beach, QI90VQ, ~100 m of beachfront. Charity tie to the Catholic Mission in Boma. Free bureau cards; LoTW free at six months; direct + LoTW for €5."
+    },
+    {
+      "topic": "SPACE",
+      "title": "OrbitDeck for iOS enters public beta",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-235-amsat-news-service-weekly-bulletins/",
+      "blurb": "Paul Stoetzer N8HM opened a public TestFlight beta of OrbitDeck for iPhone and iPad. Passes, Doppler, look angles, footprints, link budgets, SatNOGS transponders, VUCC Grid Finder, OSCARLOCATOR overlays, live space weather. No ads or analytics. Details and docs at orbitdeckios.n8hm.radio; join via TestFlight."
+    }
+  ]
+}
