@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-28",
+  "updatedAt": "2026-08-28T14:25:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJL extends: another week on Heiss, wind distorting signals",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "Vasily R7AL at 1100Z today: dates pushed back; plan is another week on Heiss Island. Wind is very strong and signals are often heavily distorted, hard to copy. Nine amps on site (500 W to 2 kW) but power limits mean they are not always run everywhere. Club Log still the place to check."
+    },
+    {
+      "topic": "RF",
+      "title": "G2 geomagnetic storm watch for today after 25 Aug M6.9 CME",
+      "source": "The Watchers",
+      "url": "https://watchers.news/2026/08/26/m6-9-solar-flare-produces-earth-directed-cme-g2-geomagnetic-storm-watch-issued-for-august-28/",
+      "blurb": "NOAA SWPC has a G2 Moderate watch for 28 August from Earth-directed CMEs after an M6.9 flare from Region 4513 at 1002Z on the 25th (R2 radio blackout). A G1 watch covered the 27th from a coronal-hole high-speed stream (~600 km/s). Expect polar-path flutter and MUF hits on HF; mid-latitude 40/20 may hold up better than the high bands."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "ZRDC 2026: digital-ham conference in San Ramon, 16 October",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/08/zero-retries-digital-conference-amateur-radio-technology-innovation-san-ramon/",
+      "blurb": "Zero Retries Digital Conference returns Friday 16 October at the Roundhouse Conference Center in San Ramon, same weekend as Pacificon (separate registration; short walk to the Marriott). Year two: digital voice/data, SDR, networking, new modes, sats. Confirmed speakers include FreeDV, DigiPi, IP400, and microcontroller protocols. Registration open; papers due 28 September."
+    },
+    {
+      "topic": "OPS",
+      "title": "K4A ‘We Do Remember’ 9/11 special event, 9–13 September",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/08/k4a-america-9-11-we-do-remember-special-event/",
+      "blurb": "Alabama Contest Group runs K4A for the sixth year, marking 25 years since 9/11. Volunteer ops take shifts 9–13 September; they want on-air memories and will pause for named tributes. Special QSL; stories go into the club newsletter. Ops wanted: email Bob WA1FCN at wa1fcn@charter.net."
+    },
+    {
+      "topic": "DX",
+      "title": "J38DX and J38LD Grenada, 1–12 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/j38dx-j38ld-grenada/",
+      "blurb": "Eric GM5RDX as J38DX and Graham MM8IJU as J38LD return to Grenada (IOTA NA-024). Third trip for Eric, second for Graham. 80–6 m, SSB and FT4/8. QSL via Charles M0OXO; daily LoTW and QRZ uploads. Updates on DX-World."
+    },
+    {
+      "topic": "SPACE",
+      "title": "H44GJ Lola Island: first Solomon Islands 6 m EME, starts today",
+      "source": "W7GJ",
+      "url": "https://www.bigskyspaces.com/w7gj/H44%202026.htm",
+      "blurb": "Lance W7GJ is H44GJ from Lola Island (QI81nq, OC-149) 28 August–11 September. First-ever H4 on any-band EME; his 21st 6 m moonbounce trip. Q65-60A pileup on 50.175 (first sequence); may monitor 50.313 FT8 off-moon. LoTW and photo cards after return. Watch ON4KST EME chat and his schedule page."
+    }
+  ]
+}
