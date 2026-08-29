@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-29",
+  "updatedAt": "2026-08-29T14:10:00.000Z",
+  "items": [
+    {
+      "topic": "GEAR",
+      "title": "Icom IC-7110 unveiled at Tokyo Ham Fair (was X-026)",
+      "source": "Icom UK",
+      "url": "https://icomuk.co.uk/Unveiled-Tokyo-Ham-Fair-2026-Introducing-the-New-Icom-IC-7110/2/5662/",
+      "blurb": "Live from Tokyo Ham Fair 2026, Icom named the long-teased X-026 as the IC-7110, successor to the IC-7100. HF/50/70/144/430 MHz all-mode mobile: 100 W HF/50, 50 W on 2 m/70 cm, 4.3-inch colour touchscreen with waterfall, true dualwatch, separable head, Wi-Fi, Bluetooth 5.3, GNSS, and D-STAR. No internal ATU; pricing and shipping still TBA."
+    },
+    {
+      "topic": "DX",
+      "title": "P29YY clears PNG entry; Kavieng ops hoped tomorrow",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/p29yy-papua-new-guinea/",
+      "blurb": "Maxim OH7O reports he got into Papua New Guinea and his gear cleared too. Still in Port Moresby, then Kavieng (New Ireland, OC-008, QI57jk) this afternoon to raise antennas and try FT8 through local QRM. If it holds, he expects to be very active from 30 August through 8 September."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJZ team rolling to Murmansk for September FJL",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "Vasily RA1ZZ: Eugene RW6MD left for Murmansk by train; Dima RA9USU drives out Saturday morning; RA1ZZ and UA6EX fly in 31 August, R9LR on 1 September. Over 600 kg of gear already shipped. Planned on-air as RI1FJZ 9–25 September with up to seven radios, amps, EME, LEO, and QO-100 — a second Franz Josef Land trip while RI1FJL is still on Heiss."
+    },
+    {
+      "topic": "DX",
+      "title": "HP/WE9G Panama, 2–9 September, mostly FT8",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/hp-we9g-panama/",
+      "blurb": "Rikk WE9G heads to Paraiso, Panama as HP/WE9G 2–9 September. Mostly FT8 with some CW and SSB on 160–6 m; SO3R, two verticals and a G5RV. Club Log, QRZ, and LoTW uploads planned real-time and free. QSL via WE9G or Club Log OQRS."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ARRL EME Contest weekend two: 2.3 GHz and up, 5–6 September",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/the-arrl-eme-contest",
+      "blurb": "Second ARRL EME weekend is 0000Z 5 September through 2359Z 6 September on 2.3 GHz and above. Exchange a 4-digit grid or another mutually understood report if the path is too weak for grids; upload grids in the log. From this fall, EME logs go to the dedicated EME Electronic Submission page. Later weekends cover 50–1296 MHz at end of October and November."
+    },
+    {
+      "topic": "OPS",
+      "title": "Huntsville NatCon wrap: next ARRL National Convention eyed for Pacificon 2028",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/radio-learning-and-community-at-the-2026-arrl-national-convention-and-huntsville-hamfest",
+      "blurb": "Bob Inderbitzen NQ1R recaps the 21–23 August ARRL National Convention at Huntsville: Friday workshops from 37 states, Rocket Center dinner for the Teachers Institute, packed EXPO, Lab spurious checks on 100-plus HTs, and Year of the Club awards. Tentative plan: next National Convention at Pacificon in San Ramon, October 2028."
+    }
+  ]
+}
