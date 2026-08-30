@@ -1,0 +1,55 @@
+{
+  "date": "2026-08-30",
+  "updatedAt": "2026-08-30T14:20:00.000Z",
+  "items": [
+    {
+      "topic": "POTA",
+      "title": "DF7CW: eight parks, all CW, on Sweden’s Kungsleden",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/08/eight-parks-one-missing-mast-and-the-midnight-sun-a-cw-only-pota-trek-along-swedens-kungsleden/",
+      "blurb": "Nils DF7CW’s guest write-up for Thomas Witherspoon is dated today: eight POTA parks along the arctic Kungsleden trail as SM/DF7CW, every QSO CW on 20 m with a Mountain Topper Currahee. A missing SOTABeams mast nearly ended the radio side until German hikers returned it at Alesjaure; inReach Mini spotted when cell died. Four ATFE parks, a swamp fourfer, and three hours of rain on a rough K-index day."
+    },
+    {
+      "topic": "DX",
+      "title": "Two VK0 stations QRV from Australian Antarctica",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/two-vk0-stations-on-air-from-australian-antarctica/",
+      "blurb": "WIA reminder: David Short VK2JDS is VK0DS at Davis (into late October; end-fed on a 22 m tower, V-beam planned, prior 2 m EME from Davis) while Tom Blunt VK2TBC is VK0TBC at Casey on SSB and FT8 around station duties. Two concurrent Australian Antarctic paths is uncommon — watch clusters and FT8, not a fixed DXpedition schedule."
+    },
+    {
+      "topic": "DX",
+      "title": "XR0Z Selkirk: second cargo to Valparaíso, VHF gear for fishermen",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/xr0z-alexander-selkirk-island-sa-101/",
+      "blurb": "Felipe XQ7IR and Moisés CE3VTZ update October’s Alexander Selkirk (SA-101) trip: Zoom with the park ranger and fishermen on moving gear from Robinson Crusoe; a second shipment of food and camping kit is headed to Valparaíso. They are donating a VHF marine antenna and 20 m of Belden 9913 to the fishing fleet. Still need a homebrew 6 m 3-el and more supplies; donations welcome."
+    },
+    {
+      "topic": "DX",
+      "title": "JD1/JG1PFR Ogasawara CW trip postponed",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/jd1-jg1pfr-ogasawara-islands/",
+      "blurb": "Rudi DK7PE (JG1PFR) cancels the planned 12–19 September one-man CW week from Ogasawara after a serious family illness. Goal had been JD1/JG1PFR, wire antennas, no amp, ETM9c keyer, after the 26-hour Tokyo ship ride. He hopes to reschedule and will post a new date on rooody.de."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ANS-242: ARISS proposals open; ISS radios down for 1 Sep EVA",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-242-amsat-news-service-weekly-bulletins/",
+      "blurb": "Today’s AMSAT weekly: ARISS wants school/org proposals for Jan–Jun 2027 crew contacts, due 30 September 23:59 PT. Board voting closes 15 September. Ops note: Columbus and Service Module radios power down 31 August for a 1 September USOS EVA, back up about 2 September 1155/1200Z; crossband repeater stays 145.990 up (PL 67) / 437.800 down when live."
+    },
+    {
+      "topic": "DX",
+      "title": "V47YA and V47RCX St Kitts, 9–30 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/v47ya-v47rcx-st-kitts-nevis/",
+      "blurb": "Tom K0YA as V47YA and Toni W5RCX as V47RCX will be QRV from St Kitts (QTH V47JA) 9–30 September, then again 3 February–3 March 2027. Holiday-style 160–6 m, CW, SSB, and FT8. QSL both via LoTW."
+    },
+    {
+      "topic": "GEAR",
+      "title": "Cross-band HT on a budget: Retevis RA89R review",
+      "source": "X",
+      "url": "https://x.com/KB8WPD/status/2094063106347487421",
+      "blurb": "KB8WPD (Comms By Kemp Outside) posted this morning pointing at a dual-band Retevis RA89R review aimed at operators who want cross-band repeat without spending HT money twice. Handy field note if you are shopping rugged dual-band HTs for outdoor or EMCOM kits."
+    }
+  ]
+}
