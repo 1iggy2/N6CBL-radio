@@ -1,6 +1,6 @@
 {
   "date": "2026-08-30",
-  "updatedAt": "2026-08-30T14:20:00.000Z",
+  "updatedAt": "2026-08-30T14:25:00.000Z",
   "items": [
     {
       "topic": "POTA",
@@ -11,10 +11,24 @@
     },
     {
       "topic": "DX",
+      "title": "PS2L first hit on Mar Revolto / Mar Virado, SA-028",
+      "source": "DX-PEDITION",
+      "url": "http://dx-pedition.blogspot.com/2026/08/ps2l-first-activation-stormy-sea-island.html",
+      "blurb": "PY2AE, PY2MK, PY2TTN/PR2MB (and PR2MK) are PS2L from Mar Revolto Island (IOTA SA-028, DIB SP033, WWFF 0385) for 29–30 August — last day today. Two stations, CW/SSB/FT8/FT4 on 40/20/15/10 m. LoTW after the trip; paper QSL to Caixa Postal 79473, São Paulo, with US$3."
+    },
+    {
+      "topic": "DX",
       "title": "Two VK0 stations QRV from Australian Antarctica",
       "source": "DX-World",
       "url": "https://www.dx-world.net/two-vk0-stations-on-air-from-australian-antarctica/",
       "blurb": "WIA reminder: David Short VK2JDS is VK0DS at Davis (into late October; end-fed on a 22 m tower, V-beam planned, prior 2 m EME from Davis) while Tom Blunt VK2TBC is VK0TBC at Casey on SSB and FT8 around station duties. Two concurrent Australian Antarctic paths is uncommon — watch clusters and FT8, not a fixed DXpedition schedule."
+    },
+    {
+      "topic": "RF",
+      "title": "RSGB: coronal hole may lift Kp, drop MUFs today",
+      "source": "RSGB",
+      "url": "https://rsgb.org/main/blog/news/gb2rs/propagation-news/2026/08/28/propagation-news-30-august-2026/",
+      "blurb": "GB2RS Propagation News for 30 August: a new coronal hole plus CMEs could raise Kp and depress MUFs today after a quiet week (Kp mostly below 2 and strong HF). RI1FJL has been loud into 12 and 10 m. After this weekend NOAA points to quieter Kp around 2 next week with SFI ~120 falling toward 90."
     },
     {
       "topic": "DX",
@@ -36,13 +50,6 @@
       "source": "AMSAT",
       "url": "https://www.amsat.org/ans-242-amsat-news-service-weekly-bulletins/",
       "blurb": "Today’s AMSAT weekly: ARISS wants school/org proposals for Jan–Jun 2027 crew contacts, due 30 September 23:59 PT. Board voting closes 15 September. Ops note: Columbus and Service Module radios power down 31 August for a 1 September USOS EVA, back up about 2 September 1155/1200Z; crossband repeater stays 145.990 up (PL 67) / 437.800 down when live."
-    },
-    {
-      "topic": "DX",
-      "title": "V47YA and V47RCX St Kitts, 9–30 September",
-      "source": "DX-World",
-      "url": "https://www.dx-world.net/v47ya-v47rcx-st-kitts-nevis/",
-      "blurb": "Tom K0YA as V47YA and Toni W5RCX as V47RCX will be QRV from St Kitts (QTH V47JA) 9–30 September, then again 3 February–3 March 2027. Holiday-style 160–6 m, CW, SSB, and FT8. QSL both via LoTW."
     },
     {
       "topic": "GEAR",
