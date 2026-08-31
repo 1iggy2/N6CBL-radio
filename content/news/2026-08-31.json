@@ -1,0 +1,62 @@
+{
+  "date": "2026-08-31",
+  "updatedAt": "2026-08-31T14:30:00.000Z",
+  "items": [
+    {
+      "topic": "SPACE",
+      "title": "ISS Columbus and Service Module radios down today for 1 Sep EVA",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-242-amsat-news-service-weekly-bulletins/",
+      "blurb": "ANS-242 ops note for today: Columbus module radio powers down 31 August 0925Z and the Service Module radio at 1930Z ahead of a USOS EVA on 1 September (egress ~1235–1305Z, ingress ~1835–1905Z). Both come back about 2 September 1155/1200Z. Crossband repeater stays 145.990 up (PL 67) / 437.800 down when live; ARISS contacts are off the board for now."
+    },
+    {
+      "topic": "DX",
+      "title": "CT9/LX1MDA on air from Madeira through 6 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ct9-lx1mda-madeira/",
+      "blurb": "Miguel LX1MDA starts holiday-style today as CT9/LX1MDA from Madeira Island (AF-014) through 6 September. Focus is 40–10 m with most time on 20 m, SSB and FT8. QSL via LoTW and the LX bureau."
+    },
+    {
+      "topic": "DX",
+      "title": "D44TWO returns to Santiago Island, Cape Verde, 1–15 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/d44two-cape-verde/",
+      "blurb": "Harald DF2WO is back from Praia, Santiago Island (AF-005) as D44TWO starting tomorrow through 15 September. Planned 160–6 m on FT8, SSB, and CW. Harald is also a regular from Burkina Faso (XT2AW) and Rwanda (9X2AW). NG3K lists QSL via M0OXO OQRS / DF2WO direct."
+    },
+    {
+      "topic": "POTA",
+      "title": "JJ0XMT/JD1: Ogasawara SOTA, POTA, and WWFF stack",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/jj0xmt-jd1-ogasawara/",
+      "blurb": "Ji DS1TUW (also JJ0XMT) posts an upcoming Ogasawara run covering SOTA JA/TK-024 and JA/TK-030, POTA JP-0015 and JP-1288, plus WWFF JAFF-0018 and JAFF-0098. Separate from the postponed JD1/JG1PFR CW week. QSL via LoTW, OQRS, or direct to DS1TUW."
+    },
+    {
+      "topic": "DX",
+      "title": "VK9XY: forty young ops to run RiB2 remotes via DXter",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/vk9xy-christmas-island-2026/",
+      "blurb": "PIDXG and YOTA update the Nov 16–Dec 4 Christmas Island youth DXpedition: two NexGen RiB2 remotes about 600 m west of the main site, reached through browser-based DXter (CW/SSB/digital, no extra app). Kees W0AAE and Steve KI4WKR will lead ~40 young remote ops, with October training on the RiBs before the trip."
+    },
+    {
+      "topic": "DX",
+      "title": "XU7X Cambodia grows to 22 ops and seven stations",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/xu7x-cambodia/",
+      "blurb": "After Dave WD5COV left for Peter I, XU7X added Charlie EI8JB, Mike KN4EEI, and John NZ6Q. The Nov 13–23 2027 Koh Rong (AS-133) team is now 22 operators across nine Brazilians, nine Americans, plus Ecuador, Ireland, Bosnia, and Japan, with the station plan upped to seven active positions. QSL via M0URX OQRS."
+    },
+    {
+      "topic": "DX",
+      "title": "V63SC: Masa JM1LBO back to Pohnpei in late October",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/v63sc-pohnpei-f-s-m/",
+      "blurb": "Masa JM1LBO will again sign V63SC from Pohnpei (OC-010), Federated States of Micronesia, 22–26 October. Planned 80–2 m on FT8 and SSB. QSL via LoTW, eQSL, or direct to the home call. Fresh on DX-World / NG3K today."
+    },
+    {
+      "topic": "OPS",
+      "title": "HamCation 2027 award nominations open through 1 November",
+      "source": "X",
+      "url": "https://x.com/Hamcation/status/2094424973343646144",
+      "blurb": "Orlando HamCation posted this morning asking for nominations that recognize outstanding service to amateur radio, with a 1 November close for the 2027 awards. Worth a look if someone in your club quietly keeps the nets, VE sessions, or EMCOM kit running."
+    }
+  ]
+}
