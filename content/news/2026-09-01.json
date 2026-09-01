@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-01",
+  "updatedAt": "2026-09-01T14:20:00.000Z",
+  "items": [
+    {
+      "topic": "SPACE",
+      "title": "ARISS school-contact proposals open through 30 September",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-242-amsat-news-service-weekly-bulletins/",
+      "blurb": "ANS-242: ARISS wants formal and informal education hosts for scheduled ISS crew contacts between 1 January and 30 June 2027. Contacts run about 10 minutes of Q&A on 145.800 MHz downlink. Proposals are due 30 September 2026 at 23:59 Pacific; guidelines and the application live at ariss.org."
+    },
+    {
+      "topic": "SPACE",
+      "title": "AMSAT Symposium early-bird pricing ends 8 September",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/2026-amsat-symposium/",
+      "blurb": "The 44th AMSAT Space Symposium and AGM is 8–11 October in Jacksonville at the Wyndham (ex-Crowne Plaza Airport/I-95). Register by 8 September to save $20; tech papers Friday–Saturday with live stream, banquet and auction, optional Sunday tours. Presentation abstracts still wanted at symposium@amsat.org."
+    },
+    {
+      "topic": "SPACE",
+      "title": "AMSAT Board election ballots due 15 September",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-242-amsat-news-service-weekly-bulletins/",
+      "blurb": "Three AMSAT Board seats are on the 2026 ballot. Voting closes 15 September; results by 30 September. Current members cast ballots and read candidate statements at launch.amsat.org/2026-BoD-Election. If you meant to vote, the clock is short."
+    },
+    {
+      "topic": "DX",
+      "title": "8R1TM back in Georgetown, Guyana, 2 September–11 October",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/8r1tm-guyana/",
+      "blurb": "Aldir PY1SAD returns as 8R1TM from Georgetown starting tomorrow through 11 October. All HF bands plus 6 m, CW/SSB/digital and satellite, grid GJ06vs. QSL via eQSL, LoTW, or direct."
+    },
+    {
+      "topic": "DX",
+      "title": "KH8/KU4HO: last-minute American Samoa mini-trip",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/kh8-ku4ho-american-samoa/",
+      "blurb": "Ed KU4HO posts a surprise work-trip activation from Pago Pago as KH8/KU4HO. Focus 20 m SSB and FT8 with some slow CW, about 100 W into a Chameleon Hybrid Micro and travel whips on an FTX-1 Optima plus Bioenno pack. Packable and lossy on purpose — listen carefully."
+    },
+    {
+      "topic": "DX",
+      "title": "YJ0BP: Vanuatu call issued; on-air after 9 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/yj0bp-vanuatu/",
+      "blurb": "Barry KD6XU reports YJ0BP is issued and gear is tested on Efate, but a New Zealand hop means no real activity until after 9 September. Beach-house plus POTA portable on Efate, then Erromango and Tanna (OC-035) if weather allows, with a later move toward New Caledonia (FK) in early October."
+    },
+    {
+      "topic": "DX",
+      "title": "D44TWO on air from Praia, Cape Verde, through 15 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/d44two-cape-verde/",
+      "blurb": "Harald DF2WO is QRV today as D44TWO from Praia, Santiago Island (AF-005) through 15 September. Planned 160–6 m on FT8, SSB, and CW. Same operator often heard as XT2AW (Burkina Faso) and 9X2AW (Rwanda)."
+    },
+    {
+      "topic": "DX",
+      "title": "VP9/K7AR team Bermuda 23–29 September, including CQWW RTTY",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/vp9-k7ar-vp9-n7nu-vp9-wj7r-bermuda/",
+      "blurb": "Al K7AR, Ron WJ7R, and Lee N7NU land in Bermuda 23 September and leave the 29th. They will play CQWW RTTY 26–27 September, with one to three stations on FT8 and other modes around the contest."
+    }
+  ]
+}
