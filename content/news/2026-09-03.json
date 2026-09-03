@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-03",
+  "updatedAt": "2026-09-03T14:30:00.000Z",
+  "items": [
+    {
+      "topic": "OPS",
+      "title": "Former ARRL COO Harold Kramer, WJ1B, silent key",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/former-arrl-coo-harold-r-kramer-wj1b-silent-key",
+      "blurb": "Former ARRL COO and QST publisher Harold Robert Kramer, WJ1B, of Cheshire, Connecticut, died Monday 31 August at 78. He ran Headquarters operations 2005–2016, then kept volunteering in the Lab and Historical Committee; some of his last QSOs were as a POTA hunter. Funeral is Friday 4 September at 11:30 at Temple Beth David in Cheshire, burial at Hillside Cemetery."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJL: two more days on Heiss, then QRT",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "Vasily R7AL from Heiss Island on 2 September: propagation was poor for three days and recovered a bit today. Weather is cold and windy; antenna work is hard. Some stations QRT the evening of 4 September; two or three stay up through the 5th. SAT internet is slow (no Starlink); not-in-log checks and LoTW for donors and OQRS wait until they are home."
+    },
+    {
+      "topic": "DX",
+      "title": "Z68PX Kosovo, 4–11 September, 60–6 m",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/z68px-kosovo/",
+      "blurb": "Giovanni IZ2DPX will be active from Grashticë, Kosovo as Z68PX starting tomorrow through 11 September. Planned 60–6 m on SSB and FT8/FT4 with a vertical and dipoles. QSL via home call, bureau, or Club Log OQRS; LoTW."
+    },
+    {
+      "topic": "DX",
+      "title": "3W9C: last Hòn Sơn run before the license expires",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/3w9c-hon-son-island-as-128/",
+      "blurb": "Jack SP5APW is on Hòn Sơn (Hòn Rái), Vietnam, 4–12 September as 3W9C. Focus is 6 m, plus 20, 15, and 10 m; he expects to be the first from this AS-128 island rather than Phú Quốc. This is the last 3W9C — the Vietnamese license expires soon. He stops at Tokyo Ham Fair on the way."
+    },
+    {
+      "topic": "DX",
+      "title": "J38DX and J38LD: three stations now up in Grenada",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/j38dx-j38ld-grenada/",
+      "blurb": "Eric GM5RDX (J38DX) reports three stations are now running, with G0IDX audio of Graham J38LD on 15 m SSB. Graham MM8IJU and Eric are QRV 1–12 September on 80–6 m, SSB and FT4/8. QSL via M0OXO; logs daily to LoTW and QRZ."
+    },
+    {
+      "topic": "POTA",
+      "title": "Ohio State Parks On The Air: 12 September, 76 parks",
+      "source": "OSPOTA",
+      "url": "https://www.ospota.org/",
+      "blurb": "The 19th Ohio State Parks On The Air is Saturday 12 September, 1400–2200 UTC. PCARS (K8BF) lists 76 parks this year, including new Great Council between Xenia and Yellow Springs. Cabrillo only — no paper, ADIF, or photos of logs. Rules and park list at ospota.org."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "SARC Communicator September–October 2026 is out",
+      "source": "AmateurRadio.com",
+      "url": "https://www.amateurradio.com/the-communicator-september-october-2026/",
+      "blurb": "Surrey ARC’s Communicator for September–October landed 1 September: FreeDV RADE on HF, a 14-mode ESP8266 NTP clock, a USB-charger fix, the 2B2L antenna, EMF Explorer RFI hunting, and New Packet Radio. Also LEO/AMSAT-Canada notes and a Steve Stroh N8GNJ profile. PDF and magazine view on AmateurRadio.com."
+    },
+    {
+      "topic": "OPS",
+      "title": "ARRL asks operators for first-QSO stories",
+      "source": "X",
+      "url": "https://x.com/arrl/status/2095203887598735620",
+      "blurb": "ARRL posted 2 September asking Headquarters staff about the moment they first got on the air, then invited operators to reply with call sign and station setup. The thread is the source if you want to read or add a first-QSO note."
+    }
+  ]
+}
