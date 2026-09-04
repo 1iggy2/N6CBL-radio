@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-04",
+  "updatedAt": "2026-09-04T14:20:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJZ delayed: weather holds Murmansk departure to ~7 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "Bad weather in the Barents region slipped RI1FJZ’s sail from Murmansk to about 7 September. Border permits are already in hand; gear is packed and Apostol Andrey is ready. Planned on-air window remains 9–25 September with up to seven radios, EME, LEO, and QO-100 — still no 6 m in Russia."
+    },
+    {
+      "topic": "DX",
+      "title": "T88PB on from Palau through 7 September for All Asian DX SSB",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/t88pb-palau/",
+      "blurb": "Nobu JA0JHQ is QRV again as T88PB from the Palau Radio Club in Koror, 4–7 September. He is targeting the All Asian DX Contest Phone weekend. QSL via home call and LoTW."
+    },
+    {
+      "topic": "OPS",
+      "title": "All Asian DX Contest Phone this weekend, 5–6 September",
+      "source": "JARL",
+      "url": "https://www.jarl.org/English/4_Library/A-4-3_Contests/aadx_eng.html",
+      "blurb": "JARL’s 67th All Asian DX Contest Phone runs 0000Z 5 September through 2400Z 6 September on 160–10 m. Exchange is RS(T) plus age (or 01). Non-Asian stations work Asia for points and Asian prefixes as multipliers. Phone logs due 16 September via contest.jarl.org/upload-aa."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ARRL EME Contest weekend two: 2.3 GHz and up, 5–6 September",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/the-arrl-eme-contest",
+      "blurb": "Second ARRL EME weekend is 0000Z 5 September through 2359Z 6 September on 2.3 GHz and above. Over the air, exchange a 4-digit grid or another mutually understood report if the path is too weak for grids; put grids in the submitted log. From this fall, EME logs go to the dedicated EME Electronic Submission page. Later weekends cover 50–1296 MHz at end of October and November."
+    },
+    {
+      "topic": "DX",
+      "title": "PJ2/K5SL Curaçao, 18–26 September, CW only",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/pj2-k5sl-curacao/",
+      "blurb": "Randy K5SL will be holiday-style from Curaçao as PJ2/K5SL 18–26 September. Planned 40–17 m, CW only, mornings and late afternoons. QSL via home call."
+    },
+    {
+      "topic": "DX",
+      "title": "6O2M Somalia from Garowe, 5–25 October",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/6o2m-somalia/",
+      "blurb": "Pertti OG2M announces 6O2M from Garowe, Puntland, northeastern Somalia, 5–25 October. Spare-time ops on 40–10 m, CW and SSB. QSL via LoTW."
+    },
+    {
+      "topic": "DX",
+      "title": "HP/WE9G Panama: SO2R up, chasing SO3R and 160 m",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/hp-we9g-panama/",
+      "blurb": "Rikk HP/WE9G reports from Aldos del Maria that SO2R is running and a third radio is in progress toward SO3R, with the 160 m antenna still going up. Through 9 September: mostly FT8/4/2 with some CW and SSB on 160–6 m; two verticals and a G5RV. Real-time Club Log, QRZ, and LoTW."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ARISS: HamTV lined up for upcoming European school contacts",
+      "source": "X",
+      "url": "https://x.com/ARISS_Intl/status/2095582115723186571",
+      "blurb": "ARISS posted 3 September that as schools reopen, another busy ISS contact season is ahead, and some upcoming European contacts will use HamTV. The thread walks the current HamTV status for stations that want to receive video alongside the usual 145.800 MHz downlink."
+    }
+  ]
+}
