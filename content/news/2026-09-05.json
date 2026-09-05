@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-05",
+  "updatedAt": "2026-09-05T14:20:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJL QRT: snowstorm ends Franz Josef Land run",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "Team leader R7AL reports RI1FJL is officially QRT as of about 1100Z. A snowstorm and strong winds overnight forced them to start taking stations down; gear may wait for a weather window to reach the yacht. Temperature −2 °C with snow, and the yacht heater is out — the crew is holding on while they pack."
+    },
+    {
+      "topic": "DX",
+      "title": "KH8/KU4HO on from American Samoa through 14 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/kh8-ku4ho-american-samoa/",
+      "blurb": "Ed KU4HO confirms he is now at the NOAA Baseline Observatory in American Samoa and stays through 14 September. Ops are opportunistic in local daytime, leaning FT8 after early attempts. Kit: FTX-1 Optima, Bioenno pack, Chameleon Hybrid Micro with travel whips, about 100 W."
+    },
+    {
+      "topic": "DX",
+      "title": "ZD8GB Ascension Island, 5–7 September, SSB and FT8",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/zd8gb-ascension-island/",
+      "blurb": "Gerry G3WIP is QRV again as ZD8GB from Ascension Island 5–7 September. Planned 40–10 m on SSB and FT8, plus QO-100. Short window — listen today and tomorrow. QSL via EA5GL."
+    },
+    {
+      "topic": "DX",
+      "title": "S79/DL2SBY Seychelles, 11–21 September, 80–6 m",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/s79-dl2sby-seychelles/",
+      "blurb": "Kasimir DL2SBY returns to Mahé Island as S79/DL2SBY 11–21 September. QTH is about 100 m from saltwater on the north side with a clear NE–NW shot. Two IC-7300s, Juma PA1000, 5-el 6 m yagi, HF verticals and inverted Vee; CW, SSB, and FT8 (MSHV)."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJZ: Murmansk kids tour Apostol Andrey; sail still ~7 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "RA1ZZ: the yacht hosted a special-needs children’s group with the Murmansk deputy governor and the regional Geographical Society — radio room tour included. An approaching storm still holds departure from Murmansk to about 7 September; on-air window remains 9–25 September with EME, LEO, and QO-100."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "FreeDV RADE now landing as a native mode in popular radios",
+      "source": "ARDC",
+      "url": "https://www.ardc.net/freedv-rade-a-new-approach-to-digital-voice-over-hf-now-integrated-into-popular-radios/",
+      "blurb": "ARDC covers FreeDV’s Radio Autoencoder (RADE): ML plus DSP for more natural HF digital voice in about 1.5 kHz, usable down around −2 dB SNR. After the 2025 open release, 2026 work with manufacturers (including Flex 6000/8000/Aurora) puts RADE on the radio like SSB — no separate PC required when the waveform module is installed."
+    },
+    {
+      "topic": "POTA",
+      "title": "QRPer asks: which CW keys survive wet-weather field ops?",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/whats-your-go-to-cw-key-for-wet-weather-operating/",
+      "blurb": "Thomas K4SWL opens a field-gear thread after soggy UK activations: packs, Rite in the Rain logs, and antennas handle rain, but paddle contacts often don’t. He recounts water under a Bamatech TP-III cover and better luck with a CW Morse Pocket Paddle, then asks PNW and UK ops what keys they trust in the wet."
+    },
+    {
+      "topic": "SPACE",
+      "title": "AMSAT-UK Zoom today: chasing amateur satellites with M5JFS",
+      "source": "X",
+      "url": "https://x.com/AmsatUK/status/2096216777852133668",
+      "blurb": "AMSAT-UK posts that the Online Amateur Radio Community hosts John Stringer M5JFS tonight on ‘Chasing Birds: The Addictive World of Amateur Radio Satellites.’ Zoom is Saturday 5 September, 1900–2000 BST (1800–1900 UTC) — useful timing alongside the ARRL EME microwave weekend."
+    }
+  ]
+}
