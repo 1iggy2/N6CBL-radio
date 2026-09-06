@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-06",
+  "updatedAt": "2026-09-06T14:20:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJL homeward bound: yacht clears Franz Josef Land",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjl-franz-josef-land/",
+      "blurb": "Slava OK8AU (via UA6GG): after QRT, the team boarded the yacht at 0030 local and set course for Murmansk; they have already left the ZFI archipelago into a storm. Cabins were about 5 °C with condensation everywhere when they loaded; sailors had waited two weeks. Two Spiderbeams broke on the last day but were repaired — huge pileups, no polar bears, walruses and icebergs only."
+    },
+    {
+      "topic": "DX",
+      "title": "3W9C on Hòn Sơn: 6 m yagi up, HF VDA online",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/3w9c-hon-son-island/",
+      "blurb": "Jack SP5APW reports he is on Hòn Sơn (AS-128): a 4-el 6 m yagi yielded 100-plus contacts, then a tri-band VDA for HF. After a power outage and RFI hiccup right after the VDA went up, he is QRV on 20 m FT8 with a clear shot to North America. Europe should try the long path — hills block the short path. Last 3W9C before his Vietnamese license expires."
+    },
+    {
+      "topic": "DX",
+      "title": "5W0AF Samoa confirmed: Apia from 21 September, SSB only",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/5w0af-samoa/",
+      "blurb": "Jacek SP5EAQ refreshes the postponed Samoa trip: QRV from Apia as 5W0AF starting 21 September for three weeks, SSB only on 10–40 m (80 m possible in the last week). QSL via SP7DQR OQRS; bureau cards and LoTW free; logs online at least once a day. Middle East airspace disruption had pushed the original March plan to autumn."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJZ: daily Club Log/LoTW on island; on-air eyed ~13 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "Vasily RA1ZZ: internet for Alexandra Island is sorted, so Club Log and LoTW uploads will be daily for donors, sponsors, and OQRS. Special paper QSLs to EU/AS/NA optimized at USD 6; LoTW-only remains an option without mailing. Team still looks for about 13 September on the air after the weather-slipped Murmansk sail."
+    },
+    {
+      "topic": "POTA",
+      "title": "K0NR and K0JJW start a Lewis and Clark Trail POTA run",
+      "source": "K0NR",
+      "url": "https://www.k0nr.com/wordpress/2026/09/a-lewis-clark-pota-journey/",
+      "blurb": "Bob K0NR and Joyce K0JJW left St. Louis on 5 September in their Class B van Rocky for a mid-October Pacific finish along the Lewis and Clark National Historic Trail (POTA US-4572). Plan is opportunistic SSB and FT8 on 20/17/15 m plus 2 m FM, camping parks tied to the Corps of Discovery. Spots may be last-minute — watch for K0NR."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ANS-249: AMSAT Board voting under 10%, closes 15 September",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-249-amsat-news-service-weekly-bulletins/",
+      "blurb": "Today's AMSAT News Service notes fewer than 10% of eligible members have voted in the 2026 Board election. Five candidates for three seats: KD2CQ, N8MH, KK5DO, N8HM, and N6UA. Current members cast ballots at launch.amsat.org; results by 30 September. If you meant to vote, the clock is short."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ISS amateur radios down Monday for Progress undocking",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-249-amsat-news-service-weekly-bulletins/",
+      "blurb": "ARISS ops note in ANS-249: Service Module radio powers down about 1210Z Monday 7 September and Columbus at 1215Z ahead of Progress undocking ~1516Z; both return about 1905/1910Z. Crossband repeater stays 145.990 up (PL 67) / 437.800 down when live. No school contacts on the board this week; HamTV is still on a test signal."
+    },
+    {
+      "topic": "GEAR",
+      "title": "ARRL posts Perseus22 SDR crowded-band review in Learning Center",
+      "source": "X",
+      "url": "https://x.com/arrl/status/2096599302021812505",
+      "blurb": "ARRL asks how the Microtelecom Perseus22 SDR holds up in real-world crowded band conditions and points members to the full video in the ARRL Learning Center. Fresh morning post with the usual #hamradio tag — useful if you are shopping wideband HF SDRs or comparing front-end behavior."
+    }
+  ]
+}
