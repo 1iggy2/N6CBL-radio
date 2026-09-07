@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-07",
+  "updatedAt": "2026-09-07T14:50:00.000Z",
+  "items": [
+    {
+      "topic": "SPACE",
+      "title": "ARISS names Young Director of Ops; CIO and logistics roles added",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-249-amsat-news-service-weekly-bulletins/",
+      "blurb": "ANS-249: Daryl Young, K4RGK, is the new ARISS-USA Director of Operations; Ryan Krenzischek moves to a new CIO seat; Deborah Lebair, KC3YWM, joins the International Board as secretary; Megan Tucker, KQ4MAM, is Logistics Manager. Young recently led the AREx Artemis II ground-station consortium that fed Doppler data to NASA."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "SatNOGS Network 1.128+ and DB 1.76: multi-vetting and station status",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/ans-249-amsat-news-service-weekly-bulletins/",
+      "blurb": "Late-August SatNOGS Network releases add multi-user observation vetting, split connected/available/testing station flags, and separate min-horizon vs min-culmination. DB 1.76 renames satellite status values and starts structured transmitter parameters plus a Launches feature for rideshare ID work. Follow-up patches landed after migration and performance hits."
+    },
+    {
+      "topic": "SPACE",
+      "title": "AMSAT Symposium early-bird pricing ends tomorrow, 8 September",
+      "source": "AMSAT",
+      "url": "https://www.amsat.org/2026-amsat-symposium/",
+      "blurb": "The 44th AMSAT Space Symposium is 8–11 October in Jacksonville at the Wyndham (ex-Crowne Plaza Airport/I-95). Register by 8 September to save $20; tech papers Friday–Saturday with live stream, banquet and auction, optional Sunday tours. Presentation abstracts still wanted at symposium@amsat.org."
+    },
+    {
+      "topic": "DX",
+      "title": "KH8WW American Samoa from Aunuʻu, 10–24 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/kh8ww-american-samoa/",
+      "blurb": "Yuris YL2GM and Eugene EA5EL will be KH8WW from Aunuʻu Island (OC-045), American Samoa, 10–24 September. Planned CW, SSB, and FT8 on 160–6 m with two to three stations. QSL via Club Log OQRS (preferred) or YL2GN; full LoTW six months after the trip. Team site is live."
+    },
+    {
+      "topic": "DX",
+      "title": "V47YA and V47RCX on St Kitts from 9 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/v47ya-v47rcx-st-kitts-nevis/",
+      "blurb": "Tom K0YA as V47YA and Toni W5RCX as V47RCX operate from St Kitts (QTH V47JA) 9–30 September, then again 3 February–3 March 2027. Holiday-style on 160–6 m, CW, SSB, and FT8. QSL both calls via LoTW."
+    },
+    {
+      "topic": "DX",
+      "title": "S9R São Tomé and Príncipe, 17–31 October",
+      "source": "S9R",
+      "url": "https://s9r.viacom.ao/Home/Index",
+      "blurb": "Angolan/Portuguese/Spanish team S9R plans Tamarindos (JJ30hj) 17–31 October with up to four stations (IC-7300, FTdx10, FT-710, FTX-1 for QO-100). Spiderbeam, hexbeam, 40 m vertical, EFHW, and a 5-el 6 m yagi; CW/SSB/RTTY/FT8 (MSHV) plus split pileups. Band plan and QSL policy are on the team site."
+    },
+    {
+      "topic": "POTA",
+      "title": "K4SWL: light-pack SOTA on Dirrington Great Law with Alan MM0VPM",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/a-much-lighter-backpack-activating-dirrington-great-law-gm-ss-225/",
+      "blurb": "Thomas K4SWL’s fresh field report: KH1 and Savotta Niukka on GM/SS-225 with Alan MM0VPM after a sheepdog-side farm hike. Thirteen CW QSOs in ~37 minutes on 20/15 despite poor prop, including S2S Serbia and Liechtenstein; he also puts KI6CR’s concentric KH1 paddle through a filmed activation."
+    },
+    {
+      "topic": "OPS",
+      "title": "Route 66 On The Air: W6A–W6W, 12–20 September",
+      "source": "Citrus Belt ARC",
+      "url": "https://w6jbt.org/",
+      "blurb": "Citrus Belt ARC’s 27th Route 66 special event runs 0001Z 12 September through 2359Z 20 September. Twenty-three 1×1 stations (W6A–W6W) along the Mother Road; work at least one before requesting a certificate or decal. Listen for each station’s exchange — no ragchew during the event."
+    }
+  ]
+}
