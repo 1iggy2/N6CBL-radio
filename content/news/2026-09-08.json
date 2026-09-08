@@ -1,0 +1,55 @@
+{
+  "date": "2026-09-08",
+  "updatedAt": "2026-09-08T15:05:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJZ underway: Apostol Andrey clears Kola Bay for Franz Josef Land",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "Yacht Apostol Andrey cast off from Murmansk late 7 September. At 0600Z it was 69°25′N 34°01′E — Kola Bay astern, Kildin Island passed — steering north-east at 5.4 knots with about 700 miles left to Alexandra Land. Arrival eyed 13–14 September; 9 September is the windiest stretch (20–30 kt on a broad reach). On-air still planned after landfall with up to seven radios, EME, LEO, and QO-100."
+    },
+    {
+      "topic": "RF",
+      "title": "AST SpaceMobile 800 MHz trial ends 12 September; 70 cm still contested",
+      "source": "ICQ Podcast",
+      "url": "https://www.icqpodcast.com/news/2026/9/6/ast-spacemobiles-800-mhz-trial-wraps-up-but-the-70cm-interference-story-isnt-going-away",
+      "blurb": "FCC gave AST SpaceMobile until 12 September to finish its direct-to-device cellular trial on 817–824 / 862–869 MHz in Lanham, Maryland and Midland, Texas. Separately, amateurs keep watching the earlier limited 430–440 MHz emergency TT&C grant: SatNOGS observers report ops outside those terms and 70 cm interference in North America and Europe as the constellation grows past three birds."
+    },
+    {
+      "topic": "POLICY",
+      "title": "Ofcom opens WRC-27 call for input through 24 November",
+      "source": "Ofcom",
+      "url": "https://www.ofcom.org.uk/spectrum/frequencies/call-for-input-on-uk-preparations-for-wrc-27",
+      "blurb": "Published 1 September: UK provisional views and positions for ITU WRC-27 (Shanghai, Oct/Nov 2027). Ofcom wants comments on how those positions should evolve; response form closes 24 November 2026. AMSAT-UK flagged the consultation for satellite and amateur spectrum watchers — useful reading ahead of CEPT prep."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ARISS tip: Doppler-shift the 437.800 MHz ISS voice repeater",
+      "source": "X",
+      "url": "https://x.com/ARISS_Intl/status/2097312050858885364",
+      "blurb": "Tuesday science tip from ARISS: the ISS voice repeater always transmits on 437.800 MHz, but you may not hear it exactly there. As the station moves across the sky the downlink appears to shift — Doppler — so retuning during the pass can recover more of each contact. Crossband stays 145.990 up (PL 67) / 437.800 down when live."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "WN5C: compact 2.5 m base-loaded vertical for quick POTA",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/wn5c-yet-another-base-loaded-vertical-antenna-build/",
+      "blurb": "Sam WN5C rebuilds the AliExpress JPC-12 ecosystem around a 2.5 m whip: JPC coil + red base for 40–10 m, then a dedicated red-base FT50-6 toroid (28 turns of 24 AWG) for a packable 20 m-only stick. Two 17-ft radials and a ground spike; about $30–50 if you already own parts. Backyard and mid-day park tests both made contacts when prop was soft."
+    },
+    {
+      "topic": "POTA",
+      "title": "VE3YTX: get on the air — CW practice apps are not enough",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/on-the-air-is-the-best-classroom-ve3ytxs-journey-in-cw/",
+      "blurb": "Josh VE3YTX stopped waiting for perfect callsign copy and activated CA-5359 (Dundas Valley) with a QMX, EFHW, and K6ARK paddle. First outing was messy; a week later two clean CW QSOs (WD5EEI, N0RZ) plus FT8 finished the park. Hunters slowed to match him. HamAlert invite if you want to hear a beginner activator learning live."
+    },
+    {
+      "topic": "OPS",
+      "title": "K4A ‘We Do Remember’ returns tomorrow, 9–13 September",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/08/k4a-america-9-11-we-do-remember-special-event/",
+      "blurb": "Alabama Contest Group’s sixth-year K4A special event marks 25 years since 9/11. Volunteer ops take shifts starting 9 September; they want on-air memories and will pause for named tributes. Special QSL; stories go into the club newsletter. Want a shift? Email Bob WA1FCN at wa1fcn@charter.net."
+    }
+  ]
+}
