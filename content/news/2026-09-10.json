@@ -1,0 +1,55 @@
+{
+  "date": "2026-09-10",
+  "updatedAt": "2026-09-10T14:15:00.000Z",
+  "items": [
+    {
+      "topic": "POTA",
+      "title": "Activate All RI: all 61 Rhode Island parks, 11–13 September",
+      "source": "Rhode Island POTA",
+      "url": "https://ripota.org/activate-ri-2026/",
+      "blurb": "RI POTA’s Activate All RI weekend aims to put every one of the state’s 61 Parks on the Air references on the air from 0600 EDT Friday 11 September through 1800 EDT Sunday 13 September, with early activations welcome today. Think state QSO party, but parks: hunters can chase Worked All RI, and the site has a schedule, live RI spots, and a tool that imports your hunted-park history so you only see the ones you still need."
+    },
+    {
+      "topic": "WORKBENCH",
+      "title": "N8PEM: Zippy paddle and first HF/CW on Picea Benchmark",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/n8pem-a-zippy-paddle-story-on-picea-benchmark/",
+      "blurb": "Chris N8PEM took a custom KE4WLE Zippy paddle and his son Calin into Monongahela (US-0632) for W8V/PH-014 Picea Benchmark — previously activated only once, and only on 2 m FM. QMX plus a trapped EFHW logged 22 CW QSOs in 36 minutes across 20/30/40 m, then a quick dual SOTA/POTA stop at Spruce Knob on the way out. Father-son backpacking with a 3D-printed key that earned its keep."
+    },
+    {
+      "topic": "GEAR",
+      "title": "SafecomLink for Pactor Hamradio Edition now in the WiMo store",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/09/safecomlink-for-pactor-ham-radio-edition-lunches-wimo-app-store/",
+      "blurb": "WiMo, SCS, and SafecomLink shipped SafecomLink for Pactor – Hamradio Edition: software that turns an SCS Pactor modem and a standard HF radio into messaging, file transfer, and an internet email gateway under one UI. Sold bundled with the DR-9400 or as a 2-year or lifetime standalone license. Built so the modem feature set and the app move together."
+    },
+    {
+      "topic": "POTA",
+      "title": "VU3GLJ activates new IN-0194 Bananthimari State Forest at 5 W",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/vu3glj-a-5-watt-field-radio-adventure-in-indias-bananthimari-state-forest/",
+      "blurb": "Bharath VU3GLJ got Bananthimari State Forest listed as IN-0194 with only days’ notice, then activated it on a zBitx at 5 W amid leopard sightings, granite quarry country, and birds sitting on the EFHW. First SSB-heavy park outing for him — Kerala through Delhi on 40 m — plus a SA2CLC vertical test when the schedule allowed. Accidental POTA, intentional RF."
+    },
+    {
+      "topic": "OPS",
+      "title": "Route 66 On The Air returns 12–20 September (W6A–W6W)",
+      "source": "Westside ARC",
+      "url": "https://www.qsl.net/route66/index.htm",
+      "blurb": "Citrus Belt ARC’s 27th Route 66 On The Air special event runs 0001Z 12 September through 2359Z 20 September, celebrating the highway’s centennial. Twenty-three 1×1 stations (W6A–W6W) along the Mother Road; Westside ARC holds W6A Santa Monica and W6B Los Angeles at the western end. Work at least one before chasing certificates — phone, CW, or digital."
+    },
+    {
+      "topic": "DX",
+      "title": "September DX window: Kosovo and Grenada wind down; Ogasawara next",
+      "source": "OnAllBands",
+      "url": "https://www.nerfd.net/2026/09/09/its-all-in-the-cards-qsl-cards-from-dxcc-entities-qrv-in-september-2026-from-grenada-to-kosovo/",
+      "blurb": "OnAllBands’ September DX card roundup flags the clock: Z68PX Kosovo (IZ2DPX) through 11 September on 60–6 m SSB/FT4/FT8, and J38LD/J38DX Grenada through 12 September on 80–6 m. Next up is a multi-op JD1 run from Chichijima, Ogasawara, 24 September–6 October on 160–6 m. Get them while the pileups are still warm."
+    },
+    {
+      "topic": "OPS",
+      "title": "HRO flags ARRL 9/11 remembrance events for tomorrow",
+      "source": "X",
+      "url": "https://x.com/HamRadioOutlet/status/2098033976258494635",
+      "blurb": "Ham Radio Outlet posted that ARRL is honoring those lost on 11 September 2001 and pointed operators at tomorrow’s listed special-event stations in the bulletin. Useful if you want on-air remembrance contacts alongside K4A and the other memorial activations already on the calendar."
+    }
+  ]
+}
