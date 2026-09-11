@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-11",
+  "updatedAt": "2026-09-11T14:30:00.000Z",
+  "items": [
+    {
+      "topic": "POLICY",
+      "title": "ARRL: Answering the Call — a 9/11 remembrance",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/answering-the-call-a-9-11-remembrance-from-arrl",
+      "blurb": "Twenty-five years on, ARRL republishes the story of how nearly 500 New York amateurs and more than 100 around Washington answered within minutes of the 11 September 2001 attacks, keeping emergency nets busy for nearly two weeks. ARES and RACES backed the Salvation Army at the Pentagon and SATERN in western Pennsylvania when infrastructure sagged. Worth reading again if you run EMCOM or just want the field record straight."
+    },
+    {
+      "topic": "OPS",
+      "title": "K4A ‘We Do Remember’ is on the air today (through 13 September)",
+      "source": "Alabama Contest Group",
+      "url": "https://alabamacontestgroup.org/",
+      "blurb": "Alabama Contest Group’s sixth-year K4A special event marks 25 years since 9/11 with volunteer ops on through 13 September. They want on-air memories and will pause for named tributes; stories go into Smoke Signals with a special QSL. Want a shift? Email Bob WA1FCN at wa1fcn@charter.net."
+    },
+    {
+      "topic": "POTA",
+      "title": "Activate All RI is live: 61 Rhode Island parks through Sunday",
+      "source": "Rhode Island POTA",
+      "url": "https://ripota.org/activate-ri-2026/",
+      "blurb": "Day one of Activate All RI is underway — 0600 EDT Friday through 1800 EDT Sunday — aiming to put every one of the state’s 61 POTA references on the air. Hunters can chase Worked All RI; the site has live RI spots and a tool that imports your hunted-park history so you only see the ones you still need. More activations welcome even at parks already scheduled."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJZ day three at sea: aurora, dolphins, 400 miles toward FJL",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "Yacht Apostol Andrey is on its third day north for Franz Josef Land. A 10 September note put them ~400 miles out with the team well; night watch reported aurora through the clouds, then dolphins and murres under a clearer sky. Arrival still eyed around 13–14 September with on-air as RI1FJZ after landfall — daily Club Log/LoTW planned once ashore."
+    },
+    {
+      "topic": "DX",
+      "title": "S79/DL2SBY QRV from Mahé, Seychelles, 11–21 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/s79-dl2sby-seychelles/",
+      "blurb": "Kasimir DL2SBY is back on Mahé’s north side as S79/DL2SBY starting today through 21 September, about 100 m from saltwater with a clear NE–NW shot. Two IC-7300s, Juma PA1000, 5-el 6 m yagi, HF verticals and inverted Vee; CW, SSB, and FT8 (MSHV) on 80–6 m."
+    },
+    {
+      "topic": "OPS",
+      "title": "Fire Prevention Week special event: VE3FIRE and N0F–N9F in October",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/09/fire-prevention-week-special-event-ve3fire-on-the-air/",
+      "blurb": "Posted today: Fire Prevention Week 4–10 October puts VE3FIRE (Ontario wild card), US 1×1s N0F–N9F, and KF2IRE on the air to talk lithium-ion charging safety — public service, not a contest. Work ten of the twelve for a printable certificate at hamfire.com; QSL notes on the VE3FIRE QRZ page."
+    },
+    {
+      "topic": "OPS",
+      "title": "Route 66 On The Air starts tomorrow: W6A–W6W, 12–20 September",
+      "source": "Westside ARC",
+      "url": "https://www.qsl.net/route66/",
+      "blurb": "Citrus Belt ARC’s 27th Route 66 On The Air opens 0001Z tomorrow through 2359Z 20 September for the highway’s centennial. Twenty-three 1×1 stations (W6A–W6W); Westside ARC holds W6A Santa Monica and W6B Los Angeles at the western end. Phone, CW, or digital — work at least one before chasing certificates."
+    },
+    {
+      "topic": "OPS",
+      "title": "X: Ham Radio Gizmos marks 9/11 radio rebuild history",
+      "source": "X",
+      "url": "https://x.com/HamRadioGizmos/status/2098412452597657775",
+      "blurb": "Ham Radio Gizmos posted a ‘Today in Ham Radio’ note on how amateur radio rebuilt after 11 September 2001, linking a deeper write-up. Complements the ARRL remembrance and the K4A special event already on the calendar today."
+    }
+  ]
+}
