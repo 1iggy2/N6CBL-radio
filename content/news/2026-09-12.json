@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-12",
+  "updatedAt": "2026-09-12T14:15:00.000Z",
+  "items": [
+    {
+      "topic": "RF",
+      "title": "HAARP KL7ERP: special 9.11 MHz Morse/SSTV for 9/11",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/special-haarp-transmission-for-9-11",
+      "blurb": "University of Alaska Fairbanks HAARP ran a commemorative transmission as KL7ERP on 9.11 MHz at 0030–0035 UTC 12 September (Friday evening Eastern). Sequence was Morse QST, then SSTV of lower Manhattan and the Tower of Lights, then 73 — beamed toward New York and Washington. Reception reports go to haarp.gi.alaska.edu."
+    },
+    {
+      "topic": "OPS",
+      "title": "ARRL posts KD2ZZT keynote: ham radio building student engineers",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/video-educator-shows-how-amateur-radio-is-inspiring-students",
+      "blurb": "Everton Henriques, KD2ZZT, Staten Island Technical High School engineering teacher, keynoted the 2026 ARRL New England Division Convention at Northeast HamXposition. Balloon project to club to licenses, antennas, foxhunts, mesh, HF, ROVs, and a competition solar car — with Teachers Institute roots. Video is on ARRL’s YouTube."
+    },
+    {
+      "topic": "DX",
+      "title": "KH8WW is QRV from Aunuʻu, American Samoa",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/kh8ww-american-samoa/",
+      "blurb": "Yuris YL2GM and Eugene EA5EL are now on the air as KH8WW from Aunuʻu (OC-045) with a DX Commander and 40 m vertical. Early activity is 40 m CW plus 20/15 m FT8; more antennas promised. Window runs through 24 September — listen while the island path is open."
+    },
+    {
+      "topic": "OPS",
+      "title": "ARRL September VHF Contest opens today (12–14 September)",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/september-vhf",
+      "blurb": "Second full weekend of September: 1800 UTC Saturday through 0259 UTC Monday. Grid-square chase above 50 MHz for W/VE; SO3B and FM-Only categories stay in play, and FM-Only now counts 902 MHz and 1.2 GHz. Cabrillo logs due within ten days at contest-log-submission.arrl.org."
+    },
+    {
+      "topic": "OPS",
+      "title": "Route 66 On The Air is live: W6A–W6W through 20 September",
+      "source": "Westside ARC",
+      "url": "https://www.qsl.net/route66/",
+      "blurb": "Citrus Belt ARC’s 27th Route 66 special event is on the air today through 2359Z 20 September for the highway’s centennial. Twenty-three 1×1 stations along the Mother Road; Westside ARC holds W6A Santa Monica and W6B Los Angeles at the western end. Phone, CW, or digital — work at least one before chasing certificates."
+    },
+    {
+      "topic": "POTA",
+      "title": "Ohio State Parks On The Air is underway today",
+      "source": "PCARS / OSPOTA",
+      "url": "https://ospota.org/",
+      "blurb": "The 19th OSPOTA is Saturday 12 September — first Saturday after Labor Day — with 76 Ohio state parks including new Great Council between Xenia and Yellow Springs. Cabrillo only for entries; planned-activation list and 2026 rules are on the site. PCARS (K8BF) sponsors."
+    },
+    {
+      "topic": "GEAR",
+      "title": "K4HCK reviews Helioclock as a Geochron-class shack dashboard",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/09/helioclock-review-geochron-competitor-situational-awareness-dashboard/",
+      "blurb": "Cale Mooth K4HCK’s 12 September review runs Anthony KA9NWM’s Helioclock Live USB on a 4K display: DX/PSK/WSJT/POTA/SOTA layers plus weather, tropical cones, Best Band Now, and FAA cams. He calls it a steal at about $40 on a Pi or old PC versus Geochron money; purpose-built boxes start higher."
+    },
+    {
+      "topic": "SPACE",
+      "title": "X: AMSAT-UK says October OSCAR News is out for members",
+      "source": "X",
+      "url": "https://x.com/AmsatUK/status/2098758309817831631",
+      "blurb": "AMSAT-UK posted that the October OSCAR News issue is now available to members. Useful Saturday read alongside the VHF contest and KH8WW satellite-capable Samoa run already on the calendar."
+    }
+  ]
+}
