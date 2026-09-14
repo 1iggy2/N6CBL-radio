@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-14",
+  "updatedAt": "2026-09-14T14:40:00.000Z",
+  "items": [
+    {
+      "topic": "POTA",
+      "title": "K4SWL plants one mast for a Scotland–England POTA rove",
+      "source": "QRPer",
+      "url": "https://qrper.com/2026/09/one-mast-two-countries-a-unique-pota-rove-across-the-scotland-england-border/",
+      "blurb": "Thomas K4SWL’s 14 September field report: Elecraft KX2 and a PackTenna on a POTA 20 mast strapped to the Scotland–England border fence near Berwick. As MM5SWL he activated Berwickshire Coastal Path (GB-1449) for 12 QSOs, then walked a few feet into England as M5SWL for The Cuddy (GB-6928) plus the continuing trail — 25 more on 20/40 CW and SSB. Quirky two-country rove with the mast left in place."
+    },
+    {
+      "topic": "DX",
+      "title": "KH8WW Aunuʻu: Spiderbeam is up; 80 m still the band to watch",
+      "source": "KH8WW / LRAL",
+      "url": "https://lral.lv/kh8ww/",
+      "blurb": "Yuris YL2GM’s 13 September team note: the Spiderbeam is up on Aunuʻu (OC-045) with more photos posted. Earlier updates had the DX Commander and 40 m vertical already flying in the heat. Station stays QRV through 24 September on CW, SSB, and FT8 — yesterday’s desk flagged 80 m as due around 14 September local, so keep listening on the low bands while the Asia/Pacific path is open."
+    },
+    {
+      "topic": "DX",
+      "title": "RI1FJZ: ~140 miles out; island window opens from 14 September",
+      "source": "UFRC / ON4CN",
+      "url": "https://ufrc.org/dx/informations-ri1fjz-terre-francois-joseph-13/",
+      "blurb": "12 September 1245Z update (relayed 13 September): Apostol Andrey had about 140 miles left to Alexandra Land, diesel at 5.4 knots with the Barents largely behind, aiming for the archipelago’s 12-mile zone the next day. Weather looked friendly for approach and landing Monday; the team was already /MM as RW6MD/MM and R2BEA/MM on 14/18/21 MHz. Expedition site lists island ops from 14 September — watch for the first RI1FJZ spots after landfall."
+    },
+    {
+      "topic": "SPACE",
+      "title": "AMSAT Board election closes tomorrow — turnout still thin",
+      "source": "AMSAT / ANS-249",
+      "url": "https://twiar.net/2026/09/10/via-amsat-ans-249-amsat-news-service-weekly-bulletins/",
+      "blurb": "Voting for three AMSAT Board seats ends 15 September. ANS-249 noted fewer than 10% of eligible members had voted as of early September. Candidates: KD2CQ, N8MH, KK5DO, N8HM, and N6UA. Members cast ballots and read statements at launch.amsat.org/2026-BoD-Election; results by 30 September. If you meant to vote, the clock is short."
+    },
+    {
+      "topic": "SPACE",
+      "title": "Geoscan CubeSats broadcast digital postcards through 20 September",
+      "source": "AMSAT / ANS-256",
+      "url": "https://www.amsat.org/ans-256-amsat-news-service-weekly-bulletins/",
+      "blurb": "ANS-256: Geoscan-2, Geoscan-4, and Geoscan-5 are running nearly worldwide amateur digital postcard broadcasts through 20 September for the upcoming Ioffe-1 nanosatellite. Decode with Geoscan’s protocol instructions, or pull auto-decoded images from the SONICS gallery. Separately, ‘Send Your Name into Space’ for Ioffe-1 stays open through 15 October."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ISS amateur radios down Friday for Progress 96P docking",
+      "source": "AMSAT / ANS-256",
+      "url": "https://www.amsat.org/ans-256-amsat-news-service-weekly-bulletins/",
+      "blurb": "ARISS ops note in ANS-256: Columbus module radio powers down about 1520Z Friday 18 September and the Service Module at 1525Z ahead of Progress 96P docking ~1346Z Saturday 19 September; both return about 1905/1910Z Saturday. Crossband repeater stays 145.990 up (PL 67) / 437.800 down when live. A Belogorsk school contact is on the board for 22 September."
+    },
+    {
+      "topic": "OPS",
+      "title": "Route 66 On The Air still rolling: W6A–W6W through 20 September",
+      "source": "Westside ARC",
+      "url": "https://www.qsl.net/route66/index.htm",
+      "blurb": "Citrus Belt ARC’s 27th Route 66 special event is mid-run for the highway’s centennial — 12 through 20 September. Westside ARC holds W6A Santa Monica and W6B Los Angeles at the western end; about two dozen 1×1s are on along the Mother Road. Phone, CW, or digital — work a few before chasing certificates and QSLs."
+    },
+    {
+      "topic": "OPS",
+      "title": "X: HamCation seeks 2027 award nominations through 1 November",
+      "source": "X",
+      "url": "https://x.com/Hamcation/status/2099498411544240585",
+      "blurb": "Orlando HamCation posted this morning asking for nominations that recognize outstanding service to amateur radio, with a 1 November close for the 2027 awards. Worth a look if someone in your club quietly keeps the nets, VE sessions, or EMCOM kit running."
+    }
+  ]
+}
