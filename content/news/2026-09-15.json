@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-15",
+  "updatedAt": "2026-09-15T14:30:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJZ is QRV from Franz Josef Land",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "15 September update: RI1FJZ is on the air from Franz Josef Land after a storm-delayed landing — the team’s actual band plan differs from early listings, with regular FT8 frequencies in use. A 14 September 0550Z note from RA1ZZ had them torn from anchor and forced back to sea before the military cleared disembarkation. Northernmost DXCC — work them while the pileup is young; Club Log and LoTW uploads planned daily."
+    },
+    {
+      "topic": "DX",
+      "title": "YM7KK/0 wraps Giresun Island (AS-154) with on-scene pics",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ym7kk-0-giresun-island-as-154/",
+      "blurb": "Golkem TA7AZC and Emre TA7EK closed the portable YM7KK/0 run from Giresun Island (IOTA AS-154) after 13–15 September ops, and TA7AZC sent DX-World fresh photos from the rock. Fully battery-powered with portable antennas — no shore power or water — covering IOTA plus WWFF, POTA TR-0328, and WCA. If you needed AS-154, check your log before the cards go out."
+    },
+    {
+      "topic": "DX",
+      "title": "OC100ISL: San Lorenzo Island (SA-052) 25–27 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/oc100isl-san-lorenzo-island-sa-052/",
+      "blurb": "Seven OA4 ops (OA4BSA, OA4CLU, OA4DKN, OA4DSN, OA4EBQ, OA4ECK, OA4EEE) plan OC100ISL from San Lorenzo Island off Peru — IOTA SA-052 and ARLHS PER-006 — 25 through 27 September. QRV 80–10 m on CW, SSB, and digital. Put it on the calendar if SA-052 is thin in your log."
+    },
+    {
+      "topic": "DX",
+      "title": "FR/F1TEQ then FH/F1TEQ: Reunion and Mayotte late September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/fr-f1teq-fh-f1teq-reunion-mayotte/",
+      "blurb": "Ludovic F1TEQ announces HF from Reunion (AF-016) as FR/F1TEQ 19–26 September, then Mayotte (AF-027) as FH/F1TEQ 26–30 September. Follow @F1TEQ on X for live updates. Two Indian Ocean entities in one hop — listen starting next weekend."
+    },
+    {
+      "topic": "GEAR",
+      "title": "HamRadioWeb: browser remote FT8/FT4 without the VPN mess",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/09/hamradioweb-platform-remote-digital-operations-ft8/",
+      "blurb": "14 September note: HamRadioWeb is a web platform for remote FT8/FT4 from a phone or PC browser — no VPN or port-forwarding required. Pitch includes live geospatial heatmaps, grid-level SNR vs nearby stations, azimuthal path telemetry, and DXCC/award hunting synced to the logbook. Aimed at remote shacks and DXpedition ops who want visual, data-driven digital from anywhere."
+    },
+    {
+      "topic": "GEAR",
+      "title": "Club Log Mobile: Live Bands and Alerts walkthrough",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/club-log-for-iphone-ipad-and-android/",
+      "blurb": "Michael G7VJR posted a 20-minute overview of the Club Log Mobile app covering Live Bands and Alerts — how to chase new DXCCs and Challenge slots, pin callsigns, and tune notifications so you only get what you need. Native iPhone/iPad/Android with offline logbook sync and live Club Log–wide QSO watching. Start from clublog.org to get the app."
+    },
+    {
+      "topic": "SPACE",
+      "title": "AMSAT Board election closes today — turnout still thin",
+      "source": "AMSAT / ANS-249",
+      "url": "https://twiar.net/2026/09/10/via-amsat-ans-249-amsat-news-service-weekly-bulletins/",
+      "blurb": "Voting for three AMSAT Board seats ends 15 September. ANS-249 noted fewer than 10% of eligible members had voted as of early September. Candidates: KD2CQ, N8MH, KK5DO, N8HM, and N6UA. Ballots and statements at launch.amsat.org/2026-BoD-Election; results by 30 September. If you meant to vote, this is the last day."
+    },
+    {
+      "topic": "OPS",
+      "title": "X: RSGB flags TC8KHT for Karahan Tepe through 20 September",
+      "source": "X",
+      "url": "https://x.com/theRSGB/status/2099861308183060890",
+      "blurb": "The Radio Society of Great Britain posted this morning that the Turkish Amateur Radio Society is on as TC8KHT through Sunday 20 September, promoting the Neolithic site at Karahan Tepe. Look for them on 80–10 m. Handy special-event chase alongside Route 66 On The Air still running through the 20th."
+    }
+  ]
+}
