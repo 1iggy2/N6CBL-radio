@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-16",
+  "updatedAt": "2026-09-16T14:35:00.000Z",
+  "items": [
+    {
+      "topic": "DX",
+      "title": "RI1FJZ update: shared digi freqs, polar-bear dens on site",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/ri1fjz-franz-josef-land/",
+      "blurb": "16 September note from R9LR: the Franz Josef Land team is well and running shared digital frequencies. Movement is tightly restricted — at least 14 bear dens in the protected area, intermittent internet, and polar-bear encounter risk. Still the northernmost DXCC on the air; expect Club Log and LoTW when the pipe allows."
+    },
+    {
+      "topic": "DX",
+      "title": "V6XG: Chuuk (FSM) planned for January 2027, with 160 m focus",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/v6xg-chuuk-f-s-m/",
+      "blurb": "Haru JA1XGI will sign V6XG from Chuuk, Federated States of Micronesia, 14–22 January 2027. Main goal is Europe, North America, and South America on 160 meters, with antennas also for 80 through 6. Put it on the winter top-band calendar."
+    },
+    {
+      "topic": "DX",
+      "title": "8Q7JH returns to the Maldives 20 September – 10 October",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/8q7jh-maldives/",
+      "blurb": "Juergen DL3JH is back from Thulhagiri island, North Male Atoll, as 8Q7JH from 20 September through 10 October. QRV 20, 15, and 10 meters on FT8, CW, and SSB. QSL via home call, bureau or direct."
+    },
+    {
+      "topic": "DX",
+      "title": "PJ2/K5SL: Curaçao holiday-style, CW only, 18–26 September",
+      "source": "DX-World",
+      "url": "https://www.dx-world.net/pj2-k5sl-curacao/",
+      "blurb": "Randy K5SL will be PJ2/K5SL from Curaçao 18–26 September, holiday-style. Look for him on 40–17 meters, CW only, generally mornings and late afternoons local. QSL via home call."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ARRL Solar Update: quiet flares, equinox HF looking up",
+      "source": "ARRL",
+      "url": "https://www.arrl.org/news/the-arrl-solar-update-44",
+      "blurb": "14 September bulletin: solar flares stayed low with isolated C-class activity; largest was a C3.4 on the 8th. Coronal-hole streams kept the geomagnetic field quiet-to-unsettled. Forecast for 11–17 September averages planetary A 8.1, K 2.9, and 10.7 cm flux 105 — calmer HF expected into the equinox."
+    },
+    {
+      "topic": "SPACE",
+      "title": "ARISS: three more US schools approved; proposals due 30 September",
+      "source": "ARISS",
+      "url": "https://www.ariss.org/",
+      "blurb": "13 September: ARISS-USA added Atlanta Catholic Schools, Dresden Elementary (Ohio), and UT Austin STEM Girl Day — 16 approved US contacts so far for through June 2027. US proposals for first-half 2027 ISS contacts close 30 September; Europe/Africa/Middle East window runs through 23 October."
+    },
+    {
+      "topic": "GEAR",
+      "title": "brugtgrej.dk Gen II: Danish used-gear market plus shack display",
+      "source": "Amateur Radio Daily",
+      "url": "https://daily.hamweekly.com/2026/09/brugtgrej-used-ham-radio-gear-discussion-forum-shack-display/",
+      "blurb": "15 September note from OZ1DW: brugtgrej.dk shipped generation II of Denmark’s main used-ham marketplace and forum, with Danish/English UI. New shack display is meant to run on a shack PC with live DX, aurora, satellites, weather, and lightning. Account recommended so location-aware feeds work."
+    },
+    {
+      "topic": "OPS",
+      "title": "X: ARISS flags US school proposals due in two weeks",
+      "source": "X",
+      "url": "https://x.com/ARISS_Intl/status/2100218908942684523",
+      "blurb": "ARISS International posted this morning that US applications for an ISS school contact are due 30 September — two weeks out. Educators in Europe, Africa, and the Middle East have until 26 October for second-half 2027 slots. Finish those proposals if a school contact is on your club’s list."
+    }
+  ]
+}
