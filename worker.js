@@ -56,6 +56,11 @@ export default {
       return Response.redirect(url.origin + '/', 301);
     }
 
+    // /news/ (the ham desk) was retired in 2026-09; the operator does not use it.
+    if (url.pathname === '/news' || url.pathname === '/news/') {
+      return Response.redirect(url.origin + '/', 301);
+    }
+
     const movedTool = url.pathname.match(/^\/tools\/([a-z]+)\/?$/);
     if (movedTool && MOVED_HAM_TOOLS.has(movedTool[1])) {
       return Response.redirect(url.origin + '/tools/ham/' + movedTool[1] + '/' + url.search, 301);
