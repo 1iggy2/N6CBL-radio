@@ -928,7 +928,7 @@
       "name_fmt": "Dwight C Gordon",
       "qrz_url": "https://www.qrz.com/db/KD3CZT",
       "state": "MD",
-      "updated": "2026-08-03T20:41:04Z"
+      "updated": "2026-11-01T20:44:13Z"
     },
     "KD4TTP": {
       "call": "KD4TTP",
@@ -1509,7 +1509,7 @@
       "name_fmt": "Gary C Allen",
       "qrz_url": "https://www.qrz.com/db/KK2WW",
       "state": "NY",
-      "updated": "2026-08-03T20:41:04Z"
+      "updated": "2026-11-01T20:44:13Z"
     },
     "KK7CSK": {
       "call": "KK7CSK",
@@ -2508,7 +2508,7 @@
       "name_fmt": "Glen H Dains",
       "qrz_url": "https://www.qrz.com/db/W1GHD",
       "state": "CT",
-      "updated": "2026-08-03T20:41:04Z"
+      "updated": "2026-11-01T20:44:13Z"
     },
     "W4KRN": {
       "call": "W4KRN",
@@ -3045,7 +3045,7 @@
       "updated": "2026-10-30T20:01:01Z"
     }
   },
-  "generated": "2026-10-30T20:01:01Z",
+  "generated": "2026-11-01T20:44:13Z",
   "policy": {
     "lookup_limit": 250,
     "max_age_days": 90,
