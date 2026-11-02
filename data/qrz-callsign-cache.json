@@ -233,7 +233,7 @@
       "name_fmt": "Steve Sunday",
       "qrz_url": "https://www.qrz.com/db/K3ATA",
       "state": "MD",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "K3SNO": {
       "call": "K3SNO",
@@ -256,7 +256,7 @@
       "nickname": "Mike",
       "qrz_url": "https://www.qrz.com/db/K3SNO",
       "state": "PA",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "K5MEC": {
       "call": "K5MEC",
@@ -299,7 +299,7 @@
       "name_fmt": "FRANK KRIZE, III",
       "qrz_url": "https://www.qrz.com/db/K5SVC",
       "state": "MS",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "K5WZS": {
       "call": "K5WZS",
@@ -794,7 +794,7 @@
       "name_fmt": "Michael F Meyers",
       "qrz_url": "https://www.qrz.com/db/KC1VIO",
       "state": "MA",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "KC1VLH": {
       "call": "KC1VLH",
@@ -816,7 +816,7 @@
       "nickname": "Matt",
       "qrz_url": "https://www.qrz.com/db/KC1VLH",
       "state": "ME",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "KC4ZUA": {
       "call": "KC4ZUA",
@@ -950,7 +950,7 @@
       "nickname": "MIKE",
       "qrz_url": "https://www.qrz.com/db/KD4TTP",
       "state": "VA",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "KD6WXP": {
       "call": "KD6WXP",
@@ -1802,7 +1802,7 @@
       "name_fmt": "SHAWN HAGGETT",
       "qrz_url": "https://www.qrz.com/db/KR4CCW",
       "state": "VA",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "KT4ZG": {
       "call": "KT4ZG",
@@ -1810,20 +1810,20 @@
       "county": "Henry",
       "display_name": "ROBERT W St.Clair",
       "dxcc": "291",
-      "eqsl": "1",
+      "eqsl": "0",
       "fname": "ROBERT W",
       "found": true,
       "grid": "FM06ap",
-      "image": "https://cdn-xml.qrz.com/g/kt4zg/Screenshot_20260612_110736_Drive.jpg",
+      "image": "https://cdn-xml.qrz.com/g/kt4zg/20251005_175543.jpg",
       "land": "United States",
       "lotw": "0",
-      "moddate": "2026-07-22 07:57:22",
+      "moddate": "2026-09-18 13:38:39",
       "mqsl": "1",
       "name": "St.Clair",
       "name_fmt": "ROBERT W St.Clair",
       "qrz_url": "https://www.qrz.com/db/KT4ZG",
       "state": "VA",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "N0RZ": {
       "call": "N0RZ",
@@ -1886,7 +1886,7 @@
       "nickname": "Al",
       "qrz_url": "https://www.qrz.com/db/N1ECT",
       "state": "RI",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "N1WW": {
       "call": "N1WW",
@@ -1949,7 +1949,7 @@
       "name_fmt": "MATTHEW W STEGER",
       "qrz_url": "https://www.qrz.com/db/N3NTJ",
       "state": "PA",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "N4BQQ": {
       "call": "N4BQQ",
@@ -2094,7 +2094,7 @@
       "name": "Herman",
       "name_fmt": "Mark Herman",
       "qrz_url": "https://www.qrz.com/db/N6OBW",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "N7CHS": {
       "call": "N7CHS",
@@ -2338,17 +2338,17 @@
       "fname": "DAVID W",
       "found": true,
       "grid": "EM57pa",
-      "image": "https://cdn-xml.qrz.com/n/nu4n/POTA_Copy.jpg",
+      "image": "https://cdn-xml.qrz.com/n/nu4n/ARUBAnew.jpg",
       "ituzone": "8",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2026-08-03 11:50:09",
+      "moddate": "2026-09-27 11:07:09",
       "mqsl": "1",
       "name": "TUCKER",
       "name_fmt": "DAVID W TUCKER",
       "qrz_url": "https://www.qrz.com/db/NU4N",
       "state": "KY",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "NZ2S": {
       "call": "NZ2S",
@@ -2851,7 +2851,7 @@
       "name_fmt": "DAVID W HOOD",
       "qrz_url": "https://www.qrz.com/db/WF5TV",
       "state": "MS",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "WG7MM": {
       "call": "WG7MM",
@@ -2999,7 +2999,7 @@
       "name_fmt": "Jon E Lundberg",
       "qrz_url": "https://www.qrz.com/db/WX4JEL",
       "state": "SC",
-      "updated": "2026-08-04T20:44:09Z"
+      "updated": "2026-11-02T22:38:46Z"
     },
     "WX5SKY": {
       "call": "WX5SKY",
@@ -3045,7 +3045,7 @@
       "updated": "2026-10-30T20:01:01Z"
     }
   },
-  "generated": "2026-11-01T20:44:13Z",
+  "generated": "2026-11-02T22:38:46Z",
   "policy": {
     "lookup_limit": 250,
     "max_age_days": 90,
