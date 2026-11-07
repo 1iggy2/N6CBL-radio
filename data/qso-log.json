@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-07T01:47:16Z",
+  "generated": "2026-11-07T08:32:02Z",
   "stats": {
     "qso_count": 163,
     "session_count": 14,
@@ -85,7 +85,7 @@
       "dxcc_count": 3,
       "start_date": "2025-06-01",
       "end_date": "2035-05-31",
-      "fetched": "2026-11-07T01:47:16Z"
+      "fetched": "2026-11-07T08:31:22Z"
     },
     "qrz_book_note": "QRZ ACTION=STATUS says 99; the export marks 100 APP_QRZLOG_STATUS=C. STATUS returns a book total only, so the extra record cannot be named from the book side. The per-contact C marks stand.",
     "bands": {
@@ -1293,7 +1293,7 @@
       "confirmed_by": [],
       "lotw": false,
       "eqsl": true,
-      "mqsl": true,
+      "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/KJ7QYK",
       "qrz_profile": true
     },
@@ -1609,9 +1609,9 @@
       "confirmed_by": [
         "qrz"
       ],
-      "lotw": false,
+      "lotw": true,
       "eqsl": false,
-      "mqsl": false,
+      "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/KQ4ZIP",
       "qrz_profile": true
     },
@@ -2517,7 +2517,7 @@
       ],
       "lotw": true,
       "eqsl": false,
-      "mqsl": false,
+      "mqsl": true,
       "qrz_url": "https://www.qrz.com/db/WD5MAT",
       "qrz_profile": true
     },
@@ -5120,7 +5120,7 @@
         "qrz",
         "lotw"
       ],
-      "lotw": false,
+      "lotw": true,
       "eqsl": false,
       "mqsl": false,
       "qrz_url": "https://www.qrz.com/db/W7JRF",

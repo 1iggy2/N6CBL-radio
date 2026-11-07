@@ -20,7 +20,7 @@
       "nickname": "Steve",
       "qrz_url": "https://www.qrz.com/db/AA7BB",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AB2SG": {
       "call": "AB2SG",
@@ -38,7 +38,7 @@
       "name_fmt": "BENJAMIN J FAULRING",
       "qrz_url": "https://www.qrz.com/db/AB2SG",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AC7SV": {
       "call": "AC7SV",
@@ -57,7 +57,7 @@
       "name_fmt": "James L Irving",
       "qrz_url": "https://www.qrz.com/db/AC7SV",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AE0YK": {
       "call": "AE0YK",
@@ -77,7 +77,7 @@
       "name_fmt": "MARC J STOLL",
       "qrz_url": "https://www.qrz.com/db/AE0YK",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AF4DN": {
       "call": "AF4DN",
@@ -97,7 +97,7 @@
       "name_fmt": "Felton E Floyd",
       "qrz_url": "https://www.qrz.com/db/AF4DN",
       "state": "GA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AG7FU": {
       "call": "AG7FU",
@@ -114,7 +114,7 @@
       "name_fmt": "Timothy J Connell",
       "qrz_url": "https://www.qrz.com/db/AG7FU",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AI7MO": {
       "call": "AI7MO",
@@ -131,7 +131,7 @@
       "name_fmt": "John M Zinza",
       "qrz_url": "https://www.qrz.com/db/AI7MO",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AK6MB": {
       "call": "AK6MB",
@@ -142,7 +142,7 @@
       "fname": "Joseph D",
       "found": true,
       "grid": "DM03tv",
-      "image": "https://cdn-xml.qrz.com/b/ak6mb/jumpin_radio_sq.png",
+      "image": "https://cdn-xml.qrz.com/b/ak6mb/joe_color_52_orig_bmp.jpg",
       "ituzone": "6",
       "land": "United States",
       "moddate": "2026-03-02 05:13:05",
@@ -150,7 +150,7 @@
       "name_fmt": "Joseph D Touch",
       "qrz_url": "https://www.qrz.com/db/AK6MB",
       "state": "CA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "AL7KC": {
       "call": "AL7KC",
@@ -167,14 +167,14 @@
       "ituzone": "1",
       "land": "Alaska",
       "lotw": "1",
-      "moddate": "2022-02-02 13:30:04",
+      "moddate": "2026-09-22 08:17:12",
       "mqsl": "1",
       "name": "SAMBUCO, JR",
       "name_fmt": "WILLIAM M \"Mike\" SAMBUCO, JR",
       "nickname": "Mike",
       "qrz_url": "https://www.qrz.com/db/AL7KC",
       "state": "AK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K0KLB": {
       "call": "K0KLB",
@@ -195,7 +195,7 @@
       "name_fmt": "Kevin L Behn",
       "qrz_url": "https://www.qrz.com/db/K0KLB",
       "state": "IA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K0YO": {
       "call": "K0YO",
@@ -215,7 +215,7 @@
       "name_fmt": "Mike D NEWBOLD",
       "qrz_url": "https://www.qrz.com/db/K0YO",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K3ATA": {
       "call": "K3ATA",
@@ -278,7 +278,7 @@
       "nickname": "MAC",
       "qrz_url": "https://www.qrz.com/db/K5MEC",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K5SVC": {
       "call": "K5SVC",
@@ -313,14 +313,14 @@
       "grid": "EM13ic",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2026-02-10 02:40:12",
+      "moddate": "2026-10-04 13:30:16",
       "mqsl": "1",
       "name": "SMITH",
       "name_fmt": "WILLIAM Z \"Zach\" SMITH",
       "nickname": "Zach",
       "qrz_url": "https://www.qrz.com/db/K5WZS",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K6CVH": {
       "call": "K6CVH",
@@ -358,7 +358,7 @@
       "name_fmt": "Kenneth J Adams",
       "qrz_url": "https://www.qrz.com/db/K6YUQ",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K6ZI": {
       "call": "K6ZI",
@@ -397,7 +397,7 @@
       "name_fmt": "Mauricio J Martinez",
       "qrz_url": "https://www.qrz.com/db/K7ACN",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K7MGK": {
       "call": "K7MGK",
@@ -417,7 +417,7 @@
       "name_fmt": "Matthew G Kochel",
       "qrz_url": "https://www.qrz.com/db/K7MGK",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K7MJF": {
       "call": "K7MJF",
@@ -440,7 +440,7 @@
       "name_fmt": "MICHAEL J FRENCH",
       "qrz_url": "https://www.qrz.com/db/K7MJF",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K7PGL": {
       "call": "K7PGL",
@@ -460,12 +460,12 @@
       "name_fmt": "RANDY J HANRAHAN",
       "qrz_url": "https://www.qrz.com/db/K7PGL",
       "state": "MT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K7SWS": {
       "call": "K7SWS",
       "country": "United States",
-      "county": "Ravalli",
+      "county": "Stillwater",
       "display_name": "STEVEN W STAHL",
       "dxcc": "291",
       "eqsl": "1",
@@ -475,13 +475,13 @@
       "image": "https://cdn-xml.qrz.com/s/k7sws/crop_plate.jpg",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2026-05-31 19:59:06",
+      "moddate": "2026-09-17 19:38:14",
       "mqsl": "1",
       "name": "STAHL",
       "name_fmt": "STEVEN W STAHL",
       "qrz_url": "https://www.qrz.com/db/K7SWS",
       "state": "MT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K7WA": {
       "call": "K7WA",
@@ -494,17 +494,17 @@
       "fname": "James R",
       "found": true,
       "grid": "CN87un",
-      "image": "https://cdn-xml.qrz.com/a/k7wa/004_640x480_.jpg",
+      "image": "https://cdn-xml.qrz.com/a/k7wa/332y.JPG",
       "ituzone": "6",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2026-06-13 08:30:03",
+      "moddate": "2026-10-04 00:07:11",
       "mqsl": "1",
       "name": "Hadlock",
       "name_fmt": "James R Hadlock",
       "qrz_url": "https://www.qrz.com/db/K7WA",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K7YMM": {
       "call": "K7YMM",
@@ -526,7 +526,7 @@
       "nickname": "Vic",
       "qrz_url": "https://www.qrz.com/db/K7YMM",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K8GQ": {
       "call": "K8GQ",
@@ -547,7 +547,7 @@
       "name_fmt": "TERRY WESTFALL",
       "qrz_url": "https://www.qrz.com/db/K8GQ",
       "state": "WV",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K8LF": {
       "call": "K8LF",
@@ -568,7 +568,7 @@
       "name_fmt": "JEROME S SVINICKI",
       "qrz_url": "https://www.qrz.com/db/K8LF",
       "state": "VA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K8OJR": {
       "call": "K8OJR",
@@ -582,13 +582,13 @@
       "image": "https://cdn-xml.qrz.com/r/k8ojr/DEE8_412D_8547_96FF2A663EC0_jpeg.jpg",
       "ituzone": "8",
       "land": "United States",
-      "moddate": "2024-04-13 08:30:03",
+      "moddate": "2026-09-23 12:30:06",
       "name": "Rinehart",
       "name_fmt": "Olivia J \"OJ\" Rinehart",
       "nickname": "OJ",
       "qrz_url": "https://www.qrz.com/db/K8OJR",
       "state": "NC",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K9KDA": {
       "call": "K9KDA",
@@ -609,7 +609,7 @@
       "name_fmt": "Darrin S Dill",
       "qrz_url": "https://www.qrz.com/db/K9KDA",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "K9MSG": {
       "call": "K9MSG",
@@ -650,7 +650,7 @@
       "name_fmt": "EDMUND A DEERING",
       "qrz_url": "https://www.qrz.com/db/KB0PVB",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KB0TTL": {
       "call": "KB0TTL",
@@ -672,7 +672,7 @@
       "name_fmt": "SEBASTIAN P FRANITZA",
       "qrz_url": "https://www.qrz.com/db/KB0TTL",
       "state": "IN",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KB7FMS": {
       "call": "KB7FMS",
@@ -689,7 +689,7 @@
       "name_fmt": "Gary D Hudman, Jr",
       "qrz_url": "https://www.qrz.com/db/KB7FMS",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC0DGR": {
       "call": "KC0DGR",
@@ -712,7 +712,7 @@
       "name_fmt": "JAMES W HELLER",
       "qrz_url": "https://www.qrz.com/db/KC0DGR",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC0KYN": {
       "call": "KC0KYN",
@@ -736,7 +736,7 @@
       "nickname": "Dan",
       "qrz_url": "https://www.qrz.com/db/KC0KYN",
       "state": "MN",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC0ZIC": {
       "call": "KC0ZIC",
@@ -754,7 +754,7 @@
       "name_fmt": "Ray G Tate",
       "qrz_url": "https://www.qrz.com/db/KC0ZIC",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC1QHQ": {
       "call": "KC1QHQ",
@@ -836,7 +836,7 @@
       "name_fmt": "ARNOLD C SOLOMON",
       "qrz_url": "https://www.qrz.com/db/KC4ZUA",
       "state": "GA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC5MJE": {
       "call": "KC5MJE",
@@ -853,7 +853,7 @@
       "name_fmt": "KENNY D ADAMS",
       "qrz_url": "https://www.qrz.com/db/KC5MJE",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC7AVA": {
       "call": "KC7AVA",
@@ -876,7 +876,7 @@
       "name_fmt": "RANDAL P TREIT",
       "qrz_url": "https://www.qrz.com/db/KC7AVA",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KC8YEK": {
       "call": "KC8YEK",
@@ -893,7 +893,7 @@
       "name_fmt": "Mark W McKinstry",
       "qrz_url": "https://www.qrz.com/db/KC8YEK",
       "state": "CA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KD0JTR": {
       "call": "KD0JTR",
@@ -910,7 +910,7 @@
       "name_fmt": "Paul A Freeland",
       "qrz_url": "https://www.qrz.com/db/KD0JTR",
       "state": "KS",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KD3CZT": {
       "call": "KD3CZT",
@@ -962,7 +962,6 @@
       "fname": "ROBERT P",
       "found": true,
       "grid": "DN13tn",
-      "image": "https://cdn-xml.qrz.com/p/kd6wxp/04_23_26_QSL_CARD_png.jpg",
       "ituzone": "6",
       "land": "United States",
       "lotw": "1",
@@ -972,7 +971,7 @@
       "name_fmt": "ROBERT P SUPAN",
       "qrz_url": "https://www.qrz.com/db/KD6WXP",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KE5AQD": {
       "call": "KE5AQD",
@@ -993,7 +992,7 @@
       "name_fmt": "Roger A Banks",
       "qrz_url": "https://www.qrz.com/db/KE5AQD",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KE5YYC": {
       "call": "KE5YYC",
@@ -1004,7 +1003,7 @@
       "eqsl": "0",
       "fname": "CHRISTOPHER R",
       "found": true,
-      "grid": "DM66vq",
+      "grid": "DM65qh",
       "image": "https://cdn-xml.qrz.com/c/ke5yyc/PXL_20211214_135022140.jpg",
       "land": "United States",
       "lotw": "0",
@@ -1015,7 +1014,7 @@
       "nickname": "Chris",
       "qrz_url": "https://www.qrz.com/db/KE5YYC",
       "state": "NM",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KE8DIE": {
       "call": "KE8DIE",
@@ -1033,7 +1032,7 @@
       "name_fmt": "Robert C Overstreet",
       "qrz_url": "https://www.qrz.com/db/KE8DIE",
       "state": "OH",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KE9BV": {
       "call": "KE9BV",
@@ -1054,7 +1053,7 @@
       "name_fmt": "JEFFREY A NETTLETON",
       "qrz_url": "https://www.qrz.com/db/KE9BV",
       "state": "KS",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KF0MYC": {
       "call": "KF0MYC",
@@ -1071,7 +1070,7 @@
       "name_fmt": "Riley L Winkler",
       "qrz_url": "https://www.qrz.com/db/KF0MYC",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KF0QGT": {
       "call": "KF0QGT",
@@ -1089,7 +1088,7 @@
       "name_fmt": "John Baumert",
       "qrz_url": "https://www.qrz.com/db/KF0QGT",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KF5ITM": {
       "call": "KF5ITM",
@@ -1112,7 +1111,7 @@
       "name_fmt": "Kirk L Rose",
       "qrz_url": "https://www.qrz.com/db/KF5ITM",
       "state": "AR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KF7HSS": {
       "call": "KF7HSS",
@@ -1129,7 +1128,7 @@
       "name_fmt": "GEORGE A HANSEN",
       "qrz_url": "https://www.qrz.com/db/KF7HSS",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KF8DYB": {
       "call": "KF8DYB",
@@ -1146,7 +1145,7 @@
       "name_fmt": "STEPHEN HARBOLT",
       "qrz_url": "https://www.qrz.com/db/KF8DYB",
       "state": "OH",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KF8FGA": {
       "call": "KF8FGA",
@@ -1164,7 +1163,7 @@
       "name_fmt": "Daniel Bokros",
       "qrz_url": "https://www.qrz.com/db/KF8FGA",
       "state": "OH",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KG7LLN": {
       "call": "KG7LLN",
@@ -1186,7 +1185,7 @@
       "name_fmt": "Larry D Wolf",
       "qrz_url": "https://www.qrz.com/db/KG7LLN",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KG7MAV": {
       "call": "KG7MAV",
@@ -1204,7 +1203,7 @@
       "name_fmt": "Brett W Hoffman",
       "qrz_url": "https://www.qrz.com/db/KG7MAV",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KG7UUJ": {
       "call": "KG7UUJ",
@@ -1222,7 +1221,7 @@
       "name_fmt": "Brandon A Morrill",
       "qrz_url": "https://www.qrz.com/db/KG7UUJ",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KI5MM": {
       "call": "KI5MM",
@@ -1246,7 +1245,7 @@
       "nickname": "Lee",
       "qrz_url": "https://www.qrz.com/db/KI5MM",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KI5OWP": {
       "call": "K5WPI",
@@ -1263,7 +1262,7 @@
       "name_fmt": "Brian Murphy",
       "qrz_url": "https://www.qrz.com/db/KI5OWP",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KI5ZAW": {
       "call": "KI5ZAW",
@@ -1281,7 +1280,7 @@
       "nickname": "Tim",
       "qrz_url": "https://www.qrz.com/db/KI5ZAW",
       "state": "LA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KI7NWC": {
       "call": "KI7NWC",
@@ -1301,7 +1300,7 @@
       "name_fmt": "Alex R Prince",
       "qrz_url": "https://www.qrz.com/db/KI7NWC",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KI7ONQ": {
       "call": "KI7ONQ",
@@ -1318,7 +1317,7 @@
       "name_fmt": "KENNETH I DANES",
       "qrz_url": "https://www.qrz.com/db/KI7ONQ",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KI7PXR": {
       "call": "KI7PXR",
@@ -1335,7 +1334,7 @@
       "name_fmt": "LYLE J BAYLEY",
       "qrz_url": "https://www.qrz.com/db/KI7PXR",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ5GVQ": {
       "call": "KJ5GVQ",
@@ -1355,7 +1354,7 @@
       "nickname": "Richie",
       "qrz_url": "https://www.qrz.com/db/KJ5GVQ",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ5JBD": {
       "call": "KJ5JBD",
@@ -1373,7 +1372,7 @@
       "name_fmt": "Cecil D Willis",
       "qrz_url": "https://www.qrz.com/db/KJ5JBD",
       "state": "AR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ5MPL": {
       "call": "KJ5MPL",
@@ -1390,7 +1389,7 @@
       "name_fmt": "Walter A Christensen",
       "qrz_url": "https://www.qrz.com/db/KJ5MPL",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ5NTJ": {
       "call": "KJ5NTJ",
@@ -1409,7 +1408,7 @@
       "name_fmt": "Angel Torres, II",
       "qrz_url": "https://www.qrz.com/db/KJ5NTJ",
       "state": "LA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ7HJB": {
       "call": "KJ7HJB",
@@ -1427,7 +1426,7 @@
       "name_fmt": "Roland W Keller",
       "qrz_url": "https://www.qrz.com/db/KJ7HJB",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ7QYK": {
       "call": "KJ7QYK",
@@ -1442,14 +1441,14 @@
       "image": "https://cdn-xml.qrz.com/k/kj7qyk/PXL_20260119_170748202.jpg",
       "land": "United States",
       "lotw": "0",
-      "moddate": "2026-03-04 23:18:18",
-      "mqsl": "1",
+      "moddate": "2026-08-23 17:17:40",
+      "mqsl": "0",
       "name": "FALLENSTEDT",
       "name_fmt": "ALEXANDER \"Alex\" FALLENSTEDT",
       "nickname": "Alex",
       "qrz_url": "https://www.qrz.com/db/KJ7QYK",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ7RPL": {
       "call": "KJ7RPL",
@@ -1467,7 +1466,7 @@
       "name_fmt": "BRENT H JAMES",
       "qrz_url": "https://www.qrz.com/db/KJ7RPL",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KJ7UPY": {
       "call": "KJ7UPY",
@@ -1486,7 +1485,7 @@
       "name_fmt": "James A Pence",
       "qrz_url": "https://www.qrz.com/db/KJ7UPY",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK2WW": {
       "call": "KK2WW",
@@ -1527,7 +1526,7 @@
       "name_fmt": "Mason R Carter",
       "qrz_url": "https://www.qrz.com/db/KK7CSK",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7DWD": {
       "call": "KK7DWD",
@@ -1545,7 +1544,7 @@
       "name_fmt": "Loren Bordeaux",
       "qrz_url": "https://www.qrz.com/db/KK7DWD",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7HAK": {
       "call": "KK7HAK",
@@ -1566,7 +1565,7 @@
       "nickname": "jason",
       "qrz_url": "https://www.qrz.com/db/KK7HAK",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7MWI": {
       "call": "KK7MWI",
@@ -1577,7 +1576,7 @@
       "fname": "JONATHAN",
       "found": true,
       "grid": "CN87uo",
-      "image": "https://cdn-xml.qrz.com/i/kk7mwi/DSCF6206.jpg",
+      "image": "https://cdn-xml.qrz.com/i/kk7mwi/YEE.jpg",
       "land": "United States",
       "moddate": "2024-01-10 07:28:35",
       "mqsl": "1",
@@ -1585,7 +1584,7 @@
       "name_fmt": "JONATHAN DUCE",
       "qrz_url": "https://www.qrz.com/db/KK7MWI",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7OJK": {
       "call": "KK7OJK",
@@ -1607,7 +1606,7 @@
       "nickname": "Dave",
       "qrz_url": "https://www.qrz.com/db/KK7OJK",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7PZE": {
       "call": "KK7PZE",
@@ -1630,7 +1629,7 @@
       "nickname": "Joe",
       "qrz_url": "https://www.qrz.com/db/KK7PZE",
       "state": "AZ",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7UIA": {
       "call": "KK7UIA",
@@ -1650,7 +1649,7 @@
       "name_fmt": "Thomas Scholl",
       "qrz_url": "https://www.qrz.com/db/KK7UIA",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK7YQY": {
       "call": "KK7YQY",
@@ -1667,7 +1666,7 @@
       "name_fmt": "Stephen R Thompson",
       "qrz_url": "https://www.qrz.com/db/KK7YQY",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KK8C": {
       "call": "KK8C",
@@ -1689,7 +1688,7 @@
       "nickname": "Chris",
       "qrz_url": "https://www.qrz.com/db/KK8C",
       "state": "KS",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KM5EM": {
       "call": "KM5EM",
@@ -1707,7 +1706,7 @@
       "nickname": "Joey",
       "qrz_url": "https://www.qrz.com/db/KM5EM",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KN6KI": {
       "call": "KN6KI",
@@ -1724,7 +1723,7 @@
       "name_fmt": "DAVID PAULSON",
       "qrz_url": "https://www.qrz.com/db/KN6KI",
       "state": "CA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KO4GSM": {
       "call": "KO4GSM",
@@ -1746,7 +1745,7 @@
       "nickname": "Steve",
       "qrz_url": "https://www.qrz.com/db/KO4GSM",
       "state": "SC",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KQ4UFE": {
       "call": "KQ4UFE",
@@ -1774,18 +1773,21 @@
       "county": "Scott",
       "display_name": "Jamie A Christian",
       "dxcc": "291",
+      "eqsl": "0",
       "fname": "Jamie A",
       "found": true,
       "grid": "DM65qt",
       "image": "https://cdn-xml.qrz.com/p/kq4zip/9dd6_fb7a_4225_b26b_40b4d04ddbbc.png",
       "ituzone": "8",
       "land": "United States",
-      "moddate": "2024-12-07 09:30:03",
+      "lotw": "1",
+      "moddate": "2026-09-20 15:14:20",
+      "mqsl": "1",
       "name": "Christian",
       "name_fmt": "Jamie A Christian",
       "qrz_url": "https://www.qrz.com/db/KQ4ZIP",
       "state": "TN",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "KR4CCW": {
       "call": "KR4CCW",
@@ -1845,7 +1847,7 @@
       "name_fmt": "CHARLES E HOLLAR",
       "qrz_url": "https://www.qrz.com/db/N0RZ",
       "state": "KS",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N0UB": {
       "call": "N0UB",
@@ -1865,7 +1867,7 @@
       "name_fmt": "DAVID E LANCEY",
       "qrz_url": "https://www.qrz.com/db/N0UB",
       "state": "MO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N1ECT": {
       "call": "N1ECT",
@@ -1927,7 +1929,7 @@
       "name_fmt": "Seth T Price",
       "qrz_url": "https://www.qrz.com/db/N3MRA",
       "state": "NM",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N3NTJ": {
       "call": "N3NTJ",
@@ -1971,7 +1973,7 @@
       "nickname": "Mike",
       "qrz_url": "https://www.qrz.com/db/N4BQQ",
       "state": "SC",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N4TZR": {
       "call": "N4TZR",
@@ -1993,7 +1995,7 @@
       "nickname": "Zach",
       "qrz_url": "https://www.qrz.com/db/N4TZR",
       "state": "AL",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N5HME": {
       "call": "N5HME",
@@ -2014,7 +2016,7 @@
       "name_fmt": "Joe Manz, Jr",
       "qrz_url": "https://www.qrz.com/db/N5HME",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N5SKT": {
       "call": "N5SKT",
@@ -2035,7 +2037,7 @@
       "name_fmt": "DONALD L WEEKS, JR",
       "qrz_url": "https://www.qrz.com/db/N5SKT",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N5VYS": {
       "call": "N5VYS",
@@ -2056,7 +2058,7 @@
       "name_fmt": "Aaron D Weathers, Sr",
       "qrz_url": "https://www.qrz.com/db/N5VYS",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N6FFA": {
       "call": "N6FFA",
@@ -2075,7 +2077,7 @@
       "nickname": "Berry",
       "qrz_url": "https://www.qrz.com/db/N6FFA",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N6OBW": {
       "call": "N6OBW",
@@ -2115,7 +2117,7 @@
       "nickname": "Chuck",
       "qrz_url": "https://www.qrz.com/db/N7CHS",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N7CRD": {
       "call": "N7CRD",
@@ -2136,7 +2138,7 @@
       "name_fmt": "Kaleb W Allen",
       "qrz_url": "https://www.qrz.com/db/N7CRD",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N7EEL": {
       "call": "N7EEL",
@@ -2157,7 +2159,7 @@
       "nickname": "Lee",
       "qrz_url": "https://www.qrz.com/db/N7EEL",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N7KPL": {
       "call": "N7KPL",
@@ -2177,7 +2179,7 @@
       "name_fmt": "Joseph F Marek",
       "qrz_url": "https://www.qrz.com/db/N7KPL",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N7LL": {
       "call": "N7LL",
@@ -2199,7 +2201,7 @@
       "name_fmt": "DAVID R OGLESBY",
       "qrz_url": "https://www.qrz.com/db/N7LL",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N7MES": {
       "call": "N7MES",
@@ -2217,7 +2219,7 @@
       "name_fmt": "Michael E Stussy",
       "qrz_url": "https://www.qrz.com/db/N7MES",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "N9EAJ": {
       "call": "N9EAJ",
@@ -2238,7 +2240,7 @@
       "name_fmt": "JOHN F BLOCK, JR",
       "qrz_url": "https://www.qrz.com/db/N9EAJ",
       "state": "WI",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "NC6A": {
       "call": "NC6A",
@@ -2259,7 +2261,7 @@
       "nickname": "Don",
       "qrz_url": "https://www.qrz.com/db/NC6A",
       "state": "CA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "NL7V": {
       "call": "NL7V",
@@ -2282,7 +2284,7 @@
       "name_fmt": "Paul R Young, Sr",
       "qrz_url": "https://www.qrz.com/db/NL7V",
       "state": "AK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "NM5RF": {
       "call": "NM5RF",
@@ -2301,7 +2303,7 @@
       "nickname": "Zak",
       "qrz_url": "https://www.qrz.com/db/NM5RF",
       "state": "NM",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "NR9Q": {
       "call": "NR9Q",
@@ -2325,7 +2327,7 @@
       "nickname": "Chris",
       "qrz_url": "https://www.qrz.com/db/NR9Q",
       "state": "IL",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "NU4N": {
       "call": "NU4N",
@@ -2367,7 +2369,7 @@
       "name_fmt": "Jeffrey B Banke",
       "qrz_url": "https://www.qrz.com/db/NZ2S",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "VA4ADM": {
       "call": "VA4ADM",
@@ -2388,7 +2390,7 @@
       "name_fmt": "Paul Shumarov",
       "qrz_url": "https://www.qrz.com/db/VA4ADM",
       "state": "MB",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "VA5KDM": {
       "call": "VA5KDM",
@@ -2404,7 +2406,7 @@
       "name_fmt": "Etienne \"Steve\" Gosselin",
       "nickname": "Steve",
       "qrz_url": "https://www.qrz.com/db/VA5KDM",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "VA6DM": {
       "call": "VA6DM",
@@ -2415,17 +2417,17 @@
       "fname": "Dino",
       "found": true,
       "grid": "DO21va",
-      "image": "https://cdn-xml.qrz.com/m/va6dm/ght_at_the_Lodge_The_Flintstones.jpg",
+      "image": "https://cdn-xml.qrz.com/m/va6dm/Flintstone_Home.jpg",
       "ituzone": "2",
       "land": "Canada",
       "lotw": "1",
-      "moddate": "2026-01-09 17:44:20",
+      "moddate": "2026-10-16 16:56:45",
       "mqsl": "0",
       "name": "Moriello",
       "name_fmt": "Dino Moriello",
       "qrz_url": "https://www.qrz.com/db/VA6DM",
       "state": "AB",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "VA7DGF": {
       "call": "VA7DGF",
@@ -2444,7 +2446,7 @@
       "name": "CHAN",
       "name_fmt": "(Rob) MAN C CHAN",
       "qrz_url": "https://www.qrz.com/db/VA7DGF",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "VA7LTX": {
       "call": "VA7LTX",
@@ -2456,7 +2458,7 @@
       "fname": "Lawrence Leo",
       "found": true,
       "grid": "CN89kd",
-      "image": "https://cdn-xml.qrz.com/x/va7ltx/995A_4C3C_8475_1FE6B3AABD4C_jpeg.jpg",
+      "image": "https://cdn-xml.qrz.com/x/va7ltx/PST_152TV.jpg",
       "ituzone": "2",
       "land": "Canada",
       "lotw": "1",
@@ -2466,7 +2468,7 @@
       "name_fmt": "Lawrence Leo Thibault",
       "qrz_url": "https://www.qrz.com/db/VA7LTX",
       "state": "BC",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W0KEG": {
       "call": "W0KEG",
@@ -2482,14 +2484,14 @@
       "ituzone": "2",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2026-04-08 17:46:33",
+      "moddate": "2026-08-30 13:30:31",
       "mqsl": "1",
       "name": "Giebel",
       "name_fmt": "Kevin E \"KEGMan\" Giebel",
       "nickname": "KEGMan",
       "qrz_url": "https://www.qrz.com/db/W0KEG",
       "state": "MN",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W1GHD": {
       "call": "W1GHD",
@@ -2531,7 +2533,7 @@
       "name_fmt": "KAREN L G RUSSO",
       "qrz_url": "https://www.qrz.com/db/W4KRN",
       "state": "VA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W5JWZ": {
       "call": "W5JWZ",
@@ -2550,7 +2552,7 @@
       "name_fmt": "Jonathon W Jeitz",
       "qrz_url": "https://www.qrz.com/db/W5JWZ",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W6ECK": {
       "call": "W6ECK",
@@ -2572,7 +2574,7 @@
       "name_fmt": "KARO ECHO",
       "qrz_url": "https://www.qrz.com/db/W6ECK",
       "state": "CA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7EDY": {
       "call": "W7EDY",
@@ -2591,7 +2593,7 @@
       "nickname": "Ed",
       "qrz_url": "https://www.qrz.com/db/W7EDY",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7HFV": {
       "call": "W7HFV",
@@ -2610,7 +2612,7 @@
       "name_fmt": "Harrison Family Radio Club",
       "qrz_url": "https://www.qrz.com/db/W7HFV",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7IMC": {
       "call": "W7IMC",
@@ -2622,7 +2624,7 @@
       "fname": "Scott A",
       "found": true,
       "grid": "DN13ql",
-      "image": "https://cdn-xml.qrz.com/c/w7imc/Mustangs_JPG.jpg",
+      "image": "https://cdn-xml.qrz.com/c/w7imc/Owyhee_Sign_jpeg.jpg",
       "ituzone": "6",
       "land": "United States",
       "lotw": "1",
@@ -2632,7 +2634,7 @@
       "name_fmt": "Scott A Burgess",
       "qrz_url": "https://www.qrz.com/db/W7IMC",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7JRF": {
       "call": "W7JRF",
@@ -2644,12 +2646,13 @@
       "found": true,
       "grid": "CN96po",
       "land": "United States",
-      "moddate": "2025-12-23 03:01:04",
+      "lotw": "1",
+      "moddate": "2026-09-07 06:26:06",
       "name": "Fontaine",
       "name_fmt": "Jason R Fontaine",
       "qrz_url": "https://www.qrz.com/db/W7JRF",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7OM": {
       "call": "W7OM",
@@ -2668,7 +2671,7 @@
       "nickname": "Dave",
       "qrz_url": "https://www.qrz.com/db/W7OM",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7OSU": {
       "call": "W7OSU",
@@ -2689,7 +2692,7 @@
       "name_fmt": "OREGON STATE UNIV AMATEUR RADIO CLUB",
       "qrz_url": "https://www.qrz.com/db/W7OSU",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "W7RTA": {
       "call": "W7RTA",
@@ -2710,7 +2713,7 @@
       "nickname": "Charlie",
       "qrz_url": "https://www.qrz.com/db/W7RTA",
       "state": "OR",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WA8J": {
       "call": "WA8J",
@@ -2727,7 +2730,7 @@
       "name_fmt": "Ralph S Granchelli, Jr",
       "qrz_url": "https://www.qrz.com/db/WA8J",
       "state": "AZ",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WB7ULD": {
       "call": "WB7ULD",
@@ -2748,7 +2751,7 @@
       "name_fmt": "CARL R OSTERMAN",
       "qrz_url": "https://www.qrz.com/db/WB7ULD",
       "state": "UT",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WD5AFR": {
       "call": "WD5AFR",
@@ -2769,7 +2772,7 @@
       "name_fmt": "PAUL H ADAMS, JR",
       "qrz_url": "https://www.qrz.com/db/WD5AFR",
       "state": "NM",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WD5BPC": {
       "call": "WD5BPC",
@@ -2789,7 +2792,7 @@
       "nickname": "Frede",
       "qrz_url": "https://www.qrz.com/db/WD5BPC",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WD5EEI": {
       "call": "WD5EEI",
@@ -2808,7 +2811,7 @@
       "name_fmt": "Glenn Albritton",
       "qrz_url": "https://www.qrz.com/db/WD5EEI",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WD5MAT": {
       "call": "WD5MAT",
@@ -2824,14 +2827,14 @@
       "ituzone": "7",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2026-07-28 19:05:12",
-      "mqsl": "0",
+      "moddate": "2026-11-04 03:30:29",
+      "mqsl": "1",
       "name": "Hamilton",
       "name_fmt": "Christopher M \"Matt\" Hamilton",
       "nickname": "Matt",
       "qrz_url": "https://www.qrz.com/db/WD5MAT",
       "state": "TX",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WF5TV": {
       "call": "WF5TV",
@@ -2874,7 +2877,7 @@
       "name_fmt": "Steve L Rich",
       "qrz_url": "https://www.qrz.com/db/WG7MM",
       "state": "ID",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WI0M": {
       "call": "WI0M",
@@ -2895,7 +2898,7 @@
       "name_fmt": "RAFAEL H VALDEZ",
       "qrz_url": "https://www.qrz.com/db/WI0M",
       "state": "MO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WL7EA": {
       "call": "WL7EA",
@@ -2914,7 +2917,7 @@
       "name_fmt": "Robert W Hughes",
       "qrz_url": "https://www.qrz.com/db/WL7EA",
       "state": "WA",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WS5ADV": {
       "call": "WS5ADV",
@@ -2931,14 +2934,14 @@
       "ituzone": "7",
       "land": "United States",
       "lotw": "1",
-      "moddate": "2024-12-21 01:53:47",
+      "moddate": "2026-09-12 08:30:11",
       "mqsl": "1",
       "name": "McBride",
       "name_fmt": "Charles L \"Chuck\" McBride",
       "nickname": "Chuck",
       "qrz_url": "https://www.qrz.com/db/WS5ADV",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WT0RJ": {
       "call": "WT0RJ",
@@ -2958,7 +2961,7 @@
       "name_fmt": "Trevor Stone",
       "qrz_url": "https://www.qrz.com/db/WT0RJ",
       "state": "CO",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WV8SM": {
       "call": "WV8SM",
@@ -2979,7 +2982,7 @@
       "name_fmt": "Scott L Morris",
       "qrz_url": "https://www.qrz.com/db/WV8SM",
       "state": "WV",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WX4JEL": {
       "call": "WX4JEL",
@@ -3020,7 +3023,7 @@
       "name_fmt": "Jonathan A Blackwell",
       "qrz_url": "https://www.qrz.com/db/WX5SKY",
       "state": "OK",
-      "updated": "2026-08-09T03:52:59Z"
+      "updated": "2026-11-07T08:31:23Z"
     },
     "WZ1TEX": {
       "call": "WZ1TEX",
@@ -3045,7 +3048,7 @@
       "updated": "2026-10-30T20:01:01Z"
     }
   },
-  "generated": "2026-11-02T22:38:46Z",
+  "generated": "2026-11-07T08:31:23Z",
   "policy": {
     "lookup_limit": 250,
     "max_age_days": 90,
